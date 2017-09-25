@@ -1,5 +1,6 @@
 package l2k.demo.multiple.chats.messagehandler;
 
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.springframework.messaging.Message;
@@ -29,7 +30,8 @@ public class SessionConnectedEventWrapper {
 		MessageHeaders genericMessageHeaders = genericMessage.getHeaders();
 		
 		Map nativeHeaderMap = (Map)genericMessageHeaders.get("nativeHeaders");
-		return nativeHeaderMap.get(headerName);
+		LinkedList listWrapper = (LinkedList) nativeHeaderMap.get(headerName);
+		return listWrapper.getFirst();
 	}
 	
 }

@@ -21,6 +21,13 @@ public class User {
 		this.sessionId = sessionId;
 	}
 	
+	public boolean equals(User otherUser) {
+		return this.sessionId == otherUser.getSessionId();
+	}
 	
+	public int hashcode() {
+		return sessionId.hashCode() * 3;
+		
+	}
 	
 }
