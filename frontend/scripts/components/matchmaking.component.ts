@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-
+import { Component, Inject } from '@angular/core';
 import { Room } from '../domain/Room';
+import * as Socket from 'SockJS-client'
 
 @Component({
   template: `
@@ -25,8 +25,16 @@ export class MatchmakingComponent {
 
   private connectedToWebSockets: boolean;
   private rooms: Array<Room>;
+  // private sockJS: ;
 
   constructor() {
+    let test = new Socket("helloWorld");
+    //This is the socket, now you need Stomp over (see old-index.html)
+    //look up types in Typescprt 2.0
+    //https://stackoverflow.com/questions/37548066/typescript-typings-in-npm-types-org-packages
+    //it looks like you just need the JS package and then the typeing
+    // need to learn how that works
+    debugger
     this.rooms =  [
       Room.fromPOJO({
         name: "ROOM ONE",

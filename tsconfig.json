@@ -4,13 +4,16 @@
         "moduleResolution": "node",
         "target": "es6",
         "sourceMap": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "removeComments": false,
         "experimentalDecorators": true,
         "suppressImplicitAnyIndexErrors": true
     },
     "files": [
-        "./frontend/scripts/bootstrap.ts",
-        "./typings/index.d.ts"
+        "./frontend/scripts/bootstrap.ts"
+    ],
+
+    "exclude": [
+      "./node_modules"
     ]
 }
