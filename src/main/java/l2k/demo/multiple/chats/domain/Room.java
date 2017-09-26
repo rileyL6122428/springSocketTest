@@ -7,6 +7,7 @@ public class Room {
 	
 	private String name;
 	private Map<String, User> users;
+	private int maxNumberOfUsers;
 	
 	{
 		users = new HashMap<String, User>();
@@ -34,6 +35,14 @@ public class Room {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getMaxNumberOfUsers() {
+		return maxNumberOfUsers;
+	}
+
+	public void setMaxNumberOfUsers(int maxNumberOfUsers) {
+		this.maxNumberOfUsers = maxNumberOfUsers;
 	}
 	
 }

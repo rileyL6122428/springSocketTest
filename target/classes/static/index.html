@@ -11,7 +11,7 @@
 			<p>Total Number of users: <span id="user-total">0</span></p>
 		</section>
 
-		<!-- <section id="chat-room-selection">
+		<!--<section id="chat-room-selection">
 			<ul>
 				<li>
 					<p>Chat Room One: <span id="chat-room-one-participant-count">0</span></p>
@@ -23,7 +23,7 @@
 					<button>Join</button>
 				</li>
 			</ul>
-		</section> -->
+		</section>-->
 
 			<div>
 				<input type="text" id="username" placeholder="Choose a nickname" />
@@ -65,19 +65,23 @@
 		}
 
 		function connect() {
-			var socket = new SockJS('/chat');
+			var socket = new SockJS('/matchmaking');
 			stompClient = Stomp.over(socket);
 
 			var username = document.getElementById("username").value;
 			var headers = { username };
 
 			stompClient.connect(headers, function(frame) {
+				
+				debugger
 				setConnected(true);
-				console.log('Connected: ' + frame);
 				//stompClient.subscribe('/queue/messages', function(messageOutput) {
-				stompClient.subscribe('/user/queue/messages', function(messageOutput) {
+				//stompClient.subscribe('/user/queue/messages', function(messageOutput) {
+				stompClient.subscribe('/queue/messages', function(messageOutput) { 
 					showMessageOutput(JSON.parse(messageOutput.body));
 				});
+				
+				stompClient.send("/app/matchmaking", headers, JSON.stringify({ roomName: "" }));
 			})
 		}
 
@@ -90,12 +94,11 @@
 		}
 
 		function sendMessage() {
-			var from = document.getElementById('from').value;
+			var from = document.getElementById('username').value;
 			var text = document.getElementById('text').value;
 
 			var headers = {};
-
-			stompClient.send("/app/chat", headers, JSON.stringify({senderName: from, body: text}));
+			stompClient.send("/app/matchmaking", headers, JSON.stringify({ roomName: "BOB" }));
 		}
 
 		function showMessageOutput(messageOutput) {

@@ -16,7 +16,7 @@ public class App extends AbstractWebSocketMessageBrokerConfigurer {
 	}
 
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/chat").withSockJS();
+		registry.addEndpoint("/matchmaking").withSockJS();
 	}
 	
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
