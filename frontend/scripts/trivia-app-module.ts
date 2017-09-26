@@ -13,7 +13,7 @@ import { HttpModule } from '@angular/http';
 
 import { routes } from './routes';
 
-import { HelloWorldComponent } from './components/hello-world.component';
+import { MatchmakingComponent } from './components/matchmaking.component';
 import { TriviaAppComponent } from './trivia-app-component';
 
 @NgModule({
@@ -24,12 +24,12 @@ import { TriviaAppComponent } from './trivia-app-component';
     HttpModule
   ],
   declarations: [
-    HelloWorldComponent,
+    MatchmakingComponent,
     TriviaAppComponent
   ],
 
   entryComponents: [
-    HelloWorldComponent
+    MatchmakingComponent
   ],
 
   bootstrap:    [ TriviaAppComponent ],
