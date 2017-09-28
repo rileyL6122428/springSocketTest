@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { Room } from '../domain/Room';
-import * as Socket from 'SockJS-client'
+import * as SockJS from 'SockJS-client'
+import * as Stomp from 'stompjs';
+import {StompService, StompState, StompConfig} from '@stomp/ng2-stompjs';
 
 @Component({
   template: `
@@ -28,7 +30,37 @@ export class MatchmakingComponent {
   // private sockJS: ;
 
   constructor() {
-    let test = new Socket("helloWorld");
+    // let test = new SockJS("helloWorld");
+    // let stompClient: Stomp.Client = Stomp.overWS("/matchmaking");
+    // let x: SockJS.Socket = new SockJS("sup");
+    // let y = Stomp.over(x);
+
+    const stompConfig: StompConfig = {
+      // Which server?
+      url: 'ws://localhost:8090/matchmaking/websocket',
+
+      // Headers
+      // Typical keys: login, passcode, host
+      headers: {
+        login: 'guest',
+        passcode: 'guest'
+      },
+
+      // How often to heartbeat?
+      // Interval in milliseconds, set to 0 to disable
+      heartbeat_in: 0, // Typical value 0 - disabled
+      heartbeat_out: 20000, // Typical value 20000 - every 20 seconds
+
+      // Wait in milliseconds before attempting auto reconnect
+      // Set to 0 to disable
+      // Typical value 5000 (5 seconds)
+      reconnect_delay: 5000,
+
+      // Will log diagnostics on console
+      debug: true
+    };
+    let x = new StompService(stompConfig);
+
     //This is the socket, now you need Stomp over (see old-index.html)
     //look up types in Typescprt 2.0
     //https://stackoverflow.com/questions/37548066/typescript-typings-in-npm-types-org-packages

@@ -16,11 +16,10 @@ public class App extends AbstractWebSocketMessageBrokerConfigurer {
 	}
 
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/matchmaking").withSockJS();
+		registry.addEndpoint("/matchmaking").setAllowedOrigins("*").withSockJS();
 	}
 	
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-//		registry.enableSimpleBroker("/topic/", "/queue/", "/exchange/");
 		registry.enableSimpleBroker("/queue");
 		registry.setApplicationDestinationPrefixes("/app");
 	}
