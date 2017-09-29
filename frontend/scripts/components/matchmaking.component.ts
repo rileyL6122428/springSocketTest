@@ -4,6 +4,8 @@ import { Message } from '@stomp/stompjs';
 import { StompService, StompState, StompConfig } from '@stomp/ng2-stompjs';
 import { Subscription } from 'rxjs/Subscription';
 
+import { StompServiceFacade } from '../stomp-module/services/stomp.service';
+
 @Component({
   template: `
     <section id="connection-buttons">
@@ -28,29 +30,29 @@ export class MatchmakingComponent {
   private connectedToWebSockets: boolean;
   private rooms: Array<Room>;
 
-  constructor() {
+  constructor(@Inject(StompServiceFacade) StompServiceFacade) {
     console.log("HELLO")
 
-    let stompService:StompService = new StompService({
-      url: 'ws://localhost:8090/matchmaking/websocket',
-      headers: {
-        username: "user1"
-      },
-      heartbeat_in: 0,
-      heartbeat_out: 20000,
-      reconnect_delay: 5000,
-      debug: true
-    });
-
-    var subscription:Subscription = stompService.subscribe('/topic/matchmaking-stats')
-    .map((message: Message) => {
-      return message.body;
-    }).subscribe((messageBody: string) => {
-      console.log(`Received: ${messageBody}`);
-    });
+    // let stompService:StompService = new StompService({
+    //   url: 'ws://localhost:8090/matchmaking/websocket',
+    //   headers: {
+    //     username: "user1"
+    //   },
+    //   heartbeat_in: 0,
+    //   heartbeat_out: 20000,
+    //   reconnect_delay: 5000,
+    //   debug: true
+    // });
+    //
+    // var subscription:Subscription = stompService.subscribe('/topic/matchmaking-stats')
+    // .map((message: Message) => {
+    //   return message.body;
+    // }).subscribe((messageBody: string) => {
+    //   console.log(`Received: ${messageBody}`);
+    // });
     debugger
 
-    stompService.publish('/app/matchmaking', JSON.stringify({ roomName: "sup" }));
+    // stompService.publish('/app/matchmaking', JSON.stringify({ roomName: "sup" }));
 
 
 

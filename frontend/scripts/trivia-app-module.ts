@@ -7,21 +7,24 @@ import { FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouterModule } from '@angular/router'
 
-import { Http } from '@angular/http';
-
-import { HttpModule } from '@angular/http';
+import { Http, HttpModule } from '@angular/http';
 
 import { routes } from './routes';
 
 import { MatchmakingComponent } from './components/matchmaking.component';
 import { TriviaAppComponent } from './trivia-app-component';
 
+// import { stompConfig } from './constants/stomp.config';
+// import { StompService, StompConfig } from '@stomp/ng2-stompjs';
+import { StompModule } from './stomp-module/stomp.module';
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { useHash: true }),
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    StompModule
   ],
   declarations: [
     MatchmakingComponent,
@@ -34,7 +37,9 @@ import { TriviaAppComponent } from './trivia-app-component';
 
   bootstrap:    [ TriviaAppComponent ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    // StompService,
+    // { provide: StompConfig, useValue: stompConfig }
   ]
 })
 export class TriviaAppModule { }
