@@ -38,7 +38,7 @@ public class MessageController {
 	private RoomMonitor roomMonitor;
 	
 	@MessageMapping("/matchmaking")
-	@SendTo("/queue/messages")
+	@SendTo("/topic/matchmaking-stats")
 	public Map<String, Room> updateMatchmaking(JoinChatRequest joinChatRequest, GenericMessage message) {
 		
 		//User convertAndSend or convertAndSendToUser to discriminate between sending to all users?

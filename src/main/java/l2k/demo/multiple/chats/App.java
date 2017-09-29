@@ -19,8 +19,8 @@ public class App extends AbstractWebSocketMessageBrokerConfigurer {
 		registry.addEndpoint("/matchmaking").setAllowedOrigins("*").withSockJS();
 	}
 	
-	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.enableSimpleBroker("/queue");
+	public void configureMessageBroker(MessageBrokerRegistry registry) {	
+		registry.enableSimpleBroker("/topic");
 		registry.setApplicationDestinationPrefixes("/app");
 	}
 

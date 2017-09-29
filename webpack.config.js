@@ -18,10 +18,11 @@ module.exports = {
     // ],
 
     resolve: {
-        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
         alias: {
-          stompjs: __dirname + '/node_modules/stompjs/lib/stomp.js'
-        }
+          stompjs: __dirname + '/node_modules/stompjs/lib/stomp.js',
+          "ng2-stompjs": __dirname + '/node_modules/stompjs/lib/stomp.js'
+        },
+        extensions: [".webpack.js", ".web.js", ".js", ".ts", ".tsx"]
     },
     module: {
         loaders: [
