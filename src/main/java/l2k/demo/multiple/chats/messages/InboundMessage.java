@@ -1,4 +1,6 @@
-package l2k.demo.multiple.chats.domain;
+package l2k.demo.multiple.chats.messages;
+
+import l2k.demo.multiple.chats.domain.User;
 
 public class InboundMessage {
 	
