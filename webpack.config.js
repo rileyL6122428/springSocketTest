@@ -16,11 +16,14 @@ module.exports = {
     //
     //
     // ],
+    stats: {
+      warnings: false
+    },
 
     resolve: {
         alias: {
           stompjs: __dirname + '/node_modules/stompjs/lib/stomp.js',
-          "ng2-stompjs": __dirname + '/node_modules/stompjs/lib/stomp.js'
+          // "ng2-stompjs": __dirname + '/node_modules/stompjs/lib/stomp.js'
         },
         extensions: [".webpack.js", ".web.js", ".js", ".ts", ".tsx"]
     },

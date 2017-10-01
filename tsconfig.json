@@ -11,9 +11,5 @@
     },
     "files": [
         "./frontend/scripts/bootstrap.ts"
-    ],
-
-    "exclude": [
-      "./node_modules"
     ]
 }
