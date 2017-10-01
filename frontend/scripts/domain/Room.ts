@@ -5,12 +5,14 @@ export class Room {
 
     room.name = pojo['name'];
     room.maxNumberOfUsers = pojo['maxNumberOfUsers'];
+    room.totalNumberOfUsers = pojo['totalNumberOfUsers'];
 
     return room;
   }
 
   private name: string;
   private maxNumberOfUsers: number;
+  private totalNumberOfUsers: number;
 
   public getName(): string {
     return this.name;
@@ -18,6 +20,10 @@ export class Room {
 
   public getMaxNumberOfUsers(): number {
     return this.maxNumberOfUsers;
+  }
+
+  public getTotalNumberOfUsers(): number {
+    return this.totalNumberOfUsers;
   }
 
 }
