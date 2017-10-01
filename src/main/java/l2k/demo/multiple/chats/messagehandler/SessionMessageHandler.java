@@ -8,6 +8,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import l2k.demo.multiple.chats.domain.User;
+import l2k.demo.multiple.chats.messages.MatchmakingStats;
 import l2k.demo.multiple.chats.messageutils.UserMessageHeaderGenerator;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
@@ -48,6 +49,11 @@ public class SessionMessageHandler {
 	public void handleDisonnect(SessionDisconnectEvent event) {
 		String sessionId = event.getSessionId();
 		userService.removeUser(sessionId);
+		
+		MatchmakingStats stats = new MatchmakingStats();
+		stats.setUserTotal(userService.getTotalUsers());
+		stats.setRooms(roomMonitor.getRooms());
+		template.convertAndSend("/topic/matchmaking-stats", stats);
 	}
 
 }
