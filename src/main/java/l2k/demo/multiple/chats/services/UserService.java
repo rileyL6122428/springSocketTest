@@ -27,5 +27,9 @@ private Map<String, User> sessionToUsers;
 	public void removeUser(String sessionId) {
 		sessionToUsers.remove(sessionId);
 	}
+
+	public int getTotalUsers() {
+		return sessionToUsers.size();
+	}
 	
 }

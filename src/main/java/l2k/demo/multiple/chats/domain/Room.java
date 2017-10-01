@@ -13,6 +13,7 @@ public class Room {
 		users = new HashMap<String, User>();
 	}
 	
+	
 	public void addUser(User user) {
 		users.put(user.getName(), user);
 	}
