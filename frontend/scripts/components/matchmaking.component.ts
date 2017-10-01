@@ -39,7 +39,6 @@ export class MatchmakingComponent {
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
     });
 
-    debugger
     this.stompService.publish("/app/matchmaking/enter", { name: "test" });
   }
 
