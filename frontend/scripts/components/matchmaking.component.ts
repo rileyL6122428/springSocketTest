@@ -58,7 +58,7 @@ export class MatchmakingComponent {
     let placedUserTotal = 0;
 
     this.rooms.forEach((room: Room) => {
-
+      placedUserTotal += room.getTotalNumberOfUsers();
     });
 
     return placedUserTotal;
