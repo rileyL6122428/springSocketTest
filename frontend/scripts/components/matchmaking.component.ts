@@ -34,7 +34,6 @@ export class MatchmakingComponent {
   private rooms: Array<Room>;
 
   constructor(@Inject(StompServiceFacade) private stompService: StompServiceFacade) {
-    //send to queue to get stats
     this.stompService.subscribe("/topic/matchmaking-stats", (messageBody: Object) => {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
