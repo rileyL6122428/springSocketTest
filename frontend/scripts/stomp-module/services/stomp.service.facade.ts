@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { STOMP_CONFIG } from '.././constants/stomp.config';
-// import { StompService, StompConfig } from '@stomp/ng2-stompjs';
 import { StompService, StompConfig } from '../../../vendor-workarounds/ngstomp-js/index';
 
 @Injectable()
