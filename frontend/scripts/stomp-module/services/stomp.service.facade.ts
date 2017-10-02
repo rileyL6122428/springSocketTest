@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { STOMP_CONFIG } from '.././constants/stomp.config';
-import { StompService, StompConfig } from '../../../vendor-workarounds/ngstomp-js/index';
+import { StompService, StompConfig, StompHeaders } from '../../../vendor-workarounds/ngstomp-js/index';
 import { Subscription } from 'rxjs';
 
 @Injectable()
@@ -22,6 +22,8 @@ export class StompServiceFacade {
   }
 
   publish(path: string, message): void {
-    this.stompService.publish(path, JSON.stringify(message), {});
+    let headers: StompHeaders = { };
+
+    this.stompService.publish(path, JSON.stringify(message), headers);
   }
 }

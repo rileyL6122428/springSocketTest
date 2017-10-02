@@ -1,6 +1,8 @@
 package l2k.demo.multiple.chats.domain;
 
-public class User {
+import java.security.Principal;
+
+public class User implements Principal {
 	
 	private String name;
 	private String sessionId;

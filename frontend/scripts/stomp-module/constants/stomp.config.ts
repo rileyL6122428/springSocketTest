@@ -4,7 +4,8 @@ import  { Chance } from 'chance';
 export const STOMP_CONFIG: StompConfig = {
   url: 'ws://localhost:8090/matchmaking/websocket',
   headers: {
-    username: new Chance().name()
+    // user: "test-user",
+    username: "test-username"
   },
   heartbeat_in: 0,
   heartbeat_out: 20000,

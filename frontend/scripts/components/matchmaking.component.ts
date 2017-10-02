@@ -8,14 +8,7 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
 
 @Component({
   template: `
-    <section id="connection-buttons">
-      <button id="connect-button">Connect</button>
-      <button id="disconnect-button">Disconnect</button>
-    </section>
-
     <section id="rooms">
-      <h3>Connected</h3>
-
       <p>{{unplacedUsersCount}} people waiting</p>
 
       <h4>Rooms</h4>
@@ -23,6 +16,7 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
         <li *ngFor="let room of rooms">
           <p>{{room.getName()}}<p>
           <p>Number of participants: {{room.getTotalNumberOfUsers()}}</p>
+          <button (click)="joinChatRoom()">Join</button>
         </li>
       </ul>
     </section>
@@ -34,12 +28,18 @@ export class MatchmakingComponent {
   private rooms: Array<Room>;
 
   constructor(@Inject(StompServiceFacade) private stompService: StompServiceFacade) {
+
     this.stompService.subscribe("/topic/matchmaking-stats", (messageBody: Object) => {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
     });
 
-    this.stompService.publish("/app/matchmaking/enter", { name: "test" });
+    this.stompService.subscribe("/user/queue/matchmaking", (messageBody: Object) => {
+      debugger
+      console.log(messageBody);
+    });
+    debugger
+    this.stompService.publish("/app/matchmaking/enter", { yolo: "yolo-enter" });
   }
 
   private setRooms(messageBody: Object): void {
@@ -62,6 +62,11 @@ export class MatchmakingComponent {
     });
 
     return placedUserTotal;
+  }
+
+  private joinChatRoom(): void {
+    debugger
+    this.stompService.publish("/app/matchmaking/join-room", { yolo: "yolo-join" });
   }
 
 }
