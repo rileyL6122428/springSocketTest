@@ -20,16 +20,13 @@ import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
 
 @Controller
-public class MessageController {
+public class MatchmakingController {
 	
 	@Autowired
 	private SimpMessagingTemplate template;
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired 
-	private SimpMessageSendingOperations templateTwo;
 	
 	@Autowired
 	private RoomMonitor roomMonitor;
@@ -63,6 +60,8 @@ public class MessageController {
 	private void sendJoinRoomSuccessResponse(JoinRoomRequest joinChatRequest, Principal principal) {
 		String roomName = joinChatRequest.getRoomName();
 		
+		roomMonitor.addUserToRoom(roomName, principal);
+		
 		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
 		joinChatResponse.setRequestSuccessful(true);
 		joinChatResponse.setRoom(roomMonitor.getRoom(roomName));
@@ -79,12 +78,5 @@ public class MessageController {
 		
 		return stats;
 	}
-	
-	private MessageHeaders createHeaders(String sessionId) {
-        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
-        headerAccessor.setSessionId(sessionId);
-        headerAccessor.setLeaveMutable(true);
-        return headerAccessor.getMessageHeaders();
-    }
 	
 }
