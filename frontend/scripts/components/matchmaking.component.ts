@@ -23,8 +23,8 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
     </section>
 
     <section id="selected-room" *ngIf="!!selectedRoom">
-      <h4>Chat Room: {{room.getName()}}</h4>
-      <p>Number of participants: {{room.getTotalNumberOfUsers()}}</p>
+      <h4>Chat Room: {{selectedRoom.getName()}}</h4>
+      <p>Number of participants: {{selectedRoom.getTotalNumberOfUsers()}}</p>
       <button>Leave</button>
     </section>
   `
