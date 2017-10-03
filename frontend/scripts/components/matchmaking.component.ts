@@ -25,7 +25,7 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
     <section id="selected-room" *ngIf="!!selectedRoom">
       <h4>Chat Room: {{selectedRoom.getName()}}</h4>
       <p>Number of participants: {{selectedRoom.getTotalNumberOfUsers()}}</p>
-      <button>Leave</button>
+      <button (click)="leaveChatRoom()">Leave now</button>
     </section>
   `
 })
@@ -47,8 +47,6 @@ export class MatchmakingComponent {
       console.log(messageBody);
       if(messageBody['requestSuccessful']) {
         this.selectedRoom = Room.fromPOJO(messageBody['room']);
-      } else {
-
       }
     });
     debugger
@@ -78,8 +76,13 @@ export class MatchmakingComponent {
   }
 
   private joinChatRoom(roomName: string): void {
-    debugger
     this.stompService.publish("/app/matchmaking/join-room", { roomName });
+  }
+
+  private leaveChatRoom(): void {
+    debugger
+    this.stompService.publish("/app/matchmaking/leave-room", { room: this.selectedRoom });
+    this.selectedRoom = null;
   }
 
 }

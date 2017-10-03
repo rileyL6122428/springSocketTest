@@ -3,18 +3,16 @@ package l2k.demo.multiple.chats.controllers;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Controller;
 
-import l2k.demo.multiple.chats.messages.JoinRoomResponse;
+import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.messages.JoinRoomRequest;
+import l2k.demo.multiple.chats.messages.JoinRoomResponse;
+import l2k.demo.multiple.chats.messages.LeaveRoomRequest;
 import l2k.demo.multiple.chats.messages.MatchmakingStats;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
@@ -67,6 +65,13 @@ public class MatchmakingController {
 		joinChatResponse.setRoom(roomMonitor.getRoom(roomName));
 		
 		template.convertAndSendToUser(principal.getName(), "/queue/matchmaking", joinChatResponse);
+		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
+	}
+	
+	@MessageMapping("/matchmaking/leave-room")
+	public void leaveRoom(LeaveRoomRequest leaveRoomRequest, Principal principal) {
+		Room room = leaveRoomRequest.getRoom();
+		roomMonitor.removeUserFromRoom(room.getName(), principal);
 		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
 	}
 	

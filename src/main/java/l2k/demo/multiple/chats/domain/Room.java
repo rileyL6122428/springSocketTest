@@ -30,7 +30,7 @@ public class Room {
 		return users.size();
 	}
 	
-	public void removeUser(User user) {
+	public void removeUser(Principal user) {
 		users.remove(user.getName());
 	}
 

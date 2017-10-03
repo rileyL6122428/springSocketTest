@@ -39,7 +39,7 @@ public class RoomMonitor {
 		room.addUser(user);
 	}
 	
-	public void removeUserFromRoom(String roomName, User user) {
+	public void removeUserFromRoom(String roomName, Principal user) {
 		Room room = rooms.get(roomName);
 		room.removeUser(user);
 	}
