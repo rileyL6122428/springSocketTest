@@ -1,9 +1,11 @@
 package l2k.demo.multiple.chats.messages;
 
-public class JoinChatResponse {
+import l2k.demo.multiple.chats.domain.Room;
+
+public class JoinRoomResponse {
 	
 	private boolean requestSuccessful;
-	private String roomName;
+	private Room room;
 	
 	public boolean isRequestSuccessful() {
 		return requestSuccessful;
@@ -13,12 +15,12 @@ public class JoinChatResponse {
 		this.requestSuccessful = requestSuccessful;
 	}
 
-	public String getRoomName() {
-		return roomName;
+	public Room getRoom() {
+		return room;
 	}
 
-	public void setRoomName(String roomName) {
-		this.roomName = roomName;
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 	
 }

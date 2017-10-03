@@ -1,20 +1,24 @@
 package l2k.demo.multiple.chats.domain;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Room {
 	
 	private String name;
-	private Map<String, User> users;
+	private Map<String, Principal> users;
 	private int maxNumberOfUsers;
 	
 	{
-		users = new HashMap<String, User>();
+		users = new HashMap<String, Principal>();
 	}
 	
+	public boolean isFull() {
+		return users.size() >= maxNumberOfUsers;
+	}
 	
-	public void addUser(User user) {
+	public void addUser(Principal user) {
 		users.put(user.getName(), user);
 	}
 	

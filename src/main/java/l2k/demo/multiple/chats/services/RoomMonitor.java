@@ -1,5 +1,6 @@
 package l2k.demo.multiple.chats.services;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,12 @@ public class RoomMonitor {
 		}});
 	}
 	
-	public void addUserToRoom(String roomName, User user) {
+	public boolean roomIsFull(String roomName) {
+		Room room = rooms.get(roomName);
+		return room.isFull();
+	}
+	
+	public void addUserToRoom(String roomName, Principal user) {
 		Room room = rooms.get(roomName);
 		room.addUser(user);
 	}
@@ -52,6 +58,10 @@ public class RoomMonitor {
 	
 	public Map<String, Room> getRooms() {
 		return rooms;
+	}
+
+	public Room getRoom(String roomName) {
+		return rooms.get(roomName);
 	}
 	
 }
