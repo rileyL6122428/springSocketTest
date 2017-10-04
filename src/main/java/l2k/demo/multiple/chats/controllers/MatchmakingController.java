@@ -8,6 +8,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.messages.JoinRoomRequest;
@@ -28,6 +30,16 @@ public class MatchmakingController {
 	
 	@Autowired
 	private RoomMonitor roomMonitor;
+	
+	@PostMapping(value="/test")
+	public @ResponseBody Object testing(JoinRoomRequest joinRoomRequest) {
+		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
+		
+		joinChatResponse.setRequestSuccessful(false);
+		joinChatResponse.setRoom(null);
+		
+		return joinChatResponse;
+	}
 	
 	@MessageMapping("/matchmaking/enter")
 	@SendTo("/topic/matchmaking")

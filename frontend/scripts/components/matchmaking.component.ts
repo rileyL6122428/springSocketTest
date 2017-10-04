@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 // import { NgClass } from '@angular/common';
+import { Http } from '@angular/http';
 import { Room } from '../domain/Room';
 import { Message } from '@stomp/stompjs';
 import { StompService, StompState, StompConfig } from '@stomp/ng2-stompjs';
@@ -35,7 +36,10 @@ export class MatchmakingComponent {
   private rooms: Array<Room>;
   private selectedRoom: Room;
 
-  constructor(@Inject(StompServiceFacade) private stompService: StompServiceFacade) {
+  constructor(
+    @Inject(StompServiceFacade) private stompService: StompServiceFacade,
+    @Inject(Http) private http: Http
+  ) {
 
     this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
       this.setRooms(messageBody);
@@ -76,7 +80,19 @@ export class MatchmakingComponent {
   }
 
   private joinChatRoom(roomName: string): void {
-    this.stompService.publish("/app/matchmaking/join-room", { roomName });
+    // this.stompService.publish("/app/matchmaking/join-room", { roomName });
+    debugger
+    this.http.post("/test", { room: this.selectedRoom }, {})
+      .map((response) => {
+        debugger
+        console.log(response);
+
+        return response.json();
+      })
+      .subscribe((response) => {
+        debugger
+        console.log(response);
+      });
   }
 
   private leaveChatRoom(): void {
