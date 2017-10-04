@@ -1,36 +1,30 @@
-import { Component, Inject } from '@angular/core';
-// import { NgClass } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Room } from '../domain/Room';
 import { Message } from '@stomp/stompjs';
-import { StompService, StompState, StompConfig } from '@stomp/ng2-stompjs';
 import { Subscription } from 'rxjs/Subscription';
-
 import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 
 @Component({
   template: `
-    <section id="rooms" *ngIf="!selectedRoom">
-      <p>{{unplacedUsersCount}} people waiting</p>
+      <section id="unplaced-users">
+        <p>{{unplacedUsersCount}} people waiting</p>
+      </section>
 
-      <h4>Rooms</h4>
-      <ul *ngIf="!selectedRoom">
-        <li *ngFor="let room of rooms" [ngClass]="'sup'">
-          <p>{{room.getName()}}<p>
-          <p>Number of participants: {{room.getTotalNumberOfUsers()}}</p>
-          <button (click)="joinChatRoom(room.getName())">Join</button>
-        </li>
-      </ul>
-    </section>
+      <section id="rooms">
+        <h4>Rooms</h4>
 
-    <section id="selected-room" *ngIf="!!selectedRoom">
-      <h4>Chat Room: {{selectedRoom.getName()}}</h4>
-      <p>Number of participants: {{selectedRoom.getTotalNumberOfUsers()}}</p>
-      <button (click)="leaveChatRoom()">Leave now</button>
-    </section>
+        <ul *ngIf="!selectedRoom">
+          <li *ngFor="let room of rooms" [ngClass]="'sup'">
+            <p>{{room.getName()}}<p>
+            <p>Number of participants: {{room.getTotalNumberOfUsers()}}</p>
+            <button (click)="joinChatRoom(room.getName())">Join</button>
+          </li>
+        </ul>
+      </section>
   `
 })
-export class MatchmakingComponent {
+export class MatchmakingComponent implements OnInit {
 
   private unplacedUsersCount: number;
   private rooms: Array<Room>;
@@ -39,21 +33,14 @@ export class MatchmakingComponent {
   constructor(
     @Inject(StompServiceFacade) private stompService: StompServiceFacade,
     @Inject(Http) private http: Http
-  ) {
+  ) { }
 
+  ngOnInit() {
     this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
     });
 
-    this.stompService.subscribe("/user/queue/matchmaking", (messageBody: Object) => {
-      debugger
-      console.log(messageBody);
-      if(messageBody['requestSuccessful']) {
-        this.selectedRoom = Room.fromPOJO(messageBody['room']);
-      }
-    });
-    debugger
     this.stompService.publish("/app/matchmaking/enter", { yolo: "yolo-enter" });
   }
 
@@ -80,25 +67,24 @@ export class MatchmakingComponent {
   }
 
   private joinChatRoom(roomName: string): void {
-    // this.stompService.publish("/app/matchmaking/join-room", { roomName });
-    debugger
     this.http.post("/test", { room: this.selectedRoom }, {})
-      .map((response) => {
-        debugger
-        console.log(response);
 
-        return response.json();
-      })
       .subscribe((response) => {
-        debugger
-        console.log(response);
+        if(response.status === 200)
+          this.joinRoom(response.json());
+        else
+          this.showJoinChatFailureModal(response.json());
       });
   }
 
-  private leaveChatRoom(): void {
+  private joinRoom(response: Object)  {
     debugger
-    this.stompService.publish("/app/matchmaking/leave-room", { room: this.selectedRoom });
-    this.selectedRoom = null;
+    console.log(response);
+  }
+
+  private showJoinChatFailureModal(response: Object) {
+    debugger
+    console.log(response);
   }
 
 }
