@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router';
 import { Room } from '../domain/Room';
 import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs/Subscription';
@@ -32,7 +33,8 @@ export class MatchmakingComponent implements OnInit {
 
   constructor(
     @Inject(StompServiceFacade) private stompService: StompServiceFacade,
-    @Inject(Http) private http: Http
+    @Inject(Http) private http: Http,
+    @Inject(Router) private router: Router
   ) { }
 
   ngOnInit() {
@@ -80,6 +82,7 @@ export class MatchmakingComponent implements OnInit {
   private joinRoom(response: Object)  {
     debugger
     console.log(response);
+    this.router.navigateByUrl('/chat');
   }
 
   private showJoinChatFailureModal(response: Object) {

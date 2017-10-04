@@ -2,6 +2,8 @@ package l2k.demo.multiple.chats.controllers;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -32,12 +34,12 @@ public class MatchmakingController {
 	private RoomMonitor roomMonitor;
 	
 	@PostMapping(value="/test")
-	public @ResponseBody Object testing(JoinRoomRequest joinRoomRequest) {
-		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
+	public @ResponseBody Object testing(JoinRoomRequest joinRoomRequest, HttpServletResponse response) {
+		response.setStatus(200);
 		
+		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
 		joinChatResponse.setRequestSuccessful(false);
 		joinChatResponse.setRoom(null);
-		
 		return joinChatResponse;
 	}
 	

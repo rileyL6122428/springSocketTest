@@ -1,22 +1,17 @@
 import 'zone.js';
 import 'reflect-metadata';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router'
-
 import { Http, HttpModule } from '@angular/http';
-
+import { BrowserModule } from '@angular/platform-browser';
 import { routes } from './routes';
-
 import { MatchmakingComponent } from './components/matchmaking.component';
+import { ChatRoomComponent } from './components/chat-room.component';
 import { TriviaAppComponent } from './trivia-app-component';
-
-// import { stompConfig } from './constants/stomp.config';
-// import { StompService, StompConfig } from '@stomp/ng2-stompjs';
 import { StompModule } from './stomp-module/stomp.module';
+
 
 @NgModule({
   imports: [
@@ -28,18 +23,18 @@ import { StompModule } from './stomp-module/stomp.module';
   ],
   declarations: [
     MatchmakingComponent,
+    ChatRoomComponent,
     TriviaAppComponent
   ],
 
   entryComponents: [
-    MatchmakingComponent
+    MatchmakingComponent,
+    ChatRoomComponent
   ],
 
   bootstrap:    [ TriviaAppComponent ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    // StompService,
-    // { provide: StompConfig, useValue: stompConfig }
   ]
 })
 export class TriviaAppModule { }
