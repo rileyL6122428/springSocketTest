@@ -69,9 +69,10 @@ export class MatchmakingComponent implements OnInit {
   }
 
   private joinChatRoom(roomName: string): void {
-    this.http.post("/test", { room: this.selectedRoom }, {})
+    this.http.post("/join-chat-room", { room: this.selectedRoom }, {})
 
       .subscribe((response) => {
+        debugger
         if(response.status === 200)
           this.joinRoom(response.json());
         else

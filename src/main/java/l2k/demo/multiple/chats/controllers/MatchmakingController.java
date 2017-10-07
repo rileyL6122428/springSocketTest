@@ -5,6 +5,8 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -33,14 +35,13 @@ public class MatchmakingController {
 	@Autowired
 	private RoomMonitor roomMonitor;
 	
-	@PostMapping(value="/test")
-	public @ResponseBody Object testing(JoinRoomRequest joinRoomRequest, HttpServletResponse response) {
-		response.setStatus(200);
+	@PostMapping(value="/join-chat-room")
+	public ResponseEntity<JoinRoomResponse> joinChatRoom(JoinRoomRequest joinRoomRequest) {
 		
 		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
-		joinChatResponse.setRequestSuccessful(false);
 		joinChatResponse.setRoom(null);
-		return joinChatResponse;
+		
+		return new ResponseEntity<JoinRoomResponse>(joinChatResponse, HttpStatus.OK);
 	}
 	
 	@MessageMapping("/matchmaking/enter")
@@ -51,7 +52,7 @@ public class MatchmakingController {
 	
 	@MessageMapping("/matchmaking/join-room")
 	public void joinRoom(JoinRoomRequest joinChatRequest, Principal principal) {
-		if(roomMonitor.roomIsFull(joinChatRequest.getRoomName()))
+		if(getRoomMonitor().roomIsFull(joinChatRequest.getRoomName()))
 			sendJoinRoomFailureResponse(joinChatRequest, principal);
 		else 
 			sendJoinRoomSuccessResponse(joinChatRequest, principal);
@@ -60,10 +61,9 @@ public class MatchmakingController {
 	private void sendJoinRoomFailureResponse(JoinRoomRequest joinChatRequest, Principal principal) {
 		String roomName = joinChatRequest.getRoomName();
 		
-		roomMonitor.addUserToRoom(roomName, principal);
+		getRoomMonitor().addUserToRoom(roomName, principal);
 		
 		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
-		joinChatResponse.setRequestSuccessful(false);
 		joinChatResponse.setRoom(null);
 		
 		template.convertAndSendToUser(principal.getName(), "/queue/matchmaking", joinChatResponse);
@@ -72,11 +72,10 @@ public class MatchmakingController {
 	private void sendJoinRoomSuccessResponse(JoinRoomRequest joinChatRequest, Principal principal) {
 		String roomName = joinChatRequest.getRoomName();
 		
-		roomMonitor.addUserToRoom(roomName, principal);
+		getRoomMonitor().addUserToRoom(roomName, principal);
 		
 		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
-		joinChatResponse.setRequestSuccessful(true);
-		joinChatResponse.setRoom(roomMonitor.getRoom(roomName));
+		joinChatResponse.setRoom(getRoomMonitor().getRoom(roomName));
 		
 		template.convertAndSendToUser(principal.getName(), "/queue/matchmaking", joinChatResponse);
 		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
@@ -85,7 +84,7 @@ public class MatchmakingController {
 	@MessageMapping("/matchmaking/leave-room")
 	public void leaveRoom(LeaveRoomRequest leaveRoomRequest, Principal principal) {
 		Room room = leaveRoomRequest.getRoom();
-		roomMonitor.removeUserFromRoom(room.getName(), principal);
+		getRoomMonitor().removeUserFromRoom(room.getName(), principal);
 		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
 	}
 	
@@ -93,9 +92,17 @@ public class MatchmakingController {
 		MatchmakingStats stats = new MatchmakingStats();
 		
 		stats.setUserTotal(userService.getTotalUsers());
-		stats.setRooms(roomMonitor.getRooms());
+		stats.setRooms(getRoomMonitor().getRooms());
 		
 		return stats;
+	}
+
+	public RoomMonitor getRoomMonitor() {
+		return roomMonitor;
+	}
+
+	public void setRoomMonitor(RoomMonitor roomMonitor) {
+		this.roomMonitor = roomMonitor;
 	}
 	
 }

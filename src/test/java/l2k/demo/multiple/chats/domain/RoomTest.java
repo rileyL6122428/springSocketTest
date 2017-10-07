@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import l2k.demo.multiple.chats.customannotations.ImplementationPending;
-
 @RunWith(JUnitPlatform.class)
 public class RoomTest {
 
