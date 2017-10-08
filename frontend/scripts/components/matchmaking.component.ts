@@ -43,16 +43,11 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let subscriptionSet: boolean = false;
-    let matchmakingSubscription: Subscription = this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
+    let matchmakingSubscription = this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
-
-      if(!subscriptionSet) {
-        this.stompService.publish("/app/matchmaking/enter", {});
-        subscriptionSet = true;
-      }
     });
+    this.stompService.publish("/app/matchmaking/enter", {});
 
     this.subscriptions.push(matchmakingSubscription);
   }
@@ -84,7 +79,8 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   }
 
   private joinChatRoom(roomName: string): void {
-    this.http.post("/join-chat-room", { room: this.selectedRoom }, {})
+    debugger
+    this.http.post("/join-chat-room", { roomName: roomName }, {})
 
       .subscribe((response) => {
         if(response.status === 200)

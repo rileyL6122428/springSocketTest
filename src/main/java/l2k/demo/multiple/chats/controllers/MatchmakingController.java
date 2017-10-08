@@ -1,7 +1,10 @@
 package l2k.demo.multiple.chats.controllers;
 
 import java.security.Principal;
+import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.util.WebUtils;
 
+import l2k.demo.multiple.chats.cookieutil.RequestUtil;
 import l2k.demo.multiple.chats.domain.Room;
+import l2k.demo.multiple.chats.domain.User;
 import l2k.demo.multiple.chats.messages.JoinRoomRequest;
 import l2k.demo.multiple.chats.messages.JoinRoomResponse;
 import l2k.demo.multiple.chats.messages.LeaveRoomRequest;
@@ -35,18 +40,33 @@ public class MatchmakingController {
 	@Autowired
 	private RoomMonitor roomMonitor;
 	
+	@Autowired
+	private RequestUtil requestUtil;
+	
 	@PostMapping(value="/join-chat-room")
-	public ResponseEntity<JoinRoomResponse> joinChatRoom(JoinRoomRequest joinRoomRequest) {
+	public ResponseEntity<JoinRoomResponse> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, HttpServletRequest request) {
+		User user = requestUtil.getUser(request);
+		ResponseEntity<JoinRoomResponse> responseEntity;
 		
-		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
-		joinChatResponse.setRoom(null);
+		if(userCanJoinRoom(user, joinRoomRequest)) {
+			roomMonitor.addUserToRoom(joinRoomRequest.getRoomName(), user);
+			Room targetRoom = roomMonitor.getRoom(joinRoomRequest.getRoomName());
+			responseEntity = new ResponseEntity<JoinRoomResponse>(JoinRoomResponse.successResponse(targetRoom), HttpStatus.OK);
+			
+		} else {
+			responseEntity = new ResponseEntity<JoinRoomResponse>(JoinRoomResponse.failureResponse(), HttpStatus.FORBIDDEN);
+		}
 		
-		return new ResponseEntity<JoinRoomResponse>(joinChatResponse, HttpStatus.OK);
+		return responseEntity;
+	}
+	
+	private boolean userCanJoinRoom(User user, JoinRoomRequest joinRoomRequest) {
+		return user != null && !roomMonitor.roomIsFull(joinRoomRequest.getRoomName());
 	}
 	
 	@MessageMapping("/matchmaking/enter")
 	@SendTo("/topic/matchmaking")
-	public MatchmakingStats addUserToMatchmakingQueue(JoinRoomRequest joinChatRequest, GenericMessage message) {
+	public MatchmakingStats addUserToMatchmakingQueue(JoinRoomRequest joinChatRequest) {
 		return getMatchmakingStats();
 	}
 	

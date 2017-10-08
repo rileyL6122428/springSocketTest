@@ -34,6 +34,10 @@ public class RoomMonitor {
 		return room.isFull();
 	}
 	
+	public void addUserToRoom(Room room, Principal user) {
+		addUserToRoom(room.getName(), user);
+	}
+	
 	public void addUserToRoom(String roomName, Principal user) {
 		Room room = rooms.get(roomName);
 		room.addUser(user);
