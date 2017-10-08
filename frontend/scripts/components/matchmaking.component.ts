@@ -5,6 +5,7 @@ import { Room } from '../domain/Room';
 import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs/Subscription';
 import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
+import { CookieService } from 'angular2-cookie/services/cookies.service'
 
 @Component({
   template: `
@@ -30,20 +31,26 @@ export class MatchmakingComponent implements OnInit {
   private unplacedUsersCount: number;
   private rooms: Array<Room>;
   private selectedRoom: Room;
+  private subscriptions: Array<Subscription>;
 
   constructor(
     @Inject(StompServiceFacade) private stompService: StompServiceFacade,
     @Inject(Http) private http: Http,
-    @Inject(Router) private router: Router
+    @Inject(Router) private router: Router,
+    @Inject(CookieService) private cookieService: CookieService
   ) { }
 
   ngOnInit() {
+    let subscriptionSet = false;
     this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
-    });
 
-    this.stompService.publish("/app/matchmaking/enter", { yolo: "yolo-enter" });
+      if(!subscriptionSet) {
+        this.stompService.publish("/app/matchmaking/enter", {});
+        subscriptionSet = true;
+      }
+    });
   }
 
   private setRooms(messageBody: Object): void {

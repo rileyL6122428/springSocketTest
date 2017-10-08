@@ -1,11 +1,12 @@
 package l2k.demo.multiple.chats.domain;
 
 import java.security.Principal;
+import java.util.UUID;
 
 public class User implements Principal {
 	
 	private String name;
-	private String sessionId;
+	private UUID sessionId;
 
 	public String getName() {
 		return name;
@@ -14,22 +15,17 @@ public class User implements Principal {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public boolean equals(User otherUser) {
+		return sessionId.equals(otherUser.getSessionId());
+	}
 
-	public String getSessionId() {
+	public UUID getSessionId() {
 		return sessionId;
 	}
 
-	public void setSessionId(String sessionId) {
+	public void setSessionId(UUID sessionId) {
 		this.sessionId = sessionId;
-	}
-	
-	public boolean equals(User otherUser) {
-		return this.sessionId == otherUser.getSessionId();
-	}
-	
-	public int hashcode() {
-		return sessionId.hashCode() * 3;
-		
 	}
 	
 }

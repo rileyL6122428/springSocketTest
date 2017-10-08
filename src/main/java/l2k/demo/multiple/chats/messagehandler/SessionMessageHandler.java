@@ -28,19 +28,19 @@ public class SessionMessageHandler {
 	@EventListener
 	public void handleConnected(SessionConnectedEvent connectEvent) {
 		SessionConnectedEventWrapper eventWrapper = new SessionConnectedEventWrapper(connectEvent);
-		
-		User user = new User();
-		user.setName((String) eventWrapper.getCustomHeader("username"));
-		user.setSessionId(eventWrapper.getSessionId());
-		
-		userService.addUser(user);
-		
-		template.convertAndSendToUser(
-			user.getSessionId(), 
-			"/queue/messages", 
-			roomMonitor.getRooms(), 
-			UserMessageHeaderGenerator.createHeaders(user.getSessionId())
-		);
+//		
+//		User user = new User();
+//		user.setName((String) eventWrapper.getCustomHeader("username"));
+//		user.setSessionId(eventWrapper.getSessionId());
+//		
+//		userService.addUser(user);
+//		
+//		template.convertAndSendToUser(
+//			user.getSessionId(), 
+//			"/queue/messages", 
+//			roomMonitor.getRooms(), 
+//			UserMessageHeaderGenerator.createHeaders(user.getSessionId())
+//		);
 	}
 	
 	

@@ -1,29 +1,34 @@
-import { Injectable } from '@angular/core';
-
+import { Injectable, Inject } from '@angular/core';
 import { STOMP_CONFIG } from '.././constants/stomp.config';
 import { StompService, StompConfig, StompHeaders } from '../../../vendor-workarounds/ngstomp-js/index';
 import { Subscription } from 'rxjs';
+import { CookieService } from 'angular2-cookie/services/cookies.service'
 
 @Injectable()
 export class StompServiceFacade {
 
   private stompService: StompService;
 
-  constructor() {
+  constructor(
+    @Inject(CookieService) private cookieService: CookieService
+  ) {
     this.stompService = new StompService(STOMP_CONFIG);
   }
 
   subscribe(path: string, callback: Function):Subscription {
-      return this.stompService.subscribe(path).map((message) => {
-        return JSON.parse(message.body);
-      }).subscribe((messageBody: string) => {
-        callback(messageBody);
-      });
+    return this.stompService.subscribe(path, this.getHeaders()).map((message) => {
+      return JSON.parse(message.body);
+    }).subscribe((messageBody: string) => {
+      callback(messageBody);
+    });
   }
 
   publish(path: string, message): void {
-    let headers: StompHeaders = { };
+    this.stompService.publish(path, JSON.stringify(message), this.getHeaders());
+  }
 
-    this.stompService.publish(path, JSON.stringify(message), headers);
+  private getHeaders(): StompHeaders {
+    let sessionId = this.cookieService.get("TRIVIA_SESSION_COOKIE");
+    return { testHeader: sessionId };
   }
 }

@@ -2,6 +2,7 @@ package l2k.demo.multiple.chats.services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -10,17 +11,17 @@ import l2k.demo.multiple.chats.domain.User;
 @Service
 public class UserService {
 
-private Map<String, User> sessionToUsers;
+private Map<UUID, User> sessionToUsers;
 	
 	{
-		sessionToUsers = new HashMap<String, User>();
+		sessionToUsers = new HashMap<UUID, User>();
 	}
 	
 	public void addUser(User user) {
 		sessionToUsers.put(user.getSessionId(), user);
 	}
 	
-	public User getUser(String sessionId) {
+	public User getUser(UUID sessionId) {
 		return sessionToUsers.get(sessionId);
 	}
 	

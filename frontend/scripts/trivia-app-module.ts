@@ -11,6 +11,7 @@ import { MatchmakingComponent } from './components/matchmaking.component';
 import { ChatRoomComponent } from './components/chat-room.component';
 import { TriviaAppComponent } from './trivia-app-component';
 import { StompModule } from './stomp-module/stomp.module';
+import { CookieService } from 'angular2-cookie/services/cookies.service'
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { StompModule } from './stomp-module/stomp.module';
   bootstrap:    [ TriviaAppComponent ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    CookieService
   ]
 })
 export class TriviaAppModule { }
