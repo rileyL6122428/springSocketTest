@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { Room } from '../domain/Room';
@@ -26,7 +26,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service'
       </section>
   `
 })
-export class MatchmakingComponent implements OnInit {
+export class MatchmakingComponent implements OnInit, OnDestroy {
 
   private unplacedUsersCount: number;
   private rooms: Array<Room>;
@@ -38,11 +38,13 @@ export class MatchmakingComponent implements OnInit {
     @Inject(Http) private http: Http,
     @Inject(Router) private router: Router,
     @Inject(CookieService) private cookieService: CookieService
-  ) { }
+  ) {
+    this.subscriptions = new Array<Subscription>();
+  }
 
-  ngOnInit() {
-    let subscriptionSet = false;
-    this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
+  ngOnInit(): void {
+    let subscriptionSet: boolean = false;
+    let matchmakingSubscription: Subscription = this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
 
@@ -51,6 +53,12 @@ export class MatchmakingComponent implements OnInit {
         subscriptionSet = true;
       }
     });
+
+    this.subscriptions.push(matchmakingSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach( subscription => subscription.unsubscribe());
   }
 
   private setRooms(messageBody: Object): void {
@@ -79,7 +87,6 @@ export class MatchmakingComponent implements OnInit {
     this.http.post("/join-chat-room", { room: this.selectedRoom }, {})
 
       .subscribe((response) => {
-        debugger
         if(response.status === 200)
           this.joinRoom(response.json());
         else
@@ -88,13 +95,11 @@ export class MatchmakingComponent implements OnInit {
   }
 
   private joinRoom(response: Object)  {
-    debugger
     console.log(response);
     this.router.navigateByUrl('/chat');
   }
 
   private showJoinChatFailureModal(response: Object) {
-    debugger
     console.log(response);
   }
 
