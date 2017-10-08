@@ -14,6 +14,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.util.WebUtils;
@@ -44,9 +45,12 @@ public class MatchmakingController {
 	private RequestUtil requestUtil;
 	
 	@PostMapping(value="/join-chat-room")
-	public ResponseEntity<JoinRoomResponse> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, HttpServletRequest request) {
-		User user = requestUtil.getUser(request);
+	public ResponseEntity<JoinRoomResponse> joinChatRoom(
+			@RequestBody JoinRoomRequest joinRoomRequest, 
+			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionIdString
+		) {
 		ResponseEntity<JoinRoomResponse> responseEntity;
+		User user = requestUtil.getUser(sessionIdString);
 		
 		if(userCanJoinRoom(user, joinRoomRequest)) {
 			roomMonitor.addUserToRoom(joinRoomRequest.getRoomName(), user);

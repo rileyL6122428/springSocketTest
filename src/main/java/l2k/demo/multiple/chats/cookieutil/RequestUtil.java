@@ -20,6 +20,20 @@ public class RequestUtil {
 
 	private final String customSessionCookieName = "TRIVIA_SESSION_COOKIE";
 	
+	public User getUser(String sessionIdString) {
+		User user;
+		
+		try {
+			UUID sessionId = UUID.fromString(sessionIdString);
+			user = (User) userService.getUser(sessionId);			
+		} catch(Exception exception) {
+			exception.printStackTrace();
+			user = null;
+		}
+		
+		return user;
+	}
+	
 	public User getUser(HttpServletRequest request) {
 		User user;
 		
