@@ -79,24 +79,23 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   }
 
   private joinChatRoom(roomName: string): void {
-    debugger
     this.http.post("/join-chat-room", { roomName: roomName }, {})
-
+    
       .subscribe((response) => {
         if(response.status === 200)
-          this.joinRoom(response.json());
+          this.joinRoom(response.json())
         else
           this.showJoinChatFailureModal(response.json());
       });
   }
 
-  private joinRoom(response: Object)  {
-    console.log(response);
-    this.router.navigateByUrl('/chat');
+  private joinRoom(responseBody: Object)  {
+    let targetRoom = Room.fromPOJO(responseBody['room']);
+    this.router.navigateByUrl('/chat/' + targetRoom.getName());
   }
 
-  private showJoinChatFailureModal(response: Object) {
-    console.log(response);
+  private showJoinChatFailureModal(responseBody: Object) {
+    console.log(responseBody);
   }
 
 }
