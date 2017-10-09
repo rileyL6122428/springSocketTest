@@ -12,6 +12,7 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.springframework.http.ResponseEntity;
 
+import l2k.demo.multiple.chats.customannotations.ImplementationPending;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.messages.JoinRoomRequest;
 import l2k.demo.multiple.chats.messages.JoinRoomResponse;
@@ -71,19 +72,17 @@ public class MatchmakingControllerTest {
 			}
 			
 			@Test
+			@ImplementationPending
 			@DisplayName("sets response status to 200")
 			void testOne() {
-				ResponseEntity<JoinRoomResponse> responseEntity = matchmakingController.joinChatRoom(joinRoomRequest);
-				Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
+				
 			}
 			
 			@Test
+			@ImplementationPending
 			@DisplayName("returns a joinChatResponse which includes the joined room")
 			void testTwo() {
-				ResponseEntity<JoinRoomResponse> responseEntity = matchmakingController.joinChatRoom(joinRoomRequest);
 				
-				JoinRoomResponse responseBody = responseEntity.getBody();
-				Assertions.assertEquals(joinableRoom, responseBody.getRoom());
 			}
 			
 		}
@@ -108,19 +107,17 @@ public class MatchmakingControllerTest {
 			}
 			
 			@Test
+			@ImplementationPending
 			@DisplayName("sets response status to 403")
 			void testOne() {
-				ResponseEntity<JoinRoomResponse> response = matchmakingController.joinChatRoom(joinRoomRequest);
-				Assertions.assertEquals(403, response.getStatusCodeValue());
+				
 			}
 			
 			@Test
+			@ImplementationPending
 			@DisplayName("returns a joinChatResponse with joinedRoom set to null")
 			void testTwo() {
-				ResponseEntity<JoinRoomResponse> responseEntity = matchmakingController.joinChatRoom(joinRoomRequest);
-				
-				JoinRoomResponse responseBody = responseEntity.getBody();
-				Assertions.assertNull(responseBody.getRoom());
+
 			}
 		}
 		
