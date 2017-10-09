@@ -45,10 +45,7 @@ public class MatchmakingController {
 	private RequestUtil requestUtil;
 	
 	@PostMapping(value="/join-chat-room")
-	public ResponseEntity<JoinRoomResponse> joinChatRoom(
-			@RequestBody JoinRoomRequest joinRoomRequest, 
-			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionIdString
-		) {
+	public ResponseEntity<JoinRoomResponse> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionIdString) {
 		ResponseEntity<JoinRoomResponse> responseEntity;
 		User user = requestUtil.getUser(sessionIdString);
 		

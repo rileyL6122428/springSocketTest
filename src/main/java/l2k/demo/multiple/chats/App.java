@@ -25,24 +25,7 @@ public class App extends AbstractWebSocketMessageBrokerConfigurer {
 	
 
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/matchmaking").setAllowedOrigins("*")
-//				.setHandshakeHandler(new DefaultHandshakeHandler() {
-//					private int userIdx;
-//					
-//					@Override
-//					protected Principal determineUser(ServerHttpRequest request, WebSocketHandler webSocketHandler, Map<String, Object> attributes) {
-//						if(request instanceof ServletServerHttpRequest) {  	
-//							ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-////							Cookie[] cookies = servletRequest.get
-//						}
-//						
-//						Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//	                    authorities.add(new SimpleGrantedAuthority("anonymous"));
-//	                    Principal principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous" + userIdx++, authorities);
-//	                    return principal;
-//					}
-//				})
-				.withSockJS();
+		registry.addEndpoint("/matchmaking").setAllowedOrigins("*").withSockJS();
 	}
 	
 	public void configureClientInboundChannel(ChannelRegistration registration) {
