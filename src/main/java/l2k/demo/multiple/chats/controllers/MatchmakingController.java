@@ -1,11 +1,6 @@
 package l2k.demo.multiple.chats.controllers;
 
 import java.security.Principal;
-import java.util.UUID;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.util.WebUtils;
 
 import l2k.demo.multiple.chats.cookieutil.RequestUtil;
 import l2k.demo.multiple.chats.domain.Room;
