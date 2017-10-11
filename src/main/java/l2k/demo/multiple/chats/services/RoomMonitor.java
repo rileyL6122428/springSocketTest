@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import l2k.demo.multiple.chats.domain.ChatRoomMessage;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;
 
@@ -60,6 +61,11 @@ public class RoomMonitor {
 		rooms.remove(room.getName());
 	}
 	
+	public void addMessageToRoom(String roomName, ChatRoomMessage message) {
+		Room room = rooms.get(roomName);
+		room.addMessage(message);
+	}
+	
 	public Map<String, Room> getRooms() {
 		return rooms;
 	}
@@ -67,5 +73,6 @@ public class RoomMonitor {
 	public Room getRoom(String roomName) {
 		return rooms.get(roomName);
 	}
+
 	
 }

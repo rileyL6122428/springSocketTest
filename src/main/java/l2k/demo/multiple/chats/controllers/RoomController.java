@@ -12,10 +12,14 @@ import org.springframework.stereotype.Controller;
 import l2k.demo.multiple.chats.domain.ChatRoomMessage;
 import l2k.demo.multiple.chats.domain.Moderator;
 import l2k.demo.multiple.chats.domain.User;
+import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
 
 @Controller
 public class RoomController {
+	
+	@Autowired
+	private RoomMonitor roomMonitor;
 	
 	@Autowired
 	private UserService userService;
@@ -27,7 +31,8 @@ public class RoomController {
 	public void enterRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
 		User user = userService.getUser(sessionId);
 		ChatRoomMessage joinRoomMessage = newJoinRoomMessage(user);
-		template.convertAndSend("/topic/room/" + roomName, joinRoomMessage);
+		roomMonitor.addMessageToRoom(roomName, joinRoomMessage);
+		template.convertAndSend("/topic/room/" + roomName, roomMonitor.getRoom(roomName));
 	}
 	
 	private ChatRoomMessage newJoinRoomMessage(User user) {
