@@ -5,7 +5,7 @@ import java.util.Date;
 public class ChatRoomMessage {
 	
 	private String body;
-	private User sender;
+	private Sender sender;
 	private Date timeStamp;
 
 	public String getBody() {
@@ -16,11 +16,11 @@ public class ChatRoomMessage {
 		this.body = body;
 	}
 
-	public User getSender() {
+	public Sender getSender() {
 		return sender;
 	}
 
-	public void setSender(User sender) {
+	public void setSender(Sender sender) {
 		this.sender = sender;
 	}
 

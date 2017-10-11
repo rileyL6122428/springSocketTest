@@ -36,13 +36,14 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToRoomMessages(routeParams: Object): void {
-    let roomSubscriptionUrl = "/app/room/" + routeParams['roomName'];
+    let roomSubscriptionUrl = "/topic/room/" + routeParams['roomName'];
     let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, this.handleRoomMessage);
     this.subscriptions.push(roomSubscription);
   }
 
   private handleRoomMessage(messageBody: Object): void {
-
+    debugger
+    console.log(messageBody);
   }
 
 }

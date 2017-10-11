@@ -1,17 +1,43 @@
 package l2k.demo.multiple.chats.controllers;
 
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import l2k.demo.multiple.chats.domain.ChatRoomMessage;
+import l2k.demo.multiple.chats.domain.Moderator;
+import l2k.demo.multiple.chats.domain.User;
+import l2k.demo.multiple.chats.services.UserService;
 
 @Controller
 public class RoomController {
 	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private SimpMessagingTemplate template;
+	
 	@MessageMapping("/room/{roomName}/enter")
 	public void enterRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
-		System.out.println(roomName);
-		System.out.println(sessionId);
+		User user = userService.getUser(sessionId);
+		ChatRoomMessage joinRoomMessage = newJoinRoomMessage(user);
+		template.convertAndSend("/topic/room/" + roomName, joinRoomMessage);
+	}
+	
+	private ChatRoomMessage newJoinRoomMessage(User user) {
+		ChatRoomMessage joinRoomMessage = new ChatRoomMessage();
+		
+		joinRoomMessage.setSender(new Moderator());
+		joinRoomMessage.setBody(user.getName() + " joins the CHAT!");
+		joinRoomMessage.setTimeStamp(new Date());
+		
+		return joinRoomMessage;
 	}
 	
 }

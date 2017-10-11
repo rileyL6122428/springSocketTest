@@ -3,7 +3,7 @@ package l2k.demo.multiple.chats.domain;
 import java.security.Principal;
 import java.util.UUID;
 
-public class User implements Principal {
+public class User implements Principal, Sender {
 	
 	private String name;
 	private UUID sessionId;
