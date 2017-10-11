@@ -21,6 +21,11 @@ private Map<UUID, User> sessionToUsers;
 		sessionToUsers.put(user.getSessionId(), user);
 	}
 	
+	public User getUser(String sessionIdString) {
+		UUID sessionID = UUID.fromString(sessionIdString);
+		return sessionToUsers.get(sessionID);
+	}
+	
 	public User getUser(UUID sessionId) {
 		return sessionToUsers.get(sessionId);
 	}
