@@ -41,4 +41,8 @@ export class Room {
     return this.totalNumberOfUsers;
   }
 
+  public getMessages(): Array<ChatRoomMessage> {
+    return this.messages;
+  }
+
 }

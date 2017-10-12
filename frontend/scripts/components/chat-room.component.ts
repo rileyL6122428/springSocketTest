@@ -7,6 +7,15 @@ import { Room } from '../domain/Room';
 @Component({
   template: `
     <p>THIS IS THE CHAT ROOM COMPONENT</p>
+    <section *ngIf="!!room">
+      <h3 >{{room.getName()}}</h3>
+
+      <ul>
+        <li *ngFor="let message of room.getMessages()">
+        {{message.getBody()}}
+        </li>
+      </ul>
+    </section>
   `
 })
 export class ChatRoomComponent implements OnInit, OnDestroy {
@@ -37,13 +46,17 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   private subscribeToRoomMessages(routeParams: Object): void {
     let roomSubscriptionUrl = "/topic/room/" + routeParams['roomName'];
-    let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, this.handleRoomMessage);
+    let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, (messageBody: Object) => {
+      this.handleRoomMessage(messageBody);
+    });
     this.subscriptions.push(roomSubscription);
   }
 
-  private handleRoomMessage(messageBody: Object): void {
+  private handleRoomMessage(roomPOJO: Object): void {
     debugger
-    console.log(messageBody);
+    this.room = Room.fromPOJO(roomPOJO);
+    debugger
+    console.log(roomPOJO);
   }
 
 }

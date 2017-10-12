@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.github.javafaker.Faker;
-
 import l2k.demo.multiple.chats.domain.User;
 import l2k.demo.multiple.chats.services.NameGenerator;
 import l2k.demo.multiple.chats.services.UserService;
