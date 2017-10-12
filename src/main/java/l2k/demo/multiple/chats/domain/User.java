@@ -3,6 +3,9 @@ package l2k.demo.multiple.chats.domain;
 import java.security.Principal;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "sessionId" })
 public class User implements Principal, Sender {
 	
 	private String name;

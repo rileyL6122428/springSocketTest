@@ -16,36 +16,36 @@ public class Room {
 	private LinkedList<ChatRoomMessage> messages;
 	
 	{
-		users = new HashMap<String, Principal>();
-		messages = new LinkedList<ChatRoomMessage>();
+		setUsers(new HashMap<String, Principal>());
+		setMessages(new LinkedList<ChatRoomMessage>());
 	}
 	
 	public boolean isFull() {
-		return users.size() >= maxNumberOfUsers;
+		return getUsers().size() >= maxNumberOfUsers;
 	}
 	
 	public void addMessage(ChatRoomMessage message) {
-		if(messages.size() >= MAXIMUM_NUMBER_OF_PERSISTED_MESSAGES) {
-			messages.removeFirst();
+		if(getMessages().size() >= MAXIMUM_NUMBER_OF_PERSISTED_MESSAGES) {
+			getMessages().removeFirst();
 		}
 		
-		messages.addLast(message);
+		getMessages().addLast(message);
 	}
 	
 	public void addUser(Principal user) {
-		users.put(user.getName(), user);
+		getUsers().put(user.getName(), user);
 	}
 	
 	public boolean contains(User user) {
-		return users.get(user.getName()) != null;
+		return getUsers().get(user.getName()) != null;
 	}
 	
 	public int getTotalNumberOfUsers() {
-		return users.size();
+		return getUsers().size();
 	}
 	
 	public void removeUser(Principal user) {
-		users.remove(user.getName());
+		getUsers().remove(user.getName());
 	}
 
 	public String getName() {
@@ -62,6 +62,22 @@ public class Room {
 
 	public void setMaxNumberOfUsers(int maxNumberOfUsers) {
 		this.maxNumberOfUsers = maxNumberOfUsers;
+	}
+
+	public LinkedList<ChatRoomMessage> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(LinkedList<ChatRoomMessage> messages) {
+		this.messages = messages;
+	}
+
+	public Map<String, Principal> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Map<String, Principal> users) {
+		this.users = users;
 	}
 	
 }
