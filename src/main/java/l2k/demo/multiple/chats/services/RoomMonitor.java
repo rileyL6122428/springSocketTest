@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import l2k.demo.multiple.chats.domain.ChatRoomMessage;
 import l2k.demo.multiple.chats.domain.Room;
-import l2k.demo.multiple.chats.domain.User;
 
 @Service
 public class RoomMonitor {

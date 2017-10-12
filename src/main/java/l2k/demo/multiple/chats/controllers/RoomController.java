@@ -42,7 +42,7 @@ public class RoomController {
 		
 		joinRoomMessage.setSender(new Moderator());
 		joinRoomMessage.setBody(user.getName() + " joins the CHAT!");
-		joinRoomMessage.setTimeStamp(new Date());
+		joinRoomMessage.setTimestamp(new Date());
 		
 		return joinRoomMessage;
 	}

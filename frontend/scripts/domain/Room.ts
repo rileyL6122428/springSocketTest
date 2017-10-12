@@ -13,6 +13,7 @@ export class Room {
   private name: string;
   private maxNumberOfUsers: number;
   private totalNumberOfUsers: number;
+  
 
   public getName(): string {
     return this.name;
