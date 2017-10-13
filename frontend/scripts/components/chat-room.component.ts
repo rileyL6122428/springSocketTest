@@ -66,7 +66,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   private sendChatMessage() {
     console.log(this.messageBody);
-    this.stompService.publish("/app/room/" + this.room.getName() + "/send-message", {});
+    this.stompService.publish(
+      "/app/room/" + this.room.getName() + "/send-message",
+      { messageBody: this.messageBody }
+    );
     this.messageBody = "";
   }
 }

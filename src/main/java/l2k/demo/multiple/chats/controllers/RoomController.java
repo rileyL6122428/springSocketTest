@@ -13,6 +13,7 @@ import l2k.demo.multiple.chats.domain.ChatRoomMessage;
 import l2k.demo.multiple.chats.domain.Moderator;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;
+import l2k.demo.multiple.chats.messages.SendChatMessageRequest;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
 
@@ -48,7 +49,12 @@ public class RoomController {
 	}
 	
 	@MessageMapping("/room/{roomName}/send-message")
-	public void sendChatMessage(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
-		System.out.println("");
+	public void sendChatMessage(
+			SendChatMessageRequest sendChatMessageRequest,
+			@DestinationVariable String roomName, 
+			@Header("testHeader") String sessionId
+		) {
+		
+		System.out.println(sendChatMessageRequest.getMessageBody());
 	}
 }
