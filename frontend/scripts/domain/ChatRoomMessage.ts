@@ -5,7 +5,7 @@ export class ChatRoomMessage {
 
     chatRoomMessage.body = params['body'];
     chatRoomMessage.timestamp = new Date(params['timestamp']);
-    chatRoomMessage.getSenderName = params['sender']['name'];
+    chatRoomMessage.senderName = params['sender']['name'];
 
     return chatRoomMessage;
   }

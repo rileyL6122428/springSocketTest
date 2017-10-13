@@ -12,7 +12,8 @@ import { Room } from '../domain/Room';
 
       <ul>
         <li *ngFor="let message of room.getMessages()">
-        {{message.getBody()}}
+          <p>{{message.getBody()}}</p>
+          <p>{{message.getSenderName()}} {{message.getTimestamp()}}</p>
         </li>
       </ul>
     </section>
