@@ -6,10 +6,13 @@ import { Room } from '../domain/Room';
 
 @Component({
   template: `
-    <p>THIS IS THE CHAT ROOM COMPONENT</p>
-    <section *ngIf="!!room">
-      <h3 >{{room.getName()}}</h3>
+    <h1>{{room.getName()}}</h1>
+    <section id="message-submission">
+      <textarea [(ngModel)]="messageBody"></textarea>
+      <button (click)="sendChatMessage()">Submit</button>
+    </section>
 
+    <section *ngIf="!!room">
       <ul>
         <li *ngFor="let message of room.getMessages()">
           <p>{{message.getBody()}}</p>
@@ -23,19 +26,21 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   private subscriptions: Array<Subscription>;
   private room: Room;
+  private messageBody: string;
 
   constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(StompServiceFacade) private stompService: StompServiceFacade
   ) {
     this.subscriptions = new Array<Subscription>();
+    this.room = new Room();
   }
 
   ngOnInit(): void {
     let paramsSubsciption = this.route.params.subscribe((params) => {
       this.subscribeToRoomMessages(params);
-      debugger
       this.stompService.publish("/app/room/" + params['roomName'] + "/enter", {});
+      this.room.setName(params['roomName']);
     });
 
     this.subscriptions.push(paramsSubsciption);
@@ -50,14 +55,18 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, (messageBody: Object) => {
       this.handleRoomMessage(messageBody);
     });
+
     this.subscriptions.push(roomSubscription);
   }
 
   private handleRoomMessage(roomPOJO: Object): void {
-    debugger
     this.room = Room.fromPOJO(roomPOJO);
-    debugger
     console.log(roomPOJO);
   }
 
+  private sendChatMessage() {
+    console.log(this.messageBody);
+    this.stompService.publish("/app/room/" + this.room.getName() + "/send-message", {});
+    this.messageBody = "";
+  }
 }

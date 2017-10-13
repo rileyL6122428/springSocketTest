@@ -47,4 +47,8 @@ public class RoomController {
 		return joinRoomMessage;
 	}
 	
+	@MessageMapping("/room/{roomName}/send-message")
+	public void sendChatMessage(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
+		System.out.println("");
+	}
 }
