@@ -41,7 +41,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let paramsSubsciption = this.route.params.subscribe((params) => {
       this.subscribeToRoomMessages(params);
-      this.stompService.publish("/app/room/" + params['roomName'] + "/enter", {});
+      // this.stompService.publish("/app/room/" + params['roomName'] + "/enter", {});
       this.room.setName(params['roomName']);
     });
 
@@ -54,6 +54,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   private subscribeToRoomMessages(routeParams: Object): void {
     let roomSubscriptionUrl = "/topic/room/" + routeParams['roomName'];
+    // let roomSubscriptionUrl = "/app/room/" + routeParams['roomName'];
     let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, (messageBody: Object) => {
       this.handleRoomMessage(messageBody);
     });

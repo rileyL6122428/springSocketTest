@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 import l2k.demo.multiple.chats.domain.ChatRoomMessage;
@@ -28,6 +29,17 @@ public class RoomController {
 	
 	@Autowired
 	private SimpMessagingTemplate template;
+	
+	@SubscribeMapping("/room/{roomName}")
+	public void subscribeToRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
+		System.out.println(roomName);
+		System.out.println(sessionId);
+		User user = userService.getUser(sessionId);
+		ChatRoomMessage joinRoomMessage = newJoinRoomMessage(user);
+		roomMonitor.addMessageToRoom(roomName, joinRoomMessage);
+		Room room = roomMonitor.getRoom(roomName);
+		template.convertAndSend("/topic/room/" + roomName, room);
+	}
 	
 	@MessageMapping("/room/{roomName}/enter")
 	public void enterRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {

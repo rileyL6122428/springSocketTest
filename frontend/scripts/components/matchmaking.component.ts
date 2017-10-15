@@ -48,7 +48,6 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
     });
     this.subscriptions.push(matchmakingSubscription);
-    debugger
     this.stompService.publish("/app/matchmaking/enter", {});
   }
 
