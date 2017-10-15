@@ -47,9 +47,9 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
     });
-    this.stompService.publish("/app/matchmaking/enter", {});
-
     this.subscriptions.push(matchmakingSubscription);
+    debugger
+    this.stompService.publish("/app/matchmaking/enter", {});
   }
 
   ngOnDestroy(): void {
@@ -80,7 +80,7 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
 
   private joinChatRoom(roomName: string): void {
     this.http.post("/join-chat-room", { roomName: roomName }, {})
-    
+
       .subscribe((response) => {
         if(response.status === 200)
           this.joinRoom(response.json())
