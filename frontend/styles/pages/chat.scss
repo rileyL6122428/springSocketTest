@@ -1,0 +1,24 @@
+h1 {
+  height: 80px;
+  margin: 5px 0 25px;
+}
+
+section#chat-room {
+  height: calc(100% - 110px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  section#message-list, section#message-submission {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  section#message-list {
+    ul.message-list {
+      overflow: scroll;
+    }
+  }
+
+}

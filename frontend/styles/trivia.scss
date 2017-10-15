@@ -1,3 +1,2 @@
-p {
-  color: red;
-}
+@import './defaults.scss';
+@import 'pages/chat.scss';

@@ -7,18 +7,20 @@ import { Room } from '../domain/Room';
 @Component({
   template: `
     <h1>{{room.getName()}}</h1>
-    <section id="message-submission">
-      <textarea [(ngModel)]="messageBody"></textarea>
-      <button (click)="sendChatMessage()">Submit</button>
-    </section>
+    <section id="chat-room">
+      <section id="message-list" *ngIf="!!room">
+        <ul class="message-list" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+          <li *ngFor="let message of room.getMessages()">
+            <p>{{message.getBody()}}</p>
+            <p>{{message.getSenderName()}} {{message.getTimestamp()}}</p>
+          </li>
+        </ul>
+      </section>
 
-    <section *ngIf="!!room">
-      <ul>
-        <li *ngFor="let message of room.getMessages()">
-          <p>{{message.getBody()}}</p>
-          <p>{{message.getSenderName()}} {{message.getTimestamp()}}</p>
-        </li>
-      </ul>
+      <section id="message-submission">
+        <textarea [(ngModel)]="messageBody"></textarea>
+        <button (click)="sendChatMessage()">Submit</button>
+      </section>
     </section>
   `
 })
