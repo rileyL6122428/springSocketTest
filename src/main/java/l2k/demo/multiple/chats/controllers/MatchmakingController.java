@@ -62,37 +62,6 @@ public class MatchmakingController {
 		return getMatchmakingStats();
 	}
 	
-	@MessageMapping("/matchmaking/join-room")
-	public void joinRoom(JoinRoomRequest joinChatRequest, Principal principal) {
-		if(getRoomMonitor().roomIsFull(joinChatRequest.getRoomName()))
-			sendJoinRoomFailureResponse(joinChatRequest, principal);
-		else 
-			sendJoinRoomSuccessResponse(joinChatRequest, principal);
-	}
-	
-	private void sendJoinRoomFailureResponse(JoinRoomRequest joinChatRequest, Principal principal) {
-		String roomName = joinChatRequest.getRoomName();
-		
-		getRoomMonitor().addUserToRoom(roomName, principal);
-		
-		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
-		joinChatResponse.setRoom(null);
-		
-		template.convertAndSendToUser(principal.getName(), "/queue/matchmaking", joinChatResponse);
-	}
-	
-	private void sendJoinRoomSuccessResponse(JoinRoomRequest joinChatRequest, Principal principal) {
-		String roomName = joinChatRequest.getRoomName();
-		
-		getRoomMonitor().addUserToRoom(roomName, principal);
-		
-		JoinRoomResponse joinChatResponse = new JoinRoomResponse();
-		joinChatResponse.setRoom(getRoomMonitor().getRoom(roomName));
-		
-		template.convertAndSendToUser(principal.getName(), "/queue/matchmaking", joinChatResponse);
-		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
-	}
-	
 	@MessageMapping("/matchmaking/leave-room")
 	public void leaveRoom(LeaveRoomRequest leaveRoomRequest, Principal principal) {
 		Room room = leaveRoomRequest.getRoom();

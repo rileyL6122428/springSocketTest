@@ -32,21 +32,8 @@ public class RoomController {
 	
 	@SubscribeMapping("/room/{roomName}")
 	public void subscribeToRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
-		User user = userService.getUser(sessionId);
-		ChatRoomMessage joinRoomMessage = newJoinRoomMessage(user);
-		roomMonitor.addMessageToRoom(roomName, joinRoomMessage);
 		Room room = roomMonitor.getRoom(roomName);
 		template.convertAndSend("/topic/room/" + roomName, room);
-	}
-	
-	private ChatRoomMessage newJoinRoomMessage(User user) {
-		ChatRoomMessage joinRoomMessage = new ChatRoomMessage();
-		
-		joinRoomMessage.setSender(new Moderator());
-		joinRoomMessage.setBody(user.getName() + " joins the CHAT!");
-		joinRoomMessage.setTimestamp(new Date());
-		
-		return joinRoomMessage;
 	}
 	
 	@MessageMapping("/room/{roomName}/send-message")

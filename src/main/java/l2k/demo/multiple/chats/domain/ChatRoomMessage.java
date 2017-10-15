@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class ChatRoomMessage {
 	
-	private String body;
-	private Sender sender;
-	private Date timestamp;
+	protected String body;
+	protected Sender sender;
+	protected Date timestamp;
 
 	public String getBody() {
 		return body;

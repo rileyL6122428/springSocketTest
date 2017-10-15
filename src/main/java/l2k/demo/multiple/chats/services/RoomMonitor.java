@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import l2k.demo.multiple.chats.domain.ChatRoomMessage;
+import l2k.demo.multiple.chats.domain.JoinRoomMessage;
 import l2k.demo.multiple.chats.domain.Room;
+import l2k.demo.multiple.chats.domain.User;
 
 @Service
 public class RoomMonitor {
@@ -34,13 +36,14 @@ public class RoomMonitor {
 		return room.isFull();
 	}
 	
-	public void addUserToRoom(Room room, Principal user) {
+	public void addUserToRoom(Room room, User user) {
 		addUserToRoom(room.getName(), user);
 	}
 	
-	public void addUserToRoom(String roomName, Principal user) {
+	public void addUserToRoom(String roomName, User user) {
 		Room room = rooms.get(roomName);
 		room.addUser(user);
+		room.addMessage(new JoinRoomMessage(user));
 	}
 	
 	public void removeUserFromRoom(String roomName, Principal user) {
