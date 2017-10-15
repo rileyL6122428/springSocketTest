@@ -53,7 +53,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   private subscribeToRoomMessages(routeParams: Object): void {
     let roomSubscriptionUrl = "/topic/room/" + routeParams['roomName'];
-    // let roomSubscriptionUrl = "/app/room/" + routeParams['roomName'];
     let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, (messageBody: Object) => {
       this.handleRoomMessage(messageBody);
     });
