@@ -6,12 +6,17 @@ h1 {
 section#chat-room {
   height: calc(100% - 110px);
 
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: flex-end;
+
+  section#message-list, section#message-submission {
+    width: 400px;
+  }
 
   section#message-list {
-    height: 80%;
+    height: calc(100% - 65px);
     display: flex;
     justify-content: flex-end;
 
@@ -21,18 +26,26 @@ section#chat-room {
   }
 
   section#message-submission {
-    height: 20%;
+    height: 65px;
     display: flex;
     justify-content: flex-end;
 
     textarea {
+      width: calc(100% - 50px);
       color: #535e69;
       border-radius: 5px;
     }
 
     button {
+      height: 50px;
+      width: 50px;
+
       background: url('images/Send-Icon.png') no-repeat 0 0;
       background-size: contain;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 

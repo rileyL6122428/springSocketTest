@@ -19,7 +19,7 @@ import { Room } from '../domain/Room';
 
       <section id="message-submission">
         <textarea [(ngModel)]="messageBody"></textarea>
-        <button (click)="sendChatMessage()">Submit</button>
+        <button (click)="sendChatMessage()"></button>
       </section>
     </section>
   `
