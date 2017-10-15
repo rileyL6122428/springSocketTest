@@ -1,6 +1,6 @@
 package l2k.demo.multiple.chats.messages;
 
-public class SendChatMessageRequest {
+public class ChatMessageRequest {
 	
 	private String messageBody;
 

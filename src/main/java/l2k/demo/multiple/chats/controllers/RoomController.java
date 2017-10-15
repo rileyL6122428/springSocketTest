@@ -13,7 +13,7 @@ import l2k.demo.multiple.chats.domain.ChatRoomMessage;
 import l2k.demo.multiple.chats.domain.Moderator;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;
-import l2k.demo.multiple.chats.messages.SendChatMessageRequest;
+import l2k.demo.multiple.chats.messages.ChatMessageRequest;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
 
@@ -50,7 +50,7 @@ public class RoomController {
 	
 	@MessageMapping("/room/{roomName}/send-message")
 	public void sendChatMessage(
-			SendChatMessageRequest sendChatMessageRequest,
+			ChatMessageRequest sendChatMessageRequest,
 			@DestinationVariable String roomName, 
 			@Header("testHeader") String sessionId
 		) {
@@ -61,7 +61,7 @@ public class RoomController {
 		template.convertAndSend("/topic/room/" + roomName, roomMonitor.getRoom(roomName));
 	}
 	
-	private ChatRoomMessage newChatMessage(User user, SendChatMessageRequest sendChatMessageRequest) {
+	private ChatRoomMessage newChatMessage(User user, ChatMessageRequest sendChatMessageRequest) {
 		ChatRoomMessage chatMessage = new ChatRoomMessage();
 		
 		chatMessage.setSender(user);
