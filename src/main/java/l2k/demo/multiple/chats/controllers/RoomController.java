@@ -32,17 +32,6 @@ public class RoomController {
 	
 	@SubscribeMapping("/room/{roomName}")
 	public void subscribeToRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
-		System.out.println(roomName);
-		System.out.println(sessionId);
-		User user = userService.getUser(sessionId);
-		ChatRoomMessage joinRoomMessage = newJoinRoomMessage(user);
-		roomMonitor.addMessageToRoom(roomName, joinRoomMessage);
-		Room room = roomMonitor.getRoom(roomName);
-		template.convertAndSend("/topic/room/" + roomName, room);
-	}
-	
-	@MessageMapping("/room/{roomName}/enter")
-	public void enterRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
 		User user = userService.getUser(sessionId);
 		ChatRoomMessage joinRoomMessage = newJoinRoomMessage(user);
 		roomMonitor.addMessageToRoom(roomName, joinRoomMessage);
