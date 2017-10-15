@@ -35,6 +35,16 @@ module.exports = {
             { // sass / scss loader for webpack
               test: /\.(sass|scss)$/,
               loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+            },
+            {
+              test: /\.png$/,
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'src/main/webapp/images/',
+                useRelativePath: true
+              }
+              // loader: "file?name=[path][name].[ext]"
             }
         ]
     },

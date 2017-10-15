@@ -1,6 +1,6 @@
 import { StompConfig } from '@stomp/ng2-stompjs';
 import  { Chance } from 'chance';
-debugger
+
 export const STOMP_CONFIG: StompConfig = {
   url: 'ws://localhost:8090/matchmaking/websocket',
 

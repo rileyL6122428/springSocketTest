@@ -10,14 +10,29 @@ section#chat-room {
   flex-direction: column;
   justify-content: flex-end;
 
-  section#message-list, section#message-submission {
+  section#message-list {
+    height: 80%;
     display: flex;
     justify-content: flex-end;
-  }
 
-  section#message-list {
     ul.message-list {
       overflow: scroll;
+    }
+  }
+
+  section#message-submission {
+    height: 20%;
+    display: flex;
+    justify-content: flex-end;
+
+    textarea {
+      color: #535e69;
+      border-radius: 5px;
+    }
+
+    button {
+      background: url('images/Send-Icon.png') no-repeat 0 0;
+      background-size: contain;
     }
   }
 
