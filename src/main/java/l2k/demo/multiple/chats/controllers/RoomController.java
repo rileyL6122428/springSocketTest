@@ -54,7 +54,20 @@ public class RoomController {
 			@DestinationVariable String roomName, 
 			@Header("testHeader") String sessionId
 		) {
+		User user = userService.getUser(sessionId);
+		ChatRoomMessage chatRoomMessage = newChatMessage(user, sendChatMessageRequest);
+		roomMonitor.addMessageToRoom(roomName, chatRoomMessage);
 		
-		System.out.println(sendChatMessageRequest.getMessageBody());
+		template.convertAndSend("/topic/room/" + roomName, roomMonitor.getRoom(roomName));
+	}
+	
+	private ChatRoomMessage newChatMessage(User user, SendChatMessageRequest sendChatMessageRequest) {
+		ChatRoomMessage chatMessage = new ChatRoomMessage();
+		
+		chatMessage.setSender(user);
+		chatMessage.setBody(sendChatMessageRequest.getMessageBody());
+		chatMessage.setTimestamp(new Date());
+		
+		return chatMessage;
 	}
 }
