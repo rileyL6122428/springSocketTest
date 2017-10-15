@@ -16,13 +16,12 @@ import l2k.demo.multiple.chats.services.UserService;
 @EnableWebSocketMessageBroker
 public class App extends AbstractWebSocketMessageBrokerConfigurer {
 	
-	@Autowired
-	private UserService userService;
-	
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
 	
+	@Autowired
+	private UserService userService;
 
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/matchmaking").setAllowedOrigins("*").withSockJS();

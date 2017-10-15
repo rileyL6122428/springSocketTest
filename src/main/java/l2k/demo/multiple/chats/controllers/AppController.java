@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,13 +30,20 @@ public class AppController {
 	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView registerWithApp(HttpServletRequest request, HttpServletResponse response) {
-		User user = newAnonymousUser();
-		userService.addUser(user);
-		addSessionIdToCookies(user, response);
+	public ModelAndView registerWithApp(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
+		if(!isCurrentUser(sessionId)) {
+			User user = newAnonymousUser();
+			userService.addUser(user);
+			addSessionIdToCookies(user, response);			
+		} 
+		
 		return new ModelAndView("trivia-client.html");
 	}
 	
+	private boolean isCurrentUser(String sessionId) {
+		return sessionId != null && userService.getUser(sessionId) != null;
+	}
+
 	private User newAnonymousUser() {
 		User user = new User();
 		

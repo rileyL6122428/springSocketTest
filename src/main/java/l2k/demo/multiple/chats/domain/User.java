@@ -1,6 +1,7 @@
 package l2k.demo.multiple.chats.domain;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,6 +11,7 @@ public class User implements Principal, Sender {
 	
 	private String name;
 	private UUID sessionId;
+	private Date mostRecentInteraction;
 
 	public String getName() {
 		return name;
@@ -29,6 +31,14 @@ public class User implements Principal, Sender {
 
 	public void setSessionId(UUID sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public Date getMostRecentInteraction() {
+		return mostRecentInteraction;
+	}
+
+	public void setMostRecentInteraction(Date mostRecentInteraction) {
+		this.mostRecentInteraction = mostRecentInteraction;
 	}
 	
 }

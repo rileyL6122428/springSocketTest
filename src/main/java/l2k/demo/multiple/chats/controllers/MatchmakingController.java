@@ -36,9 +36,9 @@ public class MatchmakingController {
 	private RoomMonitor roomMonitor;
 	
 	@PostMapping(value="/join-chat-room")
-	public ResponseEntity<JoinRoomResponse> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionIdString) {
+	public ResponseEntity<JoinRoomResponse> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId) {
 		ResponseEntity<JoinRoomResponse> responseEntity;
-		User user = userService.getUser(sessionIdString);
+		User user = userService.getUser(sessionId);
 		
 		if(userCanJoinRoom(user, joinRoomRequest)) {
 			roomMonitor.addUserToRoom(joinRoomRequest.getRoomName(), user);
