@@ -7,6 +7,14 @@ public class ChatRoomMessage {
 	protected String body;
 	protected Sender sender;
 	protected Date timestamp;
+	
+	public ChatRoomMessage() {}
+	
+	public ChatRoomMessage(User user, String body) {
+		setSender(user);
+		setBody(body);
+		setTimestamp(new Date());
+	}
 
 	public String getBody() {
 		return body;

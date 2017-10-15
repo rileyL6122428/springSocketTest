@@ -1,7 +1,5 @@
 package l2k.demo.multiple.chats.controllers;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
@@ -11,7 +9,6 @@ import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 import l2k.demo.multiple.chats.domain.ChatRoomMessage;
-import l2k.demo.multiple.chats.domain.Moderator;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;
 import l2k.demo.multiple.chats.messages.ChatMessageRequest;
@@ -43,19 +40,10 @@ public class RoomController {
 			@Header("testHeader") String sessionId
 		) {
 		User user = userService.getUser(sessionId);
-		ChatRoomMessage chatRoomMessage = newChatMessage(user, sendChatMessageRequest);
+		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, sendChatMessageRequest.getMessageBody());
 		roomMonitor.addMessageToRoom(roomName, chatRoomMessage);
 		
 		template.convertAndSend("/topic/room/" + roomName, roomMonitor.getRoom(roomName));
 	}
 	
-	private ChatRoomMessage newChatMessage(User user, ChatMessageRequest sendChatMessageRequest) {
-		ChatRoomMessage chatMessage = new ChatRoomMessage();
-		
-		chatMessage.setSender(user);
-		chatMessage.setBody(sendChatMessageRequest.getMessageBody());
-		chatMessage.setTimestamp(new Date());
-		
-		return chatMessage;
-	}
 }
