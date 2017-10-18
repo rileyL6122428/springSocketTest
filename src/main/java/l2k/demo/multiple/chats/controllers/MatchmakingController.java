@@ -5,9 +5,12 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +38,20 @@ public class MatchmakingController {
 	@Autowired
 	private RoomMonitor roomMonitor;
 	
+	@SubscribeMapping("/matchmaking")
+	public void subscribeToRoom() {
+		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
+	}
+	
+	private MatchmakingStats getMatchmakingStats() {
+		MatchmakingStats stats = new MatchmakingStats();
+		
+		stats.setUserTotal(userService.getTotalUsers());
+		stats.setRooms(getRoomMonitor().getRooms());
+		
+		return stats;
+	}
+	
 	@PostMapping(value="/join-chat-room")
 	public ResponseEntity<JoinRoomResponse> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId) {
 		ResponseEntity<JoinRoomResponse> responseEntity;
@@ -56,28 +73,6 @@ public class MatchmakingController {
 		return user != null && !roomMonitor.roomIsFull(joinRoomRequest.getRoomName());
 	}
 	
-	@MessageMapping("/matchmaking/enter")
-	@SendTo("/topic/matchmaking")
-	public MatchmakingStats addUserToMatchmakingQueue(JoinRoomRequest joinChatRequest) {
-		return getMatchmakingStats();
-	}
-	
-	@MessageMapping("/matchmaking/leave-room")
-	public void leaveRoom(LeaveRoomRequest leaveRoomRequest, Principal principal) {
-		Room room = leaveRoomRequest.getRoom();
-		getRoomMonitor().removeUserFromRoom(room.getName(), principal);
-		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
-	}
-	
-	private MatchmakingStats getMatchmakingStats() {
-		MatchmakingStats stats = new MatchmakingStats();
-		
-		stats.setUserTotal(userService.getTotalUsers());
-		stats.setRooms(getRoomMonitor().getRooms());
-		
-		return stats;
-	}
-
 	public RoomMonitor getRoomMonitor() {
 		return roomMonitor;
 	}

@@ -47,8 +47,8 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
     });
+    
     this.subscriptions.push(matchmakingSubscription);
-    this.stompService.publish("/app/matchmaking/enter", {});
   }
 
   ngOnDestroy(): void {
