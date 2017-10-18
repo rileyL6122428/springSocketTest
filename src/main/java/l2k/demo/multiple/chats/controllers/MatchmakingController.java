@@ -21,7 +21,6 @@ import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;
 import l2k.demo.multiple.chats.messages.JoinRoomRequest;
 import l2k.demo.multiple.chats.messages.JoinRoomResponse;
-import l2k.demo.multiple.chats.messages.LeaveRoomRequest;
 import l2k.demo.multiple.chats.messages.MatchmakingStats;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
