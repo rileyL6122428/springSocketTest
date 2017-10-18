@@ -1,6 +1,6 @@
 import 'zone.js';
 import 'reflect-metadata';
-import { NgModule } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router'
@@ -12,6 +12,7 @@ import { ChatRoomComponent } from './components/chat-room.component';
 import { TriviaAppComponent } from './trivia-app-component';
 import { StompModule } from './stomp-module/stomp.module';
 import { CookieService } from 'angular2-cookie/services/cookies.service'
+import { UserService } from './services/user.service'
 
 
 @NgModule({
@@ -36,7 +37,21 @@ import { CookieService } from 'angular2-cookie/services/cookies.service'
   bootstrap:    [ TriviaAppComponent ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    CookieService
+    CookieService,
+    UserService
   ]
 })
-export class TriviaAppModule { }
+export class TriviaAppModule {
+
+  constructor(
+    @Inject(Http) http: Http,
+    @Inject(UserService) userService: UserService
+  ) {
+    console.log(http);
+    console.log(userService);
+    debugger
+    console.log(http);
+    console.log(userService);
+  }
+
+}
