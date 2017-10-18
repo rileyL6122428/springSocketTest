@@ -47,11 +47,11 @@ export class TriviaAppModule {
     @Inject(Http) http: Http,
     @Inject(UserService) userService: UserService
   ) {
-    console.log(http);
-    console.log(userService);
-    debugger
-    console.log(http);
-    console.log(userService);
+
+    http.get("/user").subscribe((response: Object) => {
+      debugger
+      console.log(response);
+    });
   }
 
 }
