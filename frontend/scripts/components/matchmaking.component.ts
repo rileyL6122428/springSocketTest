@@ -22,7 +22,7 @@ import { User } from '../domain/User';
       <section id="rooms">
         <h4>Rooms</h4>
 
-        <ul *ngIf="!selectedRoom">
+        <ul>
           <li *ngFor="let room of rooms" [ngClass]="'sup'">
             <p>{{room.getName()}}<p>
             <p>Number of participants: {{room.getTotalNumberOfUsers()}}</p>
@@ -36,7 +36,6 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
 
   private unplacedUsersCount: number;
   private rooms: Array<Room>;
-  private selectedRoom: Room;
   private user: User;
   private subscriptions: Array<Subscription>;
 
