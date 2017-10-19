@@ -5,10 +5,16 @@ import { Room } from '../domain/Room';
 import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs/Subscription';
 import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
-import { CookieService } from 'angular2-cookie/services/cookies.service'
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { UserService } from '../services/user.service';
+import { User } from '../domain/User';
 
 @Component({
   template: `
+    <section id="user-welcome">
+      <p>Welcome {{user.getName()}}</p>
+    </section>
+
       <section id="unplaced-users">
         <p>{{unplacedUsersCount}} people waiting</p>
       </section>
@@ -31,13 +37,15 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   private unplacedUsersCount: number;
   private rooms: Array<Room>;
   private selectedRoom: Room;
+  private user: User;
   private subscriptions: Array<Subscription>;
 
   constructor(
     @Inject(StompServiceFacade) private stompService: StompServiceFacade,
     @Inject(Http) private http: Http,
     @Inject(Router) private router: Router,
-    @Inject(CookieService) private cookieService: CookieService
+    @Inject(CookieService) private cookieService: CookieService,
+    @Inject(UserService) private userService: UserService
   ) {
     this.subscriptions = new Array<Subscription>();
   }
@@ -47,8 +55,13 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
       this.setRooms(messageBody);
       this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
     });
-    
+
     this.subscriptions.push(matchmakingSubscription);
+
+    this.http.get("/user").subscribe((response: Object) => {
+      debugger
+      console.log(response);
+    });
   }
 
   ngOnDestroy(): void {
