@@ -41,17 +41,4 @@ import { UserService } from './services/user.service'
     UserService
   ]
 })
-export class TriviaAppModule {
-
-  constructor(
-    @Inject(Http) http: Http,
-    @Inject(UserService) userService: UserService
-  ) {
-
-    http.get("/user").subscribe((response: Object) => {
-      debugger
-      console.log(response);
-    });
-  }
-
-}
+export class TriviaAppModule { }

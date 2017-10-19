@@ -1,7 +1,12 @@
 export class User {
 
+  static fromPOJO(userPOJO: Object): User {
+    let user: User = new User();
+    user.setName(userPOJO['name']);
+    return user;
+  }
+
   private name: string;
-  private sessionId: string;
 
   public getName(): string {
     return this.name;
@@ -9,14 +14,6 @@ export class User {
 
   public setName(name: string): void {
     this.name = name;
-  }
-
-  public getSessionId(): string {
-    return this.sessionId;
-  }
-
-  public setSessionId(sessionId: string): void {
-    this.sessionId = sessionId;
   }
 
 }

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(value = { "sessionId" })
+@JsonIgnoreProperties(value = { "sessionId", "mostRecentInteraction" })
 public class User implements Principal, Sender {
 	
 	private String name;

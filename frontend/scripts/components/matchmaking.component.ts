@@ -11,7 +11,7 @@ import { User } from '../domain/User';
 
 @Component({
   template: `
-    <section id="user-welcome">
+    <section id="user-welcome" *ngIf="user">
       <p>Welcome {{user.getName()}}</p>
     </section>
 
@@ -46,26 +46,32 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     @Inject(Router) private router: Router,
     @Inject(CookieService) private cookieService: CookieService,
     @Inject(UserService) private userService: UserService
-  ) {
-    this.subscriptions = new Array<Subscription>();
-  }
+  ) { }
 
   ngOnInit(): void {
-    let matchmakingSubscription = this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
-      this.setRooms(messageBody);
-      this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
-    });
-
-    this.subscriptions.push(matchmakingSubscription);
-
-    this.http.get("/user").subscribe((response: Object) => {
-      debugger
-      console.log(response);
-    });
+    this.subscriptions = [
+      this.subscribeToMatchmaking(),
+      this.getUser()
+    ];
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach( subscription => subscription.unsubscribe());
+    this.subscriptions.forEach( subscription => subscription.unsubscribe() );
+  }
+
+  private subscribeToMatchmaking(): Subscription {
+    return this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
+      this.setRooms(messageBody);
+      this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
+    });
+  }
+
+  private getUser(): Subscription {
+    return this.http.get("/user").subscribe((response) => {
+      let user = User.fromPOJO(response.json());
+      this.user = user;
+      this.userService.storeUser(user);
+    });
   }
 
   private setRooms(messageBody: Object): void {
