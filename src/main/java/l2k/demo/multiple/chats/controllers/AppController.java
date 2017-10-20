@@ -3,15 +3,15 @@ package l2k.demo.multiple.chats.controllers;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import l2k.demo.multiple.chats.domain.User;
 import l2k.demo.multiple.chats.services.NameGenerator;
@@ -28,9 +28,25 @@ public class AppController {
 	@Autowired
 	private NameGenerator nameGenerator;
 	
+	@GetMapping(value = "/")
+	public ModelAndView getWelcomeClient() {
+		return new ModelAndView("welcome.html");
+	}
+	
+	@PostMapping(value="/join-matchmaking")
+	public RedirectView joinMatchmaking(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
+		if(!isCurrentUser(sessionId)) {
+			User user = newAnonymousUser();
+			userService.addUser(user);
+			addSessionIdToCookies(user, response);			
+		} 
+		
+		return new RedirectView("trivia");
+	}
+	
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView registerWithApp(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
+	@GetMapping(value = "/trivia")
+	public ModelAndView getTriviaClient(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
 		if(!isCurrentUser(sessionId)) {
 			User user = newAnonymousUser();
 			userService.addUser(user);
