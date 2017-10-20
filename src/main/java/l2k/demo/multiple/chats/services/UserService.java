@@ -4,17 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import l2k.demo.multiple.chats.domain.User;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	private NameGenerator nameGenerator;
 
-private Map<UUID, User> sessionToUsers;
+	private Map<UUID, User> sessionToUsers;
 	
 	{
 		sessionToUsers = new HashMap<UUID, User>();
+	}
+	
+	public User addNewAnonymousUser() {
+		User user = new User();
+		
+		user.setSessionId(UUID.randomUUID());
+		user.setName(nameGenerator.getName());
+		
+		sessionToUsers.put(user.getSessionId(), user);
+		
+		return user;
 	}
 	
 	public void addUser(User user) {
@@ -37,7 +52,5 @@ private Map<UUID, User> sessionToUsers;
 	public int getTotalUsers() {
 		return sessionToUsers.size();
 	}
-	
-	
 	
 }
