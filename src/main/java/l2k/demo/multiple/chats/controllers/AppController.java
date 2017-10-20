@@ -46,11 +46,9 @@ public class AppController {
 	
 
 	@GetMapping(value = "/trivia")
-	public ModelAndView getTriviaClient(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
+	public Object getTriviaClient(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
 		if(!isCurrentUser(sessionId)) {
-			User user = newAnonymousUser();
-			userService.addUser(user);
-			addSessionIdToCookies(user, response);			
+			return new RedirectView("/");			
 		} 
 		
 		return new ModelAndView("trivia-client.html");

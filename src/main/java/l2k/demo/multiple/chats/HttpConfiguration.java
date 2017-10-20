@@ -2,23 +2,21 @@ package l2k.demo.multiple.chats;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import l2k.demo.multiple.chats.interceptor.MyInterceptor;
-import l2k.demo.multiple.chats.services.UserService;
+import l2k.demo.multiple.chats.interceptor.AuthenticationInterceptor;
 
 @Configuration
-public class HttpConfig extends WebMvcConfigurerAdapter {
+public class HttpConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Autowired
-	private UserService userService;
+	private HandlerInterceptor authenticationInterceptor;
 	
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry
-			.addInterceptor(new MyInterceptor(){{
-				setUserService(userService);
-			}})
+			.addInterceptor(authenticationInterceptor)
 			.addPathPatterns("/trivia");
 	}
 	

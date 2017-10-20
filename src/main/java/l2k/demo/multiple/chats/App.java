@@ -5,13 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 import l2k.demo.multiple.chats.channelinterceptor.MyChannelInterceptor;
-import l2k.demo.multiple.chats.interceptor.MyInterceptor;
 import l2k.demo.multiple.chats.services.UserService;
 
 @SpringBootApplication
@@ -39,14 +37,5 @@ public class App extends AbstractWebSocketMessageBrokerConfigurer {
 		registry.enableSimpleBroker("/topic", "/queue");
 		registry.setApplicationDestinationPrefixes("/app", "/topic");
 	}
-	
-	
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry
-//			.addInterceptor(new MyInterceptor(){{
-//				setUserService(userService);
-//			}})
-//			.addPathPatterns("/trivia");
-//	}
 
 }
