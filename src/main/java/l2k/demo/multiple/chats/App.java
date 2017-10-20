@@ -23,16 +23,19 @@ public class App extends AbstractWebSocketMessageBrokerConfigurer {
 	@Autowired
 	private UserService userService;
 
+	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/matchmaking").setAllowedOrigins("*").withSockJS();
 	}
 	
+	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		registration.setInterceptors(new MyChannelInterceptor(){{
 			setUserService(userService);
 		}});
 	}
 	
+	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {	
 		registry.enableSimpleBroker("/topic", "/queue");
 		registry.setApplicationDestinationPrefixes("/app", "/topic");
