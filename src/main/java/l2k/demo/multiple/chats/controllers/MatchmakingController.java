@@ -31,17 +31,17 @@ public class MatchmakingController {
 	private RoomMonitor roomMonitor;
 	
 	@SubscribeMapping("/matchmaking")
-	public void subscribeToRoom() {
-		template.convertAndSend("/topic/matchmaking", getMatchmakingStats());
+	public void subscribeToMatchmaking() {
+		emitMatchmakingStats();
 	}
 	
-	private MatchmakingStats getMatchmakingStats() {
+	private void emitMatchmakingStats() {
 		MatchmakingStats stats = new MatchmakingStats();
 		
 		stats.setUserTotal(userService.getTotalUsers());
 		stats.setRooms(getRoomMonitor().getRooms());
 		
-		return stats;
+		template.convertAndSend("/topic/matchmaking", stats);
 	}
 	
 	@PostMapping(value="/join-chat-room")
@@ -53,6 +53,7 @@ public class MatchmakingController {
 			roomMonitor.addUserToRoom(joinRoomRequest.getRoomName(), user);
 			Room targetRoom = roomMonitor.getRoom(joinRoomRequest.getRoomName());
 			responseEntity = new ResponseEntity<JoinRoomResponse>(JoinRoomResponse.successResponse(targetRoom), HttpStatus.OK);
+			emitMatchmakingStats();
 			
 		} else {
 			responseEntity = new ResponseEntity<JoinRoomResponse>(JoinRoomResponse.failureResponse(), HttpStatus.FORBIDDEN);
