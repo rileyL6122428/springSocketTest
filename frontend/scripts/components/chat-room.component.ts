@@ -62,7 +62,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   private getRoom(): void {
     let getRoomSubscription:Subscription = this.http.get(this.getRoomEndpoint())
       .subscribe((response) => {
-        debugger
         if(response.status === 200) {
           let roomPOJO = response.json();
           this.room = Room.fromPOJO(roomPOJO);

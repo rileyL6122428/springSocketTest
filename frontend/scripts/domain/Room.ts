@@ -1,4 +1,5 @@
 import { ChatRoomMessage } from './ChatRoomMessage';
+import { User } from './User';
 
 export class Room {
 
@@ -9,6 +10,7 @@ export class Room {
     room.maxNumberOfUsers = pojo['maxNumberOfUsers'];
     room.totalNumberOfUsers = pojo['totalNumberOfUsers'];
     room.messages = Room.messagesFromPOJOList(pojo['messages']);
+    room.users = Room.usersFromPOJOList(pojo['users']);
 
     return room;
   }
@@ -23,10 +25,22 @@ export class Room {
     return messages;
   }
 
+  private static usersFromPOJOList(usersMap: Object): Array<User> {
+    let users = new Array<User>();
+
+    for(let name in usersMap) {
+      let userPOJO: Object = usersMap[name];
+      users.push(User.fromPOJO(userPOJO));
+    }
+
+    return users;
+  }
+
   private name: string;
   private maxNumberOfUsers: number;
   private totalNumberOfUsers: number;
   private messages: Array<ChatRoomMessage>;
+  private users: Array<User>;
 
   public setName(name: string): void {
     this.name = name;

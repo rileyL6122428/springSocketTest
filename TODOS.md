@@ -11,7 +11,7 @@
   * Show all users names in the chat
 
 - [x] emit matchmaking stats on person joining room
-- [ ] remove all race conditions from subscriptions
+- [x] remove all race conditions from subscriptions
 
 
 ## Styling Phase
