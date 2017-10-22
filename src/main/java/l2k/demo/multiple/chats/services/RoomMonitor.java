@@ -46,7 +46,7 @@ public class RoomMonitor {
 		room.addMessage(new JoinRoomMessage(user));
 	}
 	
-	public void removeUserFromRoom(String roomName, Principal user) {
+	public void removeUserFromRoom(String roomName, User user) {
 		Room room = rooms.get(roomName);
 		room.removeUser(user);
 	}

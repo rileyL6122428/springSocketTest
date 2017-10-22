@@ -1,4 +1,4 @@
-package l2k.demo.multiple.chats.controllers.messages;
+package l2k.demo.multiple.chats.controllers.wsmessages;
 
 import java.util.Map;
 

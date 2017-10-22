@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import l2k.demo.multiple.chats.controllers.messages.ChatMessageRequest;
 import l2k.demo.multiple.chats.controllers.response.LeaveRoomResponse;
+import l2k.demo.multiple.chats.controllers.wsmessages.ChatMessageRequest;
 import l2k.demo.multiple.chats.domain.ChatRoomMessage;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;

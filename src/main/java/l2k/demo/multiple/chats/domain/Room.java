@@ -1,6 +1,5 @@
 package l2k.demo.multiple.chats.domain;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -10,18 +9,17 @@ public class Room {
 	private static final int MAXIMUM_NUMBER_OF_PERSISTED_MESSAGES = 75;
 	
 	private String name;
-	private Map<String, Principal> users;
+	private Map<String, User> users;
 	private int maxNumberOfUsers;
-	
 	private LinkedList<ChatRoomMessage> messages;
 	
 	{
-		setUsers(new HashMap<String, Principal>());
+		setUsers(new HashMap<String, User>());
 		setMessages(new LinkedList<ChatRoomMessage>());
 	}
 	
 	public boolean isFull() {
-		return getUsers().size() >= maxNumberOfUsers;
+		return users.size() >= maxNumberOfUsers;
 	}
 	
 	public void addMessage(ChatRoomMessage message) {
@@ -29,23 +27,24 @@ public class Room {
 			getMessages().removeFirst();
 		}
 		
-		getMessages().addLast(message);
+		messages.addLast(message);
 	}
 	
-	public void addUser(Principal user) {
-		getUsers().put(user.getName(), user);
+	public void addUser(User user) {
+		users.put(user.getName(), user);
 	}
 	
 	public boolean contains(User user) {
-		return getUsers().get(user.getName()) != null;
+		return users.get(user.getName()) != null;
 	}
 	
 	public int getTotalNumberOfUsers() {
-		return getUsers().size();
+		return users.size();
 	}
 	
-	public void removeUser(Principal user) {
-		getUsers().remove(user.getName());
+	public void removeUser(User user) {
+		messages.add(new LeaveRoomMessage(user));
+		users.remove(user.getName());
 	}
 
 	public String getName() {
@@ -72,11 +71,11 @@ public class Room {
 		this.messages = messages;
 	}
 
-	public Map<String, Principal> getUsers() {
+	public Map<String, User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Map<String, Principal> users) {
+	public void setUsers(Map<String, User> users) {
 		this.users = users;
 	}
 	

@@ -97,7 +97,7 @@ public class MatchmakingControllerTest {
 				fullRoom = new Room();
 				fullRoom.setMaxNumberOfUsers(1);
 				fullRoom.setName("TEST_ROOM");
-				fullRoom.addUser(newUserWithName("TEST_USER"));
+//				fullRoom.addUser(newUserWithName("TEST_USER"));
 				
 				matchmakingController.setRoomMonitor(new RoomMonitor() {{
 					addRoom(fullRoom);
