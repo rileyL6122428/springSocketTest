@@ -5,7 +5,6 @@ import { Room } from '../domain/Room';
 import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs/Subscription';
 import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UserService } from '../services/user.service';
 import { User } from '../domain/User';
 
@@ -43,7 +42,6 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     @Inject(StompServiceFacade) private stompService: StompServiceFacade,
     @Inject(Http) private http: Http,
     @Inject(Router) private router: Router,
-    @Inject(CookieService) private cookieService: CookieService,
     @Inject(UserService) private userService: UserService
   ) { }
 
