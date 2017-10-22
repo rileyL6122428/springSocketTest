@@ -8,6 +8,9 @@
   * actually leave room
   * send message in room for leaving chat
   * Show all users names in the chat
+
+- [ ] emit matchmaking stats on person joining room
+
 - [ ] decent styling (for just chat)
 - [ ] Unit test
 - [ ] Refactor

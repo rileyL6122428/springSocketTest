@@ -2,7 +2,8 @@ import { StompConfig } from '@stomp/ng2-stompjs';
 import  { Chance } from 'chance';
 
 export const stompConfig: StompConfig = {
-  url: 'ws://localhost:8090/matchmaking/websocket',
+  // url: 'ws://localhost:8090/matchmaking/websocket',
+  url: 'ws://192.168.0.7:8090/matchmaking/websocket',
   headers: {
     username: new Chance().name()
   },
