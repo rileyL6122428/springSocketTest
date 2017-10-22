@@ -62,4 +62,8 @@ export class Room {
     return this.messages;
   }
 
+  public getUsers():  Array<User> {
+    return this.users;
+  }
+
 }

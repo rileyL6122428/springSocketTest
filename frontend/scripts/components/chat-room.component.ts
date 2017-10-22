@@ -12,6 +12,14 @@ import { Router } from '@angular/router';
 
     <button (click)="leaveRoom()">Leave Room</button>
 
+    <section id="participant-details">
+      <ul>
+        <li *ngFor="let user of room.getUsers()">
+          {{user.getName()}}
+        </li>
+      </ul>
+    </section>
+
     <section id="chat-room">
       <section id="message-list" *ngIf="!!room">
         <ul class="message-list" #scrollMe [scrollTop]="scrollMe.scrollHeight">
