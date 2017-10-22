@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -32,6 +33,24 @@ public class RoomController {
 	
 	@Autowired
 	private SimpMessagingTemplate template;
+	
+	@GetMapping("/room/{roomName}")
+	public ResponseEntity<Room> getRoom(
+			@PathVariable String roomName,
+			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId
+		) {
+		ResponseEntity<Room> responseEntity; 
+		User user = userService.getUser(sessionId);
+		
+		if(roomMonitor.userIsInRoom(roomName, user)) {
+			Room room = roomMonitor.getRoom(roomName);
+			responseEntity = new ResponseEntity<Room>(room, HttpStatus.OK);
+		} else {
+			responseEntity = new ResponseEntity<Room>(HttpStatus.FORBIDDEN);
+		}
+		
+		return responseEntity;
+	}
 	
 	@SubscribeMapping("/room/{roomName}")
 	public void subscribeToRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {

@@ -76,5 +76,10 @@ public class RoomMonitor {
 		return rooms.get(roomName);
 	}
 
+	public boolean userIsInRoom(String roomName, User user) {
+		Room room = rooms.get(roomName);
+		return room != null && user != null && room.contains(user);
+	}
+
 	
 }

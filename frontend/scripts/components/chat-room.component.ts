@@ -49,6 +49,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     let paramsSubsciption = this.route.params.subscribe((params) => {
       this.subscribeToRoomMessages(params);
       this.room.setName(params['roomName']);
+      this.getRoom();
     });
 
     this.subscriptions.push(paramsSubsciption);
@@ -56,6 +57,23 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription =>  subscription.unsubscribe());
+  }
+
+  private getRoom(): void {
+    let getRoomSubscription:Subscription = this.http.get(this.getRoomEndpoint())
+      .subscribe((response) => {
+        debugger
+        if(response.status === 200) {
+          let roomPOJO = response.json();
+          this.room = Room.fromPOJO(roomPOJO);
+        }
+      });
+
+      this.subscriptions.push(getRoomSubscription);
+  }
+
+  private getRoomEndpoint(): string {
+    return "/room/" + this.room.getName();
   }
 
   private subscribeToRoomMessages(routeParams: Object): void {
@@ -78,7 +96,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     return "/app/room/" + this.room.getName() + "/send-message";
   }
 
-  private leaveRoom() {
+  private leaveRoom(): void {
     let leaveRoomSubscription = this.http.post('/room/' + this.room.getName() + "/leave", {})
       .subscribe((response: Object) => {
         if(response['status'] === 200) {
