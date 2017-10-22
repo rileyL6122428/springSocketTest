@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-import { Room } from '../domain/Room';
 import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs/Subscription';
 import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 import { UserService } from '../services/user.service';
+import { Room } from '../domain/Room';
 import { User } from '../domain/User';
 
 @Component({
