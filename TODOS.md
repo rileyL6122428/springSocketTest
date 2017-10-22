@@ -5,11 +5,13 @@
 - [x] Show name on matchmaking
 
 - [ ] leave room
-  * actually leave room
-  * send message in room for leaving chat
+  *actually leave room*
+  *send message in room for leaving chat*
   * Show all users names in the chat
 
-- [ ] emit matchmaking stats on person joining room
+- [x] emit matchmaking stats on person joining room
+- [ ] remove all race conditions from subscriptions
+    (https://stackoverflow.com/questions/42040822/spring-web-socket-messaging-subscribe-and-send-initial-message)
 
 - [ ] decent styling (for just chat)
 - [ ] Unit test
