@@ -5,10 +5,10 @@
 - [x] Prevent HTML caching
 - [x] Show name on matchmaking
 
-- [ ] leave room
+- [x] leave room
   *actually leave room*
   *send message in room for leaving chat*
-  * Show all users names in the chat
+  *Show all users names in the chat*
 
 - [x] emit matchmaking stats on person joining room
 - [x] remove all race conditions from subscriptions
