@@ -7,6 +7,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -36,12 +37,21 @@ public class MatchmakingController {
 	}
 	
 	private void emitMatchmakingStats() {
+		template.convertAndSend("/topic/matchmaking", buildMatchmakingStats());
+	}
+	
+	private MatchmakingStats buildMatchmakingStats() {
 		MatchmakingStats stats = new MatchmakingStats();
 		
 		stats.setUserTotal(userService.getTotalUsers());
 		stats.setRooms(getRoomMonitor().getRooms());
 		
-		template.convertAndSend("/topic/matchmaking", stats);
+		return stats;
+	}
+	
+	@GetMapping(value="/matchmaking/stats")
+	public ResponseEntity<MatchmakingStats> getMatchmakingStats() {
+		return new ResponseEntity<MatchmakingStats>(buildMatchmakingStats(), HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/join-chat-room")

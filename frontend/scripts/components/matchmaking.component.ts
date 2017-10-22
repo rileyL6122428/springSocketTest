@@ -49,8 +49,9 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions = [
-      this.subscribeToMatchmaking(),
-      this.getUser()
+      this.getMatchmakingStats(),
+      this.getUser(),
+      this.subscribeToMatchmaking()
     ];
   }
 
@@ -60,17 +61,29 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
 
   private subscribeToMatchmaking(): Subscription {
     return this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
-      this.setRooms(messageBody);
-      this.unplacedUsersCount = messageBody['userTotal'] - this.placedUserTotal();
+      this.setMatchmakingStats(messageBody);
+    });
+  }
+
+  private getMatchmakingStats(): Subscription {
+    return this.http.get("/matchmaking/stats").subscribe((response) => {
+      let responseBody: Object =  response.json();
+      this.setMatchmakingStats(responseBody);
     });
   }
 
   private getUser(): Subscription {
     return this.http.get("/user").subscribe((response) => {
-      let user = User.fromPOJO(response.json());
+      let userPOJO: Object = response.json();
+      let user: User = User.fromPOJO(userPOJO);
       this.user = user;
       this.userService.storeUser(user);
     });
+  }
+
+  private setMatchmakingStats(responseBody: Object): void {
+    this.setRooms(responseBody);
+    this.unplacedUsersCount = responseBody['userTotal'] - this.placedUserTotal();
   }
 
   private setRooms(messageBody: Object): void {
