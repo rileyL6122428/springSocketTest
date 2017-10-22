@@ -1,6 +1,7 @@
 package l2k.demo.multiple.chats.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
@@ -8,6 +9,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import l2k.demo.multiple.chats.controllers.messages.ChatMessageRequest;
@@ -49,9 +52,22 @@ public class RoomController {
 		template.convertAndSend("/topic/room/" + roomName, roomMonitor.getRoom(roomName));
 	}
 	
-	@PostMapping(value = "/leave-room")
-	public ResponseEntity<LeaveRoomResponse> leaveRoom() {
-		return null;
+	@PostMapping(value = "/room/{roomName}/leave")
+	public ResponseEntity<LeaveRoomResponse> leaveRoom(
+			@PathVariable String roomName,
+			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId
+		) {
+		ResponseEntity<LeaveRoomResponse> responseEntity;
+		User user = userService.getUser(sessionId);
+		
+		if(user != null) {
+			roomMonitor.removeUserFromRoom(roomName, user);
+			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.successResponse(), HttpStatus.OK);
+		} else {
+			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.failureResponse(), HttpStatus.FORBIDDEN);
+		}
+		
+		return responseEntity;
 	}
 	
 }

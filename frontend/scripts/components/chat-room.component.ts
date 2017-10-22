@@ -3,6 +3,8 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../domain/Room';
+import { Http } from '@angular/http';
+import { Router } from '@angular/router';
 
 @Component({
   template: `
@@ -35,7 +37,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,
-    @Inject(StompServiceFacade) private stompService: StompServiceFacade
+    @Inject(StompServiceFacade) private stompService: StompServiceFacade,
+    @Inject(Http) private http: Http,
+    @Inject(Router) private router: Router
   ) {
     this.subscriptions = new Array<Subscription>();
     this.room = new Room();
@@ -75,6 +79,12 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   }
 
   private leaveRoom() {
-    console.log("LEAVE ROOM BUTTON PRESSED");
+    let leaveRoomSubscription = this.http.post('/room/' + this.room.getName() + "/leave", {})
+      .subscribe((response: Object) => {
+        if(response['status'] === 200) {
+          this.router.navigateByUrl('/home');
+        }
+        leaveRoomSubscription.unsubscribe();
+      });
   }
 }
