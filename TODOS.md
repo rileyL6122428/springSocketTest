@@ -1,12 +1,11 @@
 - [x] Touch up styling on chat
 - [x] Smoothen out session glitches
   * check for session ID and don't make a new anonymous user
+- [x] Prevent HTML caching
+- [x] Show name on matchmaking
 
-- [ ] Prevent caching with entry page and post request
-
-- [ ] Show name on matchmaking
 - [ ] leave room
-- [ ] decent styling
+- [ ] decent styling (for just chat)
 - [ ] Unit test
 - [ ] Refactor
-- [ ] To Image
+- [ ] To Docker Image

@@ -7,6 +7,9 @@ import { Room } from '../domain/Room';
 @Component({
   template: `
     <h1>{{room.getName()}}</h1>
+
+    <button (click)="leaveRoom()">Leave Room</button>
+
     <section id="chat-room">
       <section id="message-list" *ngIf="!!room">
         <ul class="message-list" #scrollMe [scrollTop]="scrollMe.scrollHeight">
@@ -53,24 +56,25 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   private subscribeToRoomMessages(routeParams: Object): void {
     let roomSubscriptionUrl = "/topic/room/" + routeParams['roomName'];
-    let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, (messageBody: Object) => {
-      this.handleRoomMessage(messageBody);
+    let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, (roomPOJO: Object) => {
+      this.room = Room.fromPOJO(roomPOJO);
     });
 
     this.subscriptions.push(roomSubscription);
   }
 
-  private handleRoomMessage(roomPOJO: Object): void {
-    this.room = Room.fromPOJO(roomPOJO);
-    console.log(roomPOJO);
+  private sendChatMessage() {
+    if(this.messageBody !== "") {
+      this.stompService.publish(this.sendChatMessageURL(), { messageBody: this.messageBody });
+      this.messageBody = "";
+    }
   }
 
-  private sendChatMessage() {
-    console.log(this.messageBody);
-    this.stompService.publish(
-      "/app/room/" + this.room.getName() + "/send-message",
-      { messageBody: this.messageBody }
-    );
-    this.messageBody = "";
+  private sendChatMessageURL(): string {
+    return "/app/room/" + this.room.getName() + "/send-message";
+  }
+
+  private leaveRoom() {
+    console.log("LEAVE ROOM BUTTON PRESSED");
   }
 }
