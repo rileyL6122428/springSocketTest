@@ -1,4 +1,4 @@
-package l2k.demo.multiple.chats.messages;
+package l2k.demo.multiple.chats.controllers.response;
 
 import l2k.demo.multiple.chats.domain.Room;
 

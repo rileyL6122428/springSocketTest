@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import l2k.demo.multiple.chats.controllers.messages.MatchmakingStats;
 import l2k.demo.multiple.chats.domain.User;
-import l2k.demo.multiple.chats.messages.MatchmakingStats;
 import l2k.demo.multiple.chats.messageutils.UserMessageHeaderGenerator;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;

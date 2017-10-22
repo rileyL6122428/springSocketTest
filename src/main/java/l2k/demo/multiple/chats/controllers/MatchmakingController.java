@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import l2k.demo.multiple.chats.controllers.messages.MatchmakingStats;
+import l2k.demo.multiple.chats.controllers.request.JoinRoomRequest;
+import l2k.demo.multiple.chats.controllers.response.JoinRoomResponse;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;
-import l2k.demo.multiple.chats.messages.JoinRoomRequest;
-import l2k.demo.multiple.chats.messages.JoinRoomResponse;
-import l2k.demo.multiple.chats.messages.MatchmakingStats;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 import l2k.demo.multiple.chats.services.UserService;
 

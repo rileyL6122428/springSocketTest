@@ -12,10 +12,10 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.springframework.http.ResponseEntity;
 
+import l2k.demo.multiple.chats.controllers.request.JoinRoomRequest;
+import l2k.demo.multiple.chats.controllers.response.JoinRoomResponse;
 import l2k.demo.multiple.chats.customannotations.ImplementationPending;
 import l2k.demo.multiple.chats.domain.Room;
-import l2k.demo.multiple.chats.messages.JoinRoomRequest;
-import l2k.demo.multiple.chats.messages.JoinRoomResponse;
 import l2k.demo.multiple.chats.services.RoomMonitor;
 
 @RunWith(JUnitPlatform.class)
