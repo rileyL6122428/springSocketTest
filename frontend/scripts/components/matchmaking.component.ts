@@ -7,36 +7,34 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
 import { UserService } from '../services/user.service';
 import { Room } from '../domain/Room';
 import { User } from '../domain/User';
+import { SubscribingComponentBase } from './SubscribingComponentBase';
 
 let matchmakingTemplate = require('./matchmaking.html');
 
 @Component({
   template: matchmakingTemplate
 })
-export class MatchmakingComponent implements OnInit, OnDestroy {
+export class MatchmakingComponent extends SubscribingComponentBase implements OnInit, OnDestroy {
 
   private unplacedUsersCount: number;
   private rooms: Array<Room>;
   private user: User;
-  private subscriptions: Array<Subscription>;
 
   constructor(
     private stompService: StompServiceFacade,
     private http: Http,
     private router: Router,
     private userService: UserService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscriptions = [
+    this.setSubscriptions(
       this.getMatchmakingStats(),
       this.getUser(),
       this.subscribeToMatchmaking()
-    ];
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach( subscription => subscription.unsubscribe() );
+    );
   }
 
   private subscribeToMatchmaking(): Subscription {

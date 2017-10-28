@@ -16,10 +16,11 @@
 
 ## Code Polish Phase
 - [ ] Refactor
-* Frontend
-* Frontend config
-* Backend
-* Backend config
+  * Frontend
+    
+  * Frontend config
+  * Backend
+  * Backend config
 
 ## Styling Phase
 - [ ] decent styling (for just chat)

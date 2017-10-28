@@ -5,15 +5,15 @@ import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../domain/Room';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
+import { SubscribingComponentBase } from './SubscribingComponentBase';
 
 let chatRoomTemplate: string = require('./chat-room.html');
 
 @Component({
   template: chatRoomTemplate
 })
-export class ChatRoomComponent implements OnInit, OnDestroy {
+export class ChatRoomComponent extends SubscribingComponentBase implements OnInit, OnDestroy {
 
-  private subscriptions: Array<Subscription>;
   private room: Room;
   private messageBody: string;
 
@@ -23,47 +23,31 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     private http: Http,
     private router: Router
   ) {
-    this.subscriptions = new Array<Subscription>();
+    super();
     this.room = new Room();
   }
 
   ngOnInit(): void {
-    let paramsSubsciption = this.route.params.subscribe((params) => {
-      this.subscribeToRoomMessages(params);
-      this.room.setName(params['roomName']);
-      this.getRoom();
-    });
-
-    this.subscriptions.push(paramsSubsciption);
+    this.setSubscriptions(
+      this.subscribeToRoomMessages(this.route.params['roomName']),
+      this.getRoom(this.route.params['roomName'])
+    );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription =>  subscription.unsubscribe());
-  }
-
-  private getRoom(): void {
-    let getRoomSubscription:Subscription = this.http.get(this.getRoomEndpoint())
+  private getRoom(roomName: string): Subscription {
+    return this.http.get(`/room/${roomName}`)
       .subscribe((response) => {
         if(response.status === 200) {
           let roomPOJO = response.json();
           this.room = Room.fromPOJO(roomPOJO);
         }
       });
-
-      this.subscriptions.push(getRoomSubscription);
   }
 
-  private getRoomEndpoint(): string {
-    return "/room/" + this.room.getName();
-  }
-
-  private subscribeToRoomMessages(routeParams: Object): void {
-    let roomSubscriptionUrl = "/topic/room/" + routeParams['roomName'];
-    let roomSubscription = this.stompService.subscribe(roomSubscriptionUrl, (roomPOJO: Object) => {
+  private subscribeToRoomMessages(roomName: string): Subscription {
+    return this.stompService.subscribe(`/topic/room/${roomName}`, (roomPOJO: Object) => {
       this.room = Room.fromPOJO(roomPOJO);
     });
-
-    this.subscriptions.push(roomSubscription);
   }
 
   private sendChatMessage() {
