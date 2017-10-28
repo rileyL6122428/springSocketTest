@@ -32,10 +32,10 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.getMatchmakingStats();
 
     this.setSubscriptions([
-      this.getUser(),
       this.subscribeToMatchmaking()
     ]);
   }
@@ -52,12 +52,9 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
     });
   }
 
-  private getUser(): Subscription {
-    return this.http.get("/user").subscribe((response) => {
-      let userPOJO: Object = response.json();
-      let user: User = User.fromPOJO(userPOJO);
-      this.user = user;
-      this.userService.storeUser(user);
+  private getUser(): void {
+    this.userService.getUser({
+      success: (user: User) => { this.user = user; }
     });
   }
 
