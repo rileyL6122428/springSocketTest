@@ -29,9 +29,25 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
 
   ngOnInit(): void {
     this.setSubscriptions(
-      this.subscribeToRoomMessages(this.route.params['roomName']),
-      this.getRoom(this.route.params['roomName'])
+      this.createSubscriptions()
     );
+  }
+
+  private createSubscriptions(): Array<Subscription> {
+    let routeSubscription: Subscription;
+    let roomMessageSubscription: Subscription;
+    let getRoomSubscription: Subscription;
+
+    routeSubscription = this.route.params.subscribe((params) => {
+      roomMessageSubscription = this.subscribeToRoomMessages(this.route.params['roomName']),
+      getRoomSubscription = this.getRoom(this.route.params['roomName'])
+   });
+
+   return [
+     routeSubscription,
+     roomMessageSubscription,
+     getRoomSubscription
+   ];
   }
 
   private getRoom(roomName: string): Subscription {
@@ -51,7 +67,7 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
   }
 
   private sendChatMessage() {
-    if(this.messageBody !== "") {
+    if(this.messageBody) {
       this.stompService.publish(this.sendChatMessageURL(), { messageBody: this.messageBody });
       this.messageBody = "";
     }

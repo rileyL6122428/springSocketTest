@@ -5,7 +5,7 @@ export class SubscribingComponentBase implements OnDestroy {
 
   protected subscriptions: Array<Subscription>;
 
-  protected setSubscriptions(...subscriptions: Array<Subscription>): void {
+  protected setSubscriptions(subscriptions: Array<Subscription>): void {
     this.subscriptions = subscriptions;
   }
 

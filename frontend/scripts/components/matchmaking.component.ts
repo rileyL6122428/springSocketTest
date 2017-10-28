@@ -30,11 +30,11 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
   }
 
   ngOnInit(): void {
-    this.setSubscriptions(
+    this.setSubscriptions([
       this.getMatchmakingStats(),
       this.getUser(),
       this.subscribeToMatchmaking()
-    );
+    ]);
   }
 
   private subscribeToMatchmaking(): Subscription {
