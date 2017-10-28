@@ -64,7 +64,11 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
 
   private sendChatMessage() {
     if(this.messageBody) {
-      this.stompService.publish(this.sendChatMessageURL(), { messageBody: this.messageBody });
+      this.roomService.publishRoomMessage({
+        roomName: this.room.getName(),
+        messageBody: this.messageBody
+      });
+
       this.messageBody = "";
     }
   }

@@ -19,6 +19,13 @@ export class RoomService {
     );
   }
 
+  public publishRoomMessage(params: { roomName: string, messageBody: string }): void {
+    this.stompService.publish(
+      `/app/room/${params.roomName}/send-message`,
+      { messageBody: params.messageBody }
+    );
+  }
+
   public getRoom(params: { roomName: string, success: Function }): void {
     let getRoomSubscription = this.http.get(`/room/${params.roomName}`)
       .subscribe((response) => {
