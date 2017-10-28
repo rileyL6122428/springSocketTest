@@ -73,10 +73,6 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
     }
   }
 
-  private sendChatMessageURL(): string {
-    return "/app/room/" + this.room.getName() + "/send-message";
-  }
-
   private leaveRoom(): void {
     this.roomService.leaveRoom({
       roomName: this.room.getName(),
