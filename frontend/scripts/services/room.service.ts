@@ -8,7 +8,8 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
 export class RoomService {
 
   constructor(
-    private stompService: StompServiceFacade
+    private stompService: StompServiceFacade,
+    private http: Http
   ){ }
 
   public subscribeToRoomMessages(params: { roomName: string, success: Function }): Subscription {
@@ -18,4 +19,14 @@ export class RoomService {
     );
   }
 
+
+  public leaveRoom(params: { roomName: string, success: Function }): void {
+    let leaveRoomSubscription = this.http.post(`/room/${params.roomName}/leave`, {})
+      .subscribe((response: Object) => {
+        if(response['status'] === 200) {
+          params.success();
+        }
+        leaveRoomSubscription.unsubscribe();
+      });
+  }
 }

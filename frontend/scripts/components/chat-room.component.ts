@@ -81,12 +81,9 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
   }
 
   private leaveRoom(): void {
-    let leaveRoomSubscription = this.http.post('/room/' + this.room.getName() + "/leave", {})
-      .subscribe((response: Object) => {
-        if(response['status'] === 200) {
-          this.router.navigateByUrl('/home');
-        }
-        leaveRoomSubscription.unsubscribe();
-      });
+    this.roomService.leaveRoom({
+      roomName: this.room.getName(),
+      success: () => { this.router.navigateByUrl("/home"); }
+    });
   }
 }
