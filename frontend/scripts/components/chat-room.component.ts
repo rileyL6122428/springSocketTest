@@ -3,7 +3,6 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../domain/Room';
-import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { SubscribingComponentBase } from './SubscribingComponentBase';
 import { RoomService } from '../services/room.service';
@@ -21,7 +20,6 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
   constructor(
     private route: ActivatedRoute,
     private stompService: StompServiceFacade,
-    private http: Http,
     private router: Router,
     private roomService: RoomService
   ) {
@@ -38,28 +36,23 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
   private createSubscriptions(): Array<Subscription> {
     let routeSubscription: Subscription;
     let roomMessageSubscription: Subscription;
-    let getRoomSubscription: Subscription;
 
     routeSubscription = this.route.params.subscribe((params) => {
       roomMessageSubscription = this.subscribeToRoomMessages(params['roomName']),
-      getRoomSubscription = this.getRoom(params['roomName'])
+      this.getRoom(params['roomName'])
    });
 
    return [
      routeSubscription,
      roomMessageSubscription,
-     getRoomSubscription
    ];
   }
 
-  private getRoom(roomName: string): Subscription {
-    return this.http.get(`/room/${roomName}`)
-      .subscribe((response) => {
-        if(response.status === 200) {
-          let roomPOJO = response.json();
-          this.room = Room.fromPOJO(roomPOJO);
-        }
-      });
+  private getRoom(roomName: string): void {
+    this.roomService.getRoom({
+      roomName: roomName,
+      success: (room: Room) => { this.room = room; }
+    });
   }
 
   private subscribeToRoomMessages(roomName: string): Subscription {

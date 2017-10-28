@@ -19,6 +19,18 @@ export class RoomService {
     );
   }
 
+  public getRoom(params: { roomName: string, success: Function }): void {
+    let getRoomSubscription = this.http.get(`/room/${params.roomName}`)
+      .subscribe((response) => {
+        if(response.status === 200) {
+          let roomPOJO = response.json();
+          let room:Room = Room.fromPOJO(roomPOJO);
+          params.success(room);
+        }
+
+        getRoomSubscription.unsubscribe();
+      });
+  }
 
   public leaveRoom(params: { roomName: string, success: Function }): void {
     let leaveRoomSubscription = this.http.post(`/room/${params.roomName}/leave`, {})
