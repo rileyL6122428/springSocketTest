@@ -14,14 +14,20 @@
 - [x] remove all race conditions from subscriptions
 
 
+## Code Polish Phase
+- [ ] Refactor
+* Frontend
+* Frontend config
+* Backend
+* Backend config
+
 ## Styling Phase
 - [ ] decent styling (for just chat)
 
 ## Unit Testing Phase
 - [ ] Unit test
-
-## Code Polish Phase
-- [ ] Refactor
+  * Frontend
+  * Backend
 
 ## Deployment Phase
 - [ ] To Docker Image

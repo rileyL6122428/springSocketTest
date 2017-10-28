@@ -45,6 +45,16 @@ module.exports = {
                 useRelativePath: true
               }
               // loader: "file?name=[path][name].[ext]"
+            },
+
+            {
+              test: /\.(html)$/,
+              use: {
+                loader: 'html-loader',
+                options: {
+                  attrs: [':data-src']
+                }
+              }
             }
         ]
     },
