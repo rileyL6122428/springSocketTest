@@ -5,6 +5,7 @@ import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs/Subscription';
 import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 import { UserService } from '../services/user.service';
+import { MatchmakingService } from '../services/matchmaking.service';
 import { Room } from '../domain/Room';
 import { User } from '../domain/User';
 import { SubscribingComponentBase } from './SubscribingComponentBase';
@@ -24,14 +25,16 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
     private stompService: StompServiceFacade,
     private http: Http,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private matchmakingService: MatchmakingService
   ) {
     super();
   }
 
   ngOnInit(): void {
+    this.getMatchmakingStats();
+
     this.setSubscriptions([
-      this.getMatchmakingStats(),
       this.getUser(),
       this.subscribeToMatchmaking()
     ]);
@@ -43,10 +46,9 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
     });
   }
 
-  private getMatchmakingStats(): Subscription {
-    return this.http.get("/matchmaking/stats").subscribe((response) => {
-      let responseBody: Object =  response.json();
-      this.setMatchmakingStats(responseBody);
+  private getMatchmakingStats(): void {
+    this.matchmakingService.getMatchmakingStats({
+      success: (responseBody) => { this.setMatchmakingStats(responseBody) }
     });
   }
 

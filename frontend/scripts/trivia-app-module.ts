@@ -14,6 +14,7 @@ import { StompModule } from './stomp-module/stomp.module';
 import { CookieService } from 'angular2-cookie/services/cookies.service'
 import { UserService } from './services/user.service'
 import { RoomService } from './services/room.service';
+import { MatchmakingService } from './services/matchmaking.service';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { RoomService } from './services/room.service';
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     CookieService,
     UserService,
-    RoomService
+    RoomService,
+    MatchmakingService
   ]
 })
 export class TriviaAppModule { }
