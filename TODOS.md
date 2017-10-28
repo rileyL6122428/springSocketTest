@@ -17,10 +17,17 @@
 ## Code Polish Phase
 - [ ] Refactor
   * Frontend
-    
-  * Frontend config
+
+    1. use services to pull in all state for component
+    2. get rid of service facade, and make messaging service calls more configurable
+    3. take matchmaking stat calulation out of matchmaking component
+    4. handle domain instantiation by using a third party library or make factories to do it
+    5. do a better job of file organization
+    6. Make file naming consistent
+    7. E2E testing
+    8. Unit testing
+
   * Backend
-  * Backend config
 
 ## Styling Phase
 - [ ] decent styling (for just chat)
