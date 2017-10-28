@@ -6,6 +6,7 @@ import { Room } from '../domain/Room';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { SubscribingComponentBase } from './SubscribingComponentBase';
+import { RoomService } from '../services/room.service';
 
 let chatRoomTemplate: string = require('./chat-room.html');
 
@@ -21,7 +22,8 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
     private route: ActivatedRoute,
     private stompService: StompServiceFacade,
     private http: Http,
-    private router: Router
+    private router: Router,
+    private roomService: RoomService
   ) {
     super();
     this.room = new Room();
@@ -39,8 +41,8 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
     let getRoomSubscription: Subscription;
 
     routeSubscription = this.route.params.subscribe((params) => {
-      roomMessageSubscription = this.subscribeToRoomMessages(this.route.params['roomName']),
-      getRoomSubscription = this.getRoom(this.route.params['roomName'])
+      roomMessageSubscription = this.subscribeToRoomMessages(params['roomName']),
+      getRoomSubscription = this.getRoom(params['roomName'])
    });
 
    return [
@@ -61,9 +63,10 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
   }
 
   private subscribeToRoomMessages(roomName: string): Subscription {
-    return this.stompService.subscribe(`/topic/room/${roomName}`, (roomPOJO: Object) => {
-      this.room = Room.fromPOJO(roomPOJO);
-    });
+    return this.roomService.subscribeToRoomMessages({
+      roomName: roomName,
+      success: (roomPOJO) => { this.room = Room.fromPOJO(roomPOJO); }
+    })
   }
 
   private sendChatMessage() {

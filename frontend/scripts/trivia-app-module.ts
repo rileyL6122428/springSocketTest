@@ -13,6 +13,7 @@ import { TriviaAppComponent } from './trivia-app-component';
 import { StompModule } from './stomp-module/stomp.module';
 import { CookieService } from 'angular2-cookie/services/cookies.service'
 import { UserService } from './services/user.service'
+import { RoomService } from './services/room.service';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { UserService } from './services/user.service'
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     CookieService,
-    UserService
+    UserService,
+    RoomService
   ]
 })
 export class TriviaAppModule { }
