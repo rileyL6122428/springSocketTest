@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../domain/Room';
@@ -19,7 +18,6 @@ export class ChatRoomComponent extends SubscribingComponentBase implements OnIni
 
   constructor(
     private route: ActivatedRoute,
-    private stompService: StompServiceFacade,
     private router: Router,
     private roomService: RoomService
   ) {
