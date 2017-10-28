@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,10 +18,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   private messageBody: string;
 
   constructor(
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
-    @Inject(StompServiceFacade) private stompService: StompServiceFacade,
-    @Inject(Http) private http: Http,
-    @Inject(Router) private router: Router
+    private route: ActivatedRoute,
+    private stompService: StompServiceFacade,
+    private http: Http,
+    private router: Router
   ) {
     this.subscriptions = new Array<Subscription>();
     this.room = new Room();

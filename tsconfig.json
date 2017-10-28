@@ -7,8 +7,10 @@
         "noImplicitAny": false,
         "removeComments": false,
         "experimentalDecorators": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "emitDecoratorMetadata": true
     },
+
     "files": [
         "./frontend/scripts/bootstrap.ts"
     ]

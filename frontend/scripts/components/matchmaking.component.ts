@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { Message } from '@stomp/stompjs';
@@ -21,10 +21,10 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription>;
 
   constructor(
-    @Inject(StompServiceFacade) private stompService: StompServiceFacade,
-    @Inject(Http) private http: Http,
-    @Inject(Router) private router: Router,
-    @Inject(UserService) private userService: UserService
+    private stompService: StompServiceFacade,
+    private http: Http,
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {

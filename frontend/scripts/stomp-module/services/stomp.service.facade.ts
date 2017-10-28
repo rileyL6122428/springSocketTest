@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { STOMP_CONFIG } from '.././constants/stomp.config';
 import { StompService, StompConfig, StompHeaders } from '../../../vendor-workarounds/ngstomp-js/index';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ export class StompServiceFacade {
   private stompService: StompService;
 
   constructor(
-    @Inject(CookieService) private cookieService: CookieService
+    private cookieService: CookieService
   ) {
     this.stompService = new StompService(STOMP_CONFIG);
   }
