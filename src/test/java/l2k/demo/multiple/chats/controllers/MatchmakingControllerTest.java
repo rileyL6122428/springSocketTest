@@ -3,17 +3,14 @@ package l2k.demo.multiple.chats.controllers;
 import java.security.Principal;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
-import org.springframework.http.ResponseEntity;
 
 import l2k.demo.multiple.chats.controllers.request.JoinRoomRequest;
-import l2k.demo.multiple.chats.controllers.response.JoinRoomResponse;
 import l2k.demo.multiple.chats.customannotations.ImplementationPending;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.services.RoomMonitor;
