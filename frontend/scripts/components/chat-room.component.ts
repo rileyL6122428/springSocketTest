@@ -6,8 +6,10 @@ import { Room } from '../domain/Room';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
+let chatRoomTemplate: string = require('./chat-room.html');
+
 @Component({
-  template: require('./chat-room.html')
+  template: chatRoomTemplate
 })
 export class ChatRoomComponent implements OnInit, OnDestroy {
 

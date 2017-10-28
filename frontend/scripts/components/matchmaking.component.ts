@@ -8,28 +8,10 @@ import { UserService } from '../services/user.service';
 import { Room } from '../domain/Room';
 import { User } from '../domain/User';
 
+let matchmakingTemplate = require('./matchmaking.html');
+
 @Component({
-  template: `
-    <section id="user-welcome" *ngIf="user">
-      <p>Welcome {{user.getName()}}</p>
-    </section>
-
-      <section id="unplaced-users">
-        <p>{{unplacedUsersCount}} people waiting</p>
-      </section>
-
-      <section id="rooms">
-        <h4>Rooms</h4>
-
-        <ul>
-          <li *ngFor="let room of rooms" [ngClass]="'sup'">
-            <p>{{room.getName()}}<p>
-            <p>Number of participants: {{room.getTotalNumberOfUsers()}}</p>
-            <button (click)="joinChatRoom(room.getName())">Join</button>
-          </li>
-        </ul>
-      </section>
-  `
+  template: matchmakingTemplate
 })
 export class MatchmakingComponent implements OnInit, OnDestroy {
 
