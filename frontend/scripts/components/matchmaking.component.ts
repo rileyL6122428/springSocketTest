@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs/Subscription';
@@ -23,7 +22,6 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
 
   constructor(
     private stompService: StompServiceFacade,
-    private http: Http,
     private router: Router,
     private userService: UserService,
     private matchmakingService: MatchmakingService
@@ -86,23 +84,10 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
   }
 
   private joinChatRoom(roomName: string): void {
-    this.http.post("/join-chat-room", { roomName: roomName }, {})
-
-      .subscribe((response) => {
-        if(response.status === 200)
-          this.joinRoom(response.json());
-        else
-          this.showJoinChatFailureModal(response.json());
-      });
-  }
-
-  private joinRoom(responseBody: Object)  {
-    let targetRoom = Room.fromPOJO(responseBody['room']);
-    this.router.navigateByUrl('/chat/' + targetRoom.getName());
-  }
-
-  private showJoinChatFailureModal(responseBody: Object) {
-    console.log(responseBody);
+    this.matchmakingService.joinChatRoom({
+      roomName: roomName,
+      success: (room: Room) => { this.router.navigateByUrl(`/chat/${room.getName()}`) }
+    });
   }
 
 }

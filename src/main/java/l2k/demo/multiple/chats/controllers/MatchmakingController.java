@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import l2k.demo.multiple.chats.controllers.request.JoinRoomRequest;
-import l2k.demo.multiple.chats.controllers.response.JoinRoomResponse;
 import l2k.demo.multiple.chats.controllers.wsmessages.MatchmakingStats;
 import l2k.demo.multiple.chats.domain.Room;
 import l2k.demo.multiple.chats.domain.User;
@@ -55,18 +54,19 @@ public class MatchmakingController {
 	}
 	
 	@PostMapping(value="/join-chat-room")
-	public ResponseEntity<JoinRoomResponse> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId) {
-		ResponseEntity<JoinRoomResponse> responseEntity;
+	public ResponseEntity<Room> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId) {
+		ResponseEntity<Room> responseEntity;
 		User user = userService.getUser(sessionId);
 		
 		if(userCanJoinRoom(user, joinRoomRequest)) {
 			roomMonitor.addUserToRoom(joinRoomRequest.getRoomName(), user);
 			Room targetRoom = roomMonitor.getRoom(joinRoomRequest.getRoomName());
-			responseEntity = new ResponseEntity<JoinRoomResponse>(JoinRoomResponse.successResponse(targetRoom), HttpStatus.OK);
+			responseEntity = new ResponseEntity<Room>(targetRoom, HttpStatus.OK);
 			emitMatchmakingStats();
 			
 		} else {
-			responseEntity = new ResponseEntity<JoinRoomResponse>(JoinRoomResponse.failureResponse(), HttpStatus.FORBIDDEN);
+			Room room = null;
+			responseEntity = new ResponseEntity<Room>(room, HttpStatus.FORBIDDEN);
 		}
 		
 		return responseEntity;
