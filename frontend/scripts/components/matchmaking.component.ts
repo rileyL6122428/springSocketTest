@@ -91,7 +91,7 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
 
       .subscribe((response) => {
         if(response.status === 200)
-          this.joinRoom(response.json())
+          this.joinRoom(response.json());
         else
           this.showJoinChatFailureModal(response.json());
       });
