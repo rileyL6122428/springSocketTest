@@ -1,19 +1,20 @@
 <section id="user-welcome" *ngIf="user">
   <p>Welcome {{user.getName()}}</p>
 </section>
-
+<section id="matchmaking-stats" *ngIf="matchmakingStats">
   <section id="unplaced-users">
-    <p>{{unplacedUsersCount}} people waiting</p>
+    <p>{{matchmakingStats.unplacedUsersTotal}} people waiting</p>
   </section>
 
   <section id="rooms">
     <h4>Rooms</h4>
 
     <ul>
-      <li *ngFor="let room of rooms" [ngClass]="'sup'">
+      <li *ngFor="let room of matchmakingStats.rooms" [ngClass]="'sup'">
         <p>{{room.getName()}}<p>
         <p>Number of participants: {{room.getTotalNumberOfUsers()}}</p>
         <button (click)="joinChatRoom(room.getName())">Join</button>
       </li>
     </ul>
   </section>
+</section>

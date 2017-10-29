@@ -3,6 +3,18 @@ import { User } from './User';
 
 export class Room {
 
+  public static fromPOJOMapToList(roomMap: Map<string, Room>): Array<Room> {
+    let rooms: Array<Room> = new Array<Room>();
+
+    for(let roomName in roomMap) {
+      let roomPOJO = roomMap[roomName];
+      let room: Room = Room.fromPOJO(roomPOJO);
+      rooms.push(room);
+    }
+
+    return rooms;
+  }
+
   public static fromPOJO(pojo: Object) {
     let room: Room = new Room();
 

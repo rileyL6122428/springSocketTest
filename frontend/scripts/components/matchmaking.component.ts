@@ -6,17 +6,15 @@ import { UserService } from '../services/user.service';
 import { MatchmakingService } from '../services/matchmaking.service';
 import { Room } from '../domain/Room';
 import { User } from '../domain/User';
+import { MatchmakingStats } from '../domain/MatchmakingStats';
 import { SubscribingComponentBase } from './SubscribingComponentBase';
 
-let matchmakingTemplate = require('./matchmaking.html');
-
 @Component({
-  template: matchmakingTemplate
+  template: require('./matchmaking.html')
 })
 export class MatchmakingComponent extends SubscribingComponentBase implements OnInit, OnDestroy {
 
-  private unplacedUsersCount: number;
-  private rooms: Array<Room>;
+  private matchmakingStats: MatchmakingStats;
   private user: User;
 
   constructor(
@@ -39,13 +37,15 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
 
   private subscribeToMatchmaking(): Subscription {
     return this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
-      this.setMatchmakingStats(messageBody);
+      this.matchmakingStats = new MatchmakingStats(messageBody);
     });
   }
 
   private getMatchmakingStats(): void {
     this.matchmakingService.getMatchmakingStats({
-      success: (responseBody) => { this.setMatchmakingStats(responseBody) }
+      success: (responseBody) => {
+        this.matchmakingStats = new MatchmakingStats(responseBody);
+      }
     });
   }
 
@@ -55,37 +55,10 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
     });
   }
 
-  private setMatchmakingStats(responseBody: Object): void {
-    this.setRooms(responseBody);
-    this.unplacedUsersCount = responseBody['userTotal'] - this.placedUserTotal();
-  }
-
-  private setRooms(messageBody: Object): void {
-    let receivedRooms: Map<string, Room> = messageBody['rooms'];
-    this.rooms = new Array<Room>();
-
-    for(let roomName in receivedRooms) {
-      let roomPOJO = receivedRooms[roomName];
-      let room: Room = Room.fromPOJO(roomPOJO);
-
-      this.rooms.push(room);
-    }
-  }
-
-  private placedUserTotal(): number {
-    let placedUserTotal = 0;
-
-    this.rooms.forEach((room: Room) => {
-      placedUserTotal += room.getTotalNumberOfUsers();
-    });
-
-    return placedUserTotal;
-  }
-
   private joinChatRoom(roomName: string): void {
     this.matchmakingService.joinChatRoom({
       roomName: roomName,
-      success: (room: Room) => { this.router.navigateByUrl(`/chat/${room.getName()}`) }
+      success: (room: Room) => { this.router.navigateByUrl(`/chat/${room.getName()}`); }
     });
   }
 
