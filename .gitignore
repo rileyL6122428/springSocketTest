@@ -1,4 +1,3 @@
-src/main/webapp/bundle.js
-src/main/webapp/bundle.css
+src/main/webapp/
 target
 node_modules

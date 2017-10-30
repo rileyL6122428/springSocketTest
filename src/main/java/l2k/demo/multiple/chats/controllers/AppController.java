@@ -25,7 +25,7 @@ public class AppController {
 			addSessionIdToCookies(user, response);			
 		} 
 		
-		return new ModelAndView("trivia-client.html");
+		return new ModelAndView("index.html");
 	}
 	
 	private boolean isCurrentUser(String sessionId) {
