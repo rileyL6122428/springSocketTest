@@ -3,7 +3,6 @@ module.exports = function (config) {
         basePath: '',
         frameworks: ['jasmine'],
         files: [
-          // 'frontend/specs/**/*.spec.ts'
           { pattern: "frontend/specs/**/*.spec.ts" }
         ],
         mime: { 'text/x-typescript': ['ts','tsx'] },
