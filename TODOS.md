@@ -22,7 +22,7 @@
     2. get rid of service facade, and make messaging service calls more configurable
     3. *CHECK* take matchmaking stat calculation out of matchmaking component
     4. handle domain instantiation by using a third party library or make factories to do it
-    5. do a better job of file/module organization
+    5. *CHECK* do a better job of file/module organization
     6. Make file naming consistent
     7. E2E testing
     8. Unit testing
