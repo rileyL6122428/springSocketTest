@@ -10,10 +10,7 @@ import { routes } from './routes';
 import { MatchmakingComponent } from './components/matchmaking.component';
 import { ChatRoomComponent } from './components/chat-room.component';
 import { TriviaAppComponent } from './trivia-app-component';
-import { StompModule } from './stomp-module/stomp.module';
-import { UserService } from './services/user.service';
-import { RoomService } from './services/room.service';
-import { MatchmakingService } from './services/matchmaking.service';
+import { TriviaServiceModule } from './services-module/service.module';
 
 
 @NgModule({
@@ -22,7 +19,7 @@ import { MatchmakingService } from './services/matchmaking.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    StompModule
+    TriviaServiceModule
   ],
   declarations: [
     MatchmakingComponent,
@@ -38,9 +35,6 @@ import { MatchmakingService } from './services/matchmaking.service';
   bootstrap:    [ TriviaAppComponent ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    UserService,
-    RoomService,
-    MatchmakingService
   ]
 })
 export class TriviaAppModule { }

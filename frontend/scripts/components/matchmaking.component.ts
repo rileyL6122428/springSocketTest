@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { UserService } from '../services/user.service';
-import { MatchmakingService } from '../services/matchmaking.service';
+import { UserService } from '../services-module/user.service';
+import { MatchmakingService } from '../services-module/matchmaking.service';
 import { Room } from '../domain/Room';
 import { User } from '../domain/User';
 import { MatchmakingStats } from '../domain/MatchmakingStats';

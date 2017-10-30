@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../domain/Room';
 import { Router } from '@angular/router';
 import { SubscribingComponentBase } from './subscribing.component.base';
-import { RoomService } from '../services/room.service';
+import { RoomService } from '../services-module/room.service';
 
 let chatRoomTemplate: string = require('./chat-room.html');
 
