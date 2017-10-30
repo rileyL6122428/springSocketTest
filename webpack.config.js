@@ -5,17 +5,6 @@ module.exports = {
     output: {
         filename: "src/main/webapp/bundle.js"
     },
-
-    // rules: [
-    //   {
-    //     test: /\.css$/,
-    //     loader: ExtractTextPlugin.extract({
-    //       loader: 'css-loader?importLoaders=1',
-    //     })
-    //   },
-    //
-    //
-    // ],
     stats: {
       warnings: false
     },
@@ -23,7 +12,6 @@ module.exports = {
     resolve: {
         alias: {
           stompjs: __dirname + '/node_modules/stompjs/lib/stomp.js',
-          // "ng2-stompjs": __dirname + '/node_modules/stompjs/lib/stomp.js'
         },
         extensions: [".webpack.js", ".web.js", ".js", ".ts", ".tsx"]
     },

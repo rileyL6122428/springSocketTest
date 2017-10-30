@@ -13,5 +13,7 @@
 
     "files": [
         "./frontend/scripts/bootstrap.ts"
-    ]
+    ],
+
+    "types": ["jasmine"]
 }
