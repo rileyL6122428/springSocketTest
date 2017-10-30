@@ -1,10 +1,10 @@
 import 'zone.js';
 import 'reflect-metadata';
-import { NgModule, Inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router'
-import { Http, HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { routes } from './routes';
 import { MatchmakingComponent } from './components/matchmaking.component';
