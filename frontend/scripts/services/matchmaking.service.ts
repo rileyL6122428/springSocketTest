@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 import { Room } from '../domain/Room';
+import { Subscription } from 'rxjs/subscription';
 
 @Injectable()
 export class MatchmakingService {
 
   constructor(
-    private http: Http
-  ) {
-
-  }
+    private http: Http,
+    private stompService: StompServiceFacade
+  ) { }
 
   public getMatchmakingStats(params: { success: Function }): void {
     let requestSubscription = this.http.get("/matchmaking/stats").subscribe((response) => {
@@ -33,6 +34,12 @@ export class MatchmakingService {
 
         requestSubscription.unsubscribe();
       });
+  }
+
+  public subscribeToMatchmaking(params: { onMessageReceived: Function }): Subscription {
+    return this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
+      params.onMessageReceived(messageBody);
+    });
   }
 
 }

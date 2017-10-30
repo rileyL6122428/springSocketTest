@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 import { UserService } from '../services/user.service';
 import { MatchmakingService } from '../services/matchmaking.service';
 import { Room } from '../domain/Room';
@@ -18,7 +17,6 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
   private user: User;
 
   constructor(
-    private stompService: StompServiceFacade,
     private router: Router,
     private userService: UserService,
     private matchmakingService: MatchmakingService
@@ -36,8 +34,10 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
   }
 
   private subscribeToMatchmaking(): Subscription {
-    return this.stompService.subscribe("/topic/matchmaking", (messageBody: Object) => {
-      this.matchmakingStats = new MatchmakingStats(messageBody);
+    return this.matchmakingService.subscribeToMatchmaking({
+      onMessageReceived: (messageBody: Object) => {
+        this.matchmakingStats = new MatchmakingStats(messageBody);
+      }
     });
   }
 
@@ -61,5 +61,4 @@ export class MatchmakingComponent extends SubscribingComponentBase implements On
       success: (room: Room) => { this.router.navigateByUrl(`/chat/${room.getName()}`); }
     });
   }
-
 }
