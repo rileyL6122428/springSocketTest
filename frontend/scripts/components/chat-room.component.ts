@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../domain/Room';
 import { Router } from '@angular/router';
-import { SubscribingComponentBase } from './SubscribingComponentBase';
+import { SubscribingComponentBase } from './subscribing.component.base';
 import { RoomService } from '../services/room.service';
 
 let chatRoomTemplate: string = require('./chat-room.html');

@@ -6,7 +6,7 @@ import { MatchmakingService } from '../services/matchmaking.service';
 import { Room } from '../domain/Room';
 import { User } from '../domain/User';
 import { MatchmakingStats } from '../domain/MatchmakingStats';
-import { SubscribingComponentBase } from './SubscribingComponentBase';
+import { SubscribingComponentBase } from './subscribing.component.base';
 
 @Component({
   template: require('./matchmaking.html')
