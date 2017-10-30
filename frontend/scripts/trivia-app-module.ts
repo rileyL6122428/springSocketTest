@@ -11,8 +11,7 @@ import { MatchmakingComponent } from './components/matchmaking.component';
 import { ChatRoomComponent } from './components/chat-room.component';
 import { TriviaAppComponent } from './trivia-app-component';
 import { StompModule } from './stomp-module/stomp.module';
-import { CookieService } from 'angular2-cookie/services/cookies.service'
-import { UserService } from './services/user.service'
+import { UserService } from './services/user.service';
 import { RoomService } from './services/room.service';
 import { MatchmakingService } from './services/matchmaking.service';
 
@@ -39,7 +38,6 @@ import { MatchmakingService } from './services/matchmaking.service';
   bootstrap:    [ TriviaAppComponent ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    CookieService,
     UserService,
     RoomService,
     MatchmakingService
