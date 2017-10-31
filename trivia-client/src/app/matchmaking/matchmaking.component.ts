@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
 
 @Component({
   selector: 'app-matchmaking',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MatchmakingComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private stompService: StompServiceFacade
+  ) { }
 
   ngOnInit() {
   }
