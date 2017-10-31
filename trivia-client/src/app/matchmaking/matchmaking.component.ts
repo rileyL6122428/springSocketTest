@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StompServiceFacade } from '../stomp-module/services/stomp.service.facade';
+import { StompService } from '@stomp/ng2-stompjs';
 
 @Component({
   selector: 'app-matchmaking',
@@ -9,7 +9,7 @@ import { StompServiceFacade } from '../stomp-module/services/stomp.service.facad
 export class MatchmakingComponent implements OnInit {
 
   constructor(
-    private stompService: StompServiceFacade
+    private stompService: StompService
   ) { }
 
   ngOnInit() {

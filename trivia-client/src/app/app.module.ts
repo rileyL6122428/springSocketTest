@@ -3,15 +3,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router'
 import { AppComponent } from './app.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { routes } from './routes';
+import { ROUTES_CONFIG } from './routes.config';
 import { MatchmakingComponent } from './matchmaking/matchmaking.component';
-import { StompModule } from './stomp-module/stomp.module';
+
+import { StompService, StompConfig } from '@stomp/ng2-stompjs';
+import { STOMP_CONFIG } from './stomp.config';
 
 @NgModule({
   imports: [
     BrowserModule,
-    StompModule,
-    RouterModule.forRoot(routes, { useHash: true })
+    RouterModule.forRoot(ROUTES_CONFIG, { useHash: true })
   ],
 
   declarations: [
@@ -26,7 +27,12 @@ import { StompModule } from './stomp-module/stomp.module';
   bootstrap: [AppComponent],
 
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    StompService,
+    {
+      provide: StompConfig,
+      useValue: STOMP_CONFIG
+    }
   ],
 })
 export class AppModule { }
