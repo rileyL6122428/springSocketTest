@@ -1,12 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router'
-import { AppComponent } from './app.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { ROUTES_CONFIG } from './routes.config';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router'
+
+import { AppComponent } from './app.component';
 import { MatchmakingComponent } from './matchmaking/matchmaking.component';
 
 import { StompService, StompConfig } from '@stomp/ng2-stompjs';
+
+import { ROUTES_CONFIG } from './routes.config';
 import { STOMP_CONFIG } from './stomp.config';
 
 @NgModule({
@@ -24,15 +26,12 @@ import { STOMP_CONFIG } from './stomp.config';
     MatchmakingComponent
   ],
 
-  bootstrap: [AppComponent],
+  bootstrap: [ AppComponent ],
 
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: StompConfig, useValue: STOMP_CONFIG },
     StompService,
-    {
-      provide: StompConfig,
-      useValue: STOMP_CONFIG
-    }
   ],
 })
 export class AppModule { }
