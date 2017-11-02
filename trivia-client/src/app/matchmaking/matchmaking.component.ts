@@ -8,9 +8,9 @@ import { StompService } from '@stomp/ng2-stompjs';
 })
 export class MatchmakingComponent implements OnInit {
 
-  constructor(
-    private stompService: StompService
-  ) { }
+  // constructor(
+  //   private stompService: StompService
+  // ) { }
 
   ngOnInit() {
   }
