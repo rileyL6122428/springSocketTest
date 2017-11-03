@@ -3,6 +3,7 @@ import { HttpModule, XHRBackend, ResponseOptions, Connection, Response } from '@
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { UserService } from './user.service';
 import { Subscription } from 'rxjs/subscription';
+import { UserFactory } from '../domain/user/User.factory';
 import { User } from '../domain/user/User';
 
 describe('UserService', () => {
@@ -11,6 +12,7 @@ describe('UserService', () => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [
+        UserFactory,
         UserService,
         { provide: XHRBackend, useClass: MockBackend }
       ]
@@ -44,6 +46,23 @@ describe('UserService', () => {
 
         userService.getUser().subscribe((user: User) => {
           expect(user).toBeNull();
+        });
+      })
+    );
+
+    it("returns an observable that passes a mapped user upon a successful request",
+      inject([UserService, XHRBackend], (userService, mockBackend) => {
+        mockBackend.connections.subscribe((connection) => {
+          connection.mockRespond(new Response(new ResponseOptions({
+            status: 200,
+            body: JSON.stringify({ name: "TEST_NAME" }),
+          })));
+        });
+
+        userService.getUser().subscribe((user: User) => {
+          expect(user).not.toBeNull();
+          expect(user).toEqual(jasmine.any(User));
+          expect(user.name).toEqual("TEST_NAME");
         });
       })
     );
