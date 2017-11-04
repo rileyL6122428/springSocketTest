@@ -10,6 +10,6 @@ import { UserService } from './user.service';
   ],
   providers: [ UserService ]
 })
-export class ServiceModule {
+export class TriviaServicesModule {
 
 }

@@ -1,16 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { UserFactory } from './User.factory';
+import { UserDomainFactory } from './User.factory';
 import { User } from './User';
 
-describe('UserFactory', () => {
+describe('UserDomainFactory', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UserFactory]
+      providers: [UserDomainFactory]
     });
   });
 
   describe("#mapPOJO", () => {
-    it("returns a User instance with mapped properties", inject([UserFactory], (userFactory: UserFactory) => {
+    it("returns a User instance with mapped properties", inject([UserDomainFactory], (userFactory: UserDomainFactory) => {
       let userPOJO: Object = { name: "test-name" };
       let user: User = userFactory.mapPOJO(userPOJO);
 
