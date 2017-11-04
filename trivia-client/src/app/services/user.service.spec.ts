@@ -5,12 +5,13 @@ import { UserService } from './user.service';
 import { Subscription } from 'rxjs/subscription';
 import { UserFactory } from '../domain/user/User.factory';
 import { User } from '../domain/user/User';
+import { DomainFactoryModule } from '../domain/factory.module';
 
 describe('UserService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule],
+      imports: [ HttpModule ],
       providers: [
         UserFactory,
         UserService,

@@ -1,25 +1,46 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatchmakingComponent } from './matchmaking.matchmakingComponent';
+import { HttpModule } from '@angular/http'
+import { UserService } from '../services/user.service';
+import { Subscription } from 'rxjs/subscription';
 
-import { MatchmakingComponent } from './matchmaking.component';
+class UserServiceMock {
+  getUser(): Subscription { return null; }
+}
 
 describe('MatchmakingComponent', () => {
-  let component: MatchmakingComponent;
+  let matchmakingComponent: MatchmakingComponent;
   let fixture: ComponentFixture<MatchmakingComponent>;
+  let userService: UserService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ MatchmakingComponent ]
+      imports: [ HttpModule ],
+      declarations: [ MatchmakingComponent ],
+      providers: [
+        { provide: UserService, useClass: UserServiceMock }
+      ]
     })
     .compileComponents();
-  }));
+
+    userService = TestBed.get(UserService);
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MatchmakingComponent);
-    component = fixture.componentInstance;
+    matchmakingComponent = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(matchmakingComponent).toBeTruthy();
+  });
+
+  describe("#onInit", () => {
+    it("it should call userService.getUser", () => {
+      spyOn(userService, "getUser");
+      matchmakingComponent.ngOnInit();
+      expect(userService.getUser).toHaveBeenCalled();
+    });
   });
 });
