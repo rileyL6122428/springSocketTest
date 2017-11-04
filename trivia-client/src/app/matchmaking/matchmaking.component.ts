@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { User } from '../domain/user/User';
 
 @Component({
   selector: 'app-matchmaking',
@@ -8,11 +9,17 @@ import { UserService } from '../services/user.service';
 })
 export class MatchmakingComponent implements OnInit {
 
+  private user: User;
+
   constructor(
     private userService: UserService
   ) { }
 
   ngOnInit() {
+    debugger
+    this.userService.getUser().subscribe((user: User) => {
+      this.user = user;
+    });
   }
 
 }
