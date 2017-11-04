@@ -10,29 +10,17 @@ import { Subscription } from 'rxjs/subscription';
 import { By } from '@angular/platform-browser';
 
 class UserServiceMock {
-  getUser(): Subscription { return null; }
+  getUser(): Observable<User> { return null; }
 }
 
 describe('MatchmakingComponent', () => {
 
   let matchmakingComponent: MatchmakingComponent;
   let fixture: ComponentFixture<MatchmakingComponent>;
-  let userService: UserService;
   let getUserObserver: Observer<User>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MatchmakingComponent ],
-      providers: [
-        { provide: UserService, useClass: UserServiceMock }
-      ]
-    })
-    .compileComponents();
-
-    userService = TestBed.get(UserService);
-  });
-
-  beforeEach(() => {
+    _configureTestingModule();
     _mockUserService();
     _initializeMatchmakingComponent();
   });
@@ -42,22 +30,33 @@ describe('MatchmakingComponent', () => {
   });
 
   describe("#onInit", () => {
-    it("it should call userService.getUser", () => {
+    it("fetches the user from the userService", () => {
+      let userService = TestBed.get(UserService);
       expect(userService.getUser).toHaveBeenCalled();
     });
 
-    it("it should show the username of the user returned from userService.getUser", () => {
+    it("shows the username of the user returned from the userService", () => {
       let user: User = new User({ name: "TEST_USER_NAME" });
       getUserObserver.next(user);
-      //
       fixture.detectChanges();
+
       let usernameElement = fixture.debugElement.query(By.css("#welcome-user")).nativeElement;
       expect(usernameElement.innerText).toEqual("Welcome TEST_USER_NAME");
     });
   });
 
+  function _configureTestingModule() {
+    TestBed.configureTestingModule({
+      declarations: [ MatchmakingComponent ],
+      providers: [
+        { provide: UserService, useClass: UserServiceMock }
+      ]
+    })
+    .compileComponents();
+  }
+
   function _mockUserService() {
-    spyOn(userService, "getUser").and.returnValue(
+    spyOn(TestBed.get(UserService), "getUser").and.returnValue(
       new Observable<User>((observer: Observer<User>) => {
         getUserObserver = observer;
       })
