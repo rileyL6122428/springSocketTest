@@ -5,11 +5,8 @@ import { Observable } from 'rxjs/observable';
 import { Observer } from 'rxjs/observer';
 import { User } from '../domain/user/User';
 import { By } from '@angular/platform-browser';
-
-
-class UserServiceMock {
-  getUser(): Observable<User> { return { subscribe: () => {} } as Observable<User>; }
-}
+import { stubableObservable, stubableSubscription } from '../test-utils/mocks';
+import { ServicesModule } from '../services/service.module';
 
 describe('MatchmakingComponent', () => {
 
@@ -19,10 +16,8 @@ describe('MatchmakingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ ServicesModule ],
       declarations: [ MatchmakingComponent ],
-      providers: [
-        { provide: UserService, useClass: UserServiceMock }
-      ]
     })
     .compileComponents();
 
@@ -36,8 +31,7 @@ describe('MatchmakingComponent', () => {
 
   describe("#onInit", () => {
     it("fetches the user from the userService", () => {
-      let userService = TestBed.get(UserService);
-      spyOn(userService, "getUser").and.returnValue({ subscribe: () => {} });
+      spyOn(userService, "getUser").and.returnValue(stubableObservable());
       _initializeMatchmakingComponent();
       expect(userService.getUser).toHaveBeenCalled();
     });
@@ -56,8 +50,18 @@ describe('MatchmakingComponent', () => {
   });
 
   describe("#onDestroy", () => {
-    xit("should remove its subscriptions", () => {
+    it("should remove the getUser subscription", () => {
+      let mockSubscription = stubableSubscription(),
+          mockObservable = stubableObservable();
 
+      spyOn(mockSubscription, 'unsubscribe');
+      spyOn(mockObservable, 'subscribe').and.returnValue(mockSubscription);
+      spyOn(userService, "getUser").and.returnValue(mockObservable);
+
+      _initializeMatchmakingComponent();
+      matchmakingComponent.ngOnDestroy();
+
+      expect(mockSubscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
