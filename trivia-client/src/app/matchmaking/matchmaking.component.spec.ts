@@ -8,44 +8,19 @@ import { Observer } from 'rxjs/observer';
 import { User } from '../domain/user/User';
 import { Subscription } from 'rxjs/subscription';
 import { By } from '@angular/platform-browser';
+import { fakeAsync } from '@angular/core/testing'
 
 class UserServiceMock {
-  getUser(): Observable<User> { return null; }
+  getUser(): Observable<User> { return { subscribe: () => {} } as Observable<User>; }
 }
 
 describe('MatchmakingComponent', () => {
 
   let matchmakingComponent: MatchmakingComponent;
   let fixture: ComponentFixture<MatchmakingComponent>;
-  let getUserObserver: Observer<User>;
+  let userService: UserService;
 
   beforeEach(() => {
-    _configureTestingModule();
-    _mockUserService();
-    _initializeMatchmakingComponent();
-  });
-
-  it('should create', () => {
-    expect(matchmakingComponent).toBeTruthy();
-  });
-
-  describe("#onInit", () => {
-    it("fetches the user from the userService", () => {
-      let userService = TestBed.get(UserService);
-      expect(userService.getUser).toHaveBeenCalled();
-    });
-
-    it("shows the username of the user returned from the userService", () => {
-      let user: User = new User({ name: "TEST_USER_NAME" });
-      getUserObserver.next(user);
-      fixture.detectChanges();
-
-      let usernameElement = fixture.debugElement.query(By.css("#welcome-user")).nativeElement;
-      expect(usernameElement.innerText).toEqual("Welcome TEST_USER_NAME");
-    });
-  });
-
-  function _configureTestingModule() {
     TestBed.configureTestingModule({
       declarations: [ MatchmakingComponent ],
       providers: [
@@ -53,17 +28,43 @@ describe('MatchmakingComponent', () => {
       ]
     })
     .compileComponents();
-  }
 
-  function _mockUserService() {
-    spyOn(TestBed.get(UserService), "getUser").and.returnValue(
-      new Observable<User>((observer: Observer<User>) => {
-        getUserObserver = observer;
-      })
-    );
-  }
+    userService = TestBed.get(UserService);
+  });
 
-  function _initializeMatchmakingComponent() {
+  it('should create', () => {
+    _initializeMatchmakingComponent();
+    expect(matchmakingComponent).toBeTruthy();
+  });
+
+  describe("#onInit", () => {
+    it("fetches the user from the userService", () => {
+      let userService = TestBed.get(UserService);
+      spyOn(userService, "getUser").and.returnValue({ subscribe: () => {} });
+      _initializeMatchmakingComponent();
+      expect(userService.getUser).toHaveBeenCalled();
+    });
+
+    it("shows the username of the user returned from the userService", () => {
+      let user = new User({ name: "TEST_USER_NAME" });
+      spyOn(userService, "getUser").and.returnValue(Observable.create(
+        (observer: Observer<User>) => { observer.next(user); }
+      ));
+
+      _initializeMatchmakingComponent();
+
+      let usernameElement = fixture.debugElement.query(By.css("#welcome-user")).nativeElement;
+      expect(usernameElement.innerText).toEqual(`Welcome ${user.name}`);
+    });
+  });
+
+  describe("#onDestroy", () => {
+    xit("should remove its subscriptions", () => {
+
+    });
+  });
+
+  function _initializeMatchmakingComponent(): void {
     fixture = TestBed.createComponent(MatchmakingComponent);
     matchmakingComponent = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { UserDomainFactory } from './user/User.factory';
+import { UserFactory } from './user/User.factory';
 
 @NgModule({
-  providers: [ UserDomainFactory ]
+  providers: [ UserFactory ]
 })
 export class DomainFactoryModule { }
