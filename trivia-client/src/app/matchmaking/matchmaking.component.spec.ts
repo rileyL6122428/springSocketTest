@@ -1,14 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatchmakingComponent } from './matchmaking.component';
-import { HttpModule } from '@angular/http'
-import { DebugElement } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs/observable';
 import { Observer } from 'rxjs/observer';
 import { User } from '../domain/user/User';
-import { Subscription } from 'rxjs/subscription';
 import { By } from '@angular/platform-browser';
-import { fakeAsync } from '@angular/core/testing'
+
 
 class UserServiceMock {
   getUser(): Observable<User> { return { subscribe: () => {} } as Observable<User>; }
@@ -48,7 +45,7 @@ describe('MatchmakingComponent', () => {
     it("shows the username of the user returned from the userService", () => {
       let user = new User({ name: "TEST_USER_NAME" });
       spyOn(userService, "getUser").and.returnValue(Observable.create(
-        (observer: Observer<User>) => { observer.next(user); }
+        (observer: Observer<User>) => observer.next(user)
       ));
 
       _initializeMatchmakingComponent();
