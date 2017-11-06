@@ -9,7 +9,9 @@ export class RoomMessageFactory {
   }
 
   mapPOJOList(messagePOJOs: Array<Object>): Array<RoomMessage> {
-    return null;
+    return messagePOJOs.map((messagePOJO) => {
+      return this.mapPOJO(messagePOJO);
+    });
   }
 
 }
