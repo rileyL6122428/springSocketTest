@@ -8,4 +8,8 @@ export class RoomMessageFactory {
     return messagePOJO as RoomMessage;
   }
 
+  mapPOJOList(messagePOJOs: Array<Object>): Array<RoomMessage> {
+    return null;
+  }
+
 }

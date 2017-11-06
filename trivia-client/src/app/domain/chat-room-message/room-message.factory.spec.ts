@@ -24,4 +24,26 @@ describe('RoomMessageFactory', () => {
       expect(message.timestamp).toEqual(messagePOJO['timestamp']);
     }));
   });
+
+  describe('#mapPOJOList', () => {
+    it("returns a list of mapped POJOs converted to RoomMessages",
+      inject([RoomMessageFactory], (roomMessageFactory: RoomMessageFactory) => {
+        let firstMessagePOJO = { body: "BODY1", senderName: "SENDER1", timestamp: new Date() };
+        let secondMessagePOJO = { body: "BODY2", senderName: "SENDER2", timestamp: new Date() };
+        let thirdMessagePOJO = { body: "BODY3", senderName: "SENDER3", timestamp: new Date() };
+        let messagePOJOs: Array<Object> = [ firstMessagePOJO, secondMessagePOJO, thirdMessagePOJO ];
+
+        let messages: Array<RoomMessage> = roomMessageFactory.mapPOJOList(messagePOJOs);
+
+        expect(messages.length).toBe(3);
+        messagePOJOs.forEach((messagePOJO, index) => {
+          let message = messages[index];
+
+          expect(message.body).toEqual(messagePOJO['body']);
+          expect(message.senderName).toEqual(messagePOJO['senderName']);
+          expect(message.timestamp).toEqual(messagePOJO['timestamp']);
+        });
+      }
+    ));
+  });
 });
