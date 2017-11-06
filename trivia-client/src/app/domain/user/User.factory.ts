@@ -8,4 +8,10 @@ export class UserFactory {
     return new User(userPOJO);
   }
 
+  mapPOJOList(userPOJOs: Array<Object>): Array<User> {
+    return userPOJOs.map((userPOJO) => {
+      return this.mapPOJO(userPOJO);
+    });
+  }
+
 }
