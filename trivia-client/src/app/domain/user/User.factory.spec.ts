@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { UserFactory } from './User.factory';
-import { User } from './User';
+import { User } from './user';
 
 describe('UserFactory', () => {
   beforeEach(() => {

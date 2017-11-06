@@ -3,8 +3,8 @@ import { HttpModule, XHRBackend, ResponseOptions, Connection, Response } from '@
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { UserService } from './user.service';
 import { Subscription } from 'rxjs/subscription';
-import { UserFactory } from '../domain/user/User.factory';
-import { User } from '../domain/user/User';
+import { UserFactory } from '../domain/user/user.factory';
+import { User } from '../domain/user/user';
 import { DomainFactoryModule } from '../domain/factory.module';
 
 describe('UserService', () => {

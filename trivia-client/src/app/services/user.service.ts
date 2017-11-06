@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/map'
-import { User } from '../domain/user/User';
-import { UserFactory } from '../domain/user/User.factory';
+import { User } from '../domain/user/user';
+import { UserFactory } from '../domain/user/user.factory';
 
 @Injectable()
 export class UserService {

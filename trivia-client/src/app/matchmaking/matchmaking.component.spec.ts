@@ -3,7 +3,7 @@ import { MatchmakingComponent } from './matchmaking.component';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs/observable';
 import { Observer } from 'rxjs/observer';
-import { User } from '../domain/user/User';
+import { User } from '../domain/user/user';
 import { By } from '@angular/platform-browser';
 import { stubableObservable, stubableSubscription } from '../test-utils/mocks';
 import { ServicesModule } from '../services/service.module';

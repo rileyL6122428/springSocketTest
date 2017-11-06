@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { UserFactory } from './user/User.factory';
+import { UserFactory } from './user/user.factory';
 import { RoomMessageFactory } from './chat-room-message/room-message.factory';
 
 @NgModule({
