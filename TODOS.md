@@ -1,2 +1,3 @@
-- get project working with angular cli, and get tests going. Check for
-  compatibility with stomp service
+- get matchmaking initial fetch working
+- get matchmaking STOMP messaging working
+- get room get method working, populate matchmaking on entry
