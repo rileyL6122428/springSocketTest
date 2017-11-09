@@ -5,13 +5,15 @@ import { RoomService } from './room.service';
 import { RoomFactory } from '../domain/room/room.factory';
 
 describe('RoomService', () => {
-  TestBed.configureTestingModule({
-    imports: [ HttpModule ],
-    providers: [
-      RoomFactory,
-      RoomService,
-      { provide: XHRBackend, useClass: MockBackend }
-    ]
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ HttpModule ],
+      providers: [
+        RoomFactory,
+        RoomService,
+        { provide: XHRBackend, useClass: MockBackend }
+      ]
+    });
   });
 
   describe('#getRoom', () => {
