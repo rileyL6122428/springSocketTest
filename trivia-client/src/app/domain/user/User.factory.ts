@@ -14,4 +14,14 @@ export class UserFactory {
     });
   }
 
+  mapPOJOMap(userPOJOs: object): Map<string, User> {
+    let userMap: Map<string, User> = new Map<string, User>();
+
+    Object.keys(userPOJOs).forEach((username: string) => {
+      userMap.set(username, new User(userPOJOs[username]));
+    });
+
+    return userMap;
+  }
+
 }
