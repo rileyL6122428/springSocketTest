@@ -5,7 +5,7 @@ import { RoomMessage } from './room-message';
 export class RoomMessageFactory {
 
   mapPOJO(messagePOJO: Object): RoomMessage {
-    return messagePOJO as RoomMessage;
+    return new RoomMessage(messagePOJO);
   }
 
   mapPOJOList(messagePOJOs: Array<Object>): Array<RoomMessage> {
