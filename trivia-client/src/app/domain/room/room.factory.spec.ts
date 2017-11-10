@@ -19,61 +19,110 @@ describe('RoomFactory', () => {
   });
 
   describe('#fromPOJO', () => {
-    it("returns a room with mapped values",
-      inject([RoomFactory], (roomFactory: RoomFactory) => {
-        let roomPOJO: Object = {
-          name: "EXAMPLE_NAME",
-          maxNumberOfUsers: 5,
-          messages: new Array<Object>(),
-          users: new Array<Object>()
-        };
+
+    let roomPOJO: object;
+
+    beforeEach(() => {
+      roomPOJO = {
+        name: "EXAMPLE_NAME",
+        maxNumberOfUsers: 5,
+        messages: new Array<Object>(),
+        users: {}
+      };
+    });
+
+    it("maps the user payload by delegating to the UserFactory",
+      inject([RoomFactory, UserFactory],
+        (roomFactory: RoomFactory, userFactory: UserFactory) => {
+        let mockMappedUsers: Map<string, User> = new Map<string, User>();
+        spyOn(userFactory, "mapPOJOMap").and.returnValue(mockMappedUsers);
 
         let room: Room = roomFactory.fromPOJO(roomPOJO);
 
-        expectRoomPOJOToEqualRoom(room, roomPOJO);
+        expect(userFactory.mapPOJOMap).toHaveBeenCalledWith(roomPOJO["users"]);
+        expect(room.users).toBe(mockMappedUsers);
+      }
+    ));
+
+    it("maps the chat room messages payload by delegating to the RoomMessageFactory",
+      inject([RoomFactory, RoomMessageFactory], (roomFactory: RoomFactory, roomMessageFactory: RoomMessageFactory) => {
+        let mockMappedMessages: Array<RoomMessage> = Array<RoomMessage>();
+        spyOn(roomMessageFactory, "mapPOJOList").and.returnValue(mockMappedMessages);
+
+        let room: Room = roomFactory.fromPOJO(roomPOJO);
+
+        expect(roomMessageFactory.mapPOJOList).toHaveBeenCalledWith(roomPOJO['messages']);
+        expect(room.messages).toEqual(mockMappedMessages);
+      }
+    ));
+
+    it("maps the room name",
+      inject([RoomFactory], (roomFactory: RoomFactory) => {
+        let room: Room = roomFactory.fromPOJO(roomPOJO);
+        expect(room.name).toEqual(roomPOJO['name']);
+      }
+    ));
+
+    it("maps the max number of users allowed in the room",
+      inject([RoomFactory], (roomFactory: RoomFactory) => {
+        let room: Room = roomFactory.fromPOJO(roomPOJO);
+        expect(room.maxNumberOfUsers).toEqual(roomPOJO['maxNumberOfUsers']);
       }
     ));
   });
 
   describe('#fromPOJOMapToList', () => {
-    it("should convert the POJO map to an ordered list of rooms",
-      inject([RoomFactory], (roomFactory: RoomFactory) => {
-        let roomPOJOs: Map<string, Object> = new Map<string, Object>();
-        roomPOJOs.set('cba', {
-          name: "cba",
-          maxNumberOfUsers: 5,
-          messages: new Array<Object>(),
-          users: new Array<Object>()
-        });
-        roomPOJOs.set('bac', {
-          name: "bac",
-          maxNumberOfUsers: 5,
-          messages: new Array<Object>(),
-          users: new Array<Object>()
-        });
-        roomPOJOs.set('abc', {
-          name: "abc",
-          maxNumberOfUsers: 5,
-          messages: new Array<Object>(),
-          users: new Array<Object>()
-        });
-        
-        let rooms: Array<Room> = roomFactory.fromPOJOMapToList(roomPOJOs);
+    let roomOne: object, roomTwo: object, roomThree: object;
 
-        expect(rooms.length).toEqual(3);
-        expectRoomPOJOToEqualRoom(rooms[0], roomPOJOs.get('abc'));
-        expectRoomPOJOToEqualRoom(rooms[1], roomPOJOs.get('bac'));
-        expectRoomPOJOToEqualRoom(rooms[2], roomPOJOs.get('cba'));
+    beforeEach(() => {
+      roomOne = {
+        name: "roomOne",
+        maxNumberOfUsers: 5,
+        messages: new Array<Object>(),
+        users: {}
+      };
+
+      roomTwo = {
+        name: "roomTwo",
+        maxNumberOfUsers: 5,
+        messages: new Array<Object>(),
+        users: {}
+      };
+
+      roomThree = {
+        name: "roomThree",
+        maxNumberOfUsers: 5,
+        messages: new Array<Object>(),
+        users: {}
+      };
+    });
+
+    it("delegates to the roomFactory#fromPOJO",
+      inject([RoomFactory], (roomFactory: RoomFactory) => {
+        let mockRoomOne: Room = new Room({});
+        let mockRoomTwo: Room = new Room({});
+        let mockRoomThree: Room = new Room({});
+        spyOn(roomFactory, "fromPOJO").and.returnValues(mockRoomOne, mockRoomTwo, mockRoomThree);
+
+        let rooms: Array<Room> = roomFactory.fromPOJOMapToList({ roomOne, roomTwo, roomThree });
+
+        let fromPOJOSpy: any = roomFactory.fromPOJO;
+        expect(fromPOJOSpy.calls.allArgs().length).toBe(3);
+
+        expect(rooms.length).toBe(3);
+        expect(rooms).toContain(mockRoomOne);
+        expect(rooms).toContain(mockRoomTwo);
+        expect(rooms).toContain(mockRoomThree);
       }
     ));
 
+    it("sorts the rooms by name",
+      inject([RoomFactory], (roomFactory: RoomFactory) => {
+        let rooms: Array<Room> = roomFactory.fromPOJOMapToList({ roomOne, roomTwo, roomThree });
+        expect(rooms[0].name).toEqual("roomOne");
+        expect(rooms[1].name).toEqual("roomThree");
+        expect(rooms[2].name).toEqual("roomTwo");
+      }
+    ));
   });
-
-  function expectRoomPOJOToEqualRoom(room: Room, roomPOJO: Object) {
-    expect(room.name).toEqual(roomPOJO['name']);
-    expect(room.maxNumberOfUsers).toEqual(roomPOJO['maxNumberOfUsers']);
-    expect(room.messages).toEqual(roomPOJO['messages']);
-    expect(room.users).toEqual(roomPOJO['users']);
-  }
-
 });
