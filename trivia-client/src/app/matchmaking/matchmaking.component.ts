@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../domain/user/user';
+import { MatchmakingService } from '../services/matchmaking.service';
 import { Subscription } from 'rxjs/subscription';
+import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 
 @Component({
   selector: 'app-matchmaking',
@@ -14,16 +16,24 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription>;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private matchmakingService: MatchmakingService
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions = new Array<Subscription>();
+
     let getUserSubscription = this.userService.getUser().subscribe((user: User) => {
       this.user = user;
     });
 
-    this.subscriptions.push(getUserSubscription);
+    let getStatsSubscription = this.matchmakingService.getMatchmakingStats().subscribe((stats: MatchmakingStats) => {
+      console.log(stats);
+    });
+
+    this.subscriptions = [
+      getUserSubscription,
+      getStatsSubscription
+    ];
   }
 
   ngOnDestroy(): void {

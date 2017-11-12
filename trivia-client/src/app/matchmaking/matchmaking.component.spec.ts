@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { MatchmakingComponent } from './matchmaking.component';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs/observable';
@@ -7,6 +7,7 @@ import { User } from '../domain/user/user';
 import { By } from '@angular/platform-browser';
 import { stubableObservable, stubableSubscription } from '../test-utils/mocks';
 import { ServicesModule } from '../services/service.module';
+import { MatchmakingService } from '../services/matchmaking.service';
 
 describe('MatchmakingComponent', () => {
 
@@ -47,10 +48,18 @@ describe('MatchmakingComponent', () => {
       let usernameElement = fixture.debugElement.query(By.css("#welcome-user")).nativeElement;
       expect(usernameElement.innerText).toEqual(`Welcome ${user.name}`);
     });
+
+    it("fetches matchmaking stats from the matchmakingService",
+      inject([MatchmakingService], (matchmakingService) => {
+        spyOn(matchmakingService, 'getMatchmakingStats').and.returnValue(stubableObservable());
+        _initializeMatchmakingComponent();
+        expect(matchmakingService.getMatchmakingStats).toHaveBeenCalled();
+      }
+    ));
   });
 
   describe("#onDestroy", () => {
-    it("should remove the getUser subscription", () => {
+    it("removes the getUser subscription", () => {
       let mockSubscription = stubableSubscription(),
           mockObservable = stubableObservable();
 
@@ -63,6 +72,22 @@ describe('MatchmakingComponent', () => {
 
       expect(mockSubscription.unsubscribe).toHaveBeenCalled();
     });
+
+    it("removes the getStats subscription",
+      inject([MatchmakingService], (matchmakingService: MatchmakingService) => {
+        let mockSubscription = stubableSubscription(),
+            mockObservable = stubableObservable();
+
+        spyOn(mockSubscription, 'unsubscribe');
+        spyOn(mockObservable, 'subscribe').and.returnValue(mockSubscription);
+        spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(mockObservable);
+
+        _initializeMatchmakingComponent();
+        matchmakingComponent.ngOnDestroy();
+
+        expect(mockSubscription.unsubscribe).toHaveBeenCalled();
+      }
+    ));
   });
 
   function _initializeMatchmakingComponent(): void {
