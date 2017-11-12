@@ -4,7 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { RoomService } from './room.service';
 import { RoomFactory } from '../domain/room/room.factory';
 
-describe('RoomService', () => {
+xdescribe('RoomService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule ],
