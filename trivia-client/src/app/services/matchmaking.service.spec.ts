@@ -60,7 +60,7 @@ describe('MatchmakingService', () => {
         mockBackend.connections.subscribe((connection) => {
           connection.mockRespond(new Response(new ResponseOptions({
             status: 400,
-            body: JSON.stringify({ message: "A_SUCCESSFUL_MOCK_RESPONSE_BODY" }),
+            body: JSON.stringify({ message: "A_UNSUCCESSFUL_MOCK_RESPONSE_BODY" }),
           })));
         });
 
