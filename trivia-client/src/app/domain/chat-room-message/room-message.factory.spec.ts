@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { RoomMessageFactory } from './room-message.factory';
 import { RoomMessage } from './room-message';
 
-xdescribe('RoomMessageFactory', () => {
+describe('RoomMessageFactory', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ RoomMessageFactory ]

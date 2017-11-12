@@ -44,9 +44,9 @@ describe('UserFactory', () => {
         let sammy: object = { name: "sammy" };
         let wammy: object = { name: "wammy" };
         let userPOJOs: object = { tommy, sammy, wammy };
-        debugger
-        let users: Map<string, User> = userFactory.mapPOJOMap(userPOJOs);
         
+        let users: Map<string, User> = userFactory.mapPOJOMap(userPOJOs);
+
         expect(users.size).toEqual(Object.keys(userPOJOs).length);
         expect(users.get("tommy").name).toEqual("tommy");
         expect(users.get("sammy").name).toEqual("sammy");
