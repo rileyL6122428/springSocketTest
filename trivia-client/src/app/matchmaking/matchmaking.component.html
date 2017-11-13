@@ -1,3 +1,7 @@
 <section *ngIf="user">
   <h3 id="welcome-user">Welcome {{user.name}}</h3>
 </section>
+
+<section *ngIf="matchmakingStats">
+  <p id="unplaced-user-total">{{matchmakingStats.unplacedUserTotal}} unplaced users</p>
+</section>

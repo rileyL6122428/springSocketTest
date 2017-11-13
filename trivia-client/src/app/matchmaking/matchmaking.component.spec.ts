@@ -8,6 +8,7 @@ import { By } from '@angular/platform-browser';
 import { stubableObservable, stubableSubscription } from '../test-utils/mocks';
 import { ServicesModule } from '../services/service.module';
 import { MatchmakingService } from '../services/matchmaking.service';
+import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 
 describe('MatchmakingComponent', () => {
 
@@ -56,6 +57,19 @@ describe('MatchmakingComponent', () => {
         expect(matchmakingService.getMatchmakingStats).toHaveBeenCalled();
       }
     ));
+
+    it("shows the number of unplaced users returned from the matchmakingService",
+      inject([MatchmakingService], (matchmakingService) => {
+        let matchmakingStats = new MatchmakingStats({ unplacedUserTotal: 2, rooms: [] });
+        spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(Observable.create(
+          (observer: Observer<MatchmakingStats>) => observer.next(matchmakingStats)
+        ));
+
+        _initializeMatchmakingComponent();
+
+        let unplacedUserElement = fixture.debugElement.query(By.css("#unplaced-user-total")).nativeElement;
+        expect(unplacedUserElement.innerText).toEqual(`${matchmakingStats.unplacedUserTotal} unplaced users`);
+    }));
   });
 
   describe("#onDestroy", () => {
