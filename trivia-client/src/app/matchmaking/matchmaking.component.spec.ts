@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, async } from '@angular/core/testing';
 import { MatchmakingComponent } from './matchmaking.component';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs/observable';
@@ -9,6 +9,7 @@ import { stubableObservable, stubableSubscription } from '../test-utils/mocks';
 import { ServicesModule } from '../services/service.module';
 import { MatchmakingService } from '../services/matchmaking.service';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
+import { Room } from '../domain/room/room';
 
 describe('MatchmakingComponent', () => {
 
@@ -58,18 +59,64 @@ describe('MatchmakingComponent', () => {
       }
     ));
 
-    it("shows the number of unplaced users returned from the matchmakingService",
-      inject([MatchmakingService], (matchmakingService) => {
-        let matchmakingStats = new MatchmakingStats({ unplacedUserTotal: 2, rooms: [] });
-        spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(Observable.create(
-          (observer: Observer<MatchmakingStats>) => observer.next(matchmakingStats)
-        ));
+    describe("matchmaking stats display", () => {
+      let matchmakingStats: MatchmakingStats;
 
-        _initializeMatchmakingComponent();
+      beforeEach(() => {
+        matchmakingStats = new MatchmakingStats({
+          unplacedUserTotal: 2,
+          rooms: [
+            new Room({
+              name: "ROOM_ONE",
+              maxNumberOfUsers: 3,
+              users: new Map<string, User>()
+                      .set("tim", new User({ name: "tim" }))
+                      .set("tom", new User({ name: "tom" }))
+            }),
+            new Room({
+              name: "ROOM_TWO",
+              maxNumberOfUsers: 5,
+              users: new Map<string, User>()
+                      .set("tam", new User({ name: "tam" }))
+            })
+          ]
+        });
+      });
 
-        let unplacedUserElement = fixture.debugElement.query(By.css("#unplaced-user-total")).nativeElement;
-        expect(unplacedUserElement.innerText).toEqual(`${matchmakingStats.unplacedUserTotal} unplaced users`);
-    }));
+      it("shows the number of unplaced users returned from the matchmakingService",
+        inject([MatchmakingService], (matchmakingService) => {
+          let matchmakingStats = new MatchmakingStats({ unplacedUserTotal: 2, rooms: [] });
+          spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(Observable.create(
+            (observer: Observer<MatchmakingStats>) => observer.next(matchmakingStats)
+          ));
+
+          _initializeMatchmakingComponent();
+
+          let unplacedUserElement = fixture.debugElement.query(By.css("#unplaced-user-total")).nativeElement;
+          expect(unplacedUserElement.innerText).toEqual(`${matchmakingStats.unplacedUserTotal} unplaced users`);
+      }));
+
+      it("shows the name, number of users, and the max number of users for each room returned from the matchmakingService",
+        async(inject([MatchmakingService], (matchmakingService) => {
+          spyOn(userService, "getUser").and.returnValue(stubableObservable());
+          spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(Observable.create(
+            (observer: Observer<MatchmakingStats>) => observer.next(matchmakingStats)
+          ));
+
+          _initializeMatchmakingComponent();
+
+          let roomsListElement = fixture.debugElement.query(By.css("#rooms")).nativeElement;
+          expect(roomsListElement.children.length).toBe(2);
+
+          let roomOneListItem: HTMLElement = roomsListElement.children[0];
+          expect(roomOneListItem.innerHTML).toContain(`ROOM_ONE`);
+          expect(roomOneListItem.innerHTML).toContain(`2/3`);
+
+          let roomTwoElement: HTMLElement = roomsListElement.children[1];
+          expect(roomTwoElement.innerHTML).toContain(`ROOM_TWO`);
+          expect(roomTwoElement.innerHTML).toContain(`1/5`);
+      }))
+    )});
   });
 
   describe("#onDestroy", () => {
