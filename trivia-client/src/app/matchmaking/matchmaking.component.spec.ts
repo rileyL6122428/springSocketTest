@@ -33,13 +33,17 @@ describe('MatchmakingComponent', () => {
   });
 
   describe("#onInit", () => {
-    it("fetches the user from the userService", () => {
-      spyOn(userService, "getUser").and.returnValue(stubableObservable());
-      _initializeMatchmakingComponent();
-      expect(userService.getUser).toHaveBeenCalled();
-    });
+    it("fetches the user from the userService",
+      async(inject([MatchmakingService], (matchmakingService) => {
+        spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(stubableObservable());
+        spyOn(userService, "getUser").and.returnValue(stubableObservable());
+        _initializeMatchmakingComponent();
+        expect(userService.getUser).toHaveBeenCalled();
+    })));
 
-    it("shows the username of the user returned from the userService", () => {
+    it("shows the username of the user returned from the userService", async(
+      inject([MatchmakingService], (matchmakingService) => {
+      spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(stubableObservable());
       let user = new User({ name: "TEST_USER_NAME" });
       spyOn(userService, "getUser").and.returnValue(Observable.create(
         (observer: Observer<User>) => observer.next(user)
@@ -49,15 +53,16 @@ describe('MatchmakingComponent', () => {
 
       let usernameElement = fixture.debugElement.query(By.css("#welcome-user")).nativeElement;
       expect(usernameElement.innerText).toEqual(`Welcome ${user.name}`);
-    });
+    })));
 
     it("fetches matchmaking stats from the matchmakingService",
-      inject([MatchmakingService], (matchmakingService) => {
+      async(inject([MatchmakingService], (matchmakingService) => {
+        spyOn(userService, "getUser").and.returnValue(stubableObservable());
         spyOn(matchmakingService, 'getMatchmakingStats').and.returnValue(stubableObservable());
         _initializeMatchmakingComponent();
         expect(matchmakingService.getMatchmakingStats).toHaveBeenCalled();
       }
-    ));
+    )));
 
     describe("matchmaking stats display", () => {
       let matchmakingStats: MatchmakingStats;
@@ -84,7 +89,8 @@ describe('MatchmakingComponent', () => {
       });
 
       it("shows the number of unplaced users returned from the matchmakingService",
-        inject([MatchmakingService], (matchmakingService) => {
+        async(inject([MatchmakingService], (matchmakingService) => {
+          spyOn(userService, "getUser").and.returnValue(stubableObservable());
           let matchmakingStats = new MatchmakingStats({ unplacedUserTotal: 2, rooms: [] });
           spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(Observable.create(
             (observer: Observer<MatchmakingStats>) => observer.next(matchmakingStats)
@@ -94,7 +100,7 @@ describe('MatchmakingComponent', () => {
 
           let unplacedUserElement = fixture.debugElement.query(By.css("#unplaced-user-total")).nativeElement;
           expect(unplacedUserElement.innerText).toEqual(`${matchmakingStats.unplacedUserTotal} unplaced users`);
-      }));
+      })));
 
       it("shows the name, number of users, and the max number of users for each room returned from the matchmakingService",
         async(inject([MatchmakingService], (matchmakingService) => {
