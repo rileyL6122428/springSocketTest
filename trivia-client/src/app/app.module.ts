@@ -30,7 +30,7 @@ import { ServicesModule } from './services/service.module'
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: StompConfig, useValue: STOMP_CONFIG },
-    StompService,
+    StompService
   ],
 })
 export class AppModule { }

@@ -3,13 +3,15 @@ import { Observable } from 'rxjs/observable';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { Http } from '@angular/http';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
+import { StompService } from '@stomp/ng2-stompjs';
 
 @Injectable()
 export class MatchmakingService {
 
   constructor(
     private http: Http,
-    private matchmakingStatsFactory: MatchmakingStatsFactory
+    private matchmakingStatsFactory: MatchmakingStatsFactory,
+    private stompService: StompService
   ) { }
 
   getMatchmakingStats(): Observable<MatchmakingStats> {
@@ -19,6 +21,10 @@ export class MatchmakingService {
       else
         return null;
     });
+  }
+
+  subscribeToMatchmaking(): Observable<MatchmakingStats> {
+    return null;
   }
 
 }

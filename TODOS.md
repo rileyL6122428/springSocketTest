@@ -1,1 +1,1 @@
-- get Matchmaking Service working with initial stats grab
+- recover matchmaking messaging

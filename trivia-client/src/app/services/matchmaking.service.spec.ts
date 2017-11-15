@@ -8,6 +8,8 @@ import { DomainFactoryModule } from '../domain/factory.module';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { Observable } from 'rxjs/observable';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
+import { StompService, StompConfig } from '@stomp/ng2-stompjs';
+import { STOMP_CONFIG } from '../stomp.config';
 
 describe('MatchmakingService', () => {
 
@@ -16,7 +18,9 @@ describe('MatchmakingService', () => {
       imports: [ HttpModule, DomainFactoryModule ],
       providers: [
         MatchmakingService,
-        { provide: XHRBackend, useClass: MockBackend }
+        { provide: XHRBackend, useClass: MockBackend },
+        { provide: StompConfig, useValue: STOMP_CONFIG },
+        StompService
       ]
     });
   });
@@ -69,6 +73,14 @@ describe('MatchmakingService', () => {
         });
       }
     ));
+  });
+
+  describe("#subscribeToMatchmaking", () => {
+    xit("delegates to StompService#subscribe, passing along the appropriate path and headers", inject([MatchmakingService, StompService], (matchmakingService, stompService) => {
+      spyOn(stompService, "subscribe");
+      matchmakingService.subscribeToMatchmaking();
+      expect(stompService.subscribe).toHaveBeenCalled();
+    }));
   });
 
 });
