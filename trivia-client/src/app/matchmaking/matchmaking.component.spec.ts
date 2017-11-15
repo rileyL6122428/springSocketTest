@@ -12,6 +12,7 @@ import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { Room } from '../domain/room/room';
 import { Subscription } from 'rxjs/subscription';
 import { watchForUnsubscription } from '../test-utils/unsubscription-watcher';
+import { StompService } from '@stomp/ng2-stompjs';
 
 describe('MatchmakingComponent', () => {
 
@@ -24,6 +25,9 @@ describe('MatchmakingComponent', () => {
     TestBed.configureTestingModule({
       imports: [ ServicesModule ],
       declarations: [ MatchmakingComponent ],
+      providers: [
+        { provide: StompService, useValue: {} },
+      ]
     })
     .compileComponents();
   });

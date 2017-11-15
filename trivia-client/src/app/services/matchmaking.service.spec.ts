@@ -9,7 +9,11 @@ import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { Observable } from 'rxjs/observable';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
 import { StompService, StompConfig } from '@stomp/ng2-stompjs';
+import { Message } from '@stomp/stompjs';
 import { STOMP_CONFIG } from '../stomp.config';
+import { stubableObservable, StubableStompService } from '../test-utils/mocks';
+import { Observer } from 'rxjs/Observer';
+// import 'rxjs/add/observable/of';
 
 describe('MatchmakingService', () => {
 
@@ -20,7 +24,7 @@ describe('MatchmakingService', () => {
         MatchmakingService,
         { provide: XHRBackend, useClass: MockBackend },
         { provide: StompConfig, useValue: STOMP_CONFIG },
-        StompService
+        { provide: StompService, useClass: StubableStompService },
       ]
     });
   });
@@ -76,8 +80,8 @@ describe('MatchmakingService', () => {
   });
 
   describe("#subscribeToMatchmaking", () => {
-    xit("delegates to StompService#subscribe, passing along the appropriate path and headers", inject([MatchmakingService, StompService], (matchmakingService, stompService) => {
-      spyOn(stompService, "subscribe");
+    it("delegates to StompService#subscribe, passing along the appropriate path and headers", inject([MatchmakingService, StompService], (matchmakingService, stompService:StubableStompService) => {
+      spyOn(stompService, "subscribe").and.returnValue(stubableObservable());
       matchmakingService.subscribeToMatchmaking();
       expect(stompService.subscribe).toHaveBeenCalled();
     }));

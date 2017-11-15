@@ -4,6 +4,8 @@ import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { Http } from '@angular/http';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
 import { StompService } from '@stomp/ng2-stompjs';
+import { Message } from '@stomp/stompjs';
+import { map } from "rxjs/operator/map";
 
 @Injectable()
 export class MatchmakingService {
@@ -24,7 +26,11 @@ export class MatchmakingService {
   }
 
   subscribeToMatchmaking(): Observable<MatchmakingStats> {
-    return null;
+
+    return this.stompService.subscribe('queue/name')
+      .map((message: Message) => {
+        return null;
+      });
   }
 
 }
