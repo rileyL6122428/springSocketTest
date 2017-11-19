@@ -7,7 +7,8 @@ import { MatchmakingComponent } from './matchmaking/matchmaking.component';
 import { StompService, StompConfig } from '@stomp/ng2-stompjs';
 import { ROUTES_CONFIG } from './routes.config';
 import { STOMP_CONFIG } from './stomp.config';
-import { ServicesModule } from './services/service.module'
+import { ServicesModule } from './services/service.module';
+import { RoomComponent } from './room/room.component'
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ServicesModule } from './services/service.module'
 
   declarations: [
     AppComponent,
-    MatchmakingComponent
+    MatchmakingComponent,
+    RoomComponent
   ],
 
   entryComponents: [
