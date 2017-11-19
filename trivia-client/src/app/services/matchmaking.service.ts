@@ -32,7 +32,8 @@ export class MatchmakingService {
 
     return this.stompService.subscribe('/topic/matchmaking', headers)
       .map((message: Message) => {
-        return this.matchmakingStatsFactory.createNewStats(message);
+        let statsPayload = JSON.parse(message.body);
+        return this.matchmakingStatsFactory.createNewStats(statsPayload);
       });
   }
 

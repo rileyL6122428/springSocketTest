@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs/subscription';
 import { stubableSubscription, stubableObservable } from './mocks';
+import "jasmine";
 
 export function watchForUnsubscription(jasmineSpy: any): Subscription {
   let mockSubscription = stubableSubscription(),

@@ -90,15 +90,16 @@ describe('MatchmakingService', () => {
 
     it("maps the returned message by passing it to the matchmaking stats factory",
       inject([MatchmakingService, StompService, MatchmakingStatsFactory], (matchmakingService, stompService, statsFactory) => {
-        let message: any = {};
+        let messageBody = JSON.stringify({mockStatsPayload:'mockStatsPayload'});
         spyOn(stompService, "subscribe").and.returnValue(Observable.create(
-          (observer: Observer<any>) => observer.next(message)
+          (observer: Observer<any>) => observer.next({ body: messageBody })
         ));
 
         let matchmakingStats: MatchmakingStats = new MatchmakingStats({});
         spyOn(statsFactory, "createNewStats").and.returnValue(matchmakingStats);
 
         matchmakingService.subscribeToMatchmaking().subscribe((observedStats) => {
+          expect(statsFactory.createNewStats).toHaveBeenCalledWith({ mockStatsPayload: 'mockStatsPayload' });
           expect(observedStats).toBe(matchmakingStats);
         });
       }
