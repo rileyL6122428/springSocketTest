@@ -7,7 +7,6 @@ import { DomainFactoryModule } from '../domain/factory.module';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
 import { StompService, StompConfig } from '@stomp/ng2-stompjs';
-import { Message } from '@stomp/stompjs';
 import { STOMP_CONFIG } from '../stomp.config';
 import { stubableObservable, StubableStompService } from '../test-utils/mocks';
 import { CookieService } from 'angular2-cookie/services/cookies.service'
