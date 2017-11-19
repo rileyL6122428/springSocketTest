@@ -12,7 +12,7 @@ import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 })
 export class MatchmakingComponent implements OnInit, OnDestroy {
 
-  private user: User;
+  private _user: User;
   private _matchmakingStats: MatchmakingStats;
   private subscriptions: Array<Subscription>;
 
@@ -22,23 +22,18 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
-    let getUserSubscription = this.userService.getUser().subscribe((user: User) => {
-      this.user = user;
-    });
-
-    let getStatsSubscription = this.matchmakingService.getMatchmakingStats().subscribe((stats: MatchmakingStats) => {
-      this._matchmakingStats = stats;
-    });
-
-    let matchmakingStompSubscription = this.matchmakingService.subscribeToMatchmaking().subscribe((stats: MatchmakingStats) => {
-      this._matchmakingStats = stats;
-    });
-
     this.subscriptions = [
-      getUserSubscription,
-      getStatsSubscription,
-      matchmakingStompSubscription
+      this.userService.getUser().subscribe((user: User) => {
+        this._user = user;
+      }),
+
+      this.matchmakingService.getMatchmakingStats().subscribe((stats: MatchmakingStats) => {
+        this._matchmakingStats = stats;
+      }),
+
+      this.matchmakingService.subscribeToMatchmaking().subscribe((stats: MatchmakingStats) => {
+        this._matchmakingStats = stats;
+      })
     ];
   }
 
@@ -46,6 +41,10 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  get user(): User {
+    return this._user;
   }
 
   get matchmakingStats(): MatchmakingStats {
