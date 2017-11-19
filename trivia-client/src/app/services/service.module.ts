@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { MatchmakingService } from './matchmaking.service';
 import { StompService, StompConfig } from '@stomp/ng2-stompjs';
 import { STOMP_CONFIG } from '../stomp.config';
+import { CookieService } from 'angular2-cookie/services/cookies.service'
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { STOMP_CONFIG } from '../stomp.config';
     UserService,
     MatchmakingService,
     { provide: StompConfig, useValue: STOMP_CONFIG },
-    StompService
+    StompService,
+    CookieService
   ]
 })
 export class ServicesModule {

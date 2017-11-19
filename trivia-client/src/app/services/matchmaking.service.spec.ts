@@ -2,18 +2,18 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule, XHRBackend, ResponseOptions, Connection, Response } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { MatchmakingService } from './matchmaking.service';
-import { Subscription } from 'rxjs/subscription';
 import { User } from '../domain/user/user';
 import { DomainFactoryModule } from '../domain/factory.module';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
-import { Observable } from 'rxjs/observable';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
 import { StompService, StompConfig } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { STOMP_CONFIG } from '../stomp.config';
 import { stubableObservable, StubableStompService } from '../test-utils/mocks';
+import { CookieService } from 'angular2-cookie/services/cookies.service'
+import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-// import 'rxjs/add/observable/of';
+import { Subscription } from 'rxjs/Subscription';
 
 describe('MatchmakingService', () => {
 
@@ -25,6 +25,7 @@ describe('MatchmakingService', () => {
         { provide: XHRBackend, useClass: MockBackend },
         { provide: StompConfig, useValue: STOMP_CONFIG },
         { provide: StompService, useClass: StubableStompService },
+        CookieService
       ]
     });
   });
@@ -80,11 +81,28 @@ describe('MatchmakingService', () => {
   });
 
   describe("#subscribeToMatchmaking", () => {
-    it("delegates to StompService#subscribe, passing along the appropriate path and headers", inject([MatchmakingService, StompService], (matchmakingService, stompService:StubableStompService) => {
+    it("delegates to StompService#subscribe, passing along the appropriate path and headers", inject([MatchmakingService, StompService], (matchmakingService, stompService) => {
+      document.cookie = "TRIVIA_SESSION_COOKIE=EXAMPLE_SESSION_COOKIE_VALUE";
       spyOn(stompService, "subscribe").and.returnValue(stubableObservable());
       matchmakingService.subscribeToMatchmaking();
-      expect(stompService.subscribe).toHaveBeenCalled();
+      expect(stompService.subscribe).toHaveBeenCalledWith("/topic/matchmaking", { testHeader: "EXAMPLE_SESSION_COOKIE_VALUE" });
     }));
+
+    it("maps the returned message by passing it to the matchmaking stats factory",
+      inject([MatchmakingService, StompService, MatchmakingStatsFactory], (matchmakingService, stompService, statsFactory) => {
+        let message: any = {};
+        spyOn(stompService, "subscribe").and.returnValue(Observable.create(
+          (observer: Observer<any>) => observer.next(message)
+        ));
+
+        let matchmakingStats: MatchmakingStats = new MatchmakingStats({});
+        spyOn(statsFactory, "createNewStats").and.returnValue(matchmakingStats);
+
+        matchmakingService.subscribeToMatchmaking().subscribe((observedStats) => {
+          expect(observedStats).toBe(matchmakingStats);
+        });
+      }
+    ));
   });
 
 });
