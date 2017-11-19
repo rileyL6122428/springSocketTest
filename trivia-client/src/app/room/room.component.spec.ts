@@ -22,4 +22,19 @@ describe('RoomComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe("#onInit", () => {
+    xit("fetches the room from the roomService");
+    xit("subscribes to the room's STOMP Broker endpoint through the roomService");
+  });
+
+  describe("exposed state", () => {
+    xit("exposes the room retrieved from the getRoom subscription");
+    xit("exposes the room retrieved from the roomSTOMPSubscription");
+  });
+
+  describe("#onDestroy", () => {
+    xit("removes the getRoom subscription");
+    xit("removes the roomSTOMP subscription");
+  });
 });
