@@ -13,7 +13,7 @@ import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 export class MatchmakingComponent implements OnInit, OnDestroy {
 
   private user: User;
-  private matchmakingStats: MatchmakingStats;
+  private _matchmakingStats: MatchmakingStats;
   private subscriptions: Array<Subscription>;
 
   constructor(
@@ -28,12 +28,17 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     });
 
     let getStatsSubscription = this.matchmakingService.getMatchmakingStats().subscribe((stats: MatchmakingStats) => {
-      this.matchmakingStats = stats;
+      this._matchmakingStats = stats;
+    });
+
+    let matchmakingStompSubscription = this.matchmakingService.subscribeToMatchmaking().subscribe((stats: MatchmakingStats) => {
+      this._matchmakingStats = stats;
     });
 
     this.subscriptions = [
       getUserSubscription,
-      getStatsSubscription
+      getStatsSubscription,
+      matchmakingStompSubscription
     ];
   }
 
@@ -41,6 +46,10 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  get matchmakingStats(): MatchmakingStats {
+    return this._matchmakingStats;
   }
 
 }

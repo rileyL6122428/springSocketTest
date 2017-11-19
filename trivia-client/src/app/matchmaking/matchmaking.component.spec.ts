@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed, inject, async } from '@angular/core/testing';
 import { MatchmakingComponent } from './matchmaking.component';
 import { UserService } from '../services/user.service';
-import { Observable } from 'rxjs/observable';
-import { Observer } from 'rxjs/observer';
 import { User } from '../domain/user/user';
 import { By } from '@angular/platform-browser';
 import { stubableObservable, stubableSubscription } from '../test-utils/mocks';
@@ -10,9 +8,11 @@ import { ServicesModule } from '../services/service.module';
 import { MatchmakingService } from '../services/matchmaking.service';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { Room } from '../domain/room/room';
-import { Subscription } from 'rxjs/subscription';
 import { watchForUnsubscription } from '../test-utils/unsubscription-watcher';
 import { StompService } from '@stomp/ng2-stompjs';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { Subscription } from 'rxjs/Subscription';
 
 describe('MatchmakingComponent', () => {
 
@@ -40,6 +40,7 @@ describe('MatchmakingComponent', () => {
   beforeEach(() => {
     matchmakingService = TestBed.get(MatchmakingService);
     spyOn(matchmakingService, "getMatchmakingStats").and.returnValue(stubableObservable());
+    spyOn(matchmakingService, "subscribeToMatchmaking").and.returnValue(stubableObservable());
   });
 
   it('should create', () => {
@@ -57,6 +58,11 @@ describe('MatchmakingComponent', () => {
         _initializeMatchmakingComponent();
         expect(matchmakingService.getMatchmakingStats).toHaveBeenCalled();
     }));
+
+    it("subscribes to matchmaking updates through the matchmakingService", async(() => {
+      _initializeMatchmakingComponent();
+      expect(matchmakingService.subscribeToMatchmaking).toHaveBeenCalled();
+    }));
   });
 
   describe("#onDestroy", () => {
@@ -69,6 +75,13 @@ describe('MatchmakingComponent', () => {
 
     it("removes the getStats subscription", () => {
       let mockSubscription = watchForUnsubscription(matchmakingService.getMatchmakingStats);
+      _initializeMatchmakingComponent();
+      matchmakingComponent.ngOnDestroy();
+      expect(mockSubscription.unsubscribe).toHaveBeenCalled();
+    });
+
+    it("removes the matchmakingStomp subscription", () => {
+      let mockSubscription = watchForUnsubscription(matchmakingService.subscribeToMatchmaking);
       _initializeMatchmakingComponent();
       matchmakingComponent.ngOnDestroy();
       expect(mockSubscription.unsubscribe).toHaveBeenCalled();
@@ -141,6 +154,19 @@ describe('MatchmakingComponent', () => {
         let roomTwoElement: HTMLElement = roomsListElement.children[1];
         expect(roomTwoElement.innerHTML).toContain(`ROOM_TWO`);
         expect(roomTwoElement.innerHTML).toContain(`1/5`);
+    }));
+  });
+
+  describe("matchmaking stats stomp subscription", () => {
+    it("exposes stats retrieved from the stomp subscription", async(() => {
+      let matchmakingStats: MatchmakingStats = new MatchmakingStats({});
+      (matchmakingService.subscribeToMatchmaking as jasmine.Spy).and.returnValue(Observable.create(
+        (observer: Observer<MatchmakingStats>) => observer.next(matchmakingStats)
+      ));
+
+      _initializeMatchmakingComponent();
+
+      expect(matchmakingComponent.matchmakingStats).toBe(matchmakingStats);
     }));
   });
 
