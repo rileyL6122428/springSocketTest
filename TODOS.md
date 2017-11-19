@@ -1,4 +1,4 @@
-- recover matchmaking messaging
+- recover joining rooms
 
 *Important Discoveries*
 
