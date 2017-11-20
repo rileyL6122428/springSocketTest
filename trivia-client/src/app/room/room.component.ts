@@ -21,7 +21,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     private roomService: RoomService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     let routeSubscription: Subscription;
     let fetchRoomSubscription: Subscription;
     let roomStompSubscription: Subscription;
@@ -43,10 +43,21 @@ export class RoomComponent implements OnInit, OnDestroy {
     ];
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  sendMessage(): void {
+    if(!this.newMessageBody) return;
+
+    this.roomService.sendMessage({
+      roomName: this.room.name,
+      messageBody: this.newMessageBody
+    });
+
+    this.newMessageBody = "";
   }
 
   get room(): Room {

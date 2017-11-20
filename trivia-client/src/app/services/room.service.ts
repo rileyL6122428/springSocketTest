@@ -34,4 +34,12 @@ export class RoomService {
       });
   }
 
+  sendMessage(params: { roomName: string, messageBody: string }): void {
+    let endpoint = `/app/room/${params.roomName}/send-message`;
+    let message = JSON.stringify({ messageBody: params.messageBody});
+    let headers = { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
+
+    this.stompService.publish(endpoint, message, headers);
+  }
+
 }

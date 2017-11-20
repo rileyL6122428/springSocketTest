@@ -24,10 +24,10 @@ public class Room {
 	
 	public void addMessage(ChatRoomMessage message) {
 		if(getMessages().size() >= MAXIMUM_NUMBER_OF_PERSISTED_MESSAGES) {
-			getMessages().removeFirst();
+			getMessages().removeLast();
 		}
 		
-		messages.addLast(message);
+		messages.addFirst(message);
 	}
 	
 	public void addUser(User user) {
