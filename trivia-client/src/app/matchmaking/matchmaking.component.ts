@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { User } from '../domain/user/user';
-import { MatchmakingService } from '../services/matchmaking.service';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/subscription';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
+import { User } from '../domain/user/user';
+import { UserService } from '../services/user.service';
+import { MatchmakingService } from '../services/matchmaking.service';
 
 @Component({
   selector: 'app-matchmaking',
@@ -17,6 +18,7 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription>;
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private matchmakingService: MatchmakingService
   ) { }
@@ -41,6 +43,14 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  joinRoom(roomName: string): void {
+    let joinRoomSub = this.matchmakingService.joinRoom(roomName)
+      .subscribe((requestSuccessful: boolean) => {
+        if(requestSuccessful) this.router.navigateByUrl(`/room/${roomName}`);
+        joinRoomSub.unsubscribe();
+      });
   }
 
   get user(): User {

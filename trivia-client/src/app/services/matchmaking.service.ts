@@ -27,6 +27,12 @@ export class MatchmakingService {
     });
   }
 
+  joinRoom(roomName: string): Observable<boolean> {
+    return this.http.post('/join-chat-room', { roomName }).map((response) => {
+      return response[`status`] === 200;
+    });
+  }
+
   subscribeToMatchmaking(): Observable<MatchmakingStats> {
     let headers = { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
 
