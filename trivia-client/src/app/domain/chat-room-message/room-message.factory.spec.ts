@@ -13,7 +13,7 @@ describe('RoomMessageFactory', () => {
     it("maps a POJO to a an instance of the message class", inject([RoomMessageFactory], (roomMessageFactory) => {
       let messagePOJO: Object = {
         body: "EXAMPLE_BODY",
-        senderName: "EXAMPLE_SENDER_NAME",
+        sender: { name: "EXAMPLE_SENDER_NAME" },
         timestamp: new Date()
       };
 
@@ -29,9 +29,9 @@ describe('RoomMessageFactory', () => {
   describe('#mapPOJOList', () => {
     it("returns a list of mapped POJOs converted to RoomMessages",
       inject([RoomMessageFactory], (roomMessageFactory: RoomMessageFactory) => {
-        let firstMessagePOJO = { body: "BODY1", senderName: "SENDER1", timestamp: new Date() };
-        let secondMessagePOJO = { body: "BODY2", senderName: "SENDER2", timestamp: new Date() };
-        let thirdMessagePOJO = { body: "BODY3", senderName: "SENDER3", timestamp: new Date() };
+        let firstMessagePOJO = { body: "BODY1", sender: { name: "SENDER1" }, timestamp: new Date() };
+        let secondMessagePOJO = { body: "BODY2", sender: { name: "SENDER2" }, timestamp: new Date() };
+        let thirdMessagePOJO = { body: "BODY3", sender: { name: "SENDER3" }, timestamp: new Date() };
         let messagePOJOs: Array<Object> = [ firstMessagePOJO, secondMessagePOJO, thirdMessagePOJO ];
 
         let messages: Array<RoomMessage> = roomMessageFactory.mapPOJOList(messagePOJOs);

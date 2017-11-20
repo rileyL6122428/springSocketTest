@@ -14,8 +14,9 @@ export class RoomService {
 
   fetchRoom(name: string): Observable<Room> {
     return this.http.get(`/room/${name}`).map((response) => {
-      if(response[`status`] === 200)
+      if(response[`status`] === 200) {
         return this.roomFactory.fromPOJO(response.json());
+      }
       else
         return null;
     });

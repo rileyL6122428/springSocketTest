@@ -1,3 +1,13 @@
-<p>
-  room works!
-</p>
+<section id="loading-room" *ngIf="!room">
+  loading...
+</section>
+
+<section id="room" *ngIf="room">
+  <h1>{{room.name}}</h1>
+
+  <ol id="room-messages">
+    <li *ngFor="let message of room.messages">
+      <p>{{message.body}}</p>
+    </li>
+  </ol>
+</section>
