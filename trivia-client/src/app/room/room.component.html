@@ -5,6 +5,11 @@
 <section id="room" *ngIf="room">
   <h1>{{room.name}}</h1>
 
+  <form id="message-publication">
+    <input type="text" name="new-message-body" [(ngModel)]="newMessageBody" />
+    <button>Submit</button>
+  </form>
+
   <ol id="room-messages">
     <li *ngFor="let message of room.messages">
       <p>{{message.body}}</p>

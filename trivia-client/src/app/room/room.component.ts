@@ -13,6 +13,7 @@ import { RoomService } from '../services/room.service';
 export class RoomComponent implements OnInit, OnDestroy {
 
   private subscriptions: Array<Subscription>;
+  private newMessageBody: string;
   private _room: Room;
 
   constructor(
@@ -23,16 +24,22 @@ export class RoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let routeSubscription: Subscription;
     let fetchRoomSubscription: Subscription;
+    let roomStompSubscription: Subscription;
 
     routeSubscription = this.route.params.subscribe((params) => {
-      fetchRoomSubscription = this.roomService.fetchRoom(params['name']).subscribe((room: Room) => {
+      fetchRoomSubscription = this.roomService.fetchRoom(params['name']).subscribe((room) => {
+        this._room = room;
+      });
+
+      roomStompSubscription = this.roomService.getRoomStompListener(params['name']).subscribe((room) => {
         this._room = room;
       });
     });
 
     this.subscriptions = [
       routeSubscription,
-      fetchRoomSubscription
+      fetchRoomSubscription,
+      roomStompSubscription
     ];
   }
 
