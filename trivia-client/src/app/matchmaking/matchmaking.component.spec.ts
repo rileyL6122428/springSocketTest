@@ -12,6 +12,7 @@ import { StompService } from '@stomp/ng2-stompjs';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
+import { RouterModule } from '@angular/router';
 
 describe('MatchmakingComponent', () => {
 
@@ -22,7 +23,10 @@ describe('MatchmakingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ ServicesModule ],
+      imports: [
+        ServicesModule,
+        RouterModule
+      ],
       declarations: [ MatchmakingComponent ],
       providers: [
         { provide: StompService, useValue: {} },
