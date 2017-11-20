@@ -5,6 +5,7 @@ import { RoomMessage } from './room-message';
 export class RoomMessageFactory {
 
   mapPOJO(messagePOJO: Object): RoomMessage {
+    messagePOJO['timestamp'] = new Date(messagePOJO['timestamp']);
     return new RoomMessage(messagePOJO);
   }
 

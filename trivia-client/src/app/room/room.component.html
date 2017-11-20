@@ -8,6 +8,7 @@
   <ol id="room-messages">
     <li *ngFor="let message of room.messages">
       <p>{{message.body}}</p>
+      <p>{{message.senderName}} - {{message.timestamp}}</p>
     </li>
   </ol>
 </section>
