@@ -26,6 +26,10 @@ public class TriviaGame {
 		return questionManager.questionsCompleted();
 	}
 
+	public String getCurrentQuestion() {
+		return questionManager.getCurrentQuestion();
+	}
+
 	
 	
 }

@@ -1,26 +1,21 @@
 package l2k.demo.multiple.chats.e2e;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
 
 import l2k.demo.multiple.chats.game.Player;
 import l2k.demo.multiple.chats.game.Question;
 import l2k.demo.multiple.chats.game.QuestionBuilder;
 import l2k.demo.multiple.chats.game.TriviaGame;
 import l2k.demo.multiple.chats.game.TriviaGameBuilder;
-
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -84,11 +79,12 @@ class TriviaGameTest {
 		assertTrue(game.isFinished());
 	}
 	
-	@Disabled
 	@Test
 	public void asksQuestionsInTheOrderProvided() {
-//		String questionText = game.getCurrentQuestion();
-//		assertEquals()
+		assertEquals("What is a trumpet?", game.getCurrentQuestion());
+		
+		game.nextQuestion();
+		assertEquals("What is a snare drum?", game.getCurrentQuestion());
 	}
 
 }

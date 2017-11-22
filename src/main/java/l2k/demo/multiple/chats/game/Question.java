@@ -14,4 +14,8 @@ public class Question {
 		this.fakeAnswers = fakeAnswers;
 	}
 
+	public String getText() {
+		return text;
+	}
+
 }

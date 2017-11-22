@@ -27,4 +27,8 @@ public class QuestionManager {
 		questionIdx++;
 	}
 
+	public String getCurrentQuestion() {
+		return questions.get(questionIdx).getText();
+	}
+
 }
