@@ -5,6 +5,8 @@
 <section id="room" *ngIf="room">
   <h1>{{room.name}}</h1>
 
+  <button (click)="leaveRoom(room.name)">Leave Room</button>
+
   <form id="message-publication">
     <input type="text" name="new-message-body" [(ngModel)]="newMessageBody" />
     <button (click)="sendMessage()">Submit</button>

@@ -25,6 +25,12 @@ export class RoomService {
     });
   }
 
+  leaveRoom(roomName: string): Observable<boolean> {
+    return this.http.post(`/room/${roomName}/leave`, {}).map((response) => {
+      return response[`status`] === 200;
+    });
+  }
+
   getRoomStompListener(roomName: string): Observable<Room> {
     let headers = { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
     return this.stompService.subscribe(`/topic/room/${roomName}`, headers)

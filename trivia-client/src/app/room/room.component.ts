@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../domain/room/room';
@@ -17,6 +17,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private _room: Room;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private roomService: RoomService
   ) { }
@@ -58,6 +59,14 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
 
     this.newMessageBody = "";
+  }
+
+  leaveRoom(): void {
+    let leaveRoomSub = this.roomService.leaveRoom(this.room.name).subscribe((successfullyLeftRoom: boolean) => {
+      leaveRoomSub.unsubscribe();
+      if(successfullyLeftRoom)
+        this.router.navigateByUrl("/matchmaking");
+    });
   }
 
   get room(): Room {
