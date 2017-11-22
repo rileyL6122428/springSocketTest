@@ -7,13 +7,11 @@ public class TriviaGameBuilder {
 	
 	private List<Player> players;
 	private List<Question> questions;
-	private GameMessageEmitter messageEmitter;
 
 	public TriviaGame build() {
 		return new TriviaGame(
 			new ScoreKeeper(players),
-			new QuestionManager(questions),
-			messageEmitter
+			new QuestionManager(questions)
 		);
 	}
 	
@@ -24,11 +22,6 @@ public class TriviaGameBuilder {
 
 	public TriviaGameBuilder setQuestions(List<Question> questions) {
 		this.questions = questions;
-		return this;
-	}
-
-	public TriviaGameBuilder setMessageEmitter(GameMessageEmitter messageEmitter) {
-		this.messageEmitter = messageEmitter;
 		return this;
 	}
 

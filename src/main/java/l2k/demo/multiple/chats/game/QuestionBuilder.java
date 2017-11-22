@@ -10,7 +10,11 @@ public class QuestionBuilder {
 	private List<String> fakeAnswers = new ArrayList<String>();
 
 	public Question build() {
-		return new Question();
+		return new Question(
+			text,
+			answer,
+			fakeAnswers
+		);
 	}
 	
 	public QuestionBuilder setText(String text) {

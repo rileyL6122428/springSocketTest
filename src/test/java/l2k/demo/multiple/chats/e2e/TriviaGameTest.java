@@ -12,15 +12,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import l2k.demo.multiple.chats.game.Player;
-import l2k.demo.multiple.chats.game.GameMessageEmitter;
 import l2k.demo.multiple.chats.game.Question;
 import l2k.demo.multiple.chats.game.QuestionBuilder;
 import l2k.demo.multiple.chats.game.TriviaGame;
 import l2k.demo.multiple.chats.game.TriviaGameBuilder;
-import l2k.demo.multiple.chats.game.TriviaGameMessage;
 
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 
@@ -28,14 +27,8 @@ import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 class TriviaGameTest {
 	
 	private TriviaGame game;
-	
 	private List<Player> players;
 	private List<Question> questions;
-	
-	@Mock
-	private GameMessageEmitter messageEmitter;
-	private ArgumentCaptor<TriviaGameMessage> emitterCaptor;
-	
 	
 	@BeforeEach
 	public void setupPlayers() {		
@@ -54,7 +47,6 @@ class TriviaGameTest {
 					.addFakeAnswer("A percussion instrument")
 					.addFakeAnswer("A woodwind instrument")
 					.addFakeAnswer("A snack")
-					.addFakeAnswer("A kitchen utensil")
 					.build()
 			);
 			
@@ -63,7 +55,6 @@ class TriviaGameTest {
 					.setAnswer("A percussion instrument")
 					.addFakeAnswer("A brass instrument")
 					.addFakeAnswer("A woodwind instrument")
-					.addFakeAnswer("A snack")
 					.addFakeAnswer("A kitchen utensil")
 					.build()
 			);
@@ -71,28 +62,33 @@ class TriviaGameTest {
 	}
 	
 	@BeforeEach
-	public void setupEmitterCaptor() {
-		emitterCaptor = ArgumentCaptor.forClass(TriviaGameMessage.class);
-		doNothing().when(messageEmitter).emitMessage(emitterCaptor.capture());
-	}
-	
-	@BeforeEach
 	public void setupGame() {
 		game = new TriviaGameBuilder()
 				.setPlayers(players)
 				.setQuestions(questions)
-				.setMessageEmitter(messageEmitter)
 				.build();		
 	}
 
 	@Test
-	public void emitsGameWillStartMessageOnInitialization() {
-		TriviaGameMessage message = emitterCaptor.getValue();
-		assertEquals(TriviaGameMessage.Header.INITIALIZATION, message.getHeader());
+	public void reportsTheNumberOfQuestionsCompleted() {
+		assertEquals(2, game.getQuestionCount());
+		assertEquals(0, game.getCompletedQuestionCount());
 		
-		Map<Player, Integer> playerScores = message.getPlayerScores();
-		assertEquals((Integer)0, playerScores.get("Tom"));
-		assertEquals((Integer)0, playerScores.get("Betty"));
+		game.nextQuestion();
+		assertEquals(2, game.getQuestionCount());
+		assertEquals(1, game.getCompletedQuestionCount());
+		
+		game.nextQuestion();
+		assertEquals(2, game.getQuestionCount());
+		assertEquals(2, game.getCompletedQuestionCount());
+		assertTrue(game.isFinished());
+	}
+	
+	@Disabled
+	@Test
+	public void asksQuestionsInTheOrderProvided() {
+//		String questionText = game.getCurrentQuestion();
+//		assertEquals()
 	}
 
 }

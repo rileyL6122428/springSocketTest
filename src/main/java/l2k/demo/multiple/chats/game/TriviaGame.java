@@ -1,17 +1,31 @@
 package l2k.demo.multiple.chats.game;
 
-import java.util.List;
-
 public class TriviaGame {
 
 	private ScoreKeeper scoreKeeper;
 	private QuestionManager questionManager;
-	private GameMessageEmitter messageEmitter;
 
-	public TriviaGame(ScoreKeeper scoreKeeper, QuestionManager questionManager, GameMessageEmitter messageEmitter) {
+	public TriviaGame(ScoreKeeper scoreKeeper, QuestionManager questionManager) {
 		this.scoreKeeper = scoreKeeper;
 		this.questionManager = questionManager;
-		this.messageEmitter = messageEmitter;
 	}
 
+	public int getQuestionCount() {
+		return questionManager.getQuestionCount();
+	}
+
+	public int getCompletedQuestionCount() {
+		return questionManager.getCompletedQuestionCount();
+	}
+
+	public void nextQuestion() {
+		questionManager.nextQuestion();
+	}
+
+	public boolean isFinished() {
+		return questionManager.questionsCompleted();
+	}
+
+	
+	
 }
