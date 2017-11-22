@@ -24,50 +24,63 @@ import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class TriviaGameTest {
 	
+	private TriviaGame game;
+	
+	private List<Player> players;
+	private List<Question> questions;
+	
 	@Mock
 	private GameMessageEmitter messageEmitter;
 	private ArgumentCaptor<TriviaGameMessage> emitterCaptor;
 	
-	private TriviaGame game;
 	
 	@BeforeEach
-	public void setup() {
-		List<Player> players = new ArrayList<Player>() {{
+	public void setupPlayers() {		
+		players = new ArrayList<Player>() {{
 			add(new Player("Tom"));
 			add(new Player("Betty"));
 		}};
-		
-		List<Question> quesitons = new ArrayList<Question>() {{
+	}
+	
+	@BeforeEach
+	public void setupQuestions() {		
+		questions = new ArrayList<Question>() {{
 			add(new QuestionBuilder()
-				.setText("What is a trumpet?")
-				.setAnswer("A brass instrument")
-				.addFakeAnswer("A percussion instrument")
-				.addFakeAnswer("A woodwind instrument")
-				.addFakeAnswer("A snack")
-				.addFakeAnswer("A kitchen utensil")
-				.build()
+					.setText("What is a trumpet?")
+					.setAnswer("A brass instrument")
+					.addFakeAnswer("A percussion instrument")
+					.addFakeAnswer("A woodwind instrument")
+					.addFakeAnswer("A snack")
+					.addFakeAnswer("A kitchen utensil")
+					.build()
 			);
 			
 			add(new QuestionBuilder()
-				.setText("What is a snare drum?")
-				.setAnswer("A percussion instrument")
-				.addFakeAnswer("A brass instrument")
-				.addFakeAnswer("A woodwind instrument")
-				.addFakeAnswer("A snack")
-				.addFakeAnswer("A kitchen utensil")
-				.build()
+					.setText("What is a snare drum?")
+					.setAnswer("A percussion instrument")
+					.addFakeAnswer("A brass instrument")
+					.addFakeAnswer("A woodwind instrument")
+					.addFakeAnswer("A snack")
+					.addFakeAnswer("A kitchen utensil")
+					.build()
 			);
 		}};
-		
-		game = new TriviaGameBuilder()
-				.setPlayers(players)
-				.setQuestions(quesitons)
-				.setTicksPerQuestion(5)
-				.setMessageEmitter(messageEmitter)
-				.build();
-		
+	}
+	
+	@BeforeEach
+	public void setupEmitterCaptor() {
 		emitterCaptor = ArgumentCaptor.forClass(TriviaGameMessage.class);
 		doNothing().when(messageEmitter).emitMessage(emitterCaptor.capture());
+	}
+	
+	@BeforeEach
+	public void setupGame() {
+		game = new TriviaGameBuilder()
+				.setPlayers(players)
+				.setQuestions(questions)
+				.setTicksPerQuestion(5)
+				.setMessageEmitter(messageEmitter)
+				.build();		
 	}
 
 	@Disabled
