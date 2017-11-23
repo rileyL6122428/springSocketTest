@@ -3,33 +3,43 @@ package l2k.demo.multiple.chats.game;
 public class TriviaGame {
 
 	private ScoreKeeper scoreKeeper;
-	private QuestionManager questionManager;
+	private QuestionRoll questionRoll;
+	private Question currentQuestion;
+	private AnswerMap currentQuestionAnswerMap;
 
-	public TriviaGame(ScoreKeeper scoreKeeper, QuestionManager questionManager) {
+	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll) {
 		this.scoreKeeper = scoreKeeper;
-		this.questionManager = questionManager;
+		this.questionRoll = questionRoll;
+		setupNextQuestion();
 	}
 
 	public int getQuestionCount() {
-		return questionManager.getQuestionCount();
+		return questionRoll.getQuestionCount();
 	}
 
 	public int getCompletedQuestionCount() {
-		return questionManager.getCompletedQuestionCount();
-	}
-
-	public void nextQuestion() {
-		questionManager.nextQuestion();
+		return questionRoll.getCompletedQuestionCount();
 	}
 
 	public boolean isFinished() {
-		return questionManager.questionsCompleted();
+		return currentQuestion == null;
 	}
-
-	public String getCurrentQuestion() {
-		return questionManager.getCurrentQuestion();
-	}
-
 	
+	public void closeCurrentQuestion() {
+		setupNextQuestion();
+	}
+	
+	private void setupNextQuestion() {
+		currentQuestion = questionRoll.getNextQuestion();
+		currentQuestionAnswerMap = new AnswerMapBuilder().setQuestion(currentQuestion).build();
+	}
+
+	public String getCurrentQuestionText() {
+		return currentQuestion.getText();
+	}
+
+	public AnswerMap getCurrentQuestionAnswerMap() {
+		return currentQuestionAnswerMap;
+	}
 	
 }

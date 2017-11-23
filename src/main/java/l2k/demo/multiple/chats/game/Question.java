@@ -1,5 +1,6 @@
 package l2k.demo.multiple.chats.game;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Question {
@@ -16,6 +17,14 @@ public class Question {
 
 	public String getText() {
 		return text;
+	}
+
+	public String getAnswer() {
+		return answer;
+	}
+	
+	public List<String> getFakeAnswers() {
+		return Collections.unmodifiableList(fakeAnswers);
 	}
 
 }

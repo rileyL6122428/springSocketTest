@@ -11,7 +11,7 @@ public class TriviaGameBuilder {
 	public TriviaGame build() {
 		return new TriviaGame(
 			new ScoreKeeper(players),
-			new QuestionManager(questions)
+			new QuestionRoll(questions)
 		);
 	}
 	
