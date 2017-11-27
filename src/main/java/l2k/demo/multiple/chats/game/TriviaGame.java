@@ -1,5 +1,6 @@
 package l2k.demo.multiple.chats.game;
 
+import java.util.List;
 import java.util.Map;
 
 public class TriviaGame {
@@ -7,7 +8,7 @@ public class TriviaGame {
 	private ScoreKeeper scoreKeeper;
 	private QuestionRoll questionRoll;
 	private Question currentQuestion;
-	private AnswerMap currentQuestionAnswerMap;
+	private List<String> currentQuestionAnswerMap;
 	private PlayerScoreMap playerScoreMap;
 
 	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll, PlayerScoreMap playerScoreMap) {
@@ -42,12 +43,17 @@ public class TriviaGame {
 		return currentQuestion.getText();
 	}
 
-	public AnswerMap getCurrentQuestionAnswerMap() {
+	public List<String> getCurrentQuestionAnswerMap() {
 		return currentQuestionAnswerMap;
 	}
 
 	public Map<Player, Integer> getPlayerScores() {
 		return playerScoreMap.getPlayerScores();
+	}
+
+	public void submitAnswer(Player player, String answer) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -1,7 +1,6 @@
 package l2k.demo.multiple.chats.game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,11 +8,9 @@ public class AnswerMapBuilder {
 	
 	private Question question;
 
-	public AnswerMap build() {
+	public List<String> build() {
 		if(question == null) return null;
-		
-		List<String> shuffledAnswers = shuffledAnswers(question);
-		return new AnswerMap(shuffledAnswers);
+		return shuffledAnswers(question);
 	}
 	
 	private List<String> shuffledAnswers(Question question) {

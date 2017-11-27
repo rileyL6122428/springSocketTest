@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,16 +97,13 @@ class TriviaGameTest {
 	
 	@Test
 	public void providesAKeyMapOfAnswersForEachQuestion() {
-		AnswerMap questionOneAnswerMap = game.getCurrentQuestionAnswerMap();
+		List<String> questionOneAnswers = game.getCurrentQuestionAnswerMap();
 		
 		AnswerCounts answerCounts = new AnswerCounts(
 			"A brass instrument", "A percussion instrument", "A woodwind instrument", "A snack"
 		);
 		
-		answerCounts.increment(questionOneAnswerMap.getAnswer("a"));
-		answerCounts.increment(questionOneAnswerMap.getAnswer("b"));
-		answerCounts.increment(questionOneAnswerMap.getAnswer("c"));
-		answerCounts.increment(questionOneAnswerMap.getAnswer("d"));
+		questionOneAnswers.forEach(answerCounts::increment);
 		
 		assertEquals(1, answerCounts.getCount("A brass instrument"));
 		assertEquals(1, answerCounts.getCount("A percussion instrument"));
@@ -140,5 +138,31 @@ class TriviaGameTest {
 		assertEquals(2, playerScoreMap.size());
 		assertEquals(0, (int)playerScoreMap.get(tom));
 		assertEquals(0, (int)playerScoreMap.get(betty));
+	}
+	
+	@Test
+	public void playersSubmitAnswersAndReceivePointsForCorrectAnswers() {
+		assertEquals("What is a trumpet?", game.getCurrentQuestionText());
+		game.submitAnswer(tom, "A snack");
+		game.submitAnswer(betty, "A brass instrument");
+		game.closeCurrentQuestion();
+		
+		verifyScore(tom, 0);
+		verifyScore(betty, 1);
+		
+		assertEquals("What is a snare drum?", game.getCurrentQuestionText());
+		game.submitAnswer(tom, "A kitchen utensil");
+		game.submitAnswer(betty, "A percussion instrument");
+		game.closeCurrentQuestion();
+		
+		verifyScore(tom, 0);
+		verifyScore(betty, 2);
+		
+		assertTrue(game.isFinished());
+	}
+	
+	private void verifyScore(Player player, int expectedScore) {
+		Map<Player, Integer> playerScoreMap = game.getPlayerScores();
+		assertEquals(expectedScore, (int)playerScoreMap.get(player));
 	}
 }
