@@ -1,15 +1,19 @@
 package l2k.demo.multiple.chats.game;
 
+import java.util.Map;
+
 public class TriviaGame {
 
 	private ScoreKeeper scoreKeeper;
 	private QuestionRoll questionRoll;
 	private Question currentQuestion;
 	private AnswerMap currentQuestionAnswerMap;
+	private PlayerScoreMap playerScoreMap;
 
-	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll) {
+	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll, PlayerScoreMap playerScoreMap) {
 		this.scoreKeeper = scoreKeeper;
 		this.questionRoll = questionRoll;
+		this.playerScoreMap = playerScoreMap;
 		setupNextQuestion();
 	}
 
@@ -40,6 +44,10 @@ public class TriviaGame {
 
 	public AnswerMap getCurrentQuestionAnswerMap() {
 		return currentQuestionAnswerMap;
+	}
+
+	public Map<Player, Integer> getPlayerScores() {
+		return playerScoreMap.getPlayerScores();
 	}
 	
 }

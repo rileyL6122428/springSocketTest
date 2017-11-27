@@ -1,6 +1,5 @@
 package l2k.demo.multiple.chats.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TriviaGameBuilder {
@@ -11,7 +10,8 @@ public class TriviaGameBuilder {
 	public TriviaGame build() {
 		return new TriviaGame(
 			new ScoreKeeper(players),
-			new QuestionRoll(questions)
+			new QuestionRoll(questions),
+			new PlayerScoreMap(players)
 		);
 	}
 	

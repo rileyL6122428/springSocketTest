@@ -4,16 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import l2k.demo.multiple.chats.game.AnswerMap;
 import l2k.demo.multiple.chats.game.Player;
+import l2k.demo.multiple.chats.game.PlayerScoreMap;
 import l2k.demo.multiple.chats.game.Question;
 import l2k.demo.multiple.chats.game.QuestionBuilder;
 import l2k.demo.multiple.chats.game.TriviaGame;
@@ -24,15 +27,17 @@ import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 class TriviaGameTest {
 	
 	private TriviaGame game;
-	private List<Player> players;
 	private List<Question> questions;
 	
+	private Player tom;
+	private Player betty;
+	private List<Player> players;
+	
 	@BeforeEach
-	public void setupPlayers() {		
-		players = new ArrayList<Player>() {{
-			add(new Player("Tom"));
-			add(new Player("Betty"));
-		}};
+	public void setupPlayers() {
+		tom = new Player("Tom");
+		betty = new Player("Betty");
+		players = Arrays.asList(tom, betty);
 	}
 	
 	@BeforeEach
@@ -127,5 +132,13 @@ class TriviaGameTest {
 			if(counts.get(answer) == null) throw new RuntimeException();
 			return counts.get(answer);
 		}
+	}
+	
+	@Test
+	public void providesMapsOfPlayersToTheirScores() {
+		Map<Player, Integer> playerScoreMap = game.getPlayerScores();
+		assertEquals(2, playerScoreMap.size());
+		assertEquals(0, (int)playerScoreMap.get(tom));
+		assertEquals(0, (int)playerScoreMap.get(betty));
 	}
 }
