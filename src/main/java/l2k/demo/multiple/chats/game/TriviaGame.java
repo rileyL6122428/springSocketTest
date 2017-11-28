@@ -7,8 +7,13 @@ public class TriviaGame {
 
 	private ScoreKeeper scoreKeeper;
 	private QuestionRoll questionRoll;
-	private Question currentQuestion;
-	private List<String> currentQuestionAnswerMap;
+	
+//	private Question currentQuestion;
+//	private List<String> currentQuestionAnswers;
+//	private PlayerAnswerReporter currentQuestionPlayerAnswerMap;
+	
+	private TriviaRound currentRound;
+	
 	private PlayerScoreMap playerScoreMap;
 
 	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll, PlayerScoreMap playerScoreMap) {
@@ -27,7 +32,7 @@ public class TriviaGame {
 	}
 
 	public boolean isFinished() {
-		return currentQuestion == null;
+		return questionRoll.finished();
 	}
 	
 	public void closeCurrentQuestion() {
@@ -35,16 +40,18 @@ public class TriviaGame {
 	}
 	
 	private void setupNextQuestion() {
-		currentQuestion = questionRoll.getNextQuestion();
-		currentQuestionAnswerMap = new AnswerMapBuilder().setQuestion(currentQuestion).build();
+		currentRound = new TriviaRound(questionRoll.getNextQuestion());
+//		currentQuestion = questionRoll.getNextQuestion();
+//		currentQuestionAnswers = new AnswerListBuilder().setQuestion(currentQuestion).build();
+		
 	}
 
 	public String getCurrentQuestionText() {
-		return currentQuestion.getText();
+		return currentRound.getQuestionText();
 	}
 
-	public List<String> getCurrentQuestionAnswerMap() {
-		return currentQuestionAnswerMap;
+	public List<String> getCurrentQuestionAnswers() {
+		return currentRound.getAnswers();
 	}
 
 	public Map<Player, Integer> getPlayerScores() {
@@ -52,8 +59,7 @@ public class TriviaGame {
 	}
 
 	public void submitAnswer(Player player, String answer) {
-		// TODO Auto-generated method stub
-		
+		currentRound.submitAnswer(player, answer);
 	}
 	
 }

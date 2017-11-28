@@ -29,4 +29,8 @@ public class QuestionRoll {
 			return question;			
 		}
 	}
+
+	public boolean finished() {
+		return questionIdx >= questions.size();
+	}
 }

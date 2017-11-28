@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AnswerMapBuilder {
+public class AnswerListBuilder {
 	
 	private Question question;
 
@@ -21,7 +21,7 @@ public class AnswerMapBuilder {
 		return answers;
 	}
 	
-	public AnswerMapBuilder setQuestion(Question question) {
+	public AnswerListBuilder setQuestion(Question question) {
 		this.question = question;
 		return this;
 	}

@@ -97,7 +97,7 @@ class TriviaGameTest {
 	
 	@Test
 	public void providesAKeyMapOfAnswersForEachQuestion() {
-		List<String> questionOneAnswers = game.getCurrentQuestionAnswerMap();
+		List<String> questionOneAnswers = game.getCurrentQuestionAnswers();
 		
 		AnswerCounts answerCounts = new AnswerCounts(
 			"A brass instrument", "A percussion instrument", "A woodwind instrument", "A snack"
