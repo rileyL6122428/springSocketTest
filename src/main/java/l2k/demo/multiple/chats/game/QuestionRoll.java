@@ -30,7 +30,7 @@ public class QuestionRoll {
 		}
 	}
 
-	public boolean finished() {
+	public boolean isFinished() {
 		return questionIdx >= questions.size();
 	}
 }

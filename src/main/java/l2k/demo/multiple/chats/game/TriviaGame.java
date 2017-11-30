@@ -25,7 +25,7 @@ public class TriviaGame {
 	}
 
 	public boolean isFinished() {
-		return questionRoll.finished();
+		return questionRoll.isFinished();
 	}
 	
 	public void closeCurrentQuestion() {

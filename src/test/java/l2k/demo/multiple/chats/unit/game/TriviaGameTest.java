@@ -45,4 +45,12 @@ class TriviaGameTest {
 		verify(questionRoll).getCompletedQuestionCount();
 		assertEquals(555, questionCount);
 	}
+	
+	@Test
+	public void delegatesToTheQuestionRollWhenReportingIfTheGameIsFinished() {
+		when(questionRoll.isFinished()).thenReturn(false);
+		boolean gameIsFinished = game.isFinished();
+		verify(questionRoll).isFinished();
+		assertFalse(gameIsFinished);
+	}
 }
