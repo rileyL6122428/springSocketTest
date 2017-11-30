@@ -7,8 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.*;
 
+import l2k.demo.multiple.chats.game.Question;
 import l2k.demo.multiple.chats.game.QuestionRoll;
 import l2k.demo.multiple.chats.game.ScoreKeeper;
 import l2k.demo.multiple.chats.game.TriviaGame;
@@ -52,5 +54,11 @@ class TriviaGameTest {
 		boolean gameIsFinished = game.isFinished();
 		verify(questionRoll).isFinished();
 		assertFalse(gameIsFinished);
+	}
+	
+	@Ignore
+	@Test
+	public void closeCurrentQuestionSetsUpTheNextQuestion(@Mock Question quesiton1, @Mock Question question2) {
+		
 	}
 }
