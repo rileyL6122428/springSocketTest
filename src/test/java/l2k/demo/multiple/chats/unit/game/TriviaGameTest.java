@@ -31,11 +31,18 @@ class TriviaGameTest {
 	}
 	
 	@Test
-	void delegatesToTheQuestionRollWhenReportingTheQuetsionCount() {
+	public void delegatesToTheQuestionRollWhenReportingTheQuestionCount() {
 		when(questionRoll.getQuestionCount()).thenReturn(98);
 		int questionCount = game.getQuestionCount();
 		verify(questionRoll).getQuestionCount();
 		assertEquals(98, questionCount);
 	}
-
+	
+	@Test
+	public void delegatesToTheQuestionRollWhenReportingTheCompletedQuestionCount() {
+		when(questionRoll.getCompletedQuestionCount()).thenReturn(555);
+		int questionCount = game.getCompletedQuestionCount();
+		verify(questionRoll).getCompletedQuestionCount();
+		assertEquals(555, questionCount);
+	}
 }
