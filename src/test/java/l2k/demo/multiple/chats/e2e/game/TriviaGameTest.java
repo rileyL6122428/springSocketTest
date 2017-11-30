@@ -1,4 +1,4 @@
-package l2k.demo.multiple.chats.e2e;
+package l2k.demo.multiple.chats.e2e.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
