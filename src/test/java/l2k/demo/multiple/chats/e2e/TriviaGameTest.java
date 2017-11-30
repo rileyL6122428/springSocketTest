@@ -95,7 +95,7 @@ class TriviaGameTest {
 	}
 	
 	@Test
-	public void providesAKeyMapOfAnswersForEachQuestion() {
+	public void providesAListOfAnswersForEachQuestion() {
 		List<String> questionOneAnswers = game.getCurrentQuestionAnswers();
 		
 		AnswerCounts answerCounts = new AnswerCounts(
@@ -140,7 +140,7 @@ class TriviaGameTest {
 	}
 	
 	@Test
-	public void playersSubmitAnswersAndReceivePointsForCorrectAnswers() {
+	public void playersSubmitAnswersAndReceiveAPointForCorrectAnswers() {
 		assertEquals("What is a trumpet?", game.getCurrentQuestionText());
 		game.submitAnswer(tom, "A snack");
 		game.submitAnswer(betty, "A brass instrument");
