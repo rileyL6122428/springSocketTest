@@ -9,9 +9,8 @@ public class TriviaGameBuilder {
 
 	public TriviaGame build() {
 		return new TriviaGame(
-			new ScoreKeeper(players),
-			new QuestionRoll(questions),
-			new PlayerScoreMap(players)
+			new ScoreKeeperBuilder().setPlayers(players).build(),
+			new QuestionRoll(questions)
 		);
 	}
 	

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import l2k.demo.multiple.chats.game.AnswerMap;
 import l2k.demo.multiple.chats.game.Player;
-import l2k.demo.multiple.chats.game.PlayerScoreMap;
 import l2k.demo.multiple.chats.game.Question;
 import l2k.demo.multiple.chats.game.QuestionBuilder;
 import l2k.demo.multiple.chats.game.TriviaGame;

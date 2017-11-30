@@ -8,18 +8,11 @@ public class TriviaGame {
 	private ScoreKeeper scoreKeeper;
 	private QuestionRoll questionRoll;
 	
-//	private Question currentQuestion;
-//	private List<String> currentQuestionAnswers;
-//	private PlayerAnswerReporter currentQuestionPlayerAnswerMap;
-	
 	private TriviaRound currentRound;
-	
-	private PlayerScoreMap playerScoreMap;
 
-	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll, PlayerScoreMap playerScoreMap) {
+	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll) {
 		this.scoreKeeper = scoreKeeper;
 		this.questionRoll = questionRoll;
-		this.playerScoreMap = playerScoreMap;
 		setupNextQuestion();
 	}
 
@@ -36,14 +29,16 @@ public class TriviaGame {
 	}
 	
 	public void closeCurrentQuestion() {
+		registerScores();
 		setupNextQuestion();
 	}
 	
 	private void setupNextQuestion() {
 		currentRound = new TriviaRound(questionRoll.getNextQuestion());
-//		currentQuestion = questionRoll.getNextQuestion();
-//		currentQuestionAnswers = new AnswerListBuilder().setQuestion(currentQuestion).build();
-		
+	}
+	
+	private void registerScores() {
+		currentRound.getPlayersWithCorrectAnswer().forEach(scoreKeeper::incrementScore);
 	}
 
 	public String getCurrentQuestionText() {
@@ -55,7 +50,7 @@ public class TriviaGame {
 	}
 
 	public Map<Player, Integer> getPlayerScores() {
-		return playerScoreMap.getPlayerScores();
+		return scoreKeeper.getScoreMap();
 	}
 
 	public void submitAnswer(Player player, String answer) {

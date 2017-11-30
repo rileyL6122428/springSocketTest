@@ -29,7 +29,7 @@ public class TriviaRound {
 		playersToAnswers.put(player, answerText);
 	}
 	
-	public List<Player> getUsersWithCorrectAnswer() {
+	public List<Player> getPlayersWithCorrectAnswer() {
 		List<Player> players = new ArrayList<Player>();
 		
 		for(Map.Entry<Player, String> playerAnswerEntry : playersToAnswers.entrySet()) {
