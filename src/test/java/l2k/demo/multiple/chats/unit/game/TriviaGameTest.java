@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.times;
 
@@ -107,5 +108,13 @@ class TriviaGameTest {
 		List<Answer> currentAnswers = game.getCurrentQuestionAnswers();
 		verify(firstRound).getAnswers();
 		assertEquals(firstRoundAnswers, currentAnswers);
+	}
+	
+	@Test
+	public void getPlayerScoresDelegatesToTheScoreKeeper(@Mock Map<Player, Integer> playerScores) {
+		when(scoreKeeper.getScoreMap()).thenReturn(playerScores);
+		Map<Player, Integer> currentPlayerScores = game.getPlayerScores();
+		verify(scoreKeeper).getScoreMap();
+		assertEquals(playerScores, currentPlayerScores);
 	}
 }
