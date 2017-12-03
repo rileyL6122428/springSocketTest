@@ -31,8 +31,7 @@ class TriviaGameTest {
 	private ScoreKeeper scoreKeeper;
 	@Mock
 	private QuestionRoll questionRoll;
-	@Mock
-	private TriviaRoundFactory triviaRoundFactory;
+	
 	@Mock
 	private Question firstQuestion;
 	@Mock 
@@ -41,8 +40,8 @@ class TriviaGameTest {
 	@BeforeEach
 	public void setup() {
 		when(questionRoll.getNextQuestion()).thenReturn(firstQuestion);
-		when(triviaRoundFactory.buildTriviaRound(any())).thenReturn(firstRound);
-		game = new TriviaGame(scoreKeeper, questionRoll, triviaRoundFactory);
+		
+		game = new TriviaGame(scoreKeeper, questionRoll);
 	}
 	
 	@Test
