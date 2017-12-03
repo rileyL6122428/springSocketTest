@@ -7,12 +7,14 @@ public class TriviaGame {
 
 	private ScoreKeeper scoreKeeper;
 	private QuestionRoll questionRoll;
+	private TriviaRoundFactory triviaRoundFactory;
 	
 	private TriviaRound currentRound;
 
-	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll) {
+	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll, TriviaRoundFactory triviaRoundFactory) {
 		this.scoreKeeper = scoreKeeper;
 		this.questionRoll = questionRoll;
+		this.triviaRoundFactory = triviaRoundFactory;
 		setupNextQuestion();
 	}
 
@@ -33,12 +35,12 @@ public class TriviaGame {
 		setupNextQuestion();
 	}
 	
-	private void setupNextQuestion() {
-		currentRound = new TriviaRound(questionRoll.getNextQuestion());
-	}
-	
 	private void registerScores() {
 		currentRound.getPlayersWithCorrectAnswer().forEach(scoreKeeper::incrementScore);
+	}
+	
+	private void setupNextQuestion() {
+		currentRound = triviaRoundFactory.buildTriviaRound(questionRoll.getNextQuestion());
 	}
 
 	public String getCurrentQuestionText() {
