@@ -1,6 +1,6 @@
 package l2k.demo.multiple.chats.game;
 
-import java.util.Collections;
+import static java.util.Collections.unmodifiableMap;
 import java.util.Map;
 
 public class ScoreKeeper {
@@ -17,7 +17,7 @@ public class ScoreKeeper {
 	}
 	
 	public Map<Player, Integer> getScoreMap() {
-		return Collections.unmodifiableMap(playerToScores);
+		return unmodifiableMap(playerToScores);
 	}
 
 }
