@@ -75,11 +75,17 @@ class TriviaGameTest {
 	}
 	
 	@Test
-	public void closeCurrentQuestionIncrementsScoreOfUsersWithCorrectAnswers(@Mock Player player1, @Mock Player player2) {
+	public void closeCurrentRoundIncrementsScoreOfUsersWithCorrectAnswers(@Mock Player player1, @Mock Player player2) {
 		when(firstRound.getPlayersWithCorrectAnswer()).thenReturn(asList(player1, player2));
-		game.closeCurrentQuestion();
+		game.closeCurrentRound();
 		verify(scoreKeeper).incrementScore(player1);
 		verify(scoreKeeper).incrementScore(player2);
 	}
 	
+	@Test
+	public void closeCurrentRoundSetsUpNextRoundByDelegatingToTheRoundFactory(@Mock Question nextQuestion) {
+		when(questionRoll.getNextQuestion()).thenReturn(nextQuestion);
+		game.closeCurrentRound();
+		verify(triviaRoundFactory).buildTriviaRound(nextQuestion);
+	}
 }

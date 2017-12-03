@@ -15,7 +15,7 @@ public class TriviaGame {
 		this.scoreKeeper = scoreKeeper;
 		this.questionRoll = questionRoll;
 		this.triviaRoundFactory = triviaRoundFactory;
-		setupNextQuestion();
+		setupNextRound();
 	}
 
 	public int getQuestionCount() {
@@ -30,16 +30,16 @@ public class TriviaGame {
 		return questionRoll.isFinished();
 	}
 	
-	public void closeCurrentQuestion() {
+	public void closeCurrentRound() {
 		registerScores();
-		setupNextQuestion();
+		setupNextRound();
 	}
 	
 	private void registerScores() {
 		currentRound.getPlayersWithCorrectAnswer().forEach(scoreKeeper::incrementScore);
 	}
 	
-	private void setupNextQuestion() {
+	private void setupNextRound() {
 		currentRound = triviaRoundFactory.buildTriviaRound(questionRoll.getNextQuestion());
 	}
 

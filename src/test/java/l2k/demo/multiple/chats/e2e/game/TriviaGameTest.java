@@ -76,11 +76,11 @@ class TriviaGameTest {
 		assertEquals(2, game.getQuestionCount());
 		assertEquals(0, game.getCompletedQuestionCount());
 		
-		game.closeCurrentQuestion();
+		game.closeCurrentRound();
 		assertEquals(2, game.getQuestionCount());
 		assertEquals(1, game.getCompletedQuestionCount());
 		
-		game.closeCurrentQuestion();
+		game.closeCurrentRound();
 		assertEquals(2, game.getQuestionCount());
 		assertEquals(2, game.getCompletedQuestionCount());
 		assertTrue(game.isFinished());
@@ -90,7 +90,7 @@ class TriviaGameTest {
 	public void asksQuestionsInTheOrderProvided() {
 		assertEquals("What is a trumpet?", game.getCurrentQuestionText());
 		
-		game.closeCurrentQuestion();
+		game.closeCurrentRound();
 		assertEquals("What is a snare drum?", game.getCurrentQuestionText());
 	}
 	
@@ -144,7 +144,7 @@ class TriviaGameTest {
 		assertEquals("What is a trumpet?", game.getCurrentQuestionText());
 		game.submitAnswer(tom, "A snack");
 		game.submitAnswer(betty, "A brass instrument");
-		game.closeCurrentQuestion();
+		game.closeCurrentRound();
 		
 		verifyScore(tom, 0);
 		verifyScore(betty, 1);
@@ -152,7 +152,7 @@ class TriviaGameTest {
 		assertEquals("What is a snare drum?", game.getCurrentQuestionText());
 		game.submitAnswer(tom, "A kitchen utensil");
 		game.submitAnswer(betty, "A percussion instrument");
-		game.closeCurrentQuestion();
+		game.closeCurrentRound();
 		
 		verifyScore(tom, 0);
 		verifyScore(betty, 2);
