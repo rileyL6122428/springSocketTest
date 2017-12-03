@@ -1,24 +1,22 @@
 package l2k.demo.multiple.chats.unit.game;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
-import static org.mockito.Mockito.*;
-
-import java.util.Arrays;
-
 import l2k.demo.multiple.chats.game.Player;
 import l2k.demo.multiple.chats.game.Question;
-import l2k.demo.multiple.chats.game.QuestionRoll;
+import l2k.demo.multiple.chats.game.RollCall;
 import l2k.demo.multiple.chats.game.ScoreKeeper;
 import l2k.demo.multiple.chats.game.TriviaGame;
 import l2k.demo.multiple.chats.game.TriviaRound;
-import l2k.demo.multiple.chats.game.TriviaRoundFactory;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 import static java.util.Arrays.asList;
 
@@ -30,46 +28,47 @@ class TriviaGameTest {
 	@Mock
 	private ScoreKeeper scoreKeeper;
 	@Mock
-	private QuestionRoll questionRoll;
-	
-	@Mock
-	private Question firstQuestion;
+	private RollCall<TriviaRound> triviaRoundRollCall;
 	@Mock 
 	private TriviaRound firstRound;
 	
 	@BeforeEach
 	public void setup() {
-		when(questionRoll.getNextQuestion()).thenReturn(firstQuestion);
+		when(triviaRoundRollCall.getNextItem()).thenReturn(firstRound);
+		game = new TriviaGame(scoreKeeper, triviaRoundRollCall);
+	}
+	
+	@Test
+	public void setsUpFirstRoundOnInitialization(@Mock Question firstQuestion) {
+		verify(triviaRoundRollCall).getNextItem();
 		
-		game = new TriviaGame(scoreKeeper, questionRoll);
+		when(firstRound.getQuestion()).thenReturn(firstQuestion);
+		Question currentQuestion = game.getCurrentQuestion();
+		verify(firstRound).getQuestion();
+		assertEquals(firstQuestion, currentQuestion);
 	}
 	
 	@Test
-	public void setsUpFirstQuestionOnInitialization() {
-		verify(triviaRoundFactory).buildTriviaRound(firstQuestion);		
+	public void delegatesToTheTriviaRoundRollCallWhenReportingTheRoundCount() {
+		when(triviaRoundRollCall.getTotalItemCount()).thenReturn(98);
+		int roundCount = game.getRoundCount();
+		verify(triviaRoundRollCall).getTotalItemCount();
+		assertEquals(98, roundCount);
 	}
 	
 	@Test
-	public void delegatesToTheQuestionRollWhenReportingTheQuestionCount() {
-		when(questionRoll.getQuestionCount()).thenReturn(98);
-		int questionCount = game.getQuestionCount();
-		verify(questionRoll).getQuestionCount();
-		assertEquals(98, questionCount);
+	public void delegatesToTheQuestionRollWhenReportingTheCompletedRoundCount() {
+		when(triviaRoundRollCall.getCompletedItemCount()).thenReturn(555);
+		int roundCount = game.getCompletedRoundCount();
+		verify(triviaRoundRollCall).getCompletedItemCount();
+		assertEquals(555, roundCount);
 	}
 	
 	@Test
-	public void delegatesToTheQuestionRollWhenReportingTheCompletedQuestionCount() {
-		when(questionRoll.getCompletedQuestionCount()).thenReturn(555);
-		int questionCount = game.getCompletedQuestionCount();
-		verify(questionRoll).getCompletedQuestionCount();
-		assertEquals(555, questionCount);
-	}
-	
-	@Test
-	public void delegatesToTheQuestionRollWhenReportingIfTheGameIsFinished() {
-		when(questionRoll.isFinished()).thenReturn(false);
+	public void delegatesToTheTriviaRoundRollCallWhenReportingIfTheGameIsFinished() {
+		when(triviaRoundRollCall.isFinished()).thenReturn(false);
 		boolean gameIsFinished = game.isFinished();
-		verify(questionRoll).isFinished();
+		verify(triviaRoundRollCall).isFinished();
 		assertFalse(gameIsFinished);
 	}
 	
@@ -82,9 +81,14 @@ class TriviaGameTest {
 	}
 	
 	@Test
-	public void closeCurrentRoundSetsUpNextRoundByDelegatingToTheRoundFactory(@Mock Question nextQuestion) {
-		when(questionRoll.getNextQuestion()).thenReturn(nextQuestion);
+	public void closeCurrentRoundGetsNextRoundByDelegatingToTheRoundFactory(@Mock TriviaRound nextRound, @Mock Question nextQuestion) {
+		when(triviaRoundRollCall.getNextItem()).thenReturn(nextRound);
 		game.closeCurrentRound();
-		verify(triviaRoundFactory).buildTriviaRound(nextQuestion);
+		verify(triviaRoundRollCall, times(2)).getNextItem();
+		
+		when(nextRound.getQuestion()).thenReturn(nextQuestion);
+		Question currentQuestion = game.getCurrentQuestion();
+		verify(nextRound).getQuestion();
+		assertEquals(nextQuestion, currentQuestion);
 	}
 }

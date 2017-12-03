@@ -6,26 +6,26 @@ import java.util.Map;
 public class TriviaGame {
 
 	private ScoreKeeper scoreKeeper;
-	private Roll<TriviaRound> roundRoll;
+	private RollCall<TriviaRound> triviaRoundRollCall;
 	
 	private TriviaRound currentRound;
 
-	public TriviaGame(ScoreKeeper scoreKeeper, Roll<TriviaRound> roundRoll) {
+	public TriviaGame(ScoreKeeper scoreKeeper, RollCall<TriviaRound> triviaRoundRollCall) {
 		this.scoreKeeper = scoreKeeper;
-		this.roundRoll = roundRoll;
+		this.triviaRoundRollCall = triviaRoundRollCall;
 		setupNextRound();
 	}
 
-	public int getQuestionCount() {
-		return roundRoll.getTotalItemCount();
+	public int getRoundCount() {
+		return triviaRoundRollCall.getTotalItemCount();
 	}
 
-	public int getCompletedQuestionCount() {
-		return roundRoll.getCompletedItemCount();
+	public int getCompletedRoundCount() {
+		return triviaRoundRollCall.getCompletedItemCount();
 	}
 
 	public boolean isFinished() {
-		return roundRoll.isFinished();
+		return triviaRoundRollCall.isFinished();
 	}
 	
 	public void closeCurrentRound() {
@@ -38,7 +38,7 @@ public class TriviaGame {
 	}
 	
 	private void setupNextRound() {
-		currentRound = roundRoll.getNextItem();
+		currentRound = triviaRoundRollCall.getNextItem();
 	}
 
 	public Question getCurrentQuestion() {

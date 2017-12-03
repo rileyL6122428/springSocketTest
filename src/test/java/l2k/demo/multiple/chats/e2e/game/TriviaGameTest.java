@@ -1,10 +1,10 @@
 package l2k.demo.multiple.chats.e2e.game;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,6 @@ import l2k.demo.multiple.chats.game.TriviaGameBuilder;
 import l2k.demo.multiple.chats.game.TriviaRound;
 import l2k.demo.multiple.chats.game.TriviaRoundBuilder;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
-import static java.util.Arrays.asList;
 
 @ExtendWith(MockitoExtension.class)
 class TriviaGameTest {
@@ -73,16 +72,16 @@ class TriviaGameTest {
 
 	@Test
 	public void reportsTheNumberOfQuestionsCompleted() {
-		assertEquals(2, game.getQuestionCount());
-		assertEquals(0, game.getCompletedQuestionCount());
+		assertEquals(2, game.getRoundCount());
+		assertEquals(0, game.getCompletedRoundCount());
 		
 		game.closeCurrentRound();
-		assertEquals(2, game.getQuestionCount());
-		assertEquals(1, game.getCompletedQuestionCount());
+		assertEquals(2, game.getRoundCount());
+		assertEquals(1, game.getCompletedRoundCount());
 		
 		game.closeCurrentRound();
-		assertEquals(2, game.getQuestionCount());
-		assertEquals(2, game.getCompletedQuestionCount());
+		assertEquals(2, game.getRoundCount());
+		assertEquals(2, game.getCompletedRoundCount());
 		
 		assertTrue(game.isFinished());
 	}

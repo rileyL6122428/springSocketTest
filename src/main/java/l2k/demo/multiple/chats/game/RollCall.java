@@ -2,12 +2,12 @@ package l2k.demo.multiple.chats.game;
 
 import java.util.List;
 
-public class Roll<T> {
+public class RollCall<T> {
 	
 	private int itemIdx = 0;
 	private List<T> items;
 
-	public Roll(List<T> items) {
+	public RollCall(List<T> items) {
 		this.items = items;
 	}
 

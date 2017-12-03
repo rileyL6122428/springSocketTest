@@ -10,7 +10,7 @@ public class TriviaGameBuilder {
 	public TriviaGame build() {
 		return new TriviaGame(
 			new ScoreKeeperBuilder().setPlayers(players).build(),
-			new Roll<TriviaRound>(rounds)
+			new RollCall<TriviaRound>(rounds)
 		);
 	}
 	
