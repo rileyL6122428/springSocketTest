@@ -1,16 +1,15 @@
 package l2k.demo.multiple.chats.unit.game;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Mockito.times;
-
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,19 +23,15 @@ import l2k.demo.multiple.chats.game.ScoreKeeper;
 import l2k.demo.multiple.chats.game.TriviaGame;
 import l2k.demo.multiple.chats.game.TriviaRound;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
-import static java.util.Arrays.asList;
 
 @ExtendWith(MockitoExtension.class)
 class TriviaGameTest {
 	
 	private TriviaGame game;
 	
-	@Mock
-	private ScoreKeeper scoreKeeper;
-	@Mock
-	private RollCall<TriviaRound> triviaRoundRollCall;
-	@Mock 
-	private TriviaRound firstRound;
+	@Mock private ScoreKeeper scoreKeeper;
+	@Mock private RollCall<TriviaRound> triviaRoundRollCall;
+	@Mock private TriviaRound firstRound;
 	
 	@BeforeEach
 	public void setup() {
@@ -116,5 +111,11 @@ class TriviaGameTest {
 		Map<Player, Integer> currentPlayerScores = game.getPlayerScores();
 		verify(scoreKeeper).getScoreMap();
 		assertEquals(playerScores, currentPlayerScores);
+	}
+	
+	@Test
+	public void submitAnswerDelegatesToTheTriviaRound(@Mock Player player, @Mock Answer answer) {
+		game.submitAnswer(player, answer);
+		verify(firstRound).submitAnswer(player, answer);
 	}
 }
