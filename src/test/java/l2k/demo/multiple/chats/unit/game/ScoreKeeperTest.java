@@ -35,9 +35,34 @@ class ScoreKeeperTest {
 	
 	@Test
 	public void playerScoresStartAtZero() {
+		verifyScore(sally, 0);
+		verifyScore(tommy, 0);
+	}
+	
+	@Test
+	public void incrementScoresIncreasesAPlayersScoreByOne() {
+		for(int times = 0; times < 300; times++) {
+			verifyScore(sally, times);
+			verifyScore(tommy, 0);
+			scoreKeeper.incrementScore(sally);
+		}
+		
+		verifyScore(sally, 300);
+		verifyScore(tommy, 0);
+		
+		for(int times = 0; times < 217; times++) {
+			verifyScore(sally, 300);
+			verifyScore(tommy, times);
+			scoreKeeper.incrementScore(tommy);
+		}
+		
+		verifyScore(sally, 300);
+		verifyScore(tommy, 217);
+	}
+	
+	private void verifyScore(Player player, int score) {
 		Map<Player, Integer> scores = scoreKeeper.getScoreMap();
-		assertEquals(0, (int)scores.get(sally));
-		assertEquals(0, (int)scores.get(tommy));
+		assertEquals(score, (int)scores.get(player));
 	}
 	
 }
