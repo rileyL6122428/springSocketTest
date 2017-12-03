@@ -1,23 +1,23 @@
 package l2k.demo.multiple.chats.game;
 
-public class Question {
-
+public class Answer {
+	
 	private final String text;
-
-	public Question(String text) {
+	
+	public Answer(String text) {
 		this.text = text;
 	}
-
+	
 	public String getText() {
 		return text;
 	}
 	
 	@Override
 	public boolean equals(Object object) {
-		if(!(object instanceof Question)) return false;
+		if(!(object instanceof Answer)) return false;
 		
-		Question otherQuestion = (Question) object;
-		return otherQuestion != null && this.text.equals(otherQuestion.getText());
+		Answer otherAnswer = (Answer) object;
+		return otherAnswer != null && this.text.equals(otherAnswer.getText());
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class Question {
 	
 	@Override
 	public String toString() {
-		return "Question: " + text;
+		return "Answer: " + text;
 	}
-
+	
 }

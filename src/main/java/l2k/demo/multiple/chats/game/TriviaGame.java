@@ -6,28 +6,26 @@ import java.util.Map;
 public class TriviaGame {
 
 	private ScoreKeeper scoreKeeper;
-	private QuestionRoll questionRoll;
-	private TriviaRoundFactory triviaRoundFactory;
+	private Roll<TriviaRound> roundRoll;
 	
 	private TriviaRound currentRound;
 
-	public TriviaGame(ScoreKeeper scoreKeeper, QuestionRoll questionRoll, TriviaRoundFactory triviaRoundFactory) {
+	public TriviaGame(ScoreKeeper scoreKeeper, Roll<TriviaRound> roundRoll) {
 		this.scoreKeeper = scoreKeeper;
-		this.questionRoll = questionRoll;
-		this.triviaRoundFactory = triviaRoundFactory;
+		this.roundRoll = roundRoll;
 		setupNextRound();
 	}
 
 	public int getQuestionCount() {
-		return questionRoll.getQuestionCount();
+		return roundRoll.getTotalItemCount();
 	}
 
 	public int getCompletedQuestionCount() {
-		return questionRoll.getCompletedQuestionCount();
+		return roundRoll.getCompletedItemCount();
 	}
 
 	public boolean isFinished() {
-		return questionRoll.isFinished();
+		return roundRoll.isFinished();
 	}
 	
 	public void closeCurrentRound() {
@@ -40,14 +38,14 @@ public class TriviaGame {
 	}
 	
 	private void setupNextRound() {
-		currentRound = triviaRoundFactory.buildTriviaRound(questionRoll.getNextQuestion());
+		currentRound = roundRoll.getNextItem();
 	}
 
-	public String getCurrentQuestionText() {
-		return currentRound.getQuestionText();
+	public Question getCurrentQuestion() {
+		return currentRound.getQuestion();
 	}
 
-	public List<String> getCurrentQuestionAnswers() {
+	public List<Answer> getCurrentQuestionAnswers() {
 		return currentRound.getAnswers();
 	}
 
@@ -55,7 +53,7 @@ public class TriviaGame {
 		return scoreKeeper.getScoreMap();
 	}
 
-	public void submitAnswer(Player player, String answer) {
+	public void submitAnswer(Player player, Answer answer) {
 		currentRound.submitAnswer(player, answer);
 	}
 	

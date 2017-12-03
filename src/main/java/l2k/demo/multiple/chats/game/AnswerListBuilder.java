@@ -6,23 +6,28 @@ import java.util.List;
 
 public class AnswerListBuilder {
 	
-	private Question question;
+	private Answer correctAnswer;
+	private List<Answer> fakeAnswers;
 
-	public List<String> build() {
-		if(question == null) return null;
-		return shuffledAnswers(question);
+	public List<Answer> build() {
+		return shuffledAnswers();
 	}
 	
-	private List<String> shuffledAnswers(Question question) {
-		List<String> answers = new ArrayList<String>();
-		answers.add(question.getAnswer());
-		answers.addAll(question.getFakeAnswers());
+	private List<Answer> shuffledAnswers() {
+		List<Answer> answers = new ArrayList<Answer>();
+		answers.add(correctAnswer);
+		answers.addAll(fakeAnswers);
 		Collections.shuffle(answers);
 		return answers;
 	}
 	
-	public AnswerListBuilder setQuestion(Question question) {
-		this.question = question;
+	public AnswerListBuilder setCorrectAnswer(Answer correctAnswer) {
+		this.correctAnswer = correctAnswer;
+		return this;
+	}
+	
+	public AnswerListBuilder setFakeAnswers(List<Answer> fakeAnswers) {
+		this.fakeAnswers = fakeAnswers;
 		return this;
 	}
 

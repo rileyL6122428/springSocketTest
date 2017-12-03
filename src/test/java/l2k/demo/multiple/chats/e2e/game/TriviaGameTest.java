@@ -5,29 +5,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import l2k.demo.multiple.chats.game.AnswerMap;
+import l2k.demo.multiple.chats.game.Answer;
 import l2k.demo.multiple.chats.game.Player;
 import l2k.demo.multiple.chats.game.Question;
-import l2k.demo.multiple.chats.game.QuestionBuilder;
 import l2k.demo.multiple.chats.game.TriviaGame;
 import l2k.demo.multiple.chats.game.TriviaGameBuilder;
+import l2k.demo.multiple.chats.game.TriviaRound;
+import l2k.demo.multiple.chats.game.TriviaRoundBuilder;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
+import static java.util.Arrays.asList;
 
 @ExtendWith(MockitoExtension.class)
 class TriviaGameTest {
 	
 	private TriviaGame game;
-	private List<Question> questions;
+	private List<TriviaRound> triviaRounds;
 	
 	private Player tom;
 	private Player betty;
@@ -37,27 +37,27 @@ class TriviaGameTest {
 	public void setupPlayers() {
 		tom = new Player("Tom");
 		betty = new Player("Betty");
-		players = Arrays.asList(tom, betty);
+		players = asList(tom, betty);
 	}
 	
 	@BeforeEach
 	public void setupQuestions() {		
-		questions = new ArrayList<Question>() {{
-			add(new QuestionBuilder()
-					.setText("What is a trumpet?")
-					.setAnswer("A brass instrument")
-					.addFakeAnswer("A percussion instrument")
-					.addFakeAnswer("A woodwind instrument")
-					.addFakeAnswer("A snack")
+		triviaRounds = new ArrayList<TriviaRound>() {{
+			add(new TriviaRoundBuilder()
+					.setQuestion(new Question("What is a trumpet?"))
+					.setCorrectAnswer(new Answer("A brass instrument"))
+					.addFakeAnswer(new Answer("A percussion instrument"))
+					.addFakeAnswer(new Answer("A woodwind instrument"))
+					.addFakeAnswer(new Answer("A snack"))
 					.build()
 			);
 			
-			add(new QuestionBuilder()
-					.setText("What is a snare drum?")
-					.setAnswer("A percussion instrument")
-					.addFakeAnswer("A brass instrument")
-					.addFakeAnswer("A woodwind instrument")
-					.addFakeAnswer("A kitchen utensil")
+			add(new TriviaRoundBuilder()
+					.setQuestion(new Question("What is a snare drum?"))
+					.setCorrectAnswer(new Answer("A percussion instrument"))
+					.addFakeAnswer(new Answer("A brass instrument"))
+					.addFakeAnswer(new Answer("A woodwind instrument"))
+					.addFakeAnswer(new Answer("A kitchen utensil"))
 					.build()
 			);
 		}};
@@ -67,7 +67,7 @@ class TriviaGameTest {
 	public void setupGame() {
 		game = new TriviaGameBuilder()
 				.setPlayers(players)
-				.setQuestions(questions)
+				.setRounds(triviaRounds)
 				.build();		
 	}
 
@@ -83,49 +83,53 @@ class TriviaGameTest {
 		game.closeCurrentRound();
 		assertEquals(2, game.getQuestionCount());
 		assertEquals(2, game.getCompletedQuestionCount());
+		
 		assertTrue(game.isFinished());
 	}
 	
 	@Test
 	public void asksQuestionsInTheOrderProvided() {
-		assertEquals("What is a trumpet?", game.getCurrentQuestionText());
+		assertEquals(new Question("What is a trumpet?"), game.getCurrentQuestion());
 		
 		game.closeCurrentRound();
-		assertEquals("What is a snare drum?", game.getCurrentQuestionText());
+		assertEquals(new Question("What is a snare drum?"), game.getCurrentQuestion());
 	}
 	
 	@Test
 	public void providesAListOfAnswersForEachQuestion() {
-		List<String> questionOneAnswers = game.getCurrentQuestionAnswers();
+		List<Answer> questionOneAnswers = game.getCurrentQuestionAnswers();
 		
 		AnswerCounts answerCounts = new AnswerCounts(
-			"A brass instrument", "A percussion instrument", "A woodwind instrument", "A snack"
+			new Answer("A brass instrument"), 
+			new Answer("A percussion instrument"), 
+			new Answer("A woodwind instrument"), 
+			new Answer("A snack")
 		);
 		
 		questionOneAnswers.forEach(answerCounts::increment);
 		
-		assertEquals(1, answerCounts.getCount("A brass instrument"));
-		assertEquals(1, answerCounts.getCount("A percussion instrument"));
-		assertEquals(1, answerCounts.getCount("A woodwind instrument"));
-		assertEquals(1, answerCounts.getCount("A snack"));
+		assertEquals(1, answerCounts.getCount(new Answer("A brass instrument")));
+		assertEquals(1, answerCounts.getCount(new Answer("A percussion instrument")));
+		assertEquals(1, answerCounts.getCount(new Answer("A woodwind instrument")));
+		assertEquals(1, answerCounts.getCount(new Answer("A snack")));
 	}
 
 	class AnswerCounts {
 		
-		private Map<String, Integer> counts = new HashMap<String, Integer>();
+		private Map<Answer, Integer> counts = new HashMap<Answer, Integer>();
 		
-		AnswerCounts(String... answers) {
-			for(String answer : answers) {
+		AnswerCounts(Answer... answers) {
+			for(Answer answer : answers) {
 				counts.put(answer, 0);
 			}
 		}
 		
-		void increment(String answer) {
+		void increment(Answer answer) {
 			if(counts.get(answer) == null) throw new RuntimeException();
 			counts.put(answer, counts.get(answer) + 1);
 		}
 		
-		int getCount(String answer) {
+		int getCount(Answer answer) {
 			if(counts.get(answer) == null) throw new RuntimeException();
 			return counts.get(answer);
 		}
@@ -141,17 +145,17 @@ class TriviaGameTest {
 	
 	@Test
 	public void playersSubmitAnswersAndReceiveAPointForCorrectAnswers() {
-		assertEquals("What is a trumpet?", game.getCurrentQuestionText());
-		game.submitAnswer(tom, "A snack");
-		game.submitAnswer(betty, "A brass instrument");
+		assertEquals(new Question("What is a trumpet?"), game.getCurrentQuestion());
+		game.submitAnswer(tom, new Answer("A snack"));
+		game.submitAnswer(betty, new Answer("A brass instrument"));
 		game.closeCurrentRound();
 		
 		verifyScore(tom, 0);
 		verifyScore(betty, 1);
 		
-		assertEquals("What is a snare drum?", game.getCurrentQuestionText());
-		game.submitAnswer(tom, "A kitchen utensil");
-		game.submitAnswer(betty, "A percussion instrument");
+		assertEquals(new Question("What is a snare drum?"), game.getCurrentQuestion());
+		game.submitAnswer(tom, new Answer("A kitchen utensil"));
+		game.submitAnswer(betty, new Answer("A percussion instrument"));
 		game.closeCurrentRound();
 		
 		verifyScore(tom, 0);

@@ -5,13 +5,12 @@ import java.util.List;
 public class TriviaGameBuilder {
 	
 	private List<Player> players;
-	private List<Question> questions;
+	private List<TriviaRound> rounds;
 
 	public TriviaGame build() {
 		return new TriviaGame(
 			new ScoreKeeperBuilder().setPlayers(players).build(),
-			new QuestionRoll(questions),
-			new TriviaRoundFactory()
+			new Roll<TriviaRound>(rounds)
 		);
 	}
 	
@@ -20,8 +19,8 @@ public class TriviaGameBuilder {
 		return this;
 	}
 
-	public TriviaGameBuilder setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public TriviaGameBuilder setRounds(List<TriviaRound> rounds) {
+		this.rounds = rounds;
 		return this;
 	}
 
