@@ -8,7 +8,7 @@ public class ScoreKeeper {
 	private Map<Player, Integer> playerToScores; 
 
 	public ScoreKeeper(Map<Player, Integer> playerToScores) {
-		this.playerToScores= playerToScores;
+		this.playerToScores = playerToScores;
 	}
 	
 	public void incrementScore(Player player) {
