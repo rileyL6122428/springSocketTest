@@ -64,5 +64,14 @@ class RollCallTest {
 		rollCall.getNextItem();
 		assertTrue(rollCall.isFinished());
 	}
+	
+	@Test
+	public void returnsTheItemsInTheOrderProvided() {
+		assertEquals(1, (int)rollCall.getNextItem());
+		assertEquals(2, (int)rollCall.getNextItem());
+		assertEquals(3, (int)rollCall.getNextItem());
+		assertEquals(4, (int)rollCall.getNextItem());
+		assertEquals(5, (int)rollCall.getNextItem());
+	}
 
 }
