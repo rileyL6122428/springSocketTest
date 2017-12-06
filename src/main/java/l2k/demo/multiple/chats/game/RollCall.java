@@ -11,8 +11,8 @@ public class RollCall<T> {
 		this.items = items;
 	}
 
-	public int getCompletedItemCount() {
-		return itemIdx - 1;
+	public int getRetrievedItemCount() {
+		return itemIdx;
 	}
 
 	public int getTotalItemCount() {

@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import l2k.demo.multiple.chats.game.RollCall;
@@ -20,6 +21,27 @@ class RollCallTest {
 	@Test
 	public void reportsTheTotalNumberOfItemsInTheRoll() {
 		assertEquals(5, rollCall.getTotalItemCount());
+	}
+	
+//	@Disabled
+	@Test
+	public void reportsTheTotalNumberOfItemsObtainedFromTheRoll() {
+		assertEquals(0, rollCall.getRetrievedItemCount());
+		
+		rollCall.getNextItem();
+		assertEquals(1, rollCall.getRetrievedItemCount());
+		
+		rollCall.getNextItem();
+		assertEquals(2, rollCall.getRetrievedItemCount());
+		
+		rollCall.getNextItem();
+		assertEquals(3, rollCall.getRetrievedItemCount());
+		
+		rollCall.getNextItem();
+		assertEquals(4, rollCall.getRetrievedItemCount());
+		
+		rollCall.getNextItem();
+		assertEquals(5, rollCall.getRetrievedItemCount());
 	}
 
 }

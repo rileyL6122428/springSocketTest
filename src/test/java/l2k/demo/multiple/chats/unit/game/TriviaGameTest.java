@@ -56,11 +56,11 @@ class TriviaGameTest {
 	}
 	
 	@Test
-	public void delegatesToTheQuestionRollWhenReportingTheCompletedRoundCount() {
-		when(triviaRoundRollCall.getCompletedItemCount()).thenReturn(555);
+	public void returnsOneLessThanTheItemsRetrievedFromTheRollWhenReportingTheCompletedRoundCount() {
+		when(triviaRoundRollCall.getRetrievedItemCount()).thenReturn(555);
 		int roundCount = game.getCompletedRoundCount();
-		verify(triviaRoundRollCall).getCompletedItemCount();
-		assertEquals(555, roundCount);
+		verify(triviaRoundRollCall).getRetrievedItemCount();
+		assertEquals(554, roundCount);
 	}
 	
 	@Test

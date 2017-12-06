@@ -21,7 +21,7 @@ public class TriviaGame {
 	}
 
 	public int getCompletedRoundCount() {
-		return triviaRoundRollCall.getCompletedItemCount();
+		return triviaRoundRollCall.getRetrievedItemCount() - 1;
 	}
 
 	public boolean isFinished() {
