@@ -1,6 +1,7 @@
 package l2k.demo.multiple.chats.unit.game;
 
 import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import l2k.demo.multiple.chats.game.Answer;
+import l2k.demo.multiple.chats.game.Player;
 import l2k.demo.multiple.chats.game.Question;
 import l2k.demo.multiple.chats.game.TriviaRound;
 import l2k.demo.multiple.chats.game.TriviaRoundBuilder;
@@ -46,12 +48,32 @@ class TriviaRoundTest {
 	@Test
 	public void getAnswersReturnsAListContainingTheCorrectAndFakeAnswers() {
 		final List<Answer> answers = triviaRound.getAnswers();
+		assertEquals(4, answers.size());
 		
 		assertTrue(answers.contains(correctAnswer));
-		
 		fakeAnswers.forEach((fakeAnswer) -> {
 			assertTrue(answers.contains(fakeAnswer));
 		});
 	}
-
+	
+	@Test
+	public void getPlayersWithCorrectAnswerReturnsUsersThatSubmittedCorrectAnswers() {
+		Player sally = new Player("Sally");
+		Player tommy = new Player("Tommy");
+		Player bobby = new Player("Bobby");
+		Player betty = new Player("Betty");
+		
+		triviaRound.submitAnswer(sally, correctAnswer);
+		triviaRound.submitAnswer(tommy, fakeAnswers.get(0));
+		triviaRound.submitAnswer(bobby, fakeAnswers.get(2));
+		triviaRound.submitAnswer(betty, correctAnswer);
+		
+		final List<Player> players = triviaRound.getPlayersWithCorrectAnswer();
+		assertEquals(2, players.size());
+		
+		players.forEach((player) -> {
+			assertTrue(players.contains(player));
+		});
+	}
+	
 }
