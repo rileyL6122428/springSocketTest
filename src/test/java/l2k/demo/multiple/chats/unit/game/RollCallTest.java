@@ -3,10 +3,10 @@ package l2k.demo.multiple.chats.unit.game;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import l2k.demo.multiple.chats.game.RollCall;
@@ -72,6 +72,15 @@ class RollCallTest {
 		assertEquals(3, (int)rollCall.getNextItem());
 		assertEquals(4, (int)rollCall.getNextItem());
 		assertEquals(5, (int)rollCall.getNextItem());
+	}
+	
+	@Test
+	public void returnsNullOnceAallItemsHaveBeenObtained() {
+		for(int count = 0; count <= 5; count++) {
+			rollCall.getNextItem();			
+		}
+		
+		assertNull(rollCall.getNextItem());
 	}
 
 }
