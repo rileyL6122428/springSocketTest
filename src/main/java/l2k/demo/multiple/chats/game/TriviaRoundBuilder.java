@@ -33,5 +33,10 @@ public class TriviaRoundBuilder {
 		this.fakeAnswers.add(fakeAnswer);
 		return this;
 	}
+
+	public TriviaRoundBuilder addFakeAnswers(List<Answer> fakeAnswers) {
+		fakeAnswers.forEach(this::addFakeAnswer);
+		return this;
+	}
 	
 }
