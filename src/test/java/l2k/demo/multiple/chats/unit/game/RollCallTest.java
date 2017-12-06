@@ -2,6 +2,8 @@ package l2k.demo.multiple.chats.unit.game;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -23,7 +25,6 @@ class RollCallTest {
 		assertEquals(5, rollCall.getTotalItemCount());
 	}
 	
-//	@Disabled
 	@Test
 	public void reportsTheTotalNumberOfItemsObtainedFromTheRoll() {
 		assertEquals(0, rollCall.getRetrievedItemCount());
@@ -42,6 +43,26 @@ class RollCallTest {
 		
 		rollCall.getNextItem();
 		assertEquals(5, rollCall.getRetrievedItemCount());
+	}
+	
+	@Test
+	public void reportsTheRollAsFinishedWhenAllItemsRetrieved() {
+		assertFalse(rollCall.isFinished());
+		
+		rollCall.getNextItem();
+		assertFalse(rollCall.isFinished());
+		
+		rollCall.getNextItem();
+		assertFalse(rollCall.isFinished());
+		
+		rollCall.getNextItem();
+		assertFalse(rollCall.isFinished());
+		
+		rollCall.getNextItem();
+		assertFalse(rollCall.isFinished());
+		
+		rollCall.getNextItem();
+		assertTrue(rollCall.isFinished());
 	}
 
 }
