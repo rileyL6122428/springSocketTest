@@ -1,4 +1,4 @@
-package l2k.demo.multiple.chats.customannotations;
+package l2k.trivia.customannotations;
 
 import java.lang.annotation.Target;
 
