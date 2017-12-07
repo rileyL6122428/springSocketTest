@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import l2k.trivia.server.domain.Room;
+import l2k.trivia.server.domain.User;
+
 @RunWith(JUnitPlatform.class)
 public class RoomTest {
 

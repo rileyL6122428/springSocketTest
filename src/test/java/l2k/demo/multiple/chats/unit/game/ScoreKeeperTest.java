@@ -10,9 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import l2k.demo.multiple.chats.game.Player;
-import l2k.demo.multiple.chats.game.ScoreKeeper;
-import l2k.demo.multiple.chats.game.ScoreKeeperBuilder;
+import l2k.trivia.game.Player;
+import l2k.trivia.game.ScoreKeeper;
+import l2k.trivia.game.ScoreKeeperBuilder;
 
 class ScoreKeeperTest {
 

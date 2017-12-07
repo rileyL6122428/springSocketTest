@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
-import l2k.demo.multiple.chats.game.Answer;
-import l2k.demo.multiple.chats.game.Player;
-import l2k.demo.multiple.chats.game.Question;
-import l2k.demo.multiple.chats.game.RollCall;
-import l2k.demo.multiple.chats.game.ScoreKeeper;
-import l2k.demo.multiple.chats.game.TriviaGame;
-import l2k.demo.multiple.chats.game.TriviaRound;
+import l2k.trivia.game.Answer;
+import l2k.trivia.game.Player;
+import l2k.trivia.game.Question;
+import l2k.trivia.game.RollCall;
+import l2k.trivia.game.ScoreKeeper;
+import l2k.trivia.game.TriviaGame;
+import l2k.trivia.game.TriviaRound;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)

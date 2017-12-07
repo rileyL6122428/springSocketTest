@@ -11,11 +11,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import l2k.demo.multiple.chats.game.Answer;
-import l2k.demo.multiple.chats.game.Player;
-import l2k.demo.multiple.chats.game.Question;
-import l2k.demo.multiple.chats.game.TriviaRound;
-import l2k.demo.multiple.chats.game.TriviaRoundBuilder;
+import l2k.trivia.game.Answer;
+import l2k.trivia.game.Player;
+import l2k.trivia.game.Question;
+import l2k.trivia.game.TriviaRound;
+import l2k.trivia.game.TriviaRoundBuilder;
 
 class TriviaRoundTest {
 	
@@ -57,7 +57,8 @@ class TriviaRoundTest {
 	}
 	
 	@Test
-	public void getPlayersWithCorrectAnswerReturnsUsersThatSubmittedCorrectAnswers() {
+	public void 
+ReturnsUsersThatSubmittedCorrectAnswers() {
 		Player sally = new Player("Sally");
 		Player tommy = new Player("Tommy");
 		Player bobby = new Player("Bobby");

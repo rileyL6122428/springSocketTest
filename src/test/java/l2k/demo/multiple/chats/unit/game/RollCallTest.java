@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import l2k.demo.multiple.chats.game.RollCall;
+import l2k.trivia.game.RollCall;
 
 class RollCallTest {
 	

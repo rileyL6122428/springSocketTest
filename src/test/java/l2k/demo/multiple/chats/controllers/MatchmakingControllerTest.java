@@ -10,10 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import l2k.demo.multiple.chats.controllers.request.JoinRoomRequest;
 import l2k.demo.multiple.chats.customannotations.ImplementationPending;
-import l2k.demo.multiple.chats.domain.Room;
-import l2k.demo.multiple.chats.services.RoomMonitor;
+import l2k.trivia.server.controllers.MatchmakingController;
+import l2k.trivia.server.controllers.request.JoinRoomRequest;
+import l2k.trivia.server.domain.Room;
+import l2k.trivia.server.services.RoomMonitor;
 
 @RunWith(JUnitPlatform.class)
 public class MatchmakingControllerTest {
