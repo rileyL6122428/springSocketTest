@@ -57,8 +57,7 @@ class TriviaRoundTest {
 	}
 	
 	@Test
-	public void 
-ReturnsUsersThatSubmittedCorrectAnswers() {
+	public void ReturnsUsersThatSubmittedCorrectAnswers() {
 		Player sally = new Player("Sally");
 		Player tommy = new Player("Tommy");
 		Player bobby = new Player("Bobby");
