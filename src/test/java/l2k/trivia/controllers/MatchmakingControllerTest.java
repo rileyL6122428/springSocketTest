@@ -1,4 +1,4 @@
-package l2k.demo.multiple.chats.controllers;
+package l2k.trivia.controllers;
 
 import java.security.Principal;
 

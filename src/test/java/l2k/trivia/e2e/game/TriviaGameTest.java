@@ -1,4 +1,4 @@
-package l2k.demo.multiple.chats.e2e.game;
+package l2k.trivia.e2e.game;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
