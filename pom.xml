@@ -52,6 +52,22 @@
 		<artifactId>spring-websocket</artifactId>
 		<!-- <version>4.2.4.RELEASE</version> -->
 	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-test</artifactId>
+	    <!-- <version>5.0</version> -->
+	    <scope>test</scope>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-test</artifactId>
+	    <!-- <version>1.4.3.RELEASE</version> -->
+	    <scope>test</scope>
+	</dependency>
+	
+	
 	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-messaging</artifactId>
@@ -71,10 +87,18 @@
 	</dependency>
 
 	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-test</artifactId>
-		<scope>test</scope>
-	</dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.github.sbrannen</groupId>
+        <artifactId>spring-test-junit5</artifactId>
+        <version>1.0.0.M4</version>
+        <scope>test</scope>
+        <type>jar</type>
+    </dependency>
+		
 	
 	<dependency>
 	    <groupId>org.mockito</groupId>
@@ -123,6 +147,28 @@
 		              <repository>${docker.image.prefix}/${project.artifactId}</repository>
 		          </configuration>
 		      </plugin>
+		      
+		      <!-- ADDED TO GET SPRING EXTENSION FOR JUNIT5 -->
+		      <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>  
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>	
 	</build>
+	
+	<repositories>
+		<!-- ADDED TO GET SPRING EXTENSION FOR JUNIT5 -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 </project>
