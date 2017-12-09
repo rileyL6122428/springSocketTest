@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static org.mockito.Mockito.*;
 
+import java.util.UUID;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,11 +34,13 @@ class AppControllerTest {
 	private HttpServletResponse response;
 	@Mock 
 	private UserService userService;
+	@Mock
+	private User user;
 	@Mock 
 	private CookieUtil cookieUtil;
 
 	@BeforeEach
-	public void setupUserService(@Mock User user) {
+	public void setupUserService() {
 		when(userService.registerUser(any(String.class))).thenReturn(user);
 	}
 	
@@ -52,6 +56,14 @@ class AppControllerTest {
 		public void registersUserEnteringSite() {
 			appController.enterSite("EXAMPLE_SESSION_ID", response);
 			verify(userService).registerUser("EXAMPLE_SESSION_ID");
+		}
+		
+		@Test
+		public void sendsTriviaSessionCookieInResponse() {
+			UUID sessionId = UUID.randomUUID();
+			when(user.getSessionId()).thenReturn(sessionId);
+			appController.enterSite("EXAMPLE_SESSION_ID", response);
+			verify(cookieUtil).addSessionCookie(sessionId, response);
 		}
 		
 		@Test
