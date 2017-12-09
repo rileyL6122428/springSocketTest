@@ -1,4 +1,4 @@
-package l2k.trivia.e2e.controller;
+package l2k.trivia.e2e.server.controller;
 
 import static l2k.trivia.utils.AdditionalAssertions.assertIsUUID;
 import static org.hamcrest.CoreMatchers.equalTo;

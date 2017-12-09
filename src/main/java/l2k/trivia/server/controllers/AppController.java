@@ -22,7 +22,7 @@ public class AppController {
 	private CookieUtil cookieUtil;
 
 	@GetMapping(value = "/")
-	public Object getTriviaClient(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
+	public ModelAndView enterSite(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
 		User user;
 		if(!userService.isCurrentUser(sessionId)) 
 			user = userService.addNewAnonymousUser();
@@ -30,6 +30,7 @@ public class AppController {
 			user = userService.getUser(sessionId);
 		
 		cookieUtil.addSessionCookie(user.getSessionId(), response);
+		
 		return new ModelAndView("index.html");
 	}
 	
