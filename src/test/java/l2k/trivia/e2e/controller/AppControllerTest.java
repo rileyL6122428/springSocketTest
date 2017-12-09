@@ -1,9 +1,18 @@
 package l2k.trivia.e2e.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static l2k.trivia.utils.AdditionalAssertions.assertIsUUID;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import javax.servlet.http.Cookie;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,24 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.hamcrest.CoreMatchers.*;
 
 import l2k.trivia.App;
-import l2k.trivia.server.config.WebSocketConfiguration;
-import static l2k.trivia.utils.AdditionalAssertions.assertIsUUID;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-
-import java.util.UUID;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 @SpringBootTest
 @ContextConfiguration(classes = { App.class })

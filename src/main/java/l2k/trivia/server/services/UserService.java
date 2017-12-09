@@ -36,6 +36,10 @@ public class UserService {
 		sessionToUsers.put(user.getSessionId(), user);
 	}
 	
+	public boolean isCurrentUser(String sessionId) {
+		return sessionId != null && getUser(sessionId) != null;
+	}
+	
 	public User getUser(String sessionIdString) {
 		UUID sessionID = UUID.fromString(sessionIdString);
 		return sessionToUsers.get(sessionID);

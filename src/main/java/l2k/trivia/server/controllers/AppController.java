@@ -20,16 +20,12 @@ public class AppController {
 
 	@GetMapping(value = "/")
 	public Object getTriviaClient(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
-		if(!isCurrentUser(sessionId)) {
+		if(!userService.isCurrentUser(sessionId)) {
 			User user = userService.addNewAnonymousUser();
 			addSessionIdToCookies(user, response);			
 		} 
 		
 		return new ModelAndView("index.html");
-	}
-	
-	private boolean isCurrentUser(String sessionId) {
-		return sessionId != null && userService.getUser(sessionId) != null;
 	}
 	
 	private void addSessionIdToCookies(User user, HttpServletResponse response) {
