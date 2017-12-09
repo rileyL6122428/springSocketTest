@@ -15,11 +15,15 @@ import l2k.trivia.server.services.UserService;
 @Controller
 public class AppController {
 	
-	@Autowired
 	private UserService userService;
 	
-	@Autowired
 	private CookieUtil cookieUtil;
+	
+	@Autowired
+	public AppController(UserService userService, CookieUtil cookieUtil) {
+		this.userService = userService;
+		this.cookieUtil = cookieUtil;
+	}
 
 	@GetMapping(value = "/")
 	public ModelAndView enterSite(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
