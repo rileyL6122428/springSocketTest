@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import l2k.trivia.App;
 import l2k.trivia.server.config.WebSocketConfiguration;
+import static l2k.trivia.utils.AdditionalAssertions.assertIsUUID;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -60,14 +61,6 @@ class AppControllerTest {
 		Cookie triviaSessionCookie = result.getResponse().getCookie("TRIVIA_SESSION_COOKIE");
 		assertNotNull(triviaSessionCookie);
 		assertIsUUID(triviaSessionCookie.getValue());
-	}
-	
-	private void assertIsUUID(String string) {
-		try {
-			UUID.fromString(string);			
-		} catch (Exception exception) {
-			fail("trivia session cookie value is not an instance of UUID");
-		}
 	}
 
 }
