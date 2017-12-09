@@ -23,11 +23,13 @@ public class AppController {
 
 	@GetMapping(value = "/")
 	public Object getTriviaClient(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
-		if(!userService.isCurrentUser(sessionId)) {
-			User user = userService.addNewAnonymousUser();
-			cookieUtil.addSessionCookie(user.getSessionId(), response);
-		} 
+		User user;
+		if(!userService.isCurrentUser(sessionId)) 
+			user = userService.addNewAnonymousUser();
+		else
+			user = userService.getUser(sessionId);
 		
+		cookieUtil.addSessionCookie(user.getSessionId(), response);
 		return new ModelAndView("index.html");
 	}
 	

@@ -10,9 +10,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.UUID;
+
 import javax.servlet.http.Cookie;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +76,17 @@ class AppControllerTest {
 			Cookie authTokenOne = resultOne.getResponse().getCookie("TRIVIA_SESSION_COOKIE");
 			Cookie authTokenTwo = resultTwo.getResponse().getCookie("TRIVIA_SESSION_COOKIE");
 			assertThat(authTokenOne.getValue(), is(not(equalTo(authTokenTwo.getValue()))));
+		}
+		
+		@Test
+		public void preservesAuthTokenIfSessionNotExpired() throws Exception {
+			MvcResult initialResult = mockMvc.perform(get("/")).andReturn();
+			Cookie sessionCookie = initialResult.getResponse().getCookie("TRIVIA_SESSION_COOKIE");
+			
+			MvcResult secondResult = mockMvc.perform(get("/").cookie(sessionCookie)).andReturn();
+			Cookie secondSessionCookie = secondResult.getResponse().getCookie("TRIVIA_SESSION_COOKIE");
+			
+			assertThat(sessionCookie.getValue(), is(equalTo(secondSessionCookie.getValue())));
 		}
 	}
 	
