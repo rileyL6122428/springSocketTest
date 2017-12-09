@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,19 +49,25 @@ class AppControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
 	}
 	
-	@Test
-	public void getRequestToBasePathReturnsTriviaClient() throws Exception {
-		mockMvc.perform(get("/")).andDo(print())
-		.andExpect(view().name("index.html"));
+	
+	@Nested
+	class getRequestToBasePath {
+		
+		@Test
+		public void returnsTriviaClient() throws Exception {
+			mockMvc.perform(get("/")).andDo(print())
+			.andExpect(view().name("index.html"));
+		}
+		
+		@Test
+		public void addsAuthTokenToCookies() throws Exception {
+			MvcResult result = mockMvc.perform(get("/")).andReturn();
+			
+			Cookie triviaSessionCookie = result.getResponse().getCookie("TRIVIA_SESSION_COOKIE");
+			assertNotNull(triviaSessionCookie);
+			assertIsUUID(triviaSessionCookie.getValue());
+		}
+		
 	}
 	
-	@Test
-	public void getRequestToBasePathAddsAuthTokenToCookies() throws Exception {
-		MvcResult result = mockMvc.perform(get("/")).andReturn();
-		
-		Cookie triviaSessionCookie = result.getResponse().getCookie("TRIVIA_SESSION_COOKIE");
-		assertNotNull(triviaSessionCookie);
-		assertIsUUID(triviaSessionCookie.getValue());
-	}
-
 }
