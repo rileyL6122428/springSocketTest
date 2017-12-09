@@ -56,5 +56,16 @@ public class UserService {
 	public int getTotalUsers() {
 		return sessionToUsers.size();
 	}
+
+	public User registerUser(String sessionId) {
+		User user;
+		
+		if(!isCurrentUser(sessionId)) 
+			user = addNewAnonymousUser();
+		else
+			user = getUser(sessionId);
+		
+		return user;
+	}
 	
 }

@@ -37,8 +37,7 @@ class AppControllerTest {
 
 	@BeforeEach
 	public void setupUserService(@Mock User user) {
-		when(userService.addNewAnonymousUser()).thenReturn(user);
-		when(userService.getUser(any(String.class))).thenReturn(user);
+		when(userService.registerUser(any(String.class))).thenReturn(user);
 	}
 	
 	@BeforeEach
@@ -50,7 +49,13 @@ class AppControllerTest {
 	class EnterSite {
 		
 		@Test
-		void returnsTriviaClient() {
+		public void registersUserEnteringSite() {
+			appController.enterSite("EXAMPLE_SESSION_ID", response);
+			verify(userService).registerUser("EXAMPLE_SESSION_ID");
+		}
+		
+		@Test
+		public void returnsTriviaClient() {
 			ModelAndView modelAndView = appController.enterSite("EXAMPLE_SESSION_ID", response);
 			assertThat(modelAndView.getViewName(), equalTo("index.html"));
 		}
