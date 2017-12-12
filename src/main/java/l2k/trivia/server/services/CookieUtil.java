@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CookieUtil {
 	
-	public void addSessionCookie(Object sessionId, HttpServletResponse response) {
+	public void returnSessionCookie(Object sessionId, HttpServletResponse response) {
 		Cookie sessionCookie = new Cookie("TRIVIA_SESSION_COOKIE", sessionId.toString());
 		response.addCookie(sessionCookie);
 	}

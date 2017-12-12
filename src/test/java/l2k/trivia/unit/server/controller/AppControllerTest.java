@@ -63,7 +63,7 @@ class AppControllerTest {
 			UUID sessionId = UUID.randomUUID();
 			when(user.getSessionId()).thenReturn(sessionId);
 			appController.enterSite("EXAMPLE_SESSION_ID", response);
-			verify(cookieUtil).addSessionCookie(sessionId, response);
+			verify(cookieUtil).returnSessionCookie(sessionId, response);
 		}
 		
 		@Test

@@ -28,7 +28,7 @@ public class AppController {
 	@GetMapping(value = "/")
 	public ModelAndView enterSite(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
 		User user = userService.registerUser(sessionId);
-		cookieUtil.addSessionCookie(user.getSessionId(), response);
+		cookieUtil.returnSessionCookie(user.getSessionId(), response);
 		return new ModelAndView("index.html");
 	}
 	
