@@ -1,5 +1,7 @@
 package l2k.trivia.server.controllers;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class AppController {
 
 	@GetMapping(value = "/")
 	public ModelAndView enterSite(@CookieValue(value="TRIVIA_SESSION_COOKIE", required=false) String sessionId, HttpServletResponse response) {
-		User user = userService.registerUser(sessionId);
+		User user = userService.registerUser(UUID.fromString(sessionId));
 		cookieUtil.returnSessionCookie(user.getSessionId(), response);
 		return new ModelAndView("index.html");
 	}

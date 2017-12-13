@@ -1,6 +1,5 @@
 package l2k.trivia.server.services;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,13 +11,24 @@ import l2k.trivia.server.domain.User;
 @Service
 public class UserService {
 	
-	@Autowired
 	private NameGenerator nameGenerator;
-
 	private Map<UUID, User> sessionToUsers;
 	
-	{
-		sessionToUsers = new HashMap<UUID, User>();
+	@Autowired
+	public UserService(NameGenerator nameGenerator, Map<UUID, User> sessionToUsers) {
+		this.nameGenerator = nameGenerator;
+		this.sessionToUsers = sessionToUsers;
+	}
+	
+	public User registerUser(UUID sessionId) {
+		User user;
+		
+		if(!isCurrentUser(sessionId)) 
+			user = addNewAnonymousUser();
+		else
+			user = getUser(sessionId);
+		
+		return user;
 	}
 	
 	public User addNewAnonymousUser() {
@@ -36,7 +46,7 @@ public class UserService {
 		sessionToUsers.put(user.getSessionId(), user);
 	}
 	
-	public boolean isCurrentUser(String sessionId) {
+	public boolean isCurrentUser(UUID sessionId) {
 		return sessionId != null && getUser(sessionId) != null;
 	}
 	
@@ -57,15 +67,4 @@ public class UserService {
 		return sessionToUsers.size();
 	}
 
-	public User registerUser(String sessionId) {
-		User user;
-		
-		if(!isCurrentUser(sessionId)) 
-			user = addNewAnonymousUser();
-		else
-			user = getUser(sessionId);
-		
-		return user;
-	}
-	
 }
