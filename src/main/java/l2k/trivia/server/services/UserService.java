@@ -31,7 +31,7 @@ public class UserService {
 		return user;
 	}
 	
-	public User addNewAnonymousUser() {
+	private User addNewAnonymousUser() {
 		User user = new User();
 		
 		user.setSessionId(UUID.randomUUID());
@@ -42,11 +42,7 @@ public class UserService {
 		return user;
 	}
 	
-	public void addUser(User user) {
-		sessionToUsers.put(user.getSessionId(), user);
-	}
-	
-	public boolean isCurrentUser(UUID sessionId) {
+	private boolean isCurrentUser(UUID sessionId) {
 		return sessionId != null && getUser(sessionId) != null;
 	}
 	

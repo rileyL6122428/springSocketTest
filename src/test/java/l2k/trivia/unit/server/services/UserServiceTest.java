@@ -1,5 +1,6 @@
 package l2k.trivia.unit.server.services;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashMap;
@@ -17,6 +18,9 @@ import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.NameGenerator;
 import l2k.trivia.server.services.UserService;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -42,19 +46,26 @@ class UserServiceTest {
 	class RegisterUser {
 		
 		@Test
-		public void returnsAUserWithASessionID() {
+		public void returnsAUserWithASessionIDWhenProvidedIdIsNull() {
 			User user = userService.registerUser(null);
 			assertNotNull(user);
 			assertNotNull(user.getSessionId());
 		}
 		
-		@Disabled
 		@Test
-		public void returnsUserWithProvidedSessionIdWhenUserIsAlreadyRegistered() {
-			User user = userService.registerUser(null);
-			UUID sessionId = user.getSessionId();
+		public void returnsUserWithProvidedSessionIdWhenSessionIdIsAlreadyRegistered() {
+			User firstRegisterdUser = userService.registerUser(null);
+			UUID sessionId = firstRegisterdUser.getSessionId();
 			
-			User secondUser = userService.registerUser(sessionId);
+			User secondRegisteredUser = userService.registerUser(sessionId);
+			assertThat(secondRegisteredUser, equalTo(firstRegisterdUser));
+		}
+		
+		@Test
+		public void returnsUserWithNewSessionIdWhenProvidedSessionIdIsNotRegistered() {
+			UUID sessionId = UUID.randomUUID();
+			User user = userService.registerUser(sessionId);
+			assertThat(user.getSessionId(), not(equalTo(sessionId)));
 		}
 		
 	}
