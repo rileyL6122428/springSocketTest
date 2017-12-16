@@ -48,7 +48,7 @@ class AppControllerTest {
 	
 	
 	@Nested
-	class getRequestToBasePath {
+	class GetRequestToBasePath {
 		
 		@Test
 		public void returnsTriviaClient() throws Exception {
