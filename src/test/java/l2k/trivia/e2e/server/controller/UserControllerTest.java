@@ -58,7 +58,8 @@ class UserControllerTest {
 		public void returns404WhenSessionIdNotRegistered() throws Exception {
 			Cookie sessionCookie = new Cookie("TRIVIA_SESSION_COOKIE", UUID.randomUUID().toString());
 
-			mockMvc.perform(get("/user").cookie(sessionCookie)).andExpect(status().isNotFound())
+			mockMvc.perform(get("/user").cookie(sessionCookie))
+					.andExpect(status().isNotFound())
 					.andExpect(content().json("{ message: 'User not found.' }"));
 		}
 
