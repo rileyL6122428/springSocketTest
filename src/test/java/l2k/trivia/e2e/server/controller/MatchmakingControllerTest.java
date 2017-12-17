@@ -14,6 +14,7 @@ import static java.util.concurrent.TimeUnit.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,6 +67,26 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			
 			MatchmakingStats stats = ServerTestUtil.parseJson(result.getResponse().getContentAsString(), MatchmakingStats.class);
 			assertThat(1, equalTo(stats.getUserTotal()));
+			
+			Map<String, Room> rooms = stats.getRooms();
+			assertThat(2, equalTo(rooms.size()));
+			assertNotNull(rooms.get("ROOM_ONE"));
+			assertNotNull(rooms.get("ROOM_TWO"));
+		}
+		
+	}
+	
+	@Nested
+	class SubscribeToMatchmaking {
+		
+		@Test
+		public void emitsMatchmakingStatsWhenNewUsersEnterTheSite() throws Exception {
+			sendNewUserIntoSite();
+			
+			String matchmakingStatsJson = (String) blockingQueue.poll(1, SECONDS);
+			
+			MatchmakingStats stats = ServerTestUtil.parseJson(matchmakingStatsJson, MatchmakingStats.class);
+			assertThat(stats.getUserTotal(), equalTo(2));
 			
 			Map<String, Room> rooms = stats.getRooms();
 			assertThat(2, equalTo(rooms.size()));

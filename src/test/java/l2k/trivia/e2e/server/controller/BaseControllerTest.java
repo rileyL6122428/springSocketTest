@@ -71,6 +71,10 @@ public class BaseControllerTest {
 		sessionId = UUID.fromString(triviaSessionCookie.getValue());
 	}
 	
+	protected MvcResult sendNewUserIntoSite() throws Exception {
+		return mockMvc.perform(get("/")).andReturn();
+	}
+	
 	class DefaultStompFrameHandler implements StompFrameHandler {
         @Override
         public Type getPayloadType(StompHeaders stompHeaders) {
