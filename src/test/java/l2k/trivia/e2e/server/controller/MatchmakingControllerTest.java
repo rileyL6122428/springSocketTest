@@ -4,10 +4,13 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeoutException;
+
+import javax.servlet.http.Cookie;
 
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.*;
@@ -19,6 +22,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -34,12 +38,16 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 import java.lang.reflect.Type;
 
 import l2k.trivia.App;
+import l2k.trivia.server.controllers.request.JoinRoomRequest;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.Room;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+//import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
 import static org.hamcrest.CoreMatchers.equalTo;
+import static l2k.trivia.e2e.server.controller.ServerTestUtil.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(classes = { App.class })
@@ -85,13 +93,39 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			
 			String matchmakingStatsJson = (String) blockingQueue.poll(1, SECONDS);
 			
-			MatchmakingStats stats = ServerTestUtil.parseJson(matchmakingStatsJson, MatchmakingStats.class);
+			MatchmakingStats stats = parseJson(matchmakingStatsJson, MatchmakingStats.class);
 			assertThat(stats.getUserTotal(), equalTo(2));
 			
 			Map<String, Room> rooms = stats.getRooms();
 			assertThat(2, equalTo(rooms.size()));
 			assertNotNull(rooms.get("ROOM_ONE"));
 			assertNotNull(rooms.get("ROOM_TWO"));
+		}
+		
+	}
+	
+	@Nested
+	class JoinChatRoom {
+		
+		@Test
+		public void returnsForbiddenWhenUserNotRegistered() throws Exception {
+			JoinRoomRequest joinRoomRequest = new JoinRoomRequest();
+			joinRoomRequest.setRoomName("ROOM_ONE");
+			
+			Cookie triviaSession = new Cookie("TRIVIA_SESSION_COOKIE", UUID.randomUUID().toString());
+			
+			mockMvc
+				.perform(post("/join-chat-room")
+				.cookie(triviaSession)
+				.contentType(MediaType.APPLICATION_JSON).content(toJson(joinRoomRequest)))
+				
+				.andExpect(status().isForbidden());
+		}
+		
+		@Disabled
+		@Test
+		public void returnsForbiddentWhenRoomIsFull() {
+			
 		}
 		
 	}

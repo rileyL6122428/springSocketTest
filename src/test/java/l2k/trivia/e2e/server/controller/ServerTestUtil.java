@@ -16,4 +16,15 @@ public class ServerTestUtil {
 			return null;
 		}
 	}
+	
+	public static String toJson(Object object) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.writeValueAsString(object);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
