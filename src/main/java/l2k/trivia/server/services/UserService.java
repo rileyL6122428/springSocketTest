@@ -1,5 +1,6 @@
 package l2k.trivia.server.services;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,6 +19,10 @@ public class UserService {
 	public UserService(NameGenerator nameGenerator, Map<UUID, User> sessionToUsers) {
 		this.nameGenerator = nameGenerator;
 		this.sessionToUsers = sessionToUsers;
+	}
+	
+	public void clearAndSetup() { //USED TEMPORARILY FOR TESTING WHILE DB IS NOT HOOKED UP
+		this.sessionToUsers = new HashMap<UUID, User>();
 	}
 	
 	public User registerUser(UUID sessionId) {

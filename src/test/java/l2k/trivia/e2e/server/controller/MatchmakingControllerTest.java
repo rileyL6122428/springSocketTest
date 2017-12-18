@@ -3,7 +3,9 @@ package l2k.trivia.e2e.server.controller;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
@@ -15,6 +17,7 @@ import javax.servlet.http.Cookie;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -51,17 +54,22 @@ import static l2k.trivia.e2e.server.controller.ServerTestUtil.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(classes = { App.class })
-//@SpringBootTest
-//@WebAppConfiguration
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
 class MatchmakingControllerTest extends BaseControllerTest {
 	
 	private static final String MATCHMAKING_STOMP_ENDPOINT = "/topic/matchmaking"; 
 	
+	private Set<WebUser> users;
+	
 	@BeforeEach
-	public void subscribeToMatchmaking() {
-		stompSession.subscribe(getMatchmakingSubscriptionHeaders(), new DefaultStompFrameHandler());		
+	public void setupUsersSet() {
+		users = new HashSet<WebUser>();
+	}
+	
+	@AfterEach
+	public void disconnectUsers() {
+		users.forEach(WebUser::disconnectStompSession);
 	}
 	
 	@Nested
@@ -69,11 +77,13 @@ class MatchmakingControllerTest extends BaseControllerTest {
 		
 		@Test
 		public void returnsCurrentMatchmakingStats() throws Exception {
+			sendNewUserIntoSite();
+			
 			MvcResult result = mockMvc.perform(get("/matchmaking/stats"))
 					.andExpect(status().is(200))
 					.andReturn();
 			
-			MatchmakingStats stats = ServerTestUtil.parseJson(result.getResponse().getContentAsString(), MatchmakingStats.class);
+			MatchmakingStats stats = parseJson(result.getResponse().getContentAsString(), MatchmakingStats.class);
 			assertThat(1, equalTo(stats.getUserTotal()));
 			
 			Map<String, Room> rooms = stats.getRooms();
@@ -88,11 +98,14 @@ class MatchmakingControllerTest extends BaseControllerTest {
 	class SubscribeToMatchmaking {
 		
 		@Test
-		public void emitsMatchmakingStatsWhenNewUsersEnterTheSite() throws Exception {
-			sendNewUserIntoSite();
+		public void emitsMatchmakingStatsWhenNewUserEntersSiteAndSubscribesToMatchmaking() throws Exception {
+			WebUser firstUser = sendNewUserIntoSite();
+			firstUser.openStompSubscriptionTo(MATCHMAKING_STOMP_ENDPOINT);
+			firstUser.clearStompMessageQueue();
 			
-			String matchmakingStatsJson = (String) blockingQueue.poll(1, SECONDS);
+			WebUser secondUser = sendNewUserIntoSite();
 			
+			String matchmakingStatsJson = firstUser.getStompMessageFromQueue();
 			MatchmakingStats stats = parseJson(matchmakingStatsJson, MatchmakingStats.class);
 			assertThat(stats.getUserTotal(), equalTo(2));
 			
@@ -108,7 +121,7 @@ class MatchmakingControllerTest extends BaseControllerTest {
 	class JoinChatRoom {
 		
 		@Test
-		public void returnsForbiddenWhenUserNotRegistered() throws Exception {
+		public void returnsRequestForbiddenWhenUserNotRegistered() throws Exception {
 			JoinRoomRequest joinRoomRequest = new JoinRoomRequest();
 			joinRoomRequest.setRoomName("ROOM_ONE");
 			
@@ -128,14 +141,6 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			
 		}
 		
-	}
-	
-	
-	private StompHeaders getMatchmakingSubscriptionHeaders() {
-		StompHeaders headers = new StompHeaders();
-		headers.add(StompHeaders.DESTINATION, MATCHMAKING_STOMP_ENDPOINT);
-		headers.add("testHeader", sessionId.toString());
-		return headers;
 	}
 
 }

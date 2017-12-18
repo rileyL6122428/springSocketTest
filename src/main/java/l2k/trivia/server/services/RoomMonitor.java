@@ -17,6 +17,10 @@ public class RoomMonitor {
 	private Map<String, Room> rooms;
 	
 	{
+		clearAndSetup();
+	}
+	
+	public void clearAndSetup() { //Temporary for TESTING while DB is not hooked up
 		rooms = new HashMap<String, Room>();
 		
 		//configured for test
@@ -30,6 +34,7 @@ public class RoomMonitor {
 			setMaxNumberOfUsers(3);
 		}});
 	}
+	
 	
 	public boolean roomIsFull(String roomName) {
 		Room room = rooms.get(roomName);
