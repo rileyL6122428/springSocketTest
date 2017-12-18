@@ -21,7 +21,7 @@ public class UserService {
 		this.sessionToUsers = sessionToUsers;
 	}
 	
-	public void clearAndSetup() { //USED TEMPORARILY FOR TESTING WHILE DB IS NOT HOOKED UP
+	public void clear() { //USED TEMPORARILY FOR TESTING WHILE DB IS NOT HOOKED UP
 		this.sessionToUsers = new HashMap<UUID, User>();
 	}
 	

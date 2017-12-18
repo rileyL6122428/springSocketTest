@@ -2,6 +2,7 @@ package l2k.trivia.server.services;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -17,10 +18,6 @@ public class RoomMonitor {
 	private Map<String, Room> rooms;
 	
 	{
-		clearAndSetup();
-	}
-	
-	public void clearAndSetup() { //Temporary for TESTING while DB is not hooked up
 		rooms = new HashMap<String, Room>();
 		
 		//configured for test
@@ -35,6 +32,9 @@ public class RoomMonitor {
 		}});
 	}
 	
+	public void clear() { //Temporary for TESTING while DB is not hooked up
+		rooms = new HashMap<String, Room>();
+	}
 	
 	public boolean roomIsFull(String roomName) {
 		Room room = rooms.get(roomName);

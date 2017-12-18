@@ -17,6 +17,7 @@ import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
+import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.services.RoomMonitor;
 import l2k.trivia.server.services.UserService;
 
@@ -46,8 +47,12 @@ public class BaseControllerTest {
 	
 	@AfterEach
 	public void clearAndResetData() {
-		userService.clearAndSetup();
-		roomMonitor.clearAndSetup();
+		userService.clear();
+		roomMonitor.clear();
+	}
+	
+	protected void addRoomToApp(Room room) {
+		roomMonitor.addRoom(room);
 	}
 	
 	protected WebUser sendNewUserIntoSite() {

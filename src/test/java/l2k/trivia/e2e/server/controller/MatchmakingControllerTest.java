@@ -34,6 +34,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
@@ -72,6 +74,14 @@ class MatchmakingControllerTest extends BaseControllerTest {
 		users.forEach(WebUser::disconnectStompSession);
 	}
 	
+	@BeforeEach
+	public void setupRoomOne() {
+		 addRoomToApp(new Room() {{
+			setName("ROOM_ONE");
+			setMaxNumberOfUsers(2);
+		}});
+	}
+	
 	@Nested
 	class GetMatchmakingStats {
 		
@@ -95,7 +105,7 @@ class MatchmakingControllerTest extends BaseControllerTest {
 	}
 	
 	@Nested
-	class SubscribeToMatchmaking {
+	class SubscribeToMatchmaking {		
 		
 		@Test
 		public void emitsMatchmakingStatsWhenNewUserEntersSiteAndSubscribesToMatchmaking() throws Exception {
@@ -110,9 +120,8 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			assertThat(stats.getUserTotal(), equalTo(2));
 			
 			Map<String, Room> rooms = stats.getRooms();
-			assertThat(2, equalTo(rooms.size()));
+			assertThat(rooms.size(), equalTo(1));
 			assertNotNull(rooms.get("ROOM_ONE"));
-			assertNotNull(rooms.get("ROOM_TWO"));
 		}
 		
 	}
@@ -135,12 +144,29 @@ class MatchmakingControllerTest extends BaseControllerTest {
 				.andExpect(status().isForbidden());
 		}
 		
-		@Disabled
 		@Test
-		public void returnsForbiddentWhenRoomIsFull() {
+		public void returnsForbiddenWhenRoomIsFull() throws Exception {
+			WebUser firstUser = sendNewUserIntoSite();
+			WebUser secondUser = sendNewUserIntoSite();
+			WebUser thirdUser = sendNewUserIntoSite();
 			
+			joinRoomRequest(firstUser.getSessionId(), "ROOM_ONE")
+				.andExpect(status().isOk());
+			
+			joinRoomRequest(secondUser.getSessionId(), "ROOM_ONE")
+				.andExpect(status().isOk());
+			
+			joinRoomRequest(thirdUser.getSessionId(), "ROOM_ONE")
+				.andExpect(status().isForbidden());
 		}
 		
+	}
+	
+	private ResultActions joinRoomRequest(UUID sessionId, String roomName) throws Exception {
+		return mockMvc
+					.perform(post("/join-chat-room")
+					.cookie(new Cookie("TRIVIA_SESSION_COOKIE", sessionId.toString()))
+					.contentType(MediaType.APPLICATION_JSON).content(toJson(new JoinRoomRequest(roomName))));
 	}
 
 }
