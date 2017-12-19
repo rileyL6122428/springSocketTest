@@ -16,6 +16,7 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,7 +76,7 @@ class MatchmakingControllerTest extends BaseControllerTest {
 	class SubscribeToMatchmaking {		
 		
 		@Test
-		public void emitsMatchmakingStatsWhenNewUserEntersSiteAndSubscribesToMatchmaking() throws Exception {
+		public void matchmakingStatsEmittedWhenNewUserEntersSite() throws Exception {
 			WebUser firstUser = sendNewUserIntoSite();
 			firstUser.openStompSubscriptionTo(MATCHMAKING_STOMP_ENDPOINT);
 			firstUser.clearStompMessageQueue();
@@ -91,6 +92,12 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			assertNotNull(rooms.get("ROOM_ONE"));
 		}
 		
+		@Disabled
+		@Test
+		public void matchmakingStatsEmittedWhenUserSuccessfullyJoinsRoom() {
+			
+		}
+		
 	}
 	
 	@Nested
@@ -98,16 +105,10 @@ class MatchmakingControllerTest extends BaseControllerTest {
 		
 		@Test
 		public void returnsRequestForbiddenWhenUserNotRegistered() throws Exception {
-			JoinRoomRequest joinRoomRequest = new JoinRoomRequest();
-			joinRoomRequest.setRoomName("ROOM_ONE");
+			WebUser firstUser = sendNewUserIntoSite();
+			firstUser.setSessionId(UUID.randomUUID());
 			
-			Cookie triviaSession = new Cookie("TRIVIA_SESSION_COOKIE", UUID.randomUUID().toString());
-			
-			mockMvc
-				.perform(post("/join-chat-room")
-				.cookie(triviaSession)
-				.contentType(MediaType.APPLICATION_JSON).content(toJson(joinRoomRequest)))
-				
+			firstUser.requestToJoinRoom("ROOM_ONE")
 				.andExpect(status().isForbidden());
 		}
 		
@@ -117,23 +118,28 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			WebUser secondUser = sendNewUserIntoSite();
 			WebUser thirdUser = sendNewUserIntoSite();
 			
-			joinRoomRequest(firstUser.getSessionId(), "ROOM_ONE")
+			firstUser.requestToJoinRoom("ROOM_ONE")
 				.andExpect(status().isOk());
 			
-			joinRoomRequest(secondUser.getSessionId(), "ROOM_ONE")
+			secondUser.requestToJoinRoom("ROOM_ONE")
 				.andExpect(status().isOk());
 			
-			joinRoomRequest(thirdUser.getSessionId(), "ROOM_ONE")
+			thirdUser.requestToJoinRoom("ROOM_ONE")
 				.andExpect(status().isForbidden());
 		}
 		
-	}
-	
-	private ResultActions joinRoomRequest(UUID sessionId, String roomName) throws Exception {
-		return mockMvc
-					.perform(post("/join-chat-room")
-					.cookie(new Cookie("TRIVIA_SESSION_COOKIE", sessionId.toString()))
-					.contentType(MediaType.APPLICATION_JSON).content(toJson(new JoinRoomRequest(roomName))));
+		@Disabled
+		@Test
+		public void returnsOkStatusWhenRoomIsNotFull() {
+			
+		}
+		
+		@Disabled
+		@Test
+		public void registersUserInRoomWhenSuccessful() {
+			
+		}
+		
 	}
 
 }

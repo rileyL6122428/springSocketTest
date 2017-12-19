@@ -28,7 +28,6 @@ public class BaseControllerTest {
 	private WebUserFactory webUserFactory;
 	@Autowired
 	private TestDataConfigurer testDataConfigurer;
-//	@Autowir?
 	
 	@BeforeEach
 	public void setupMockMvc() {

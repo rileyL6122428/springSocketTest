@@ -40,7 +40,7 @@ public class WebUserFactory {
 		UUID sessionId = enterSite(mockMvc);
 		StompSession stompSession = setupStompSession(stompClient);
 		
-		return new WebUser(sessionId, stompSession);
+		return new WebUser(sessionId, stompSession, mockMvc);
 	}
 	
 	private UUID enterSite(MockMvc mockMvc) {
