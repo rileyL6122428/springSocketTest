@@ -1,4 +1,4 @@
-package l2k.trivia.e2e.server.controller;
+package l2k.trivia.e2e.server.controller.util;
 
 import java.lang.reflect.Type;
 import java.util.UUID;
@@ -33,7 +33,7 @@ public class WebUser {
 	
 	public String getStompMessageFromQueue() {
 		try {
-			return stompMessageQueue.poll(1, SECONDS);
+			return stompMessageQueue.poll(3, SECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			return null;

@@ -1,8 +1,10 @@
-package l2k.trivia.e2e.server.controller;
+package l2k.trivia.e2e.server.controller.util;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -11,15 +13,30 @@ import javax.servlet.http.Cookie;
 
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+@Component
 public class WebUserFactory {
 	
 	private static String WEBSOCKET_URI = "ws://localhost:8090/matchmaking";
 	
-	public WebUser addNewSiteUser(MockMvc mockMvc, WebSocketStompClient stompClient) {
+	private Set<WebUser> users = new HashSet<WebUser>();
+	
+	public void discardUsers() {
+		users.forEach(WebUser::disconnectStompSession);
+		users = new HashSet<WebUser>();
+	}
+	
+	public WebUser sendNewUserIntoSite(MockMvc mockMvc, WebSocketStompClient stompClient) {
+		WebUser user = addNewSiteUser(mockMvc, stompClient);
+		users.add(user);
+		return user;
+	}
+	
+	private WebUser addNewSiteUser(MockMvc mockMvc, WebSocketStompClient stompClient) {
 		UUID sessionId = enterSite(mockMvc);
 		StompSession stompSession = setupStompSession(stompClient);
 		
