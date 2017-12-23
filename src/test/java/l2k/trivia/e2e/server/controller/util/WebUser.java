@@ -13,13 +13,17 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSession.Subscription;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import l2k.trivia.server.controllers.request.JoinRoomRequest;
+import l2k.trivia.server.domain.User;
 
 import static java.util.concurrent.TimeUnit.*;
-import static l2k.trivia.e2e.server.controller.ServerTestUtil.toJson;
+import static l2k.trivia.e2e.server.controller.ServerTestUtil.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class WebUser {
 	
@@ -38,9 +42,19 @@ public class WebUser {
 	public ResultActions requestToJoinRoom(String roomName) throws Exception {
 		return mockMvc
 					.perform(post("/join-chat-room")
-					.cookie(new Cookie("TRIVIA_SESSION_COOKIE", sessionId.toString()))
+					.cookie(getSessionCookie())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(toJson(new JoinRoomRequest(roomName))));
+	}
+	
+	public String getUsername() throws Exception {
+		MvcResult getUserResult = mockMvc.perform(get("/user")
+				.cookie(getSessionCookie()))
+				.andReturn();
+		
+		User user = parseJson(getUserResult.getResponse().getContentAsString(), User.class);
+		
+		return user.getName();
 	}
 	
 	public Subscription openStompSubscriptionTo(String destination) {
@@ -74,6 +88,10 @@ public class WebUser {
 	
 	public void setSessionId(UUID sessionId) {
 		this.sessionId = sessionId;
+	}
+	
+	public Cookie getSessionCookie() {
+		return new Cookie("TRIVIA_SESSION_COOKIE", sessionId.toString());
 	}
 	
 	class WebUserStompFrameHandler implements StompFrameHandler {

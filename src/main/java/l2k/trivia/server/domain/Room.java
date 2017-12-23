@@ -3,6 +3,7 @@ package l2k.trivia.server.domain;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,8 +38,12 @@ public class Room {
 		users.put(user.getName(), user);
 	}
 	
+	public boolean contains(String username) {
+		return users.get(username) != null;
+	}
+	
 	public boolean contains(User user) {
-		return users.get(user.getName()) != null;
+		return contains(user.getName());
 	}
 	
 	public int getTotalNumberOfUsers() {

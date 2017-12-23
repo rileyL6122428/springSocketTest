@@ -25,4 +25,8 @@ public class MatchmakingStats {
 		this.userTotal = userTotal;
 	}
 	
+	public Room getRoom(String roomName) {
+		return rooms.get(roomName);
+	}
+	
 }
