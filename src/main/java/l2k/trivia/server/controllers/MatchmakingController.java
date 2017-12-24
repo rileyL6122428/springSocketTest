@@ -43,15 +43,6 @@ public class MatchmakingController {
 		template.convertAndSend("/topic/matchmaking", matchmakingService.getMatchmakingStats());
 	}
 	
-//	private MatchmakingStats buildMatchmakingStats() {
-//		MatchmakingStats stats = new MatchmakingStats();
-//		
-//		stats.setUserTotal(userService.getTotalUsers());
-//		stats.setRooms(roomMonitor.getRooms());
-//		
-//		return stats;
-//	}
-	
 	@GetMapping(value="/matchmaking/stats")
 	public ResponseEntity<MatchmakingStats> getMatchmakingStats() {
 		return new ResponseEntity<MatchmakingStats>(matchmakingService.getMatchmakingStats(), HttpStatus.OK);
