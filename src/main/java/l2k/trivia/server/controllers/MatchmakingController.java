@@ -40,21 +40,21 @@ public class MatchmakingController {
 	}
 	
 	private void emitMatchmakingStats() {
-		template.convertAndSend("/topic/matchmaking", buildMatchmakingStats());
+		template.convertAndSend("/topic/matchmaking", matchmakingService.getMatchmakingStats());
 	}
 	
-	private MatchmakingStats buildMatchmakingStats() {
-		MatchmakingStats stats = new MatchmakingStats();
-		
-		stats.setUserTotal(userService.getTotalUsers());
-		stats.setRooms(getRoomMonitor().getRooms());
-		
-		return stats;
-	}
+//	private MatchmakingStats buildMatchmakingStats() {
+//		MatchmakingStats stats = new MatchmakingStats();
+//		
+//		stats.setUserTotal(userService.getTotalUsers());
+//		stats.setRooms(roomMonitor.getRooms());
+//		
+//		return stats;
+//	}
 	
 	@GetMapping(value="/matchmaking/stats")
 	public ResponseEntity<MatchmakingStats> getMatchmakingStats() {
-		return new ResponseEntity<MatchmakingStats>(buildMatchmakingStats(), HttpStatus.OK);
+		return new ResponseEntity<MatchmakingStats>(matchmakingService.getMatchmakingStats(), HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/join-chat-room")
@@ -75,13 +75,5 @@ public class MatchmakingController {
 		
 		return responseEntity;
 	}
-	
-	public RoomMonitor getRoomMonitor() {
-		return roomMonitor;
-	}
 
-	public void setRoomMonitor(RoomMonitor roomMonitor) {
-		this.roomMonitor = roomMonitor;
-	}
-	
 }
