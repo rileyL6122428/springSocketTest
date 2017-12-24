@@ -15,6 +15,7 @@ import l2k.trivia.server.controllers.request.JoinRoomRequest;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.server.services.MatchmakingService;
 import l2k.trivia.server.services.RoomMonitor;
 import l2k.trivia.server.services.UserService;
 
@@ -29,6 +30,9 @@ public class MatchmakingController {
 	
 	@Autowired
 	private RoomMonitor roomMonitor;
+	
+	@Autowired
+	private MatchmakingService matchmakingService;
 	
 	@SubscribeMapping("/matchmaking")
 	public void subscribeToMatchmaking() {
@@ -58,7 +62,7 @@ public class MatchmakingController {
 		ResponseEntity<Room> responseEntity;
 		User user = userService.getUser(sessionId);
 		
-		if(userCanJoinRoom(user, joinRoomRequest)) {
+		if(matchmakingService.userCanJoinRoom(user, joinRoomRequest.getRoomName())) {
 			roomMonitor.addUserToRoom(joinRoomRequest.getRoomName(), user);
 			Room targetRoom = roomMonitor.getRoom(joinRoomRequest.getRoomName());
 			responseEntity = new ResponseEntity<Room>(targetRoom, HttpStatus.OK);
@@ -70,10 +74,6 @@ public class MatchmakingController {
 		}
 		
 		return responseEntity;
-	}
-	
-	private boolean userCanJoinRoom(User user, JoinRoomRequest joinRoomRequest) {
-		return user != null && !roomMonitor.roomIsFull(joinRoomRequest.getRoomName());
 	}
 	
 	public RoomMonitor getRoomMonitor() {
