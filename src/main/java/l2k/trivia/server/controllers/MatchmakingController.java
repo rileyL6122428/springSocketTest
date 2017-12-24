@@ -1,5 +1,7 @@
 package l2k.trivia.server.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import l2k.trivia.server.controllers.request.JoinRoomRequest;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.server.services.CookieUtil;
 import l2k.trivia.server.services.MatchmakingService;
 import l2k.trivia.server.services.RoomMonitor;
 import l2k.trivia.server.services.UserService;
@@ -34,6 +37,9 @@ public class MatchmakingController {
 	@Autowired
 	private MatchmakingService matchmakingService;
 	
+	@Autowired
+	private CookieUtil cookieUtil;
+	
 	@SubscribeMapping("/matchmaking")
 	public void subscribeToMatchmaking() {
 		emitMatchmakingStats();
@@ -49,19 +55,18 @@ public class MatchmakingController {
 	}
 	
 	@PostMapping(value="/join-chat-room")
-	public ResponseEntity<Room> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId) {
-		ResponseEntity<Room> responseEntity;
-		User user = userService.getUser(sessionId);
+	public ResponseEntity<Room> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionCookie) {
+		UUID sessionId = cookieUtil.parseSessionCookie(sessionCookie);
+		Room joinedRoom  = matchmakingService.joinRoom(sessionId, joinRoomRequest.getRoomName());
 		
-		if(matchmakingService.userCanJoinRoom(user, joinRoomRequest.getRoomName())) {
-			roomMonitor.addUserToRoom(joinRoomRequest.getRoomName(), user);
-			Room targetRoom = roomMonitor.getRoom(joinRoomRequest.getRoomName());
-			responseEntity = new ResponseEntity<Room>(targetRoom, HttpStatus.OK);
+		ResponseEntity<Room> responseEntity;
+		
+		if(joinedRoom != null) {
+			responseEntity = new ResponseEntity<Room>(joinedRoom, HttpStatus.OK);
 			emitMatchmakingStats();
 			
 		} else {
-			Room room = null;
-			responseEntity = new ResponseEntity<Room>(room, HttpStatus.FORBIDDEN);
+			responseEntity = new ResponseEntity<Room>(joinedRoom, HttpStatus.FORBIDDEN);
 		}
 		
 		return responseEntity;
