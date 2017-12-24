@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,37 +15,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import l2k.trivia.server.controllers.request.JoinRoomRequest;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.Room;
-import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.CookieUtil;
+import l2k.trivia.server.services.MatchmakingMessagingTemplate;
 import l2k.trivia.server.services.MatchmakingService;
-import l2k.trivia.server.services.RoomMonitor;
-import l2k.trivia.server.services.UserService;
 
 @Controller
 public class MatchmakingController {
 	
-	@Autowired
-	private SimpMessagingTemplate template;
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private RoomMonitor roomMonitor;
-	
-	@Autowired
+	private MatchmakingMessagingTemplate matchmakingMessagingTemplate;
 	private MatchmakingService matchmakingService;
+	private CookieUtil cookieUtil;
 	
 	@Autowired
-	private CookieUtil cookieUtil;
+	public MatchmakingController(
+			MatchmakingMessagingTemplate matchmakingMessagingTemplate,
+			MatchmakingService matchmakingService,
+			CookieUtil cookieUtil) {
+		
+		this.matchmakingMessagingTemplate = matchmakingMessagingTemplate;
+		this.matchmakingService = matchmakingService;
+		this.cookieUtil = cookieUtil;
+	}
+	
 	
 	@SubscribeMapping("/matchmaking")
 	public void subscribeToMatchmaking() {
-		emitMatchmakingStats();
-	}
-	
-	private void emitMatchmakingStats() {
-		template.convertAndSend("/topic/matchmaking", matchmakingService.getMatchmakingStats());
+		matchmakingMessagingTemplate.send(matchmakingService.getMatchmakingStats());
 	}
 	
 	@GetMapping(value="/matchmaking/stats")
@@ -63,7 +57,7 @@ public class MatchmakingController {
 		
 		if(joinedRoom != null) {
 			responseEntity = new ResponseEntity<Room>(joinedRoom, HttpStatus.OK);
-			emitMatchmakingStats();
+			matchmakingMessagingTemplate.send(matchmakingService.getMatchmakingStats());
 			
 		} else {
 			responseEntity = new ResponseEntity<Room>(joinedRoom, HttpStatus.FORBIDDEN);
