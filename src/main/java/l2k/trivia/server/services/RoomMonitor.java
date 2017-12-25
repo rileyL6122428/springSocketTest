@@ -26,10 +26,10 @@ public class RoomMonitor {
 			setMaxNumberOfUsers(3);
 		}});
 		
-		addRoom(new Room() {{ 
-			setName("ROOM_TWO");
-			setMaxNumberOfUsers(3);
-		}});
+//		addRoom(new Room() {{ 
+//			setName("ROOM_TWO");
+//			setMaxNumberOfUsers(3);
+//		}});
 	}
 	
 	public void clear() { //Temporary for TESTING while DB is not hooked up

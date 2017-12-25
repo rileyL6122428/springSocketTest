@@ -58,9 +58,8 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			assertThat(1, equalTo(stats.getUserTotal()));
 			
 			Map<String, Room> rooms = stats.getRooms();
-			assertThat(2, equalTo(rooms.size()));
+			assertThat(1, equalTo(rooms.size()));
 			assertNotNull(rooms.get("ROOM_ONE"));
-			assertNotNull(rooms.get("ROOM_TWO"));
 		}
 		
 	}
@@ -72,11 +71,10 @@ class MatchmakingControllerTest extends BaseControllerTest {
 		public void matchmakingStatsEmittedWhenNewUserEntersSite() throws Exception {
 			WebUser firstUser = sendNewUserIntoSite();
 			firstUser.openStompSubscriptionTo(MATCHMAKING_STOMP_ENDPOINT);
-			firstUser.clearStompMessageQueue();
 			
 			WebUser secondUser = sendNewUserIntoSite();
 			
-			String matchmakingStatsJson = firstUser.getStompMessageFromQueue();
+			String matchmakingStatsJson = firstUser.getLastStompMessage();
 			MatchmakingStats stats = parseJson(matchmakingStatsJson, MatchmakingStats.class);
 			assertThat(stats.getUserTotal(), equalTo(2));
 			
@@ -92,11 +90,11 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			
 			WebUser secondUser = sendNewUserIntoSite();
 			
-			firstUser.clearStompMessageQueue();
+//			firstUser.clearStompMessageQueue();
 			secondUser.requestToJoinRoom("ROOM_ONE")
 				.andExpect(status().isOk());
 			
-			String matchmakingStatsJson = firstUser.getStompMessageFromQueue();
+			String matchmakingStatsJson = firstUser.getLastStompMessage();
 			MatchmakingStats stats = parseJson(matchmakingStatsJson, MatchmakingStats.class);
 			assertThat(stats.getUserTotal(), equalTo(2));
 			
@@ -149,7 +147,7 @@ class MatchmakingControllerTest extends BaseControllerTest {
 			
 			firstUser.requestToJoinRoom("ROOM_ONE");
 			
-			MatchmakingStats stats = getMatchmakingStats();
+			MatchmakingStats stats = firstUser.getMatchmakingStats();
 			Room roomOne = stats.getRoom("ROOM_ONE");
 			assertTrue(roomOne.contains(firstUser.getUsername()));
 		}

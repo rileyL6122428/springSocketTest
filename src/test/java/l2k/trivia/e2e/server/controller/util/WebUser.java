@@ -1,9 +1,15 @@
 package l2k.trivia.e2e.server.controller.util;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static l2k.trivia.e2e.server.controller.ServerTestUtil.parseJson;
+import static l2k.trivia.e2e.server.controller.ServerTestUtil.toJson;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import java.lang.reflect.Type;
 import java.util.UUID;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.servlet.http.Cookie;
 
@@ -17,20 +23,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import l2k.trivia.server.controllers.request.JoinRoomRequest;
+import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.User;
-
-import static java.util.concurrent.TimeUnit.*;
-import static l2k.trivia.e2e.server.controller.ServerTestUtil.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class WebUser {
 	
 	private UUID sessionId;
 	private MockMvc mockMvc; 
 	private StompSession stompSession;
-	protected BlockingQueue<String> stompMessageQueue = new LinkedBlockingQueue<String>();
+	protected BlockingDeque<String> stompMessageDeque = new LinkedBlockingDeque<String>();
 	
 	
 	public WebUser(UUID sessionId, StompSession stompSession, MockMvc mockMvc) {
@@ -45,6 +46,11 @@ public class WebUser {
 					.cookie(getSessionCookie())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(toJson(new JoinRoomRequest(roomName))));
+	}
+	
+	public MatchmakingStats getMatchmakingStats() throws Exception {
+		MvcResult result = mockMvc.perform(get("/matchmaking/stats")).andReturn();
+		return parseJson(result.getResponse().getContentAsString(), MatchmakingStats.class);
 	}
 	
 	public String getUsername() throws Exception {
@@ -65,17 +71,13 @@ public class WebUser {
 		return stompSession.subscribe(headers, new WebUserStompFrameHandler());
 	}
 	
-	public String getStompMessageFromQueue() {
+	public String getLastStompMessage() {
 		try {
-			return stompMessageQueue.poll(3, SECONDS);
+			return stompMessageDeque.pollLast(3, SECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	public void clearStompMessageQueue() {
-		stompMessageQueue.clear();
 	}
 	
 	public void disconnectStompSession() {
@@ -102,7 +104,7 @@ public class WebUser {
 
         @Override
         public void handleFrame(StompHeaders stompHeaders, Object o) {
-            stompMessageQueue.offer(new String((byte[]) o));
+            stompMessageDeque.offer(new String((byte[]) o));
         }
     }
 	

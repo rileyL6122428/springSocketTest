@@ -58,8 +58,8 @@ public class BaseControllerTest {
 	}
 	
 	
-	protected MatchmakingStats getMatchmakingStats() throws Exception {
-		MvcResult result = mockMvc.perform(get("/matchmaking/stats")).andReturn();
-		return parseJson(result.getResponse().getContentAsString(), MatchmakingStats.class);
-	}
+//	protected MatchmakingStats getMatchmakingStats() throws Exception {
+//		MvcResult result = mockMvc.perform(get("/matchmaking/stats")).andReturn();
+//		return parseJson(result.getResponse().getContentAsString(), MatchmakingStats.class);
+//	}
 }
