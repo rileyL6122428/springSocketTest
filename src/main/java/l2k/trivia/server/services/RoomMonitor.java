@@ -1,8 +1,6 @@
 package l2k.trivia.server.services;
 
-import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -26,10 +24,6 @@ public class RoomMonitor {
 			setMaxNumberOfUsers(3);
 		}});
 		
-//		addRoom(new Room() {{ 
-//			setName("ROOM_TWO");
-//			setMaxNumberOfUsers(3);
-//		}});
 	}
 	
 	public void clear() { //Temporary for TESTING while DB is not hooked up
