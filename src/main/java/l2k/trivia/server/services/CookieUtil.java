@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CookieUtil {
 	
-	public UUID parseSessionCookie(String triviaSessionCookie) {
-		if(triviaSessionCookie == null) return null;
+	public UUID cookieValueToUUID(String cookieValue) {
+		if(cookieValue == null) return null;
 		
 		UUID sessionId = null;
 		
 		try {
-			sessionId = UUID.fromString(triviaSessionCookie);
+			sessionId = UUID.fromString(cookieValue);
 		} catch(IllegalArgumentException exception) {
 			exception.printStackTrace();
 		}

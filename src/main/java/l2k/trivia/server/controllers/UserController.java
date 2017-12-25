@@ -25,7 +25,7 @@ public class UserController {
 	
 	@GetMapping(value="/user")
 	public ResponseEntity<?> getUser(@CookieValue(value="TRIVIA_SESSION_COOKIE") String triviaSessionCookie) {
-		UUID sessionId = cookieUtil.parseSessionCookie(triviaSessionCookie);
+		UUID sessionId = cookieUtil.cookieValueToUUID(triviaSessionCookie);
 		User user = userService.getUser(sessionId);
 		
 		if(user == null) {

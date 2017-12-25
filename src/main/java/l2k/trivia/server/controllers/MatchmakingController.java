@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import static l2k.trivia.server.constants.ServerConstants.*;
 import l2k.trivia.server.controllers.request.JoinRoomRequest;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.Room;
@@ -30,40 +31,41 @@ public class MatchmakingController {
 	public MatchmakingController(
 			MatchmakingMessagingTemplate matchmakingMessagingTemplate,
 			MatchmakingService matchmakingService,
-			CookieUtil cookieUtil) {
+			CookieUtil cookieUtil ) {
 		
 		this.matchmakingMessagingTemplate = matchmakingMessagingTemplate;
 		this.matchmakingService = matchmakingService;
 		this.cookieUtil = cookieUtil;
 	}
 	
-	
-	@SubscribeMapping("/matchmaking")
+	@SubscribeMapping(Endpoints.SUBSCRIBE_TO_MATCHMAKING_STATS)
 	public void subscribeToMatchmaking() {
 		matchmakingMessagingTemplate.send(matchmakingService.getMatchmakingStats());
 	}
 	
-	@GetMapping(value="/matchmaking/stats")
+	@GetMapping(value = Endpoints.GET_MATCHMAKING_STATS)
 	public ResponseEntity<MatchmakingStats> getMatchmakingStats() {
 		return new ResponseEntity<MatchmakingStats>(matchmakingService.getMatchmakingStats(), HttpStatus.OK);
 	}
 	
-	@PostMapping(value="/join-chat-room")
-	public ResponseEntity<Room> joinChatRoom(@RequestBody JoinRoomRequest joinRoomRequest, @CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionCookie) {
-		UUID sessionId = cookieUtil.parseSessionCookie(sessionCookie);
-		Room joinedRoom  = matchmakingService.joinRoom(sessionId, joinRoomRequest.getRoomName());
+	@PostMapping(value = Endpoints.JOIN_ROOM)
+	public ResponseEntity<Room> joinChatRoom(
+			@RequestBody JoinRoomRequest joinRoomRequest, 
+			@CookieValue(value=Cookies.SESSION_ID) String sessionIdString ) {
 		
-		ResponseEntity<Room> responseEntity;
+		UUID sessionId = cookieUtil.cookieValueToUUID(sessionIdString);
+		Room joinedRoom  = matchmakingService.joinRoom(sessionId, joinRoomRequest.getRoomName());
+				
+		ResponseEntity<Room> response;
 		
 		if(joinedRoom != null) {
-			responseEntity = new ResponseEntity<Room>(joinedRoom, HttpStatus.OK);
+			response = new ResponseEntity<Room>(joinedRoom, HttpStatus.OK);
 			matchmakingMessagingTemplate.send(matchmakingService.getMatchmakingStats());
-			
 		} else {
-			responseEntity = new ResponseEntity<Room>(joinedRoom, HttpStatus.FORBIDDEN);
+			response = new ResponseEntity<Room>(joinedRoom, HttpStatus.FORBIDDEN);
 		}
 		
-		return responseEntity;
+		return response;
 	}
 
 }
