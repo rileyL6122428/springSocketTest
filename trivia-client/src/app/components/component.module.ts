@@ -4,7 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ServicesModule } from '../services/service.module';
 import { MatchmakingComponent } from './matchmaking/matchmaking.component';
 import { RoomComponent } from './room/room.component'
-import GameComponent from './game/game.component';
+import { GameComponent } from './game/game.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   imports: [
@@ -16,11 +17,12 @@ import GameComponent from './game/game.component';
   declarations: [
     MatchmakingComponent,
     RoomComponent,
-    GameComponent
+    GameComponent,
+    ChatComponent
   ],
 
   entryComponents: [
     MatchmakingComponent
   ]
 })
-export default class ComponentModule { }
+export class ComponentModule { }

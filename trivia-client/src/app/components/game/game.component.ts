@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export default class GameComponent {
+export class GameComponent {
 
 }

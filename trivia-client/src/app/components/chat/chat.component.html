@@ -1,0 +1,13 @@
+<section id="chat">
+  <form id="message-publication">
+    <input type="text" name="new-message-body" [(ngModel)]="newMessageBody" />
+    <button (click)="sendMessage()">Submit</button>
+  </form>
+
+  <ol id="room-messages">
+    <li *ngFor="let message of messages">
+      <p>{{message.body}}</p>
+      <p>{{message.senderName}} - {{message.timestamp}}</p>
+    </li>
+  </ol>
+</section>

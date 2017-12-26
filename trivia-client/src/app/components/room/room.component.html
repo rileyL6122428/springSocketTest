@@ -3,22 +3,8 @@
 </section>
 
 <section id="room" *ngIf="room">
-
   <h1>{{room.name}}</h1>
-  
-  <game></game>
-
   <button (click)="leaveRoom(room.name)">Leave Room</button>
-
-  <form id="message-publication">
-    <input type="text" name="new-message-body" [(ngModel)]="newMessageBody" />
-    <button (click)="sendMessage()">Submit</button>
-  </form>
-
-  <ol id="room-messages">
-    <li *ngFor="let message of room.messages">
-      <p>{{message.body}}</p>
-      <p>{{message.senderName}} - {{message.timestamp}}</p>
-    </li>
-  </ol>
+  <game></game>
+  <chat [messages]="room.messages"></chat>
 </section>
