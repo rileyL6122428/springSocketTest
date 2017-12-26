@@ -1,40 +1,23 @@
-import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router'
-import { FormsModule } from '@angular/forms';
+import ComponentModule from './components/component.module';
 import { AppComponent } from './app.component';
-import { MatchmakingComponent } from './matchmaking/matchmaking.component';
-import { StompService, StompConfig } from '@stomp/ng2-stompjs';
+import { NgModule } from '@angular/core';
 import { ROUTES_CONFIG } from './routes.config';
-import { STOMP_CONFIG } from './stomp.config';
-import { ServicesModule } from './services/service.module';
-import { RoomComponent } from './room/room.component'
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   imports: [
-    BrowserModule,
     RouterModule.forRoot(ROUTES_CONFIG, { useHash: true }),
-    ServicesModule,
-    FormsModule
+    ComponentModule
   ],
 
-  declarations: [
-    AppComponent,
-    MatchmakingComponent,
-    RoomComponent
-  ],
-
-  entryComponents: [
-    MatchmakingComponent
-  ],
+  declarations: [ AppComponent ],
 
   bootstrap: [ AppComponent ],
 
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: StompConfig, useValue: STOMP_CONFIG },
-    StompService
-  ],
+  ]
 })
 export class AppModule { }

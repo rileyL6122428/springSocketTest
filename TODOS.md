@@ -8,3 +8,8 @@ Refactor the following:
 Unit Specs for 
 	1. Matchmaking Controller
 	2. Matchmaking Controller Dependencies
+	
+
+Implement Trivia Game
+	Frontend
+	Backend

@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { Room } from '../domain/room/room';
-import { RoomService } from '../services/room.service';
+import { Room } from '../../domain/room/room';
+import { RoomService } from '../../services/room.service';
 
 @Component({
   selector: 'app-room',

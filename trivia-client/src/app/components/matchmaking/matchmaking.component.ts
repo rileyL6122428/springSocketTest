@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/subscription';
-import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
-import { User } from '../domain/user/user';
-import { UserService } from '../services/user.service';
-import { MatchmakingService } from '../services/matchmaking.service';
+import { MatchmakingStats } from '../../domain/matchmaking/matchmaking-stats';
+import { User } from '../../domain/user/user';
+import { UserService } from '../../services/user.service';
+import { MatchmakingService } from '../../services/matchmaking.service';
 
 @Component({
   selector: 'app-matchmaking',

@@ -3,7 +3,6 @@ package l2k.trivia.server.domain;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -51,7 +50,7 @@ public class Room {
 	}
 	
 	public void removeUser(User user) {
-		messages.add(new LeaveRoomMessage(user));
+		addMessage(new LeaveRoomMessage(user));
 		users.remove(user.getName());
 	}
 
