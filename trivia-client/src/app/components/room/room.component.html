@@ -3,7 +3,10 @@
 </section>
 
 <section id="room" *ngIf="room">
+
   <h1>{{room.name}}</h1>
+  
+  <game></game>
 
   <button (click)="leaveRoom(room.name)">Leave Room</button>
 

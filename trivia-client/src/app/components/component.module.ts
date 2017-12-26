@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { ServicesModule } from '../services/service.module';
 import { MatchmakingComponent } from './matchmaking/matchmaking.component';
 import { RoomComponent } from './room/room.component'
-import { BrowserModule } from '@angular/platform-browser';
+import GameComponent from './game/game.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
   declarations: [
     MatchmakingComponent,
-    RoomComponent
+    RoomComponent,
+    GameComponent
   ],
 
   entryComponents: [
