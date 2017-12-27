@@ -2,17 +2,16 @@ package l2k.trivia.unit.game;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import l2k.trivia.game.Player;
 import l2k.trivia.game.ScoreKeeper;
 import l2k.trivia.game.ScoreKeeperBuilder;
+import l2k.trivia.server.domain.User;
 
 class ScoreKeeperTest {
 
@@ -22,8 +21,13 @@ class ScoreKeeperTest {
 	
 	@BeforeEach
 	public void setupCharacters() {
-		sally = new Player("Sally");
-		tommy = new Player("Tommy");
+		sally = new User() {{
+			setName("Sally");
+		}};
+		
+		tommy = new User() {{
+			setName("Tommy");
+		}};
 	}
 	
 	@BeforeEach

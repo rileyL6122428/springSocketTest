@@ -16,6 +16,7 @@ import l2k.trivia.game.Player;
 import l2k.trivia.game.Question;
 import l2k.trivia.game.TriviaRound;
 import l2k.trivia.game.TriviaRoundBuilder;
+import l2k.trivia.server.domain.User;
 
 class TriviaRoundTest {
 	
@@ -58,10 +59,10 @@ class TriviaRoundTest {
 	
 	@Test
 	public void ReturnsUsersThatSubmittedCorrectAnswers() {
-		Player sally = new Player("Sally");
-		Player tommy = new Player("Tommy");
-		Player bobby = new Player("Bobby");
-		Player betty = new Player("Betty");
+		Player sally = new User() {{ setName("Sally"); }};
+		Player tommy = new User() {{ setName("Tommy"); }};
+		Player bobby = new User() {{ setName("Bobby"); }};
+		Player betty = new User() {{ setName("Betty"); }};
 		
 		triviaRound.submitAnswer(sally, correctAnswer);
 		triviaRound.submitAnswer(tommy, fakeAnswers.get(0));

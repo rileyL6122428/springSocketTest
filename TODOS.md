@@ -13,3 +13,17 @@ Unit Specs for
 Implement Trivia Game
 	Frontend
 	Backend
+
+	
+## GameManager Design
+
+1 per room
+Depends on Messaging Template
+	**Messages Send**
+		1. Game	Start
+		2. Question Start
+		3. Answer Receipt
+		4. Question Close
+		5. Game End
+		6. Waiting for next Game
+	

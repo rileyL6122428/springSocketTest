@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import l2k.trivia.game.Player;
+
 @JsonIgnoreProperties(value = { "sessionId" })
-public class User implements Principal, Sender {
+public class User implements Principal, Sender, Player {
 	
 	private String name;
 	private UUID sessionId;

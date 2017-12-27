@@ -20,6 +20,7 @@ import l2k.trivia.game.TriviaGame;
 import l2k.trivia.game.TriviaGameBuilder;
 import l2k.trivia.game.TriviaRound;
 import l2k.trivia.game.TriviaRoundBuilder;
+import l2k.trivia.server.domain.User;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,8 +35,8 @@ class TriviaGameTest {
 	
 	@BeforeEach
 	public void setupPlayers() {
-		tom = new Player("Tom");
-		betty = new Player("Betty");
+		tom = new User() {{ setName("Tom"); }};
+		betty = new User() {{ setName("Betty"); }};
 		players = asList(tom, betty);
 	}
 	
