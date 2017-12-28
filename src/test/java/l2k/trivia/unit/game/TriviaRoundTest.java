@@ -3,12 +3,10 @@ package l2k.trivia.unit.game;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import l2k.trivia.game.Answer;
@@ -17,6 +15,7 @@ import l2k.trivia.game.Question;
 import l2k.trivia.game.TriviaRound;
 import l2k.trivia.game.TriviaRoundBuilder;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.utils.UserFactory;
 
 class TriviaRoundTest {
 	
@@ -25,6 +24,8 @@ class TriviaRoundTest {
 	private Question question;
 	private Answer correctAnswer;
 	private List<Answer> fakeAnswers;
+	
+	private UserFactory userFactory = new UserFactory();
 	
 	@BeforeEach
 	public void setupQuestionAndAnswers() {
@@ -58,11 +59,11 @@ class TriviaRoundTest {
 	}
 	
 	@Test
-	public void ReturnsUsersThatSubmittedCorrectAnswers() {
-		Player sally = new User() {{ setName("Sally"); }};
-		Player tommy = new User() {{ setName("Tommy"); }};
-		Player bobby = new User() {{ setName("Bobby"); }};
-		Player betty = new User() {{ setName("Betty"); }};
+	public void returnsUsersThatSubmittedCorrectAnswers() {
+		Player sally = userFactory.newUser("Sally");
+		Player tommy = userFactory.newUser("Tommy");
+		Player bobby = userFactory.newUser("Bobby");
+		Player betty = userFactory.newUser("Betty");
 		
 		triviaRound.submitAnswer(sally, correctAnswer);
 		triviaRound.submitAnswer(tommy, fakeAnswers.get(0));

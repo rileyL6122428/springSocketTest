@@ -14,6 +14,8 @@ Implement Trivia Game
 	Frontend
 	Backend
 
+- [ ] decouple chat from game on backend
+
 	
 ## GameManager Design
 

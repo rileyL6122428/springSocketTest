@@ -46,6 +46,11 @@ class AppControllerTest {
 	}
 	
 	@BeforeEach
+	public void setupCookieUtil() {
+		when(cookieUtil.cookieValueToUUID(sessionId.toString())).thenReturn(sessionId);		
+	}
+	
+	@BeforeEach
 	public void setupUserService() {
 		when(userService.registerUser(any(UUID.class))).thenReturn(user);
 	}

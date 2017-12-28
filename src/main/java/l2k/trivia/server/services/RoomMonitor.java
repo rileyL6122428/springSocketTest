@@ -6,17 +6,18 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import l2k.trivia.server.domain.ChatRoomMessage;
-import l2k.trivia.server.domain.JoinRoomMessage;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
 
 @Service
 public class RoomMonitor {
 	
-	private Map<String, Room> rooms;
+//	private Map<String, Room> rooms;
+	private Map<String, RoomManager> roomManagers;
 	
 	{
-		rooms = new HashMap<String, Room>();
+//		rooms = new HashMap<String, Room>();
+		roomManagers = new HashMap<String, RoomManager>();
 		
 		//configured for test
 		addRoom(new Room() {{ 
@@ -27,57 +28,54 @@ public class RoomMonitor {
 	}
 	
 	public void clear() { //Temporary for TESTING while DB is not hooked up
-		rooms = new HashMap<String, Room>();
+//		rooms = new HashMap<String, Room>();
+		roomManagers = new HashMap<String, RoomManager>();
 	}
 	
 	public boolean roomIsFull(String roomName) {
-		Room room = rooms.get(roomName);
-		return room.isFull();
-	}
-	
-	public void addUserToRoom(Room room, User user) {
-		addUserToRoom(room.getName(), user);
+		RoomManager roomManager = roomManagers.get(roomName);
+		return roomManager.isFull();
 	}
 	
 	public void addUserToRoom(String roomName, User user) {
-		Room room = rooms.get(roomName);
-		room.addUser(user);
-		room.addMessage(new JoinRoomMessage(user));
+		RoomManager roomManager = roomManagers.get(roomName);
+		roomManager.addUser(user);
 	}
 	
 	public void removeUserFromRoom(String roomName, User user) {
-		Room room = rooms.get(roomName);
-		room.removeUser(user);
+		RoomManager roomManager = roomManagers.get(roomName);
+		roomManager.removeUser(user);
 	}
 	
 	public void addRoom(Room room) {
-		rooms.put(room.getName(), room);
-	}
-	
-	public void removeRoom(String roomName) {
-		rooms.remove(roomName);
-	}
-	
-	public void removeRoom(Room room) {
-		rooms.remove(room.getName());
+		roomManagers.put(room.getName(), new RoomManager(room));
 	}
 	
 	public void addMessageToRoom(String roomName, ChatRoomMessage message) {
-		Room room = rooms.get(roomName);
-		room.addMessage(message);
+		RoomManager roomManager = roomManagers.get(roomName);
+		roomManager.addMessage(message);
 	}
 	
 	public Map<String, Room> getRooms() {
+		Map<String, Room> rooms = new HashMap<String, Room>();
+		
+		for(Map.Entry<String, RoomManager> nameToRoomManager : roomManagers.entrySet()) {
+			String roomName = nameToRoomManager.getKey(); 
+			RoomManager roomManager = nameToRoomManager.getValue();
+			rooms.put(roomName, roomManager.getRoom());
+		}
+		
 		return rooms;
 	}
 
 	public Room getRoom(String roomName) {
-		return rooms.get(roomName);
+		RoomManager roomManager = roomManagers.get(roomName);
+		return roomManager.getRoom();
 	}
 
 	public boolean userIsInRoom(String roomName, User user) {
-		Room room = rooms.get(roomName);
-		return room != null && user != null && room.contains(user);
+		RoomManager roomManager = roomManagers.get(roomName);
+		return roomManager != null && roomManager.contains(user);
 	}
 
 	
