@@ -3,6 +3,8 @@ package l2k.trivia.server.services;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import l2k.trivia.server.domain.ChatRoomMessage;
@@ -10,22 +12,14 @@ import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
 
 @Service
-public class RoomMonitor {
+public class RoomMonitor implements InitializingBean {
 	
 //	private Map<String, Room> rooms;
 	private Map<String, RoomManager> roomManagers;
 	
-	{
-//		rooms = new HashMap<String, Room>();
-		roomManagers = new HashMap<String, RoomManager>();
-		
-		//configured for test
-		addRoom(new Room() {{ 
-			setName("ROOM_ONE");
-			setMaxNumberOfUsers(3);
-		}});
-		
-	}
+	@Autowired
+	private RoomMessagingTemplate roomMessagingTemplate;
+	
 	
 	public void clear() { //Temporary for TESTING while DB is not hooked up
 //		rooms = new HashMap<String, Room>();
@@ -48,7 +42,7 @@ public class RoomMonitor {
 	}
 	
 	public void addRoom(Room room) {
-		roomManagers.put(room.getName(), new RoomManager(room));
+		roomManagers.put(room.getName(), new RoomManager(room, roomMessagingTemplate));
 	}
 	
 	public void addMessageToRoom(String roomName, ChatRoomMessage message) {
@@ -76,6 +70,18 @@ public class RoomMonitor {
 	public boolean userIsInRoom(String roomName, User user) {
 		RoomManager roomManager = roomManagers.get(roomName);
 		return roomManager != null && roomManager.contains(user);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+//		rooms = new HashMap<String, Room>();
+		roomManagers = new HashMap<String, RoomManager>();
+		
+		//configured for test
+		addRoom(new Room() {{ 
+			setName("ROOM_ONE");
+			setMaxNumberOfUsers(3);
+		}});
 	}
 
 	

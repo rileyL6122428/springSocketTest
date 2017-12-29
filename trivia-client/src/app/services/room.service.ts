@@ -35,6 +35,7 @@ export class RoomService {
     let headers = { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
     return this.stompService.subscribe(`/topic/room/${roomName}`, headers)
       .map((message) => {
+        debugger
         let messagePayload = JSON.parse(message.body);
         return this.roomFactory.fromPOJO(messagePayload);
       });

@@ -9,12 +9,12 @@ public class RoomManager {
 	
 	private Room room;
 	private GameManager gameManager;
-	private ChatManager chatManager;
+	private ChatManager chatManager;	
 	
-	public RoomManager(Room room) {
+	public RoomManager(Room room, RoomMessagingTemplate roomMessagingTemplate) {
 		this.room = room;
-		this.gameManager = new GameManager();
 		this.chatManager = new ChatManager();
+		this.gameManager = new GameManager(room.getName(), roomMessagingTemplate);
 	}
 	
 	public boolean isFull() {
@@ -23,6 +23,7 @@ public class RoomManager {
 	
 	public void addUser(User user) {
 		room.addUser(user);
+		gameManager.addPlayer(user);
 		room.addMessage(new JoinRoomMessage(user));
 	}
 	

@@ -4,12 +4,14 @@ import static l2k.trivia.server.services.GameManager.PlayState.IN_BETWEEN_GAMES;
 import static l2k.trivia.server.services.GameManager.PlayState.PLAYING_A_GAME;
 import static l2k.trivia.server.services.GameManager.PlayState.READY_FOR_NEW_GAME;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import l2k.trivia.game.Player;
+import l2k.trivia.game.SampleTriviaGameBuilder;
 import l2k.trivia.game.TriviaGame;
 
 public class GameManager {
@@ -27,9 +29,15 @@ public class GameManager {
 	private String roomName;
 	private GameMessageFactory gameMessageFactory = new GameMessageFactory();
 	
+	public GameManager(String roomName, RoomMessagingTemplate roomMessagingTemplate) {
+		this.roomName = roomName;
+		this.roomMessagingTemplate = roomMessagingTemplate;
+	}
+	
 	{
 		namesToPlayers = new HashMap<String, Player>();
 		playState = IN_BETWEEN_GAMES;
+		timer = new Timer();
 	}
 	
 	
@@ -43,6 +51,10 @@ public class GameManager {
 	}
 	
 	private void startNewGame() {
+		triviaGame = new SampleTriviaGameBuilder()
+				.setPlayers(new ArrayList<Player>(namesToPlayers.values()))
+				.build();
+		
 		scheduleTask(this::emitReadyForNewGame, 1000);
 		scheduleTask(this::emitGameStart, 4000);
 	}
