@@ -61,12 +61,12 @@ public class GameManager {
 	
 	private void emitReadyForNewGame() {
 		playState = READY_FOR_NEW_GAME;
-		roomMessagingTemplate.sendMessageToRoom(roomName, gameMessageFactory.newGameReadyMessage(triviaGame));
+		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameReadyMessage(triviaGame));
 	}
 	
 	private void emitGameStart() {
 		playState = PLAYING_A_GAME;
-		roomMessagingTemplate.sendMessageToRoom(roomName, gameMessageFactory.newGameStartMessage(triviaGame));
+		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameStartMessage(triviaGame));
 	}
 
 

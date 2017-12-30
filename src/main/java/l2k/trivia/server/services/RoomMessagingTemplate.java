@@ -14,4 +14,8 @@ public class RoomMessagingTemplate {
 		template.convertAndSend("/topic/room/" + roomName, payload);
 	}
 	
+	public void sendGameMessageToRoom(String roomName, Object payload) {
+		template.convertAndSend("/topic/room/" + roomName + "/game", payload);
+	}
+	
 }
