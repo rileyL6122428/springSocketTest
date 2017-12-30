@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { RoomFactory } from '../domain/room/room.factory';
-import { GameMessageFactory } from '../domain/game-message/game-message.factory';
+import { GameFactory } from '../domain/game/game.factory';
 import { Observable } from 'rxjs/Observable';
 import { Room } from '../domain/room/room';
 import { StompService } from '@stomp/ng2-stompjs';
 import { StompHeaders } from '@stomp/stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { GameMessage } from '../domain/game-message/game-message';
+import { Game } from '../domain/game/game';
 
 @Injectable()
 export class RoomService {
 
   constructor(
     private roomFactory: RoomFactory,
-    private gameMessageFactory: GameMessageFactory,
+    private gameMessageFactory: GameFactory,
     private http: Http,
     private stompService: StompService,
     private cookieService: CookieService
@@ -43,11 +43,9 @@ export class RoomService {
       });
   }
 
-  getGameStompListener(roomName: string): Observable<GameMessage> {
-    debugger
+  getGameStompListener(roomName: string): Observable<Game> {
     return this.stompService.subscribe(`/topic/room/${roomName}/game`, this.getStompHeaders())
       .map((message) => {
-        debugger
         let messageBody = JSON.parse(message.body);
         return this.gameMessageFactory.mapPOJO(messageBody);
       });

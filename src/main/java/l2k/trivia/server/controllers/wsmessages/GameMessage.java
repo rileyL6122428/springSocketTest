@@ -1,5 +1,6 @@
 package l2k.trivia.server.controllers.wsmessages;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,18 +12,28 @@ import l2k.trivia.game.TriviaGame;
 public class GameMessage {
 	
 	protected String typeHeader;
-	protected Map<Player, Integer> playerScores;
+	protected Map<String, Integer> playerScores;
 	protected int totalRoundCount;
 	protected int completedRoundCount;
 	protected Question currentQuestion;
 	protected List<Answer> currentQuestionAnswers;
 	
 	public GameMessage(TriviaGame triviaGame) {
-		playerScores = triviaGame.getPlayerScores();
+		playerScores = mapPlayerScores(triviaGame);
 		totalRoundCount = triviaGame.getRoundCount();
 		completedRoundCount = triviaGame.getCompletedRoundCount();
 		currentQuestion = triviaGame.getCurrentQuestion();
 		currentQuestionAnswers = triviaGame.getCurrentQuestionAnswers();
+	}
+	
+	public Map<String, Integer> mapPlayerScores(TriviaGame triviaGame) {
+		Map<String, Integer> playerScores = new HashMap<String, Integer>();
+		
+		triviaGame.getPlayerScores().forEach((Player player, Integer score) -> {
+			playerScores.put(player.getName(), score);
+		});
+		
+		return playerScores;
 	}
 
 	public String getTypeHeader() {
@@ -33,11 +44,11 @@ public class GameMessage {
 		this.typeHeader = typeHeader;
 	}
 
-	public Map<Player, Integer> getPlayerScores() {
+	public Map<String, Integer> getPlayerScores() {
 		return playerScores;
 	}
 
-	public void setPlayerScores(Map<Player, Integer> playerScores) {
+	public void setPlayerScores(Map<String, Integer> playerScores) {
 		this.playerScores = playerScores;
 	}
 

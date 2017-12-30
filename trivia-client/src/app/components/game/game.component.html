@@ -1,1 +1,7 @@
-<section>THIS IS THE GAME COMPONENT</section>
+<section id="game-loading" *ngIf="!game">
+  <p>Loading game...</p>
+</section>
+
+<section id="trivia-game" *ngIf="game">
+  <p>game loaded</p>
+</section>

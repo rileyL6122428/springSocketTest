@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { UserFactory } from './user/user.factory';
 import { RoomMessageFactory } from './chat-room-message/room-message.factory';
-import { GameMessageFactory } from './game-message/game-message.factory';
+import { PlayerFactory } from './player/player.factory';
+import { GameFactory } from './game/game.factory';
 import { MatchmakingStatsFactory } from './matchmaking/matchmaking-stats.factory';
 import { RoomFactory } from './room/room.factory';
 
@@ -9,7 +10,8 @@ import { RoomFactory } from './room/room.factory';
   providers: [
     UserFactory,
     RoomMessageFactory,
-    GameMessageFactory,
+    PlayerFactory,
+    GameFactory,
     MatchmakingStatsFactory,
     RoomFactory
   ]
