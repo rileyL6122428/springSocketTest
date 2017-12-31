@@ -24,7 +24,13 @@
   </section>
 
   <section id="question-response" *ngIf="game.phase === 'ASKING_QUESTION'">
-    THIS IS THE QUESTION RESPONSE SECTION
+    <h6>Question: {{game.currentQuestion.text}}</h6>
+
+    <ul>
+      <!-- <li *ngFor="let answer in game.currentAnswers">
+        <button>{{answer.text}}</button>
+      </li> -->
+    </ul>
   </section>
 
 </section>

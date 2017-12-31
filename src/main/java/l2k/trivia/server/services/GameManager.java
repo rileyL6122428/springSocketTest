@@ -75,7 +75,7 @@ public class GameManager {
 				runnable.run();
 			}
 			
-		}, 3000);
+		}, delay);
 	}
 	
 	

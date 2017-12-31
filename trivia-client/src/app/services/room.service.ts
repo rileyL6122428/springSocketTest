@@ -14,7 +14,7 @@ export class RoomService {
 
   constructor(
     private roomFactory: RoomFactory,
-    private gameMessageFactory: GameFactory,
+    private gameFactory: GameFactory,
     private http: Http,
     private stompService: StompService,
     private cookieService: CookieService
@@ -47,7 +47,7 @@ export class RoomService {
     return this.stompService.subscribe(`/topic/room/${roomName}/game`, this.getStompHeaders())
       .map((message) => {
         let messageBody = JSON.parse(message.body);
-        return this.gameMessageFactory.mapPOJO(messageBody);
+        return this.gameFactory.mapPOJO(messageBody);
       });
   }
 

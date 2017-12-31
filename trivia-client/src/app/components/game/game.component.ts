@@ -24,8 +24,8 @@ export class GameComponent implements OnInit, OnDestroy {
     this.subscriptions = [
       this.roomService.getGameStompListener(this.roomName)
         .subscribe((game: Game) => {
-          debugger
           this.game = game;
+          console.log(game);
         })
     ];
   }
