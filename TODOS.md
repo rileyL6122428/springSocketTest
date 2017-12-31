@@ -28,4 +28,9 @@ Depends on Messaging Template
 		4. Question Close
 		5. Game End
 		6. Waiting for next Game
+		
+		
+## Future Refactors
+	
+	* Put score on player object instead of using a score map
 	

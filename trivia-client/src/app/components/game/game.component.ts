@@ -23,10 +23,7 @@ export class GameComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions = [
       this.roomService.getGameStompListener(this.roomName)
-        .subscribe((game: Game) => {
-          debugger
-          this.game = game;
-        })
+        .subscribe((game: Game) => this.game = game )
     ];
   }
 

@@ -3,5 +3,15 @@
 </section>
 
 <section id="trivia-game" *ngIf="game">
+  <section id="player-scores">
+    <h6>Player Scores</h6>
+
+    <ul>
+      <li *ngFor="let player of game.playersToScores.keys()">
+        {{player.name}} -> {{game.playersToScores.get(player)}}
+      </li>
+    </ul>
+  </section>
+  
   <p>game loaded</p>
 </section>

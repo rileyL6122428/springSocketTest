@@ -10,7 +10,6 @@ export class GameFactory {
   ) { }
 
   mapPOJO(messagePOJO: Object): Game {
-    debugger
     return new Game({
       phase: messagePOJO['typeHeader'],
       playersToScores: this.playerFactory.playerToScoreMap(messagePOJO['playerScores'])
