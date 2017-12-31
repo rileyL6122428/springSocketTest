@@ -5,7 +5,7 @@ import l2k.trivia.game.TriviaGame;
 public class GameReadyMessage extends GameMessage {
 	
 	{
-		typeHeader = "GAME_READY";
+		typeHeader = "READY";
 	}
 	
 	public GameReadyMessage(TriviaGame triviaGame) {

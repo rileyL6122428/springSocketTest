@@ -1,9 +1,5 @@
 package l2k.trivia.server.services;
 
-import static l2k.trivia.server.services.GameManager.PlayState.IN_BETWEEN_GAMES;
-import static l2k.trivia.server.services.GameManager.PlayState.PLAYING_A_GAME;
-import static l2k.trivia.server.services.GameManager.PlayState.READY_FOR_NEW_GAME;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,11 +12,6 @@ import l2k.trivia.game.TriviaGame;
 
 public class GameManager {
 	
-	enum PlayState {
-		IN_BETWEEN_GAMES, READY_FOR_NEW_GAME, PLAYING_A_GAME
-	}
-	
-	private PlayState playState;
 	private TriviaGame triviaGame;
 	private Map<String, Player> namesToPlayers;
 	private RoomMessagingTemplate roomMessagingTemplate;
@@ -36,7 +27,6 @@ public class GameManager {
 	
 	{
 		namesToPlayers = new HashMap<String, Player>();
-		playState = IN_BETWEEN_GAMES;
 		timer = new Timer();
 	}
 	
@@ -57,16 +47,20 @@ public class GameManager {
 		
 		scheduleTask(this::emitReadyForNewGame, 1000);
 		scheduleTask(this::emitGameStart, 4000);
+		
+		scheduleTask(this::emitGameQuestion, 7000);
 	}
 	
 	private void emitReadyForNewGame() {
-		playState = READY_FOR_NEW_GAME;
 		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameReadyMessage(triviaGame));
 	}
 	
 	private void emitGameStart() {
-		playState = PLAYING_A_GAME;
 		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameStartMessage(triviaGame));
+	}
+	
+	private void emitGameQuestion() {
+		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameQuestionMessage(triviaGame));
 	}
 
 
