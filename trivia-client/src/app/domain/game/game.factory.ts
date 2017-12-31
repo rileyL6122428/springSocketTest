@@ -12,7 +12,9 @@ export class GameFactory {
   mapPOJO(messagePOJO: Object): Game {
     return new Game({
       phase: messagePOJO['typeHeader'],
-      playersToScores: this.playerFactory.playerToScoreMap(messagePOJO['playerScores'])
+      playersToScores: this.playerFactory.playerToScoreMap(messagePOJO['playerScores']),
+      completedRoundCount: messagePOJO['completedRoundCount'],
+      roundCount: messagePOJO['totalRoundCount']
     });
   }
 
