@@ -3,6 +3,8 @@
 </section>
 
 <section id="trivia-game" *ngIf="game">
+  <h2>Trivia Game</h2>
+
   <section id="game-scores">
     <h6>Player Scores</h6>
 
@@ -27,9 +29,9 @@
     <h6>Question: {{game.currentQuestion.text}}</h6>
 
     <ul>
-      <!-- <li *ngFor="let answer in game.currentAnswers">
+      <li *ngFor="let answer of game.currentAnswers">
         <button>{{answer.text}}</button>
-      </li> -->
+      </li>
     </ul>
   </section>
 
