@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { RoomService } from '../../services/room.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Game } from '../../domain/game/game';
+import { Answer } from '../../domain/game/answer';
 
 @Component({
   selector: 'game',
@@ -23,17 +24,20 @@ export class GameComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions = [
       this.roomService.getGameStompListener(this.roomName)
-        .subscribe((game: Game) => {
-          debugger
-          this.game = game;
-          console.log(game);
-        })
+        .subscribe((game: Game) => this.game = game)
     ];
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
+    });
+  }
+
+  submitAnswer(answer: Answer): void {
+    this.roomService.submitGameAnswer({
+      roomName: this.roomName,
+      answer: answer
     });
   }
 

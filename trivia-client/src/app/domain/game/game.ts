@@ -13,7 +13,7 @@ export class Game {
     this.currentAnswers = params['currentAnswers'];
   }
 
-  readonly phase: "READY" | "START" | "ASKING_QUESTION";
+  readonly phase: "READY" | "START" | "ASKING_QUESTION" | "QUESTION_CLOSED";
   readonly playersToScores: Map<Player, number>;
   readonly completedRoundCount: number;
   readonly roundCount: number;

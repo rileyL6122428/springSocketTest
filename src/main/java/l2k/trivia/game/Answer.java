@@ -1,10 +1,14 @@
 package l2k.trivia.game;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Answer {
 	
 	private final String text;
 	
-	public Answer(String text) {
+	@JsonCreator
+	public Answer(@JsonProperty("text") String text) {
 		this.text = text;
 	}
 	

@@ -30,7 +30,7 @@
 
     <ul>
       <li *ngFor="let answer of game.currentAnswers">
-        <button>{{answer.text}}</button>
+        <button (click)="submitAnswer(answer)">{{answer.text}}</button>
       </li>
     </ul>
   </section>

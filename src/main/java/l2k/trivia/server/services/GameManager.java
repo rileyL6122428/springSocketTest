@@ -6,9 +6,11 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import l2k.trivia.game.Answer;
 import l2k.trivia.game.Player;
 import l2k.trivia.game.SampleTriviaGameBuilder;
 import l2k.trivia.game.TriviaGame;
+import l2k.trivia.server.domain.User;
 
 public class GameManager {
 	
@@ -47,8 +49,8 @@ public class GameManager {
 		
 		scheduleTask(this::emitReadyForNewGame, 1000);
 		scheduleTask(this::emitGameStart, 4000);
-		
 		scheduleTask(this::emitGameQuestion, 7000);
+		scheduleTask(this::emitGameQuestionClose, 12000);
 	}
 	
 	private void emitReadyForNewGame() {
@@ -61,6 +63,11 @@ public class GameManager {
 	
 	private void emitGameQuestion() {
 		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameQuestionMessage(triviaGame));
+	}
+	
+	private void emitGameQuestionClose() {
+		triviaGame.closeCurrentRound();
+		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameQuestionCloseMessage(triviaGame));
 	}
 
 
@@ -76,6 +83,10 @@ public class GameManager {
 			}
 			
 		}, delay);
+	}
+
+	public void submitAnswer(User user, Answer answer) {
+		triviaGame.submitAnswer(user, answer);
 	}
 	
 	

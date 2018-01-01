@@ -34,3 +34,9 @@ Depends on Messaging Template
 	
 	* Put score on player object instead of using a score map
 	
+## Right Now
+
+	Get submission working
+	Refactor Game Manager (extract sequence/timer logic into a new class)
+	Fix Broken Tests
+	

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import l2k.trivia.game.Answer;
 import l2k.trivia.server.domain.ChatRoomMessage;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
@@ -72,9 +73,13 @@ public class RoomMonitor implements InitializingBean {
 		return roomManager != null && roomManager.contains(user);
 	}
 
+	public void submitGameAnswer(String roomName, User user, Answer answer) {
+		RoomManager roomManager = roomManagers.get(roomName);
+		roomManager.submitGameAnswer(user, answer);
+	}
+	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-//		rooms = new HashMap<String, Room>();
 		roomManagers = new HashMap<String, RoomManager>();
 		
 		//configured for test
@@ -84,5 +89,4 @@ public class RoomMonitor implements InitializingBean {
 		}});
 	}
 
-	
 }

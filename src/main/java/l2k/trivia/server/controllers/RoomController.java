@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import l2k.trivia.game.Answer;
 import l2k.trivia.server.controllers.response.LeaveRoomResponse;
 import l2k.trivia.server.controllers.wsmessages.ChatMessageRequest;
 import l2k.trivia.server.domain.ChatRoomMessage;
@@ -37,8 +38,8 @@ public class RoomController {
 	@GetMapping("/room/{roomName}")
 	public ResponseEntity<Room> getRoom(
 			@PathVariable String roomName,
-			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId
-		) {
+			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId 
+			) {
 		ResponseEntity<Room> responseEntity; 
 		User user = userService.getUser(sessionId);
 		
@@ -87,6 +88,16 @@ public class RoomController {
 		}
 		
 		return responseEntity;
+	}
+	
+	@MessageMapping("/room/{roomName}/submit-answer")
+	public void submitGameAnswer(
+			Answer answer,
+			@DestinationVariable String roomName, 
+			@Header("testHeader") String sessionId
+		) {
+		User user = userService.getUser(sessionId);
+		roomMonitor.submitGameAnswer(roomName, user, answer);
 	}
 	
 }

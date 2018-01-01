@@ -8,6 +8,7 @@ import { StompService } from '@stomp/ng2-stompjs';
 import { StompHeaders } from '@stomp/stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Game } from '../domain/game/game';
+import { Answer } from '../domain/game/answer';
 
 @Injectable()
 export class RoomService {
@@ -43,6 +44,13 @@ export class RoomService {
       });
   }
 
+  sendMessage(params: { roomName: string, messageBody: string }): void {
+    let endpoint = `/app/room/${params.roomName}/send-message`;
+    let message = JSON.stringify({ messageBody: params.messageBody});
+
+    this.stompService.publish(endpoint, message, this.getStompHeaders());
+  }
+
   getGameStompListener(roomName: string): Observable<Game> {
     return this.stompService.subscribe(`/topic/room/${roomName}/game`, this.getStompHeaders())
       .map((message) => {
@@ -51,16 +59,15 @@ export class RoomService {
       });
   }
 
-  private getStompHeaders(): StompHeaders {
-    return { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
+  submitGameAnswer(params: { roomName: string, answer: Answer}): void {
+    let endpoint = `/app/room/${params.roomName}/submit-answer`;
+    let message = JSON.stringify(params.answer);
+
+    this.stompService.publish(endpoint, message, this.getStompHeaders());
   }
 
-  sendMessage(params: { roomName: string, messageBody: string }): void {
-    let endpoint = `/app/room/${params.roomName}/send-message`;
-    let message = JSON.stringify({ messageBody: params.messageBody});
-    let headers = { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
-
-    this.stompService.publish(endpoint, message, headers);
+  private getStompHeaders(): StompHeaders {
+    return { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
   }
 
 }

@@ -1,5 +1,6 @@
 package l2k.trivia.server.services;
 
+import l2k.trivia.game.Answer;
 import l2k.trivia.server.domain.ChatRoomMessage;
 import l2k.trivia.server.domain.JoinRoomMessage;
 import l2k.trivia.server.domain.Room;
@@ -39,8 +40,13 @@ public class RoomManager {
 		return user != null && room.contains(user.getName());
 	}
 	
+	public void submitGameAnswer(User user, Answer answer) {
+		if(room.contains(user.getName()))
+			gameManager.submitAnswer(user, answer);
+	}
+	
 	public Room getRoom() {
 		return room;
 	}
-	
+
 }

@@ -9,6 +9,7 @@ public class TriviaGame {
 	private RollCall<TriviaRound> triviaRoundRollCall;
 	
 	private TriviaRound currentRound;
+	private boolean acceptingAnswers;
 
 	public TriviaGame(ScoreKeeper scoreKeeper, RollCall<TriviaRound> triviaRoundRollCall) {
 		this.scoreKeeper = scoreKeeper;
@@ -29,18 +30,20 @@ public class TriviaGame {
 	}
 	
 	public void closeCurrentRound() {
-		registerScores();
-		setupNextRound();
-	}
-	
-	private void registerScores() {
 		currentRound.getPlayersWithCorrectAnswer().forEach(scoreKeeper::incrementScore);
+		acceptingAnswers = false;
 	}
 	
-	private void setupNextRound() {
+	public void setupNextRound() {
 		currentRound = triviaRoundRollCall.getNextItem();
+		acceptingAnswers = true;
 	}
 
+	public void submitAnswer(Player player, Answer answer) {
+		if(acceptingAnswers)
+			currentRound.submitAnswer(player, answer);
+	}
+	
 	public Question getCurrentQuestion() {
 		return currentRound.getQuestion();
 	}
@@ -53,8 +56,4 @@ public class TriviaGame {
 		return scoreKeeper.getScoreMap();
 	}
 
-	public void submitAnswer(Player player, Answer answer) {
-		currentRound.submitAnswer(player, answer);
-	}
-	
 }
