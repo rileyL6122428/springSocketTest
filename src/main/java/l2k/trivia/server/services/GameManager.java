@@ -1,15 +1,19 @@
 package l2k.trivia.server.services;
 
+import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.FIVE_SECONDS;
+import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.ONE_SECOND;
+import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.THREE_SECONDS;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import l2k.trivia.game.Answer;
 import l2k.trivia.game.Player;
 import l2k.trivia.game.SampleTriviaGameBuilder;
 import l2k.trivia.game.TriviaGame;
+import l2k.trivia.scheduling.DelayedEvent;
+import l2k.trivia.scheduling.SequenceBuilder;
 import l2k.trivia.server.domain.User;
 
 public class GameManager {
@@ -18,7 +22,6 @@ public class GameManager {
 	private Map<String, Player> namesToPlayers;
 	private RoomMessagingTemplate roomMessagingTemplate;
 	private int playerCountRequiredToStartGame = 3;
-	private Timer timer;
 	private String roomName;
 	private GameMessageFactory gameMessageFactory = new GameMessageFactory();
 	
@@ -29,10 +32,7 @@ public class GameManager {
 	
 	{
 		namesToPlayers = new HashMap<String, Player>();
-		timer = new Timer();
 	}
-	
-	
 	
 	public void addPlayer(Player player) {
 		namesToPlayers.put(player.getName(), player);
@@ -47,10 +47,13 @@ public class GameManager {
 				.setPlayers(new ArrayList<Player>(namesToPlayers.values()))
 				.build();
 		
-		scheduleTask(this::emitReadyForNewGame, 1000);
-		scheduleTask(this::emitGameStart, 4000);
-		scheduleTask(this::emitGameQuestion, 7000);
-		scheduleTask(this::emitGameQuestionClose, 12000);
+		new SequenceBuilder()
+			.addEvent(new DelayedEvent(this::emitReadyForNewGame, ONE_SECOND))
+			.addEvent(new DelayedEvent(this::emitGameStart, THREE_SECONDS))
+			.addEvent(new DelayedEvent(this::emitGameQuestion, THREE_SECONDS))
+			.addEvent(new DelayedEvent(this::emitGameQuestionClose, FIVE_SECONDS))
+			.build()
+			.execute();
 	}
 	
 	private void emitReadyForNewGame() {
@@ -70,24 +73,12 @@ public class GameManager {
 		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameQuestionCloseMessage(triviaGame));
 	}
 
-
 	public void removePlayer(Player player) {
 		namesToPlayers.remove(player.getName());
-	}
-	
-	public void scheduleTask(Runnable runnable, int delay) {
-		timer.schedule(new TimerTask() {
-
-			public void run() {
-				runnable.run();
-			}
-			
-		}, delay);
 	}
 
 	public void submitAnswer(User user, Answer answer) {
 		triviaGame.submitAnswer(user, answer);
 	}
-	
 	
 }
