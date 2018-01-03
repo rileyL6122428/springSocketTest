@@ -77,10 +77,12 @@ class TriviaGameTest {
 		assertEquals(0, game.getCompletedRoundCount());
 		
 		game.closeCurrentRound();
+		game.setupNextRound();
 		assertEquals(2, game.getRoundCount());
 		assertEquals(1, game.getCompletedRoundCount());
 		
 		game.closeCurrentRound();
+		game.setupNextRound();
 		assertEquals(2, game.getRoundCount());
 		assertEquals(2, game.getCompletedRoundCount());
 		
@@ -92,6 +94,8 @@ class TriviaGameTest {
 		assertEquals(new Question("What is a trumpet?"), game.getCurrentQuestion());
 		
 		game.closeCurrentRound();
+		game.setupNextRound();
+		
 		assertEquals(new Question("What is a snare drum?"), game.getCurrentQuestion());
 	}
 	
@@ -148,10 +152,13 @@ class TriviaGameTest {
 		assertEquals(new Question("What is a trumpet?"), game.getCurrentQuestion());
 		game.submitAnswer(tom, new Answer("A snack"));
 		game.submitAnswer(betty, new Answer("A brass instrument"));
+		
 		game.closeCurrentRound();
 		
 		verifyScore(tom, 0);
 		verifyScore(betty, 1);
+		
+		game.setupNextRound();
 		
 		assertEquals(new Question("What is a snare drum?"), game.getCurrentQuestion());
 		game.submitAnswer(tom, new Answer("A kitchen utensil"));
