@@ -15,7 +15,6 @@ import l2k.trivia.server.domain.User;
 @Service
 public class RoomMonitor implements InitializingBean {
 	
-//	private Map<String, Room> rooms;
 	private Map<String, RoomManager> roomManagers;
 	
 	@Autowired
@@ -23,7 +22,6 @@ public class RoomMonitor implements InitializingBean {
 	
 	
 	public void clear() { //Temporary for TESTING while DB is not hooked up
-//		rooms = new HashMap<String, Room>();
 		roomManagers = new HashMap<String, RoomManager>();
 	}
 	

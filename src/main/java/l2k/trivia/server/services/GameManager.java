@@ -5,7 +5,6 @@ import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.ONE_SECOND;
 import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.THREE_SECONDS;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import l2k.trivia.game.Answer;
@@ -21,23 +20,21 @@ public class GameManager {
 	private TriviaGame triviaGame;
 	private Map<String, Player> namesToPlayers;
 	private RoomMessagingTemplate roomMessagingTemplate;
-	private int playerCountRequiredToStartGame = 3;
+	private int minPlayers;
 	private String roomName;
 	private GameMessageFactory gameMessageFactory = new GameMessageFactory();
 	
-	public GameManager(String roomName, RoomMessagingTemplate roomMessagingTemplate) {
+	public GameManager(String roomName, RoomMessagingTemplate roomMessagingTemplate, int minPlayers, Map<String, Player> namesToPlayers) {
 		this.roomName = roomName;
 		this.roomMessagingTemplate = roomMessagingTemplate;
-	}
-	
-	{
-		namesToPlayers = new HashMap<String, Player>();
+		this.minPlayers = minPlayers;
+		this.namesToPlayers = namesToPlayers;
 	}
 	
 	public void addPlayer(Player player) {
 		namesToPlayers.put(player.getName(), player);
 		
-		if(namesToPlayers.size() >= playerCountRequiredToStartGame) {
+		if(namesToPlayers.size() >= minPlayers) {
 			startNewGame();
 		}
 	}

@@ -15,7 +15,11 @@ public class RoomManager {
 	public RoomManager(Room room, RoomMessagingTemplate roomMessagingTemplate) {
 		this.room = room;
 		this.chatManager = new ChatManager();
-		this.gameManager = new GameManager(room.getName(), roomMessagingTemplate);
+		this.gameManager = new GameManagerBuilder()
+							.setRoomName(room.getName())
+							.setMessagingTemplate( roomMessagingTemplate)
+							.setMinPlayers(3)
+							.build();
 	}
 	
 	public boolean isFull() {
