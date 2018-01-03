@@ -36,7 +36,5 @@ Depends on Messaging Template
 	
 ## Right Now
 
-	Get submission working
-	Refactor Game Manager (extract sequence/timer logic into a new class)
-	Fix Broken Tests
+	Get loop working for asking game questions
 	

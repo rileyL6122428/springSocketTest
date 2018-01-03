@@ -12,6 +12,7 @@ import l2k.trivia.game.Player;
 import l2k.trivia.game.SampleTriviaGameBuilder;
 import l2k.trivia.game.TriviaGame;
 import l2k.trivia.scheduling.DelayedEvent;
+import l2k.trivia.scheduling.Sequence;
 import l2k.trivia.scheduling.SequenceBuilder;
 import l2k.trivia.server.domain.User;
 
@@ -34,23 +35,37 @@ public class GameManager {
 	public void addPlayer(Player player) {
 		namesToPlayers.put(player.getName(), player);
 		
-		if(namesToPlayers.size() >= minPlayers) {
+		if(namesToPlayers.size() >= minPlayers)
 			startNewGame();
-		}
 	}
 	
 	private void startNewGame() {
-		triviaGame = new SampleTriviaGameBuilder()
+		triviaGame = newSampleTriviaGame();
+		
+		Sequence gameSequence = newGameSequence();
+		gameSequence.execute();
+	}
+	
+	private TriviaGame newSampleTriviaGame() {
+		return new SampleTriviaGameBuilder()
 				.setPlayers(new ArrayList<Player>(namesToPlayers.values()))
 				.build();
+	}
+	
+	private Sequence newGameSequence() {
+		SequenceBuilder sequenceBuilder = new SequenceBuilder();
 		
-		new SequenceBuilder()
-			.addEvent(new DelayedEvent(this::emitReadyForNewGame, ONE_SECOND))
-			.addEvent(new DelayedEvent(this::emitGameStart, THREE_SECONDS))
-			.addEvent(new DelayedEvent(this::emitGameQuestion, THREE_SECONDS))
-			.addEvent(new DelayedEvent(this::emitGameQuestionClose, FIVE_SECONDS))
-			.build()
-			.execute();
+		sequenceBuilder.addEvent(new DelayedEvent(this::emitReadyForNewGame, ONE_SECOND));
+		sequenceBuilder.addEvent(new DelayedEvent(this::emitGameStart, THREE_SECONDS));
+		sequenceBuilder.addEvent(new DelayedEvent(this::emitFirstGameQuestion, THREE_SECONDS));
+		sequenceBuilder.addEvent(new DelayedEvent(this::emitGameQuestionClose, FIVE_SECONDS));			
+		
+		for(int counter = 2; counter <= triviaGame.getRoundCount(); counter++) {
+			sequenceBuilder.addEvent(new DelayedEvent(this::emitGameQuestion, THREE_SECONDS));
+			sequenceBuilder.addEvent(new DelayedEvent(this::emitGameQuestionClose, FIVE_SECONDS));			
+		}
+			
+		return sequenceBuilder.build();
 	}
 	
 	private void emitReadyForNewGame() {
@@ -61,7 +76,12 @@ public class GameManager {
 		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameStartMessage(triviaGame));
 	}
 	
+	private void emitFirstGameQuestion() {
+		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameQuestionMessage(triviaGame));
+	}
+	
 	private void emitGameQuestion() {
+		triviaGame.setupNextRound();
 		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameQuestionMessage(triviaGame));
 	}
 	
