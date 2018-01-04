@@ -36,7 +36,7 @@ Depends on Messaging Template
 	
 ## Right Now
 
-	Get game finish working
+	Get Player Name Showing on all pages
 	Get player disconnection event working
 	Get Game loop working
 	Refactor everything up until now
