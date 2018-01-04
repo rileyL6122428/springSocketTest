@@ -24,5 +24,9 @@ public class GameMessageFactory {
 	public GameMessage newGameQuestionCloseMessage(TriviaGame triviaGame) {
 		return new GameQuestionCloseMessage(triviaGame);
 	}
+
+	public GameMessage newGameCloseMessage(TriviaGame triviaGame) {
+		return new GameCloseMessage(triviaGame);
+	}
 	
 }

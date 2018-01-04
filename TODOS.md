@@ -36,5 +36,10 @@ Depends on Messaging Template
 	
 ## Right Now
 
-	Get loop working for asking game questions
+	Get game finish working
+	Get player disconnection event working
+	Get Game loop working
+	Refactor everything up until now
+	Add Tests
+	Add Styles
 	

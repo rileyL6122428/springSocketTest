@@ -64,6 +64,8 @@ public class GameManager {
 			sequenceBuilder.addEvent(new DelayedEvent(this::emitGameQuestion, THREE_SECONDS));
 			sequenceBuilder.addEvent(new DelayedEvent(this::emitGameQuestionClose, FIVE_SECONDS));			
 		}
+		
+		sequenceBuilder.addEvent(new DelayedEvent(this::emitGameClose, THREE_SECONDS));
 			
 		return sequenceBuilder.build();
 	}
@@ -88,6 +90,10 @@ public class GameManager {
 	private void emitGameQuestionClose() {
 		triviaGame.closeCurrentRound();
 		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameQuestionCloseMessage(triviaGame));
+	}
+	
+	private void emitGameClose() {
+		roomMessagingTemplate.sendGameMessageToRoom(roomName, gameMessageFactory.newGameCloseMessage(triviaGame));
 	}
 
 	public void removePlayer(Player player) {

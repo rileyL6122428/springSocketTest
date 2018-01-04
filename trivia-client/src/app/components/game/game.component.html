@@ -35,4 +35,14 @@
     </ul>
   </section>
 
+  <section id="question-response" *ngIf="game.phase === 'FINISHED'">
+    <h6>Game Finished!</h6>
+    <p>Here are the winners:</p>
+    <ul>
+      <li *ngFor="let winner of game.highestScorers">
+        {{winner.name}}
+      </li>
+    </ul>
+  </section>
+
 </section>
