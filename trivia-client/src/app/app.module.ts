@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router'
 import { ComponentModule } from './components/component.module';
 import { AppComponent } from './app.component';

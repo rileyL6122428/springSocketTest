@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
 import { Http } from '@angular/http';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
-import { StompService } from '@stomp/ng2-stompjs';
+import { StompRService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import "rxjs/operator/map";
 import { CookieService } from 'angular2-cookie/services/cookies.service'
@@ -14,7 +14,7 @@ export class MatchmakingService {
   constructor(
     private http: Http,
     private matchmakingStatsFactory: MatchmakingStatsFactory,
-    private stompService: StompService,
+    private stompService: StompRService,
     private cookieService: CookieService
   ) { }
 

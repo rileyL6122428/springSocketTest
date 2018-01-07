@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 
@@ -17,21 +16,21 @@ public class MyChannelInterceptor extends ChannelInterceptorAdapter {
 	
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-    	SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(message);
-    	populateUserHeader(headerAccessor);
-
+	    	SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(message);
+	    	populateUserHeader(headerAccessor);
+//
         return message;
     }
     
     private void populateUserHeader(SimpMessageHeaderAccessor headerAccessor) {
-    	String messageType = headerAccessor.getHeader("simpMessageType").toString();
-    	
-    	if(messageType.equals("MESSAGE") || messageType.equals("SUBSCRIBE")) {
-    		String sessionIdString = headerAccessor.getFirstNativeHeader("testHeader");
-    		UUID sessionId = UUID.fromString(sessionIdString);
-    		User user = userService.getUser(sessionId);
-    		headerAccessor.setUser(user);
-    	}
+	    	String messageType = headerAccessor.getHeader("simpMessageType").toString();
+	    	
+	    	if(messageType.equals("MESSAGE") || messageType.equals("SUBSCRIBE")) {
+	    		String sessionIdString = headerAccessor.getFirstNativeHeader("testHeader");
+	    		UUID sessionId = UUID.fromString(sessionIdString);
+	    		User user = userService.getUser(sessionId);
+	    		headerAccessor.setUser(user);
+	    	}
     }
 
 	public UserService getUserService() {

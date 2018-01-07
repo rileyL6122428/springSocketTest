@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from './domain/user/user';
 import { UserService } from './services/user.service';
+import { StompInitializer } from './services/stomp/stomp.initializer';
 
 @Component({
   selector: 'app-root',
@@ -20,9 +21,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
+    private stompInitializer: StompInitializer
   ) {}
 
   ngOnInit(): void {
+    this.stompInitializer.setupStompService();
+
     this.subscriptions = [
       this.userService.getUser().subscribe((user: User) => {
         this.user = user;

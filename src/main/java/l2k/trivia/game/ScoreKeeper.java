@@ -19,5 +19,9 @@ public class ScoreKeeper {
 	public Map<Player, Integer> getScoreMap() {
 		return unmodifiableMap(playerToScores);
 	}
+	
+	public void removeUser(Player player) {
+		playerToScores.remove(player);
+	}
 
 }

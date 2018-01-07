@@ -35,8 +35,7 @@ Depends on Messaging Template
 	* Put score on player object instead of using a score map
 	
 ## Right Now
-
-	Get Player Name Showing on all pages
+	
 	Get player disconnection event working
 	Get Game loop working
 	Refactor everything up until now

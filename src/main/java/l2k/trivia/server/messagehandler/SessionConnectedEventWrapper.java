@@ -2,6 +2,7 @@ package l2k.trivia.server.messagehandler;
 
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
@@ -17,12 +18,17 @@ public class SessionConnectedEventWrapper {
 		this.connectedEvent = connectedEvent;
 	}
 	
-	public String getSessionId() {
+	public String getStompSessionId() {
 		Message<byte[]> message = connectedEvent.getMessage();
 		return SimpMessageHeaderAccessor.getSessionId(message.getHeaders());
 	}
 	
-	public Object getCustomHeader(String headerName) {
+	public UUID getUserId() {
+		String userIdString = getCustomHeader("testHeader");
+		return UUID.fromString(userIdString);
+	}
+	
+	private String getCustomHeader(String headerName) {
 		Message<byte[]> message = connectedEvent.getMessage();
 		MessageHeaders messageHeaders = message.getHeaders();
 		
@@ -30,7 +36,7 @@ public class SessionConnectedEventWrapper {
 		MessageHeaders genericMessageHeaders = genericMessage.getHeaders();
 		
 		Map nativeHeaderMap = (Map)genericMessageHeaders.get("nativeHeaders");
-		LinkedList listWrapper = (LinkedList) nativeHeaderMap.get(headerName);
+		LinkedList<String> listWrapper = (LinkedList<String>) nativeHeaderMap.get(headerName);
 		return listWrapper.getFirst();
 	}
 	

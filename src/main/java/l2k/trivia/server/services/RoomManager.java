@@ -34,6 +34,7 @@ public class RoomManager {
 	
 	public void removeUser(User user) {
 		room.removeUser(user);
+		gameManager.removePlayer(user);
 	}
 	
 	public void addMessage(ChatRoomMessage message) {

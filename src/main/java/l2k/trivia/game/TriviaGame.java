@@ -55,5 +55,9 @@ public class TriviaGame {
 	public Map<Player, Integer> getPlayerScores() {
 		return scoreKeeper.getScoreMap();
 	}
-
+	
+	public void removePlayer(Player player) {
+		scoreKeeper.removeUser(player);
+	}
+	
 }
