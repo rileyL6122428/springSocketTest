@@ -19,8 +19,7 @@ public class SessionConnectedEventWrapper {
 	}
 	
 	public String getStompSessionId() {
-		Message<byte[]> message = connectedEvent.getMessage();
-		return SimpMessageHeaderAccessor.getSessionId(message.getHeaders());
+		return SimpMessageHeaderAccessor.getSessionId(getConnectionHeaders());
 	}
 	
 	public UUID getUserId() {
@@ -29,8 +28,7 @@ public class SessionConnectedEventWrapper {
 	}
 	
 	private String getCustomHeader(String headerName) {
-		Message<byte[]> message = connectedEvent.getMessage();
-		MessageHeaders messageHeaders = message.getHeaders();
+		MessageHeaders messageHeaders = getConnectionHeaders();
 		
 		GenericMessage genericMessage = (GenericMessage)messageHeaders.get(SimpMessageHeaderAccessor.CONNECT_MESSAGE_HEADER);
 		MessageHeaders genericMessageHeaders = genericMessage.getHeaders();
@@ -38,6 +36,11 @@ public class SessionConnectedEventWrapper {
 		Map nativeHeaderMap = (Map)genericMessageHeaders.get("nativeHeaders");
 		LinkedList<String> listWrapper = (LinkedList<String>) nativeHeaderMap.get(headerName);
 		return listWrapper.getFirst();
+	}
+	
+	private MessageHeaders getConnectionHeaders() {
+		Message<byte[]> message = connectedEvent.getMessage();
+		return message.getHeaders();
 	}
 	
 }
