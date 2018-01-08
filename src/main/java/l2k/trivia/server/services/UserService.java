@@ -60,8 +60,8 @@ public class UserService {
 		return sessionToUsers.get(sessionId);
 	}
 	
-	public void removeUser(String sessionId) {
-		sessionToUsers.remove(sessionId);
+	public User removeUser(UUID sessionId) {
+		return sessionToUsers.remove(sessionId);
 	}
 
 	public int getTotalUsers() {

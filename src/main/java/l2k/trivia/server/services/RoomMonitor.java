@@ -16,13 +16,15 @@ import l2k.trivia.server.domain.User;
 public class RoomMonitor implements InitializingBean {
 	
 	private Map<String, RoomManager> roomManagers;
+	private Map<User, RoomManager> usersToRoomManagers; //TODO move this field onto user?
 	
 	@Autowired
 	private RoomMessagingTemplate roomMessagingTemplate;
 	
 	
 	public void clear() { //Temporary for TESTING while DB is not hooked up
-		roomManagers = new HashMap<String, RoomManager>();
+		roomManagers = new HashMap<>();
+		usersToRoomManagers = new HashMap<>();
 	}
 	
 	public boolean roomIsFull(String roomName) {
@@ -33,12 +35,9 @@ public class RoomMonitor implements InitializingBean {
 	public void addUserToRoom(String roomName, User user) {
 		RoomManager roomManager = roomManagers.get(roomName);
 		roomManager.addUser(user);
+		usersToRoomManagers.put(user, roomManager);
 	}
 	
-	public void removeUserFromRoom(String roomName, User user) {
-		RoomManager roomManager = roomManagers.get(roomName);
-		roomManager.removeUser(user);
-	}
 	
 	public void addRoom(Room room) {
 		roomManagers.put(room.getName(), new RoomManager(room, roomMessagingTemplate));
@@ -76,9 +75,20 @@ public class RoomMonitor implements InitializingBean {
 		roomManager.submitGameAnswer(user, answer);
 	}
 	
+	public void removeUserFromRoom(String roomName, User user) {
+		RoomManager roomManager = usersToRoomManagers.remove(user);
+		roomManager.removeUser(user);
+	}
+	
+	public void removeUser(User user) {
+		RoomManager roomManager = usersToRoomManagers.remove(user);
+		if(roomManager != null) roomManager.removeUser(user);
+	}
+	
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		roomManagers = new HashMap<String, RoomManager>();
+		usersToRoomManagers = new HashMap<>();
 		
 		//configured for test
 		addRoom(new Room() {{ 

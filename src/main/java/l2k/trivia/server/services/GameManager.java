@@ -98,7 +98,7 @@ public class GameManager {
 
 	public void removePlayer(Player player) {
 		namesToPlayers.remove(player.getName());
-		triviaGame.removePlayer(player);
+		if(triviaGame != null) triviaGame.removePlayer(player);
 	}
 
 	public void submitAnswer(User user, Answer answer) {
