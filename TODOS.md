@@ -36,9 +36,8 @@ Depends on Messaging Template
 	
 ## Right Now
 	
-	Get player disconnection event working
+	Refactor everything up until now/ Add Tests
 	Get Game loop working
-	Refactor everything up until now
-	Add Tests
+	Refactor game loop/Add tests if necessary
 	Add Styles
 	
