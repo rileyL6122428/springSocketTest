@@ -1,8 +1,8 @@
 import { StompConfig } from '@stomp/ng2-stompjs';
 
 export const STOMP_CONFIG: StompConfig = {
-  url: 'ws://localhost:8090/matchmaking/websocket',
-  // url: 'ws://192.168.1.81:8090/matchmaking/websocket',
+  url: 'ws://localhost:8090/trivia/websocket',
+  // url: 'ws://192.168.1.81:8090/trivia/websocket',
 
   headers: {
     username: "test-username",

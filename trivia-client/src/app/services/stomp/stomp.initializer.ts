@@ -18,8 +18,8 @@ export class StompInitializer {
 
   private getStompConfig(): StompConfig {
     return {
-      url: 'ws://localhost:8090/matchmaking/websocket',
-      // url: 'ws://192.168.1.81:8090/matchmaking/websocket',
+      url: 'ws://localhost:8090/trivia-sockets/websocket',
+      // url: 'ws://192.168.1.81:8090/trivia-sockets/websocket',
 
       headers: {
         testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE")

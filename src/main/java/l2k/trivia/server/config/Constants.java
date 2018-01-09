@@ -5,11 +5,14 @@ public class Constants {
 	
 	public static class STOMP {
 		
+		public static class PathPrefixes {			
+			public static final String BROKER_TOPIC = "/topic";
+			public static final String APP_MESSAGING = "/app";
+			public static final String BROKER_SUBSCRIPTION_LISTENING = BROKER_TOPIC;
+		}
+		
 		public static class Endpoints {
-			public static final String SESSION_CONNECTION = "/matchmaking";
-			public static final String BROKER_TOPIC_PREFIX = "/topic";
-			public static final String APP_MESSAGING_PREFIX = "/app";
-			
+			public static final String SESSION_CONNECTION = "/trivia-sockets";
 			public static final String MATCHMAKING_SUBSCRIPTION = "/matchmaking";
 		}
 	}
