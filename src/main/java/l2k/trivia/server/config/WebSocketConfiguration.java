@@ -23,8 +23,8 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 		
 		registry.setApplicationDestinationPrefixes(
 			STOMP.Endpoints.APP_MESSAGING_PREFIX,
-			STOMP.Endpoints.BROKER_TOPIC_PREFIX /* ENABLED TO ALLOW LISTENING FOR BROKER
-			                                     * SUBSCRIPTIONS WITH @SubscribeMapping
+			STOMP.Endpoints.BROKER_TOPIC_PREFIX /* ENABLED TO LISTEN FOR BROKER
+			                                     * SUBSCRIPTIONS IN APP.
 			                                     */
 			
 		);
