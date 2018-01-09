@@ -19,7 +19,14 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 	
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {	
-		registry.enableSimpleBroker(STOMP.Endpoints.BROKER_TOPIC);
-		registry.setApplicationDestinationPrefixes("/app", "/topic");
+		registry.enableSimpleBroker(STOMP.Endpoints.BROKER_TOPIC_PREFIX);
+		
+		registry.setApplicationDestinationPrefixes(
+			STOMP.Endpoints.APP_MESSAGING_PREFIX,
+			STOMP.Endpoints.BROKER_TOPIC_PREFIX /* ENABLED TO ALLOW LISTENING FOR BROKER
+			                                     * SUBSCRIPTIONS WITH @SubscribeMapping
+			                                     */
+			
+		);
 	}
 }
