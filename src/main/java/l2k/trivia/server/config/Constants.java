@@ -30,4 +30,8 @@ public class Constants {
 		public static final String SESSION_ID = "TRIVIA_SESSION_COOKIE";
 	}
 	
+	public static class BeanDefinitions {
+		public static final String SESSION_TO_USER_MAP = "SESSION_TO_USER_MAP";
+	}
+	
 }

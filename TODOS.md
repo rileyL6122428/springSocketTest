@@ -41,3 +41,8 @@ Depends on Messaging Template
 	Refactor game loop/Add tests if necessary
 	Add Styles
 	
+## Packages Refactored
+
+	- [x] l2k.trivia.server.config
+	- [ ] 
+	

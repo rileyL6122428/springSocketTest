@@ -10,12 +10,16 @@ import org.springframework.context.annotation.Scope;
 
 import l2k.trivia.server.domain.User;
 
+import static l2k.trivia.server.config.Constants.BeanDefinitions.*;
+
 @Configuration
-public class DataStructureConfig {
+public class DataStructureProviders {
 	
-	@Bean
+	@Bean(name=SESSION_TO_USER_MAP)
 	@Scope("prototype")
-	public Map<UUID, User> uuidToUser() {
+	public Map<UUID, User> getSessionToUserMap() {
 		return new HashMap<UUID, User>();
 	}
+	
+	
 }

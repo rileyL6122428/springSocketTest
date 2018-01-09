@@ -5,9 +5,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import l2k.trivia.server.domain.User;
+
+import static l2k.trivia.server.config.Constants.BeanDefinitions.SESSION_TO_USER_MAP;
 
 @Service
 public class UserService {
@@ -16,7 +19,7 @@ public class UserService {
 	private Map<UUID, User> sessionToUsers;
 	
 	@Autowired
-	public UserService(NameGenerator nameGenerator, Map<UUID, User> sessionToUsers) {
+	public UserService(NameGenerator nameGenerator, @Qualifier(value=SESSION_TO_USER_MAP) Map<UUID, User> sessionToUsers) {
 		this.nameGenerator = nameGenerator;
 		this.sessionToUsers = sessionToUsers;
 	}
