@@ -10,6 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CookieUtil {
 	
+	public UUID cookieToUUID(Cookie cookie) {
+		UUID uuid = null;
+		
+		if(cookie != null) 
+			uuid = cookieValueToUUID(cookie.getValue());
+		
+		return uuid;
+	}
+	
 	public UUID cookieValueToUUID(String cookieValue) {
 		if(cookieValue == null) return null;
 		

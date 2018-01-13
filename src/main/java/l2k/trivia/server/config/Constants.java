@@ -20,6 +20,7 @@ public class Constants {
 	public static class HTTP {
 		
 		public static class Endpoints {
+			public static final String APP_ROOT = "/";
 			public static final String MATCHMAKING_STATS = "/matchmaking/stats";
 			public static final String MATCHMAKING_SELECTION = "/join-chat-room";
 		}
@@ -28,6 +29,10 @@ public class Constants {
 	
 	public static class Cookies {
 		public static final String SESSION_ID = "TRIVIA_SESSION_COOKIE";
+	}
+	
+	public static class Session {
+		public static final String ID = "ID";
 	}
 	
 	public static class BeanDefinitions {

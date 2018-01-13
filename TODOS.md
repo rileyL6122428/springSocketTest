@@ -44,5 +44,6 @@ Depends on Messaging Template
 ## Packages Refactored
 
 	- [x] l2k.trivia.server.config
-	- [ ] 
+	- [ ] l2k.trivia.server.controllers
+		*Currently On AppController*
 	
