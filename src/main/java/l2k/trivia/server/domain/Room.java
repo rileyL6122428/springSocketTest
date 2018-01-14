@@ -42,7 +42,7 @@ public class Room {
 	}
 	
 	public boolean contains(User user) {
-		return contains(user.getName());
+		return user != null && contains(user.getName());
 	}
 	
 	public int getTotalNumberOfUsers() {

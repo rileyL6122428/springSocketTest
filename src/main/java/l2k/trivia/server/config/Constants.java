@@ -5,11 +5,15 @@ public class Constants {
 	
 	public static class STOMP {
 		
+		public static class PathVariables {
+			public static final String ROOM_NAME = "roomName";
+		}
+		
 		public static class PathPrefixes {			
 			public static final String BROKER_TOPIC = "/topic";
 			public static final String APP_MESSAGING = "/app";
 			public static final String BROKER_SUBSCRIPTION_LISTENING = BROKER_TOPIC;
-			public static final String ROOM = "/room/{roomName}";
+			public static final String ROOM = "/room/{" + PathVariables.ROOM_NAME + "}";
 		}
 		
 		public static class Endpoints {
@@ -21,8 +25,12 @@ public class Constants {
 	
 	public static class HTTP {
 		
+		public static class PathVariables {
+			public static final String ROOM_NAME = "roomName";
+		}
+		
 		public static class PathPrefixes {
-			public static final String ROOM = "/room/{roomName}";
+			public static final String ROOM = "/room/{" + PathVariables.ROOM_NAME + "}";
 		}
 		
 		public static class Endpoints {

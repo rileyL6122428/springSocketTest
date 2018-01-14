@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import l2k.trivia.game.Answer;
+import l2k.trivia.server.config.Constants.Session;
 import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.config.Constants.STOMP;
 import l2k.trivia.server.controllers.response.LeaveRoomResponse;
@@ -39,14 +41,15 @@ public class RoomController {
 	
 	@GetMapping(HTTP.PathPrefixes.ROOM)
 	public ResponseEntity<Room> getRoom(
-			@PathVariable String roomName,
-			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId 
+			@RequestAttribute(value=Session.ID) String sessionId,
+			@PathVariable(HTTP.PathVariables.ROOM_NAME) String roomName
 			) {
-		ResponseEntity<Room> responseEntity; 
 		User user = userService.getUser(sessionId);
+		Room room = roomMonitor.getRoom(roomName);
 		
-		if(roomMonitor.userIsInRoom(roomName, user)) {
-			Room room = roomMonitor.getRoom(roomName);
+		ResponseEntity<Room> responseEntity; 
+		
+		if(room.contains(user)) {
 			responseEntity = new ResponseEntity<Room>(room, HttpStatus.OK);
 		} else {
 			responseEntity = new ResponseEntity<Room>(HttpStatus.FORBIDDEN);
