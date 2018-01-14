@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import l2k.trivia.game.Answer;
+import l2k.trivia.server.config.Constants.HTTP;
+import l2k.trivia.server.config.Constants.STOMP;
 import l2k.trivia.server.controllers.response.LeaveRoomResponse;
 import l2k.trivia.server.controllers.wsmessages.ChatMessageRequest;
 import l2k.trivia.server.domain.ChatRoomMessage;
@@ -35,7 +37,7 @@ public class RoomController {
 	@Autowired
 	private SimpMessagingTemplate template;
 	
-	@GetMapping("/room/{roomName}")
+	@GetMapping(HTTP.PathPrefixes.ROOM)
 	public ResponseEntity<Room> getRoom(
 			@PathVariable String roomName,
 			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId 
@@ -53,13 +55,13 @@ public class RoomController {
 		return responseEntity;
 	}
 	
-	@SubscribeMapping("/room/{roomName}")
+	@SubscribeMapping(STOMP.PathPrefixes.ROOM)
 	public void subscribeToRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
 		Room room = roomMonitor.getRoom(roomName);
 		template.convertAndSend("/topic/room/" + roomName, room);
 	}
 	
-	@MessageMapping("/room/{roomName}/send-message")
+	@MessageMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.SEND)
 	public void sendChatMessage(
 			ChatMessageRequest sendChatMessageRequest,
 			@DestinationVariable String roomName, 

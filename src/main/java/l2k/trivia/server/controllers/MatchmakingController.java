@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import l2k.trivia.server.config.Constants.Cookies;
 import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.config.Constants.STOMP;
+import l2k.trivia.server.config.Constants.Session;
 import l2k.trivia.server.controllers.request.JoinRoomRequest;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.services.MatchmakingMessagingTemplate;
 import l2k.trivia.server.services.MatchmakingService;
+
 
 @Controller
 public class MatchmakingController {
@@ -46,7 +47,7 @@ public class MatchmakingController {
 	@PostMapping(value = HTTP.Endpoints.MATCHMAKING_SELECTION)
 	public ResponseEntity<Room> joinChatRoom(
 			@RequestBody JoinRoomRequest joinRoomRequest, 
-			@RequestAttribute(value=Cookies.SESSION_ID) UUID sessionId) {
+			@RequestAttribute(value=Session.ID) UUID sessionId) {
 		
 		Room joinedRoom = matchmakingService.joinRoom(sessionId, joinRoomRequest.getRoomName());
 				

@@ -9,15 +9,21 @@ public class Constants {
 			public static final String BROKER_TOPIC = "/topic";
 			public static final String APP_MESSAGING = "/app";
 			public static final String BROKER_SUBSCRIPTION_LISTENING = BROKER_TOPIC;
+			public static final String ROOM = "/room/{roomName}";
 		}
 		
 		public static class Endpoints {
 			public static final String SESSION_CONNECTION = "/trivia-sockets";
 			public static final String MATCHMAKING_SUBSCRIPTION = "/matchmaking";
+			public static final String SEND = "/send-message";
 		}
 	}
 	
 	public static class HTTP {
+		
+		public static class PathPrefixes {
+			public static final String ROOM = "/room/{roomName}";
+		}
 		
 		public static class Endpoints {
 			public static final String APP_ROOT = "/";
