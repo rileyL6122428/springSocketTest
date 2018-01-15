@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import l2k.trivia.server.domain.Sender;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.server.domain.chat.Sender;
 
 public class ServerTestUtil {
 

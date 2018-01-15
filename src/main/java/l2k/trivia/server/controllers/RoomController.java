@@ -21,9 +21,10 @@ import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.config.Constants.STOMP;
 import l2k.trivia.server.controllers.response.LeaveRoomResponse;
 import l2k.trivia.server.controllers.wsmessages.ChatMessageRequest;
-import l2k.trivia.server.domain.ChatRoomMessage;
+import l2k.trivia.server.dispatcher.RoomDispatcher;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.services.RoomMonitor;
 import l2k.trivia.server.services.UserService;
 
@@ -38,6 +39,9 @@ public class RoomController {
 	
 	@Autowired
 	private SimpMessagingTemplate template;
+	
+	@Autowired
+	private RoomDispatcher roomDispatcher;
 	
 	@GetMapping(HTTP.PathPrefixes.ROOM)
 	public ResponseEntity<Room> getRoom(
@@ -62,6 +66,13 @@ public class RoomController {
 	public void subscribeToRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
 		Room room = roomMonitor.getRoom(roomName);
 		template.convertAndSend("/topic/room/" + roomName, room);
+	}
+	
+	@SubscribeMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.CHAT)
+	public void subscribeToChat(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
+		Room room = roomMonitor.getRoom(roomName);
+		roomDispatcher.dispatchChatUpdate(room);
+//		template.convertAndSend("/topic/room/" + roomName, room);
 	}
 	
 	@MessageMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.SEND)

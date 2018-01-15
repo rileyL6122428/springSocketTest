@@ -1,20 +1,21 @@
 package l2k.trivia.server.services;
 
 import l2k.trivia.game.Answer;
-import l2k.trivia.server.domain.ChatRoomMessage;
-import l2k.trivia.server.domain.JoinRoomMessage;
+import l2k.trivia.server.dispatcher.ChatDispatcher;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.server.domain.chat.ChatRoomMessage;
+import l2k.trivia.server.domain.chat.JoinRoomMessage;
 
 public class RoomManager {
 	
 	private Room room;
 	private GameManager gameManager;
-	private ChatManager chatManager;	
+	private ChatDispatcher chatManager;	
 	
 	public RoomManager(Room room, RoomMessagingTemplate roomMessagingTemplate) {
 		this.room = room;
-		this.chatManager = new ChatManager();
+		this.chatManager = new ChatDispatcher();
 		this.gameManager = new GameManagerBuilder()
 							.setRoomName(room.getName())
 							.setMessagingTemplate( roomMessagingTemplate)

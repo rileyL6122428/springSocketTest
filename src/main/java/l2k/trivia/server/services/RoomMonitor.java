@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import l2k.trivia.game.Answer;
-import l2k.trivia.server.domain.ChatRoomMessage;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.server.domain.chat.ChatRoomMessage;
 
 @Service
 public class RoomMonitor implements InitializingBean {
@@ -93,7 +93,7 @@ public class RoomMonitor implements InitializingBean {
 		//configured for test
 		addRoom(new Room() {{ 
 			setName("ROOM_ONE");
-			setMaxNumberOfUsers(3);
+			setUserCapacity(3);
 		}});
 	}
 

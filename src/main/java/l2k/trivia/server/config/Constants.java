@@ -20,6 +20,7 @@ public class Constants {
 			public static final String SESSION_CONNECTION = "/trivia-sockets";
 			public static final String MATCHMAKING_SUBSCRIPTION = "/matchmaking";
 			public static final String SEND = "/send-message";
+			public static final String CHAT = "/chat";
 		}
 	}
 	

@@ -35,7 +35,7 @@ Depends on Messaging Template
 	* Put score on player object instead of using a score map
 	
 ## Right Now
-	
+	- Separate Domain from Dispatchers, start with Chat
 	Refactor everything up until now/ Add Tests
 	Get Game loop working
 	Refactor game loop/Add tests if necessary
@@ -46,4 +46,5 @@ Depends on Messaging Template
 	- [x] l2k.trivia.server.config
 	- [ ] l2k.trivia.server.controllers
 		*Currently On AppController*
+		
 	

@@ -6,8 +6,8 @@
     <button (click)="sendMessage()">Submit</button>
   </form>
 
-  <ol id="room-messages">
-    <li *ngFor="let message of messages">
+  <ol *ngIf="chat" id="chat-messages">
+    <li *ngFor="let message of chat.messages">
       <p>{{message.body}}</p>
       <p>{{message.senderName}} - {{message.timestamp}}</p>
     </li>

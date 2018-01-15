@@ -13,7 +13,7 @@ import { RoomService } from '../../services/room.service';
 export class RoomComponent implements OnInit, OnDestroy {
 
   private subscriptions: Array<Subscription>;
-  private newMessageBody: string;
+  // private newMessageBody: string;
   private _room: Room;
 
   constructor(
@@ -50,16 +50,16 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  sendMessage(): void {
-    if(!this.newMessageBody) return;
-
-    this.roomService.sendMessage({
-      roomName: this.room.name,
-      messageBody: this.newMessageBody
-    });
-
-    this.newMessageBody = "";
-  }
+  // sendMessage(): void {
+  //   if(!this.newMessageBody) return;
+  //
+  //   this.roomService.sendMessage({
+  //     roomName: this.room.name,
+  //     messageBody: this.newMessageBody
+  //   });
+  //
+  //   this.newMessageBody = "";
+  // }
 
   leaveRoom(): void {
     let leaveRoomSub = this.roomService.leaveRoom(this.room.name).subscribe((successfullyLeftRoom: boolean) => {

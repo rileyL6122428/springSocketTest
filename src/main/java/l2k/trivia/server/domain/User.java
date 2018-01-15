@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import l2k.trivia.game.Player;
+import l2k.trivia.server.domain.chat.Sender;
 
 @JsonIgnoreProperties(value = { "sessionId" })
 public class User implements Principal, Sender, Player {

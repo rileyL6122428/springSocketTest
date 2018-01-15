@@ -8,6 +8,9 @@ import { RoomFactory } from './room/room.factory';
 import { QuestionFactory } from './game/question.factory';
 import { AnswerFactory } from './game/answer.factory';
 
+import { ChatFactory } from './chat/chat.factory';
+import { ChatMessageFactory } from './chat/chat-message.factory';
+
 @NgModule({
   providers: [
     UserFactory,
@@ -17,7 +20,10 @@ import { AnswerFactory } from './game/answer.factory';
     MatchmakingStatsFactory,
     RoomFactory,
     QuestionFactory,
-    AnswerFactory
+    AnswerFactory,
+
+    ChatFactory,
+    ChatMessageFactory
   ]
 })
 export class DomainFactoryModule { }

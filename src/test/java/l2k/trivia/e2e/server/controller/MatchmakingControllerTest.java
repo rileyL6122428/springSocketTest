@@ -40,7 +40,7 @@ class MatchmakingControllerTest extends BaseControllerTest {
 	public void setupRoomOne() {
 		 addRoomToApp(new Room() {{
 			setName("ROOM_ONE");
-			setMaxNumberOfUsers(2);
+			setUserCapacity(2);
 		}});
 	}
 	

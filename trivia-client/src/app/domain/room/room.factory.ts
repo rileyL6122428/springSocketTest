@@ -3,24 +3,28 @@ import { Room } from './room';
 import { UserFactory } from '../user/user.factory';
 import { RoomMessageFactory } from '../chat-room-message/room-message.factory';
 import { User } from '../user/user';
+import { Chat } from '../chat/chat';
 import { RoomMessage } from '../chat-room-message/room-message';
+import { ChatFactory } from '../chat/chat.factory';
 
 @Injectable()
 export class RoomFactory {
 
   constructor(
     private userFactory: UserFactory,
-    private roomMessageFactory: RoomMessageFactory
+    private roomMessageFactory: RoomMessageFactory,
+    private chatFactory: ChatFactory
   ) {
   }
 
   fromPOJO(roomPOJO: Object): Room {
     let users: Map<string, User> = this.userFactory.mapPOJOMap(roomPOJO['users']);
-    let messages: Array<RoomMessage> = this.roomMessageFactory.mapPOJOList(roomPOJO['messages']);
+    // let messages: Array<RoomMessage> = this.roomMessageFactory.mapPOJOList(roomPOJO['messages']);
+    let chat: Chat = this.chatFactory.fromPOJO(roomPOJO['chat']);
     let name: string = roomPOJO["name"];
-    let maxNumberOfUsers: number = roomPOJO['maxNumberOfUsers'];
+    let maxNumberOfUsers: number = roomPOJO['userCapacity'];
 
-    return new Room({ users, messages, name, maxNumberOfUsers });
+    return new Room({ users, chat, name, maxNumberOfUsers });
   }
 
   fromPOJOMapToList(roomPOJOs: Object): Array<Room> {

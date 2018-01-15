@@ -1,4 +1,4 @@
-package l2k.trivia.server.domain;
+package l2k.trivia.server.domain.chat;
 
 public class Moderator implements Sender {
 	

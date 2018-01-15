@@ -1,36 +1,33 @@
 package l2k.trivia.server.domain;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import l2k.trivia.server.domain.chat.Chat;
+import l2k.trivia.server.domain.chat.ChatRoomMessage;
+import l2k.trivia.server.domain.chat.LeaveRoomMessage;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Room {
 	
-	private static final int MAXIMUM_NUMBER_OF_PERSISTED_MESSAGES = 75;
-	
 	private String name;
 	private Map<String, User> users;
-	private int maxNumberOfUsers;
-	private LinkedList<ChatRoomMessage> messages;
+	private int userCapacity;
+	private final Chat chat;
 	
 	{
 		setUsers(new HashMap<String, User>());
-		setMessages(new LinkedList<ChatRoomMessage>());
+		chat = new Chat();
 	}
 	
 	public boolean isFull() {
-		return users.size() >= maxNumberOfUsers;
+		return users.size() >= userCapacity;
 	}
 	
 	public void addMessage(ChatRoomMessage message) {
-		if(getMessages().size() >= MAXIMUM_NUMBER_OF_PERSISTED_MESSAGES) {
-			getMessages().removeLast();
-		}
-		
-		messages.addFirst(message);
+		chat.addMessage(message);
 	}
 	
 	public void addUser(User user) {
@@ -62,20 +59,16 @@ public class Room {
 		this.name = name;
 	}
 
-	public int getMaxNumberOfUsers() {
-		return maxNumberOfUsers;
+	public int getUserCapacity() {
+		return userCapacity;
 	}
 
-	public void setMaxNumberOfUsers(int maxNumberOfUsers) {
-		this.maxNumberOfUsers = maxNumberOfUsers;
+	public void setUserCapacity(int userCapacity) {
+		this.userCapacity = userCapacity;
 	}
 
-	public LinkedList<ChatRoomMessage> getMessages() {
-		return messages;
-	}
-
-	public void setMessages(LinkedList<ChatRoomMessage> messages) {
-		this.messages = messages;
+	public Chat getChat() {
+		return chat;
 	}
 
 	public Map<String, User> getUsers() {
