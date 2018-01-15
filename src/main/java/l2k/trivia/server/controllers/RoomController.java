@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
 import l2k.trivia.game.Answer;
-import l2k.trivia.server.config.Constants.Session;
 import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.config.Constants.STOMP;
+import l2k.trivia.server.config.Constants.Session;
 import l2k.trivia.server.controllers.response.LeaveRoomResponse;
 import l2k.trivia.server.controllers.wsmessages.ChatMessageRequest;
 import l2k.trivia.server.dispatcher.RoomDispatcher;
@@ -36,9 +35,6 @@ public class RoomController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private SimpMessagingTemplate template;
 	
 	@Autowired
 	private RoomDispatcher roomDispatcher;
@@ -62,44 +58,38 @@ public class RoomController {
 		return responseEntity;
 	}
 	
-	@SubscribeMapping(STOMP.PathPrefixes.ROOM)
-	public void subscribeToRoom(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
-		Room room = roomMonitor.getRoom(roomName);
-		template.convertAndSend("/topic/room/" + roomName, room);
-	}
-	
 	@SubscribeMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.CHAT)
 	public void subscribeToChat(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
 		Room room = roomMonitor.getRoom(roomName);
 		roomDispatcher.dispatchChatUpdate(room);
-//		template.convertAndSend("/topic/room/" + roomName, room);
 	}
 	
 	@MessageMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.SEND)
 	public void sendChatMessage(
-			ChatMessageRequest sendChatMessageRequest,
+			ChatMessageRequest chatMessageRequest,
 			@DestinationVariable String roomName, 
 			@Header("testHeader") String sessionId
 		) {
 		User user = userService.getUser(sessionId);
 		Room room = roomMonitor.getRoom(roomName);
-		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, sendChatMessageRequest.getMessageBody());
+		
+		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, chatMessageRequest.getMessageBody());
 		room.addMessage(chatRoomMessage);
-//		roomMonitor.addMessageToRoom(roomName, chatRoomMessage);
+		
 		roomDispatcher.dispatchChatUpdate(room);
-//		template.convertAndSend("/topic/room/" + roomName +"/chat", roomMonitor.getRoom(roomName));
 	}
 	
 	@PostMapping(value = "/room/{roomName}/leave")
 	public ResponseEntity<LeaveRoomResponse> leaveRoom(
 			@PathVariable String roomName,
-			@CookieValue(value="TRIVIA_SESSION_COOKIE") String sessionId
+			@RequestAttribute(value=Session.ID) String sessionId
 		) {
-		ResponseEntity<LeaveRoomResponse> responseEntity;
 		User user = userService.getUser(sessionId);
+		Room room = roomMonitor.getRoom(roomName);
+		ResponseEntity<LeaveRoomResponse> responseEntity;
 		
 		if(user != null) {
-			roomMonitor.removeUserFromRoom(roomName, user);
+			room.removeUser(user);
 			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.successResponse(), HttpStatus.OK);
 		} else {
 			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.failureResponse(), HttpStatus.FORBIDDEN);
@@ -111,7 +101,7 @@ public class RoomController {
 	@MessageMapping("/room/{roomName}/submit-answer")
 	public void submitGameAnswer(
 			Answer answer,
-			@DestinationVariable String roomName, 
+			@DestinationVariable String roomName,
 			@Header("testHeader") String sessionId
 		) {
 		User user = userService.getUser(sessionId);
