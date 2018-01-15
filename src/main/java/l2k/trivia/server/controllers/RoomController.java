@@ -82,10 +82,12 @@ public class RoomController {
 			@Header("testHeader") String sessionId
 		) {
 		User user = userService.getUser(sessionId);
+		Room room = roomMonitor.getRoom(roomName);
 		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, sendChatMessageRequest.getMessageBody());
-		roomMonitor.addMessageToRoom(roomName, chatRoomMessage);
-		
-		template.convertAndSend("/topic/room/" + roomName, roomMonitor.getRoom(roomName));
+		room.addMessage(chatRoomMessage);
+//		roomMonitor.addMessageToRoom(roomName, chatRoomMessage);
+		roomDispatcher.dispatchChatUpdate(room);
+//		template.convertAndSend("/topic/room/" + roomName +"/chat", roomMonitor.getRoom(roomName));
 	}
 	
 	@PostMapping(value = "/room/{roomName}/leave")
