@@ -8,16 +8,13 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
 import l2k.trivia.game.Answer;
 import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.config.Constants.STOMP;
-import l2k.trivia.server.config.Constants.Session;
 import l2k.trivia.server.controllers.response.LeaveRoomResponse;
 import l2k.trivia.server.controllers.wsmessages.ChatMessageRequest;
 import l2k.trivia.server.dispatcher.RoomDispatcher;
@@ -41,11 +38,9 @@ public class RoomController {
 	
 	@GetMapping(HTTP.PathPrefixes.ROOM)
 	public ResponseEntity<Room> getRoom(
-			@RequestAttribute(value=Session.ID) String sessionId,
-			@PathVariable(HTTP.PathVariables.ROOM_NAME) String roomName
+			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
+			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
 			) {
-		User user = userService.getUser(sessionId);
-		Room room = roomMonitor.getRoom(roomName);
 		
 		ResponseEntity<Room> responseEntity; 
 		
@@ -67,11 +62,9 @@ public class RoomController {
 	@MessageMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.SEND)
 	public void sendChatMessage(
 			ChatMessageRequest chatMessageRequest,
-			@DestinationVariable String roomName, 
-			@Header("testHeader") String sessionId
-		) {
-		User user = userService.getUser(sessionId);
-		Room room = roomMonitor.getRoom(roomName);
+			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
+			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
+			) {
 		
 		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, chatMessageRequest.getMessageBody());
 		room.addMessage(chatRoomMessage);
@@ -81,11 +74,9 @@ public class RoomController {
 	
 	@PostMapping(value = "/room/{roomName}/leave")
 	public ResponseEntity<LeaveRoomResponse> leaveRoom(
-			@PathVariable String roomName,
-			@RequestAttribute(value=Session.ID) String sessionId
+			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
+			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
 		) {
-		User user = userService.getUser(sessionId);
-		Room room = roomMonitor.getRoom(roomName);
 		ResponseEntity<LeaveRoomResponse> responseEntity;
 		
 		if(user != null) {

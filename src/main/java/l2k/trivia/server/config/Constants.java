@@ -40,6 +40,11 @@ public class Constants {
 			public static final String MATCHMAKING_SELECTION = "/join-chat-room";
 		}
 		
+		public static class RequestAttribute {
+			public static final String USER = "USER";
+			public static final String ROOM = "ROOM";
+		}
+		
 	}
 	
 	public static class Cookies {
