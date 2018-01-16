@@ -1,10 +1,10 @@
-<section id="loading-room" *ngIf="!room">
+<section id="loading-room" *ngIf="!roomName">
   loading...
 </section>
 
-<section id="room" *ngIf="room">
-  <h1>{{room.name}}</h1>
-  <button (click)="leaveRoom(room.name)">Leave Room</button>
-  <game [roomName]="room.name"></game>
-  <chat [roomName]="room.name"></chat>
+<section id="room" *ngIf="roomName">
+  <h1>{{roomName}}</h1>
+  <button (click)="leaveRoom(roomName)">Leave Room</button>
+  <game [roomName]="roomName"></game>
+  <chat [roomName]="roomName"></chat>
 </section>

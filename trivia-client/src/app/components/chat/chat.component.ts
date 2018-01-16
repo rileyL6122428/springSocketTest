@@ -14,8 +14,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   @Input()
   private roomName: string;
 
-  // @Input()
-  // private messages: Array<RoomMessage>;
   private chat: Chat;
   private newMessageBody: string;
   private subscriptions: Array<Subscription>
@@ -26,7 +24,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions = [
-      this.roomService.getChatStompListener(this.roomName).subscribe((chat) => {
+      this.roomService.fetchChat(this.roomName).subscribe((chat: Chat) => {
+          this.chat = chat;
+      }),
+
+      this.roomService.getChatStompListener(this.roomName).subscribe((chat: Chat) => {
         this.chat = chat;
       })
     ];

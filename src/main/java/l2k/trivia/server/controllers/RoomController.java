@@ -20,6 +20,7 @@ import l2k.trivia.server.controllers.wsmessages.ChatMessageRequest;
 import l2k.trivia.server.dispatcher.RoomDispatcher;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
+import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.services.RoomMonitor;
 import l2k.trivia.server.services.UserService;
@@ -53,6 +54,23 @@ public class RoomController {
 		return responseEntity;
 	}
 	
+	@GetMapping(HTTP.PathPrefixes.ROOM + "/chat")
+	public ResponseEntity<Chat> getChat(
+			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
+			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
+			) {
+		
+		ResponseEntity<Chat> responseEntity; 
+		
+		if(room.contains(user)) {
+			responseEntity = new ResponseEntity<Chat>(room.getChat(), HttpStatus.OK);
+		} else {
+			responseEntity = new ResponseEntity<Chat>(HttpStatus.FORBIDDEN);
+		}
+		
+		return responseEntity;
+	}
+	
 	@SubscribeMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.CHAT)
 	public void subscribeToChat(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
 		Room room = roomMonitor.getRoom(roomName);
@@ -62,9 +80,12 @@ public class RoomController {
 	@MessageMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.SEND)
 	public void sendChatMessage(
 			ChatMessageRequest chatMessageRequest,
-			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
-			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
+			@DestinationVariable String roomName, 
+			@Header("testHeader") String sessionId
 			) {
+		
+		User user = userService.getUser(sessionId);
+		Room room = roomMonitor.getRoom(roomName);
 		
 		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, chatMessageRequest.getMessageBody());
 		room.addMessage(chatRoomMessage);

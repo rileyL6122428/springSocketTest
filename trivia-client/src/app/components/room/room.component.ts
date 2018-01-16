@@ -13,7 +13,8 @@ import { RoomService } from '../../services/room.service';
 export class RoomComponent implements OnInit, OnDestroy {
 
   private subscriptions: Array<Subscription>;
-  private _room: Room;
+  // private _room: Room;
+  private roomName: string;
 
   constructor(
     private router: Router,
@@ -22,24 +23,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    let routeSubscription: Subscription;
-    let fetchRoomSubscription: Subscription;
-    let roomStompSubscription: Subscription;
-
-    routeSubscription = this.route.params.subscribe((params) => {
-      fetchRoomSubscription = this.roomService.fetchRoom(params['name']).subscribe((room) => {
-        this._room = room;
-      });
-
-      roomStompSubscription = this.roomService.getRoomStompListener(params['name']).subscribe((room) => {
-        this._room = room;
-      });
-    });
-
     this.subscriptions = [
-      routeSubscription,
-      fetchRoomSubscription,
-      roomStompSubscription
+      this.route.params.subscribe((params) => {
+        this.roomName = params["name"];
+      })
     ];
   }
 
@@ -50,15 +37,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   leaveRoom(): void {
-    let leaveRoomSub = this.roomService.leaveRoom(this.room.name).subscribe((successfullyLeftRoom: boolean) => {
+    let leaveRoomSub = this.roomService.leaveRoom(this.roomName).subscribe((successfullyLeftRoom: boolean) => {
       leaveRoomSub.unsubscribe();
       if(successfullyLeftRoom)
         this.router.navigateByUrl("/matchmaking");
     });
-  }
-
-  get room(): Room {
-    return this._room;
   }
 
 }
