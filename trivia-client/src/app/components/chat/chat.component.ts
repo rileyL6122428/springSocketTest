@@ -1,29 +1,31 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RoomMessage } from '../../domain/chat-room-message/room-message';
 import { RoomService } from '../../services/room.service';
 import { Chat } from '../../domain/chat/chat';
 import { Subscription } from 'rxjs/Subscription';
+import { SubscribingComponent } from '../base/subscribing.component';
 
 @Component({
   selector: 'chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent extends SubscribingComponent implements OnInit {
 
   @Input()
   private roomName: string;
 
   private chat: Chat;
   private newMessageBody: string;
-  private subscriptions: Array<Subscription>
 
   constructor(
     private roomService: RoomService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscriptions = [
+    this.addSubscriptions(
       this.roomService.fetchChat(this.roomName).subscribe((chat: Chat) => {
           this.chat = chat;
       }),
@@ -31,13 +33,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.roomService.getChatStompListener(this.roomName).subscribe((chat: Chat) => {
         this.chat = chat;
       })
-    ];
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
+    );
   }
 
   sendMessage(): void {
