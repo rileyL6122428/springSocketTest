@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { MatchmakingService } from './matchmaking.service';
 import { RoomService } from './room.service';
 import { StompInitializer } from './stomp/stomp.initializer';
+import { SessionService } from './session/session.service';
 
 @NgModule({
   imports: [
@@ -18,13 +19,11 @@ import { StompInitializer } from './stomp/stomp.initializer';
     UserService,
     MatchmakingService,
     RoomService,
-    // { provide: StompConfig, useValue: STOMP_CONFIG },
-    // StompService,
+
     StompRService,
     StompInitializer,
-    CookieService
+    CookieService,
+    SessionService
   ]
 })
-export class ServicesModule {
-
-}
+export class ServicesModule { }

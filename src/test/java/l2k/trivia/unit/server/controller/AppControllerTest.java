@@ -18,7 +18,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.springframework.web.servlet.ModelAndView;
 
-import l2k.trivia.server.controllers.AppController;
+import l2k.trivia.server.controllers.StaticContentController;
 import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.CookieUtil;
 import l2k.trivia.server.services.UserService;
@@ -27,7 +27,7 @@ import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class AppControllerTest {
 	
-	private AppController appController;
+	private StaticContentController appController;
 	
 	@Mock
 	private HttpServletResponse response;
@@ -57,7 +57,7 @@ class AppControllerTest {
 	
 	@BeforeEach
 	public void setupAppController() {
-		appController = new AppController(userService, cookieUtil);
+		appController = new StaticContentController(userService, cookieUtil);
 	}
 	
 	@Nested
