@@ -1,37 +1,32 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RoomService } from '../../services/room.service';
-import { Subscription } from 'rxjs/Subscription';
 import { Game } from '../../domain/game/game';
 import { Answer } from '../../domain/game/answer';
+import { SubscribingComponent } from '../base/subscribing.component';
 
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit, OnDestroy {
+export class GameComponent extends SubscribingComponent implements OnInit {
 
   @Input()
   private roomName: string;
 
   private game: Game;
-  private subscriptions: Array<Subscription>;
 
   constructor(
     private roomService: RoomService
-  ) { }
-
-  ngOnInit(): void {
-    this.subscriptions = [
-      this.roomService.getGameStompListener(this.roomName)
-        .subscribe((game: Game) => this.game = game)
-    ];
+  ) {
+    super();
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+  ngOnInit(): void {
+    this.addSubscriptions(
+      this.roomService.getGameStompListener(this.roomName)
+        .subscribe((game: Game) => this.game = game)
+    );
   }
 
   submitAnswer(answer: Answer): void {

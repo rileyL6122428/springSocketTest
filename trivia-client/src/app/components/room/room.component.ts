@@ -1,39 +1,33 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import { Room } from '../../domain/room/room';
 import { RoomService } from '../../services/room.service';
+import { SubscribingComponent } from '../base/subscribing.component';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css']
 })
-export class RoomComponent implements OnInit, OnDestroy {
+export class RoomComponent extends SubscribingComponent implements OnInit {
 
-  private subscriptions: Array<Subscription>;
-  // private _room: Room;
   private roomName: string;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private roomService: RoomService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscriptions = [
+    this.addSubscriptions(
       this.route.params.subscribe((params) => {
         this.roomName = params["name"];
       })
-    ];
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    );
   }
 
   leaveRoom(): void {

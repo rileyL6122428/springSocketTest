@@ -1,28 +1,29 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/subscription';
 import { MatchmakingStats } from '../../domain/matchmaking/matchmaking-stats';
 import { User } from '../../domain/user/user';
 import { UserService } from '../../services/user.service';
 import { MatchmakingService } from '../../services/matchmaking.service';
+import { SubscribingComponent } from '../base/subscribing.component';
 
 @Component({
   selector: 'app-matchmaking',
   templateUrl: './matchmaking.component.html',
   styleUrls: ['./matchmaking.component.css']
 })
-export class MatchmakingComponent implements OnInit, OnDestroy {
+export class MatchmakingComponent extends SubscribingComponent implements OnInit {
 
   private matchmakingStats: MatchmakingStats;
-  private subscriptions: Array<Subscription>;
 
   constructor(
     private router: Router,
     private matchmakingService: MatchmakingService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscriptions = [
+    this.addSubscriptions(
       this.matchmakingService.getMatchmakingStats().subscribe((stats: MatchmakingStats) => {
         this.matchmakingStats = stats;
       }),
@@ -30,13 +31,7 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
       this.matchmakingService.subscribeToMatchmaking().subscribe((stats: MatchmakingStats) => {
         this.matchmakingStats = stats;
       })
-    ];
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
+    );
   }
 
   joinRoom(roomName: string): void {

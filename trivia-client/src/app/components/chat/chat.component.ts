@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RoomMessage } from '../../domain/chat-room-message/room-message';
 import { RoomService } from '../../services/room.service';
 import { Chat } from '../../domain/chat/chat';
-import { Subscription } from 'rxjs/Subscription';
 import { SubscribingComponent } from '../base/subscribing.component';
 
 @Component({
