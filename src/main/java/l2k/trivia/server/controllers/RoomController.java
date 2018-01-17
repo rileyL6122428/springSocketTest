@@ -102,6 +102,7 @@ public class RoomController {
 		
 		if(user != null) {
 			room.removeUser(user);
+			roomDispatcher.dispatchChatUpdate(room);
 			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.successResponse(), HttpStatus.OK);
 		} else {
 			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.failureResponse(), HttpStatus.FORBIDDEN);
