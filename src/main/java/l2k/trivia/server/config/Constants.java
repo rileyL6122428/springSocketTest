@@ -59,4 +59,8 @@ public class Constants {
 		public static final String SESSION_TO_USER_MAP = "SESSION_TO_USER_MAP";
 	}
 	
+	public static class StaticContent {
+		public static final String TRIVIA_CLIENT = "index.html";
+	}
+	
 }
