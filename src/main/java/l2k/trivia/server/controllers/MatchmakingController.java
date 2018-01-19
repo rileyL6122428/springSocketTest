@@ -17,14 +17,8 @@ import l2k.trivia.server.services.MatchmakingService;
 @Controller
 public class MatchmakingController {
 	
-	private MatchmakingService matchmakingService;
-	private MatchmakingDispatcher matchmakingDispatcher;
-	
-	@Autowired
-	public MatchmakingController(MatchmakingService matchmakingService, MatchmakingDispatcher dispatcher) {
-		this.matchmakingService = matchmakingService;
-		this.matchmakingDispatcher = dispatcher;
-	}
+	@Autowired private MatchmakingService matchmakingService;
+	@Autowired private MatchmakingDispatcher matchmakingDispatcher;
 	
 	@SubscribeMapping(STOMP.Endpoints.MATCHMAKING_SUBSCRIPTION)
 	public void subscribeToMatchmaking() {

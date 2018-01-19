@@ -19,12 +19,7 @@ import l2k.trivia.server.services.UserService;
 @Controller
 public class SessionController {
 	
-	private UserService userService;
-	
-	@Autowired
-	public SessionController(UserService userService) {
-		this.userService = userService;
-	}
+	@Autowired private UserService userService;
 	
 	@PostMapping(value=HTTP.Endpoints.SESSION)
 	public void registerSession(
