@@ -28,7 +28,8 @@ export class MatchmakingService {
   }
 
   joinRoom(roomName: string): Observable<boolean> {
-    return this.http.post('/join-chat-room', { roomName }).map((response) => {
+    debugger
+    return this.http.post(`/room/${roomName}/join`, null).map((response) => {
       return response[`status`] === 200;
     });
   }

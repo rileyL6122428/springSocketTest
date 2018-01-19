@@ -41,10 +41,12 @@ Depends on Messaging Template
 	Refactor game loop/Add tests if necessary
 	Add Styles
 	
-## Packages Refactored
+## Refactoring
 
 	- [x] l2k.trivia.server.config
 	- [ ] l2k.trivia.server.controllers
-		*Currently On AppController*
+		- [x] StaticController
+		- [x] SessionController
+		- [ ] MatchmakingController
 		
 	

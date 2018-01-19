@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
 import l2k.trivia.server.config.Constants.Cookies;
+import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.config.Constants.Session;
 import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.UserService;
@@ -25,7 +26,7 @@ public class SessionController {
 		this.userService = userService;
 	}
 	
-	@PostMapping(value="/session")
+	@PostMapping(value=HTTP.Endpoints.SESSION)
 	public void registerSession(
 			@RequestAttribute(value=Session.ID, required=false) UUID sessionId,
 			HttpServletResponse response
@@ -33,7 +34,6 @@ public class SessionController {
 		
 		User user = userService.registerUser(sessionId);
 		response.addCookie(new Cookie(Cookies.SESSION_ID, user.getSessionId().toString()));
-		//TODO dispatch updates to matchmaking? OR prevent matchmaking stats from being distributed is user not authenticated
 	}
 	
 }

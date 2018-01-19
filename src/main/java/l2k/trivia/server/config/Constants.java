@@ -36,8 +36,9 @@ public class Constants {
 		
 		public static class Endpoints {
 			public static final String APP_ROOT = "/";
+			public static final String SESSION = "/session";
 			public static final String MATCHMAKING_STATS = "/matchmaking/stats";
-			public static final String MATCHMAKING_SELECTION = "/join-chat-room";
+			public static final String JOIN = "/join";
 		}
 		
 		public static class RequestAttribute {

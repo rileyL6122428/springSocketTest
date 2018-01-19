@@ -30,8 +30,13 @@ public class Room {
 		chat.addMessage(message);
 	}
 	
-	public void addUser(User user) {
-		users.put(user.getName(), user);
+	public boolean addUser(User user) {
+		boolean userAdded = false;
+		if(!isFull()) {
+			users.put(user.getName(), user);
+			userAdded = true;
+		}
+		return userAdded;
 	}
 	
 	public boolean contains(String username) {
