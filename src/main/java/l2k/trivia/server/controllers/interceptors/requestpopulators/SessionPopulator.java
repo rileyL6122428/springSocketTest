@@ -1,4 +1,4 @@
-package l2k.trivia.server.controllers.interceptors;
+package l2k.trivia.server.controllers.interceptors.requestpopulators;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import static l2k.trivia.server.config.Constants.Session;
 
 import java.util.UUID;
 
-public class SessionInterceptor extends HandlerInterceptorAdapter {
+public class SessionPopulator extends HandlerInterceptorAdapter {
 	
 	@Autowired
 	private CookieUtil cookieUtil;

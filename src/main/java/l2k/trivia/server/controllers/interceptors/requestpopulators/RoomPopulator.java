@@ -1,4 +1,4 @@
-package l2k.trivia.server.controllers.interceptors;
+package l2k.trivia.server.controllers.interceptors.requestpopulators;
 
 import java.util.Map;
 import java.util.UUID;
@@ -17,7 +17,7 @@ import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.RoomMonitor;
 import l2k.trivia.server.services.UserService;
 
-public class RoomInterceptor extends HandlerInterceptorAdapter {
+public class RoomPopulator extends HandlerInterceptorAdapter {
 	
 	@Autowired
 	private UserService userService;

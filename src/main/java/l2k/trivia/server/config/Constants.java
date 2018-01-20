@@ -39,6 +39,7 @@ public class Constants {
 			public static final String SESSION = "/session";
 			public static final String MATCHMAKING_STATS = "/matchmaking/stats";
 			public static final String JOIN = "/join";
+			public static final String LEAVE = "/leave";
 		}
 		
 		public static class RequestAttribute {
