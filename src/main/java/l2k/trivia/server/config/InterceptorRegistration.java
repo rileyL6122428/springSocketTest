@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.controllers.interceptors.eventemitters.JoinRoomEmitter;
+import l2k.trivia.server.controllers.interceptors.eventemitters.LeaveRoomEmitter;
 import l2k.trivia.server.controllers.interceptors.requestpopulators.RoomPopulator;
 import l2k.trivia.server.controllers.interceptors.requestpopulators.SessionPopulator;
 
@@ -18,6 +19,7 @@ public class InterceptorRegistration extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(createSessionInterceptor());
 		registry.addInterceptor(createRoomInterceptor()).addPathPatterns(HTTP.PathPrefixes.ROOM + "/**");
 		registry.addInterceptor(createJoinRoomEmitter()).addPathPatterns(HTTP.PathPrefixes.ROOM + HTTP.Endpoints.JOIN);
+		registry.addInterceptor(createLeaveRoomEmitter()).addPathPatterns(HTTP.PathPrefixes.ROOM + HTTP.Endpoints.LEAVE);
 	}
 	
 	@Bean
@@ -33,6 +35,11 @@ public class InterceptorRegistration extends WebMvcConfigurerAdapter {
 	@Bean
 	public JoinRoomEmitter createJoinRoomEmitter() {
 		return new JoinRoomEmitter();
+	}
+	
+	@Bean
+	public LeaveRoomEmitter createLeaveRoomEmitter() {
+		return new LeaveRoomEmitter();
 	}
 	
 }

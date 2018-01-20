@@ -16,7 +16,7 @@ import l2k.trivia.server.domain.User;
 @Controller
 public class RoomController {
 
-	@Autowired private RoomDispatcher roomDispatcher;
+//	@Autowired private RoomDispatcher roomDispatcher;
 	
 	@PostMapping(value = HTTP.PathPrefixes.ROOM + HTTP.Endpoints.JOIN)
 	public ResponseEntity<Room> joinRoom(
@@ -42,7 +42,7 @@ public class RoomController {
 		
 		if(user != null) {
 			room.removeUser(user);
-			roomDispatcher.dispatchChatUpdate(room);
+//			roomDispatcher.dispatchChatUpdate(room);
 			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.successResponse(), HttpStatus.OK);
 		} else {
 			responseEntity = new ResponseEntity<LeaveRoomResponse>(LeaveRoomResponse.failureResponse(), HttpStatus.FORBIDDEN);
