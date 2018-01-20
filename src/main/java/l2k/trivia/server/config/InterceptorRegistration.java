@@ -10,7 +10,7 @@ import l2k.trivia.server.controllers.interceptors.SessionInterceptor;
 import static l2k.trivia.server.config.Constants.HTTP;
 
 @Configuration
-public class HttpConfiguration extends WebMvcConfigurerAdapter {
+public class InterceptorRegistration extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

@@ -47,6 +47,7 @@ Depends on Messaging Template
 	- [ ] l2k.trivia.server.controllers
 		- [x] StaticController
 		- [x] SessionController
-		- [ ] MatchmakingController
+		- [x] MatchmakingController
+		- [ ] RoomController
 		
 	
