@@ -48,6 +48,7 @@ Depends on Messaging Template
 		- [x] StaticController
 		- [x] SessionController
 		- [x] MatchmakingController
-		- [ ] RoomController
+		- [x] RoomController
+		- [ ] Game Controller
 		
 	

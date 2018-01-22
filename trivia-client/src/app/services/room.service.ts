@@ -60,7 +60,7 @@ export class RoomService {
   }
 
   submitGameAnswer(params: { roomName: string, answer: Answer}): void {
-    let endpoint = `/app/room/${params.roomName}/submit-answer`;
+    let endpoint = `/app/room/${params.roomName}/game/submit-answer`;
     let message = JSON.stringify(params.answer);
 
     this.stompService.publish(endpoint, message, this.getStompHeaders());
