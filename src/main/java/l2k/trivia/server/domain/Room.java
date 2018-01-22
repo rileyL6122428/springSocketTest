@@ -52,8 +52,10 @@ public class Room {
 	}
 	
 	public void removeUser(User user) {
-		addMessage(new LeaveRoomMessage(user));
-		users.remove(user.getName());
+		if(contains(user)) {
+			addMessage(new LeaveRoomMessage(user));
+			users.remove(user.getName());			
+		}
 	}
 
 	public String getName() {
