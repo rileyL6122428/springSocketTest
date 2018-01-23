@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.listeners.JoinMatchmakingListener;
 import l2k.trivia.server.listeners.JoinRoomListener;
 import l2k.trivia.server.services.MatchmakingService;
@@ -15,7 +16,7 @@ public class MatchmakingDispatcher implements JoinRoomListener, JoinMatchmakingL
 	@Autowired private SimpMessagingTemplate messagingTemplate;
 	
 	@Override
-	public void fireJoinRoomEvent() {
+	public void fireJoinRoomEvent(Room room) { //TODO change to leave Matchmaking Event
 		dispatchStats();
 	}
 

@@ -43,11 +43,13 @@ public class Constants {
 			public static final String MATCHMAKING_STATS = "/matchmaking/stats";
 			public static final String JOIN = "/join";
 			public static final String LEAVE = "/leave";
+			public static final String CHAT = "/chat";
 		}
 		
 		public static class RequestAttribute {
 			public static final String USER = "USER";
 			public static final String ROOM = "ROOM";
+			public static final String CHAT = "CHAT";
 		}
 		
 	}

@@ -48,7 +48,10 @@ export class RoomService {
     let endpoint = `/app/room/${params.roomName}/send-message`;
     let message = JSON.stringify({ messageBody: params.messageBody});
 
-    this.stompService.publish(endpoint, message, this.getStompHeaders());
+    this.stompService.publish(endpoint, message, {
+      testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE"),
+      roomName: params.roomName
+    });
   }
 
   getGameStompListener(roomName: string): Observable<Game> {

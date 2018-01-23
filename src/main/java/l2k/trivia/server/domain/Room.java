@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
+import l2k.trivia.server.domain.chat.JoinRoomMessage;
 import l2k.trivia.server.domain.chat.LeaveRoomMessage;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -33,6 +34,7 @@ public class Room {
 	public boolean addUser(User user) {
 		boolean userAdded = false;
 		if(!isFull()) {
+			chat.addMessage(new JoinRoomMessage(user));
 			users.put(user.getName(), user);
 			userAdded = true;
 		}

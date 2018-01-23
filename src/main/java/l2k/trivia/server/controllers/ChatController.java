@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -29,7 +28,7 @@ public class ChatController {
 	@Autowired private UserService userService;
 	@Autowired private RoomDispatcher roomDispatcher;
 	
-	@GetMapping(HTTP.PathPrefixes.ROOM + "/chat")
+	@GetMapping(HTTP.PathPrefixes.ROOM + HTTP.Endpoints.CHAT)
 	public ResponseEntity<Chat> getChat(
 			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
 			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
@@ -46,20 +45,15 @@ public class ChatController {
 		return responseEntity;
 	}
 	
-	@SubscribeMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.CHAT)
-	public void subscribeToChat(@DestinationVariable String roomName, @Header("testHeader") String sessionId) {
-		Room room = roomMonitor.getRoom(roomName);
-		roomDispatcher.dispatchChatUpdate(room);
-	}
-	
 	@MessageMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.SEND)
 	public void sendChatMessage(
 			ChatMessageRequest chatMessageRequest,
 			@DestinationVariable String roomName, 
-			@Header("testHeader") String sessionId) {
+			@Header("testHeader") String sessionId,
+			@Header("room") Room room) {
 		
 		User user = userService.getUser(sessionId);
-		Room room = roomMonitor.getRoom(roomName);
+//		Room room = roomMonitor.getRoom(roomName);
 		
 		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, chatMessageRequest.getMessageBody());
 		room.addMessage(chatRoomMessage);
