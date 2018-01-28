@@ -34,7 +34,7 @@ export class MatchmakingService {
   }
 
   subscribeToMatchmaking(): Observable<MatchmakingStats> {
-    let headers = { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
+    let headers = { SESSION_ID: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
 
     return this.stompService.subscribe('/topic/matchmaking', headers)
       .map((message: Message) => {

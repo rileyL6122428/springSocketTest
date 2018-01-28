@@ -84,7 +84,7 @@ describe('MatchmakingService', () => {
       document.cookie = "TRIVIA_SESSION_COOKIE=EXAMPLE_SESSION_COOKIE_VALUE";
       spyOn(stompService, "subscribe").and.returnValue(stubableObservable());
       matchmakingService.subscribeToMatchmaking();
-      expect(stompService.subscribe).toHaveBeenCalledWith("/topic/matchmaking", { testHeader: "EXAMPLE_SESSION_COOKIE_VALUE" });
+      expect(stompService.subscribe).toHaveBeenCalledWith("/topic/matchmaking", { SESSION_ID: "EXAMPLE_SESSION_COOKIE_VALUE" });
     }));
 
     it("maps the returned message by passing it to the matchmaking stats factory",

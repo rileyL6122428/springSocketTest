@@ -49,7 +49,7 @@ export class RoomService {
     let message = JSON.stringify({ messageBody: params.messageBody});
 
     this.stompService.publish(endpoint, message, {
-      testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE"),
+      SESSION_ID: this.cookieService.get("TRIVIA_SESSION_COOKIE"),
       roomName: params.roomName
     });
   }
@@ -70,7 +70,7 @@ export class RoomService {
   }
 
   private getStompHeaders(): StompHeaders {
-    return { testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
+    return { SESSION_ID: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
   }
 
 }

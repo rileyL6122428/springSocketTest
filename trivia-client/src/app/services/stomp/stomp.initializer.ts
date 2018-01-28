@@ -22,7 +22,7 @@ export class StompInitializer {
       // url: 'ws://192.168.1.81:8090/trivia-sockets/websocket',
 
       headers: {
-        testHeader: this.cookieService.get("TRIVIA_SESSION_COOKIE")
+        SESSION_ID: this.cookieService.get("TRIVIA_SESSION_COOKIE")
       },
 
       heartbeat_in: 0,
