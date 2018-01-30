@@ -50,6 +50,7 @@ public class Constants {
 			public static final String JOIN = "/join";
 			public static final String LEAVE = "/leave";
 			public static final String CHAT = "/chat";
+			public static final String USER = "/user";
 		}
 		
 		public static class RequestAttribute {

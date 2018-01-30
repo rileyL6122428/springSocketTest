@@ -1,7 +1,6 @@
 package l2k.trivia.server.controllers.interceptors.requestpopulators;
 
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,34 +10,19 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import l2k.trivia.server.config.Constants.HTTP;
-import l2k.trivia.server.config.Constants.Session;
 import l2k.trivia.server.domain.Room;
-import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.RoomMonitor;
-import l2k.trivia.server.services.UserService;
 
 public class RoomPopulator extends HandlerInterceptorAdapter {
-	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private RoomMonitor roomService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-		User user = getUser(request);
-		request.setAttribute(HTTP.RequestAttribute.USER, user);
-		
 		Room room = getRoom(request);
 		request.setAttribute(HTTP.RequestAttribute.ROOM, room);
-		
-		return user != null && room != null;
-	}
-	
-	private User getUser(HttpServletRequest request) {
-		UUID sessionId = (UUID)request.getAttribute(Session.ID);
-		return userService.getUser(sessionId);
+		return room != null;
 	}
 	
 	private Room getRoom(HttpServletRequest request) {
