@@ -1,7 +1,10 @@
 package l2k.trivia.server.domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -9,9 +12,12 @@ import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.domain.chat.JoinRoomMessage;
 import l2k.trivia.server.domain.chat.LeaveRoomMessage;
+import l2k.trivia.server.listeners.JoinAndLeaveRoomListener;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Room {
+	
+	@Autowired private List<JoinAndLeaveRoomListener> joinAndLeaveListeners;
 	
 	private String name;
 	private Map<String, User> users;
@@ -45,6 +51,7 @@ public class Room {
 		if(!isFull()) {
 			chat.addMessage(new JoinRoomMessage(user));
 			users.put(user.getName(), user);
+			joinAndLeaveListeners.forEach((listener) -> listener.fireJoinRoomEvent(this));
 			userAdded = true;
 		}
 		return userAdded;
@@ -65,7 +72,8 @@ public class Room {
 	public void removeUser(User user) {
 		if(contains(user)) {
 			addMessage(new LeaveRoomMessage(user));
-			users.remove(user.getName());			
+			users.remove(user.getName());
+			joinAndLeaveListeners.forEach((listener) -> listener.fireLeaveRoomEvent(this));
 		}
 	}
 

@@ -24,7 +24,7 @@ public class TestDataProvider implements ApplicationListener<ContextRefreshedEve
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		Chat chat = newChat();
-		Room room = roomFactory.newRoom();
+		Room room = newRoom();
 		
 		chat.setRoom(room);
 		room.setChat(chat);
@@ -35,6 +35,11 @@ public class TestDataProvider implements ApplicationListener<ContextRefreshedEve
 	@Bean
 	public Chat newChat() {
 		return chatFactory.newChat();
+	}
+	
+	@Bean
+	public Room newRoom() {
+		return roomFactory.newRoom();
 	}
 
 }
