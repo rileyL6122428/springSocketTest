@@ -28,8 +28,7 @@ public class SessionController {
 	public void registerSession(
 			@RequestAttribute(value=Session.ID, required=false) UUID sessionId,
 			HttpServletResponse response
-			) {
-		
+		) {
 		User user = userService.registerUser(sessionId);
 		response.addCookie(new Cookie(Cookies.SESSION_ID, user.getSessionId().toString()));
 		sessionCreationListeners.forEach((listener) -> listener.fireSessionCreatedEvent(user.getSessionId()));

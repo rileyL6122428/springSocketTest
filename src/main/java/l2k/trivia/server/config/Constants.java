@@ -12,7 +12,6 @@ public class Constants {
 		public static class PathPrefixes {			
 			public static final String BROKER_TOPIC = "/topic";
 			public static final String APP_MESSAGING = "/app";
-			public static final String BROKER_SUBSCRIPTION_LISTENING = BROKER_TOPIC;
 			public static final String ROOM = "/room/{" + PathVariables.ROOM_NAME + "}";
 			public static final String GAME = ROOM + "/game";
 		}

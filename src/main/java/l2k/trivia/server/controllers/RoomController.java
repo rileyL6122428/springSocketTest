@@ -16,8 +16,8 @@ public class RoomController {
 	@PostMapping(value = HTTP.PathPrefixes.ROOM + HTTP.Endpoints.JOIN)
 	public ResponseEntity<Room> joinRoom(
 			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
-			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room) {
-		
+			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
+		) {
 		ResponseEntity<Room> response;
 		
 		if(room.addUser(user))
@@ -31,8 +31,8 @@ public class RoomController {
 	@PostMapping(value = HTTP.PathPrefixes.ROOM + HTTP.Endpoints.LEAVE)
 	public ResponseEntity<Room> leaveRoom(
 			@RequestAttribute(value=HTTP.RequestAttribute.USER) User user,
-			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room) {
-		
+			@RequestAttribute(value=HTTP.RequestAttribute.ROOM) Room room
+		) {
 		room.removeUser(user);
 		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
