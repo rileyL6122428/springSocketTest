@@ -15,12 +15,6 @@ import l2k.trivia.server.services.MatchmakingService;
 public class MatchmakingController {
 	
 	@Autowired private MatchmakingService matchmakingService;
-//	@Autowired private List<JoinMatchmakingListener> joinMatchmakingListeners;
-	
-//	@SubscribeMapping(STOMP.Endpoints.MATCHMAKING_SUBSCRIPTION)
-//	public void subscribeToMatchmaking() {
-//		joinMatchmakingListeners.forEach(JoinMatchmakingListener::fireJoinMatchmakingEvent);
-//	}
 	
 	@GetMapping(value = HTTP.Endpoints.MATCHMAKING_STATS)
 	public ResponseEntity<MatchmakingStats> getMatchmakingStats() {
