@@ -48,15 +48,10 @@ public class ChatController {
 	@MessageMapping(STOMP.PathPrefixes.ROOM + STOMP.Endpoints.SEND)
 	public void sendChatMessage(
 			ChatMessageRequest chatMessageRequest,
-			@DestinationVariable String roomName, 
-			@Header("testHeader") String sessionId,
-			@Header("room") Room room) {
+			@Header(STOMP.MessageHeaders.USER) User user,
+			@Header(STOMP.MessageHeaders.ROOM) Room room) {
 		
-		User user = userService.getUser(sessionId);
-//		Room room = roomMonitor.getRoom(roomName);
-		
-		ChatRoomMessage chatRoomMessage = new ChatRoomMessage(user, chatMessageRequest.getMessageBody());
-		room.addMessage(chatRoomMessage);
+		room.addMessage(user, chatMessageRequest.getMessageBody());
 		
 		roomDispatcher.dispatchChatUpdate(room);
 	}

@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
+import l2k.trivia.server.config.Constants.STOMP;
 import l2k.trivia.server.controllers.request.JoinRoomRequest;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.User;
@@ -66,7 +67,7 @@ public class WebUser {
 	public Subscription openStompSubscriptionTo(String destination) {
 		StompHeaders headers = new StompHeaders();
 		headers.add(StompHeaders.DESTINATION, destination);
-		headers.add("testHeader", sessionId.toString());
+		headers.add(STOMP.MessageHeaders.SESSION_ID, sessionId.toString());
 		
 		return stompSession.subscribe(headers, new WebUserStompFrameHandler());
 	}

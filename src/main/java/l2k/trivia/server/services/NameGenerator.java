@@ -13,8 +13,12 @@ public class NameGenerator {
 		faker = new Faker();
 	}
 	
-	public String getName() {
+	public String newName() {
 		return faker.name().firstName();
+	}
+	
+	public String newRoomName() {
+		return faker.pokemon().name() + " Room";
 	}
 
 }

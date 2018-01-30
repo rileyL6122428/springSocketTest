@@ -8,6 +8,7 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 import l2k.trivia.server.wschannelinterceptor.RoomPopulator;
+import l2k.trivia.server.wschannelinterceptor.UserPopulator;
 
 import static l2k.trivia.server.config.Constants.*;
 
@@ -34,11 +35,19 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 	
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
-		registration.setInterceptors(getRoomPopulator());
+		registration.setInterceptors(
+			getUserPopulator(),
+			getRoomPopulator() 
+		);
 	}
 	
 	@Bean
 	public RoomPopulator getRoomPopulator() {
 		return new RoomPopulator();
+	}
+	
+	@Bean
+	public UserPopulator getUserPopulator() {
+		return new UserPopulator();
 	}
 }

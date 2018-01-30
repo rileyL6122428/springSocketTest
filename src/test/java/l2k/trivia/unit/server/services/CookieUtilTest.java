@@ -15,19 +15,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
-import l2k.trivia.server.services.CookieUtil;
+import l2k.trivia.server.services.SessionUtil;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class CookieUtilTest {
 	
-	private CookieUtil cookieUtil;
+	private SessionUtil cookieUtil;
 	private ArgumentCaptor<Cookie> cookieCaptor;
 	
 	@BeforeEach 
 	public void setup() {
 		cookieCaptor = ArgumentCaptor.forClass(Cookie.class);
-		cookieUtil = new CookieUtil();
+		cookieUtil = new SessionUtil();
 	}
 	
 	@Nested

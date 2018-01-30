@@ -3,7 +3,6 @@ package l2k.trivia.server.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +12,20 @@ import l2k.trivia.server.domain.User;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
 
 @Service
-public class RoomMonitor implements InitializingBean {
+public class RoomMonitor 
+//implements InitializingBean 
+{
 	
 	private Map<String, RoomManager> roomManagers;
 	private Map<User, RoomManager> usersToRoomManagers; //TODO move this field onto user?
 	
 	@Autowired
 	private RoomMessagingTemplate roomMessagingTemplate;
+	
+	{
+		roomManagers = new HashMap<String, RoomManager>();
+		usersToRoomManagers = new HashMap<>();
+	}
 	
 	
 	public void clear() { //Temporary for TESTING while DB is not hooked up
@@ -85,16 +91,16 @@ public class RoomMonitor implements InitializingBean {
 		if(roomManager != null) roomManager.removeUser(user);
 	}
 	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		roomManagers = new HashMap<String, RoomManager>();
-		usersToRoomManagers = new HashMap<>();
-		
-		//configured for test
-		addRoom(new Room() {{ 
-			setName("ROOM_ONE");
-			setUserCapacity(3);
-		}});
-	}
+//	@Override
+//	public void afterPropertiesSet() throws Exception {
+//		roomManagers = new HashMap<String, RoomManager>();
+//		usersToRoomManagers = new HashMap<>();
+//		
+//		//configured for test
+//		addRoom(new Room() {{ 
+//			setName("ROOM_ONE");
+//			setUserCapacity(3);
+//		}});
+//	}
 
 }

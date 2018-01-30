@@ -22,7 +22,7 @@ public class GameController {
 	public void submitGameAnswer(
 			Answer answer,
 			@DestinationVariable String roomName,
-			@Header("testHeader") String sessionId
+			@Header(STOMP.MessageHeaders.SESSION_ID) String sessionId
 		) {
 		User user = userService.getUser(sessionId);
 		roomMonitor.submitGameAnswer(roomName, user, answer);

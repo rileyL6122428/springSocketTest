@@ -1,24 +1,27 @@
 package l2k.trivia.server.wschannelinterceptor;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 
-import l2k.trivia.server.config.Constants.STOMP.MessageHeaders;
-import l2k.trivia.server.services.RoomMonitor;
+import l2k.trivia.server.services.SessionUtil;
+import l2k.trivia.server.services.UserService;
 
-public class RoomPopulator extends ChannelInterceptorAdapter {
+public class UserPopulator extends ChannelInterceptorAdapter {
 	
-	@Autowired private RoomMonitor roomMonitor;
+	@Autowired private UserService userService;
+	@Autowired private SessionUtil sessionUtil;
 	
 	public Message<?> preSend(Message<?> message, MessageChannel channel) {
-		String roomName = SimpMessageHeaderAccessor.getFirstNativeHeader(MessageHeaders.ROOM_NAME, message.getHeaders());
+		UUID sessionId = sessionUtil.extractSessionId(message);
 
-		if(roomName != null) 
+		if(sessionId != null) 
 			SimpMessageHeaderAccessor.getMutableAccessor(message)
-									 .setHeader(MessageHeaders.ROOM, roomMonitor.getRoom(roomName));
+									 .setHeader("USER", userService.getUser(sessionId));
 			
 		return message;
 	}

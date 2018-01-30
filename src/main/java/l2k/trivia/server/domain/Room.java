@@ -16,11 +16,16 @@ public class Room {
 	private String name;
 	private Map<String, User> users;
 	private int userCapacity;
-	private final Chat chat;
+	private Chat chat;
+	
+	public Room() { }
+	
+	public Room(String roomName) {
+		this.name = roomName;
+	}
 	
 	{
 		setUsers(new HashMap<String, User>());
-		chat = new Chat();
 	}
 	
 	public boolean isFull() {
@@ -29,6 +34,10 @@ public class Room {
 	
 	public void addMessage(ChatRoomMessage message) {
 		chat.addMessage(message);
+	}
+	
+	public void addMessage(User user, String messageBody) {
+		chat.addMessage(new ChatRoomMessage(user, messageBody));
 	}
 	
 	public boolean addUser(User user) {
@@ -78,6 +87,10 @@ public class Room {
 
 	public Chat getChat() {
 		return chat;
+	}
+	
+	public void setChat(Chat chat) {
+		this.chat = chat;
 	}
 
 	public Map<String, User> getUsers() {

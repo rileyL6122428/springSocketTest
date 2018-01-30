@@ -24,6 +24,13 @@ public class Constants {
 			public static final String CHAT = "/chat";
 			public static final String SUBMIT_ANSWER = "/submit-answer";
 		}
+		
+		public static class MessageHeaders {
+			public static final String ROOM_NAME = "roomName";
+			public static final String ROOM = "ROOM";
+			public static final String USER = "USER";
+			public static final String SESSION_ID = "SESSION_ID";
+		}
 	}
 	
 	public static class HTTP {

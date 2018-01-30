@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import l2k.trivia.server.controllers.response.TriviaApiError;
 import l2k.trivia.server.domain.User;
-import l2k.trivia.server.services.CookieUtil;
+import l2k.trivia.server.services.SessionUtil;
 import l2k.trivia.server.services.UserService;
 
 @Controller
@@ -21,11 +21,11 @@ public class UserController {
 	private UserService userService;
 	
 	@Autowired
-	private CookieUtil cookieUtil;
+	private SessionUtil cookieUtil;
 	
 	@GetMapping(value="/user")
 	public ResponseEntity<?> getUser(@CookieValue(value="TRIVIA_SESSION_COOKIE") String triviaSessionCookie) {
-		UUID sessionId = cookieUtil.cookieValueToUUID(triviaSessionCookie);
+		UUID sessionId = cookieUtil.stringToUUID(triviaSessionCookie);
 		User user = userService.getUser(sessionId);
 		
 		if(user == null) {

@@ -43,7 +43,7 @@ public class UserService {
 		User user = new User();
 		
 		user.setSessionId(UUID.randomUUID());
-		user.setName(nameGenerator.getName());
+		user.setName(nameGenerator.newName());
 		
 		sessionToUsers.put(user.getSessionId(), user);
 		

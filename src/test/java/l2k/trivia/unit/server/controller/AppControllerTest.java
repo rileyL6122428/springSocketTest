@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import l2k.trivia.server.controllers.StaticContentController;
 import l2k.trivia.server.domain.User;
-import l2k.trivia.server.services.CookieUtil;
+import l2k.trivia.server.services.SessionUtil;
 import l2k.trivia.server.services.UserService;
 import name.falgout.jeffrey.testing.junit5.MockitoExtension;
 
@@ -38,7 +38,7 @@ class AppControllerTest {
 	@Mock
 	private User user;
 	@Mock 
-	private CookieUtil cookieUtil;
+	private SessionUtil cookieUtil;
 
 	@BeforeEach
 	public void setupSessionId() {
@@ -47,7 +47,7 @@ class AppControllerTest {
 	
 	@BeforeEach
 	public void setupCookieUtil() {
-		when(cookieUtil.cookieValueToUUID(sessionId.toString())).thenReturn(sessionId);		
+		when(cookieUtil.stringToUUID(sessionId.toString())).thenReturn(sessionId);		
 	}
 	
 	@BeforeEach

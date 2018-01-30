@@ -10,6 +10,8 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
+import l2k.trivia.server.config.Constants.STOMP;
+
 public class SessionConnectedEventWrapper {
 	
 	private SessionConnectedEvent connectedEvent;
@@ -23,7 +25,7 @@ public class SessionConnectedEventWrapper {
 	}
 	
 	public UUID getUserId() {
-		String userIdString = getCustomHeader("testHeader");
+		String userIdString = getCustomHeader(STOMP.MessageHeaders.SESSION_ID);
 		return UUID.fromString(userIdString);
 	}
 	
