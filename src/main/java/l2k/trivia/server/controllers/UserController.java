@@ -1,39 +1,22 @@
 package l2k.trivia.server.controllers;
 
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import l2k.trivia.server.config.Constants.HTTP;
-import l2k.trivia.server.controllers.response.TriviaApiError;
 import l2k.trivia.server.domain.User;
-import l2k.trivia.server.services.SessionUtil;
-import l2k.trivia.server.services.UserService;
 
 @Controller
 public class UserController {
 	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private SessionUtil cookieUtil;
-	
 	@GetMapping(value=HTTP.Endpoints.USER)
-	public ResponseEntity<?> getUser(@CookieValue(value="TRIVIA_SESSION_COOKIE") String triviaSessionCookie) {
-		UUID sessionId = cookieUtil.stringToUUID(triviaSessionCookie);
-		User user = userService.getUser(sessionId);
-		
-		if(user == null) {
-			return new ResponseEntity<TriviaApiError>(new TriviaApiError("User not found."), HttpStatus.NOT_FOUND);
-		} else {			
-			return new ResponseEntity<User>(userService.getUser(sessionId), HttpStatus.OK);
-		}
+	public ResponseEntity<?> getUser(
+			@RequestAttribute(HTTP.RequestAttribute.USER) User user
+		) {
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 }
