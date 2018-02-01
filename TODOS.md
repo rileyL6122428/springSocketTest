@@ -50,7 +50,7 @@ Depends on Messaging Template
 		- [x] MatchmakingController
 		- [x] RoomController
 		- [x] ChatController
-		- [ ] UserController
+		- [x] UserController
 		- [ ] Game Controller
 		
 	

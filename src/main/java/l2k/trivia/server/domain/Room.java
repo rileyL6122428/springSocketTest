@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import l2k.trivia.game.Answer;
+import l2k.trivia.game.Player;
+import l2k.trivia.game.TriviaGame;
 import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.domain.chat.JoinRoomMessage;
@@ -23,6 +26,7 @@ public class Room {
 	private Map<String, User> users;
 	private int userCapacity;
 	private Chat chat;
+	private TriviaGame game;
 	
 	public Room() { }
 	
@@ -107,6 +111,10 @@ public class Room {
 
 	public void setUsers(Map<String, User> users) {
 		this.users = users;
+	}
+	
+	public void submitTriviaAnswer(Player player, Answer answer) {
+		game.submitAnswer(player, answer);
 	}
 	
 }

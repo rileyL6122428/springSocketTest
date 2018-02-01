@@ -3,7 +3,13 @@ package l2k.trivia.game;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import l2k.trivia.server.listeners.GameListener;
+
 public class TriviaGame {
+	
+	@Autowired private List<GameListener> listeners;
 
 	private ScoreKeeper scoreKeeper;
 	private RollCall<TriviaRound> triviaRoundRollCall;
@@ -58,6 +64,10 @@ public class TriviaGame {
 	
 	public void removePlayer(Player player) {
 		scoreKeeper.removeUser(player);
+	}
+	
+	private void notifyListeners() {
+		listeners.forEach((listener) -> listener.fireGameUpdate(this));
 	}
 	
 }
