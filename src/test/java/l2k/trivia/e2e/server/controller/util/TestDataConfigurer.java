@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import l2k.trivia.server.domain.Room;
-import l2k.trivia.server.services.RoomMonitor;
+import l2k.trivia.server.services.RoomService;
 import l2k.trivia.server.services.UserService;
 
 @Component
@@ -13,7 +13,7 @@ public class TestDataConfigurer {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private RoomMonitor roomMonitor;
+	private RoomService roomMonitor;
 	
 	public void clearAndResetData() {
 		userService.clear();

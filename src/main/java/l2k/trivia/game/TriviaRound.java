@@ -27,17 +27,22 @@ public class TriviaRound {
 	}
 	
 	public void submitAnswer(Player player, Answer answer) {
-		playersToAnswers.put(player, answer);
+		getPlayersToAnswers().put(player, answer);
 	}
 	
 	public List<Player> getPlayersWithCorrectAnswer() {
 		List<Player> players = new ArrayList<Player>();
 		
-		for(Map.Entry<Player, Answer> playerAnswerEntry : playersToAnswers.entrySet()) {
+		for(Map.Entry<Player, Answer> playerAnswerEntry : getPlayersToAnswers().entrySet()) {
 			if(playerAnswerEntry.getValue().equals(correctAnswer))
 				players.add(playerAnswerEntry.getKey());
 		}
 		
 		return players;
 	}
+
+	public Map<Player, Answer> getPlayersToAnswers() {
+		return playersToAnswers;
+	}
+
 }

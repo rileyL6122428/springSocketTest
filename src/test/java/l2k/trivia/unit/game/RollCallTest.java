@@ -22,27 +22,27 @@ class RollCallTest {
 
 	@Test
 	public void reportsTheTotalNumberOfItemsInTheRoll() {
-		assertEquals(5, rollCall.getTotalItemCount());
+		assertEquals(5, rollCall.getItemTotal());
 	}
 	
 	@Test
 	public void reportsTheTotalNumberOfItemsObtainedFromTheRoll() {
-		assertEquals(0, rollCall.getRetrievedItemCount());
+		assertEquals(0, rollCall.getCurrentItemNumber());
 		
 		rollCall.getNextItem();
-		assertEquals(1, rollCall.getRetrievedItemCount());
+		assertEquals(1, rollCall.getCurrentItemNumber());
 		
 		rollCall.getNextItem();
-		assertEquals(2, rollCall.getRetrievedItemCount());
+		assertEquals(2, rollCall.getCurrentItemNumber());
 		
 		rollCall.getNextItem();
-		assertEquals(3, rollCall.getRetrievedItemCount());
+		assertEquals(3, rollCall.getCurrentItemNumber());
 		
 		rollCall.getNextItem();
-		assertEquals(4, rollCall.getRetrievedItemCount());
+		assertEquals(4, rollCall.getCurrentItemNumber());
 		
 		rollCall.getNextItem();
-		assertEquals(5, rollCall.getRetrievedItemCount());
+		assertEquals(5, rollCall.getCurrentItemNumber());
 	}
 	
 	@Test

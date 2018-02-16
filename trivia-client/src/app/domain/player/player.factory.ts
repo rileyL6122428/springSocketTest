@@ -4,24 +4,23 @@ import { Player } from './player';
 @Injectable()
 export class PlayerFactory {
 
-  playerToScoreMap(scoreMapPOJO: object): Map<Player, number> {
-    let scoreMap: Map<Player, number> = new Map<Player, number>();
-
-    for(let playerName in scoreMapPOJO) {
-      scoreMap.set( this.fromName(playerName), scoreMapPOJO[playerName] );
+  fromPOJOMapToList(playerPOJOs: object): Array<Player> {
+    let players: Array<Player> = new Array<Player>();
+    for(let name in playerPOJOs){
+      players.push(playerPOJOs[name]);
     }
-
-    return scoreMap;
-  }
-
-  fromName(name: string): Player {
-    return new Player({ name });
+    return players.sort(byName);
   }
 
   fromPOJO(playerPOJO: object): Player {
-    return new Player({
-      name: playerPOJO['name']
-    });
+    return new Player(
+      playerPOJO['name'],
+      playerPOJO['score']
+    );
   }
 
+}
+
+function byName(playerA: Player, playerB: Player) {
+  return ( playerA.name > playerB.name ) ? 1 : -1;
 }

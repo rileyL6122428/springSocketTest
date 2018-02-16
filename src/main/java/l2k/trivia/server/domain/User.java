@@ -9,18 +9,13 @@ import l2k.trivia.game.Player;
 import l2k.trivia.server.domain.chat.Sender;
 
 @JsonIgnoreProperties(value = { "sessionId" })
-public class User implements Principal, Sender, Player {
+public class User extends Player implements Principal, Sender {
 	
-	private String name;
+	public User(String name) {
+		super(name);
+	}
+
 	private UUID sessionId;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
 	public boolean equals(User otherUser) {
 		return sessionId.equals(otherUser.getSessionId());

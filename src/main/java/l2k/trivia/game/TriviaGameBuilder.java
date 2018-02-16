@@ -1,26 +1,30 @@
 package l2k.trivia.game;
 
+import java.util.HashMap;
 import java.util.List;
+
+import l2k.trivia.server.domain.Room;
 
 public class TriviaGameBuilder {
 	
-	private List<Player> players;
 	private List<TriviaRound> rounds;
+	private Room room;
 
 	public TriviaGame build() {
 		return new TriviaGame(
-			new ScoreKeeperBuilder().setPlayers(players).build(),
-			new RollCall<TriviaRound>(rounds)
+			new HashMap<String, Player>(),
+			new RollCall<TriviaRound>(rounds),
+			room
 		);
-	}
-	
-	public TriviaGameBuilder setPlayers(List<Player> players) {
-		this.players = players;
-		return this;
 	}
 
 	public TriviaGameBuilder setRounds(List<TriviaRound> rounds) {
 		this.rounds = rounds;
+		return this;
+	}
+	
+	public TriviaGameBuilder setRoom(Room room) {
+		this.room = room;
 		return this;
 	}
 

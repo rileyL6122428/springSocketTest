@@ -11,12 +11,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import l2k.trivia.server.config.Constants.HTTP;
 import l2k.trivia.server.domain.Room;
-import l2k.trivia.server.services.RoomMonitor;
+import l2k.trivia.server.services.RoomService;
 
 public class RoomPopulator extends HandlerInterceptorAdapter {
 	
 	@Autowired
-	private RoomMonitor roomService;
+	private RoomService roomService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

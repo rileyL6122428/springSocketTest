@@ -1,73 +1,145 @@
 package l2k.trivia.game;
 
+import static l2k.trivia.game.TriviaGame.GamePhase.ANSWERING_QUESTION;
+import static l2k.trivia.game.TriviaGame.GamePhase.BEGIN;
+import static l2k.trivia.game.TriviaGame.GamePhase.CHECKING_ANSWERS;
+import static l2k.trivia.game.TriviaGame.GamePhase.FINISHED;
+import static l2k.trivia.game.TriviaGame.GamePhase.READY;
+import static l2k.trivia.game.TriviaGame.GamePhase.WAITING_FOR_PLAYERS;
+import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.FIVE_SECONDS;
+import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.THREE_SECONDS;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import l2k.trivia.scheduling.DelayedEvent;
+import l2k.trivia.scheduling.SequenceBuilder;
+import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.listeners.GameListener;
 
 public class TriviaGame {
 	
-	@Autowired private List<GameListener> listeners;
-
-	private ScoreKeeper scoreKeeper;
+	enum GamePhase {
+		WAITING_FOR_PLAYERS,
+		READY,
+		BEGIN,
+		ANSWERING_QUESTION,
+		CHECKING_ANSWERS,
+		FINISHED
+	}
+	
+	@Autowired private List<GameListener> listeners;	
+	private GamePhase phase = WAITING_FOR_PLAYERS;
+	private Map<String, Player> players = new HashMap<String, Player>();
+	private Room room;
 	private RollCall<TriviaRound> triviaRoundRollCall;
-	
 	private TriviaRound currentRound;
-	private boolean acceptingAnswers;
-
-	public TriviaGame(ScoreKeeper scoreKeeper, RollCall<TriviaRound> triviaRoundRollCall) {
-		this.scoreKeeper = scoreKeeper;
+	private int minPlayers = 3;
+	private int maxPlayers = 3;
+	
+	
+	public TriviaGame(Map<String, Player> players, RollCall<TriviaRound> triviaRoundRollCall, Room room) {
+		this.players = players;
 		this.triviaRoundRollCall = triviaRoundRollCall;
-		setupNextRound();
-	}
-
-	public int getRoundCount() {
-		return triviaRoundRollCall.getTotalItemCount();
-	}
-
-	public int getCompletedRoundCount() {
-		return triviaRoundRollCall.getRetrievedItemCount() - 1;
-	}
-
-	public boolean isFinished() {
-		return triviaRoundRollCall.isFinished();
+		this.room = room;
 	}
 	
+	public void addPlayer(Player player) {
+		if(phase != WAITING_FOR_PLAYERS) return;
+		if(players.size() < maxPlayers) players.put(player.getName(), player);
+		if(players.size() >= minPlayers) start();
+		notifyListeners();
+	}
+
+	private void start() {
+		phase = READY;
+		SequenceBuilder sequenceBuilder = new SequenceBuilder();
+		
+		sequenceBuilder.addEvent(new DelayedEvent(this::announceStart, THREE_SECONDS));			
+		
+		for(int counter = 1; counter <= triviaRoundRollCall.getItemTotal(); counter++) {
+			sequenceBuilder.addEvent(new DelayedEvent(this::setupNextRound, THREE_SECONDS));
+			sequenceBuilder.addEvent(new DelayedEvent(this::closeCurrentRound, FIVE_SECONDS));			
+		}
+		
+		sequenceBuilder.addEvent(new DelayedEvent(this::closeGame, THREE_SECONDS));
+			
+		sequenceBuilder.build().execute();
+	}
+	
+	public void announceStart() {
+		phase = BEGIN;
+		notifyListeners();
+	}
+	
+
 	public void closeCurrentRound() {
-		currentRound.getPlayersWithCorrectAnswer().forEach(scoreKeeper::incrementScore);
-		acceptingAnswers = false;
+		phase = CHECKING_ANSWERS;
+		currentRound.getPlayersWithCorrectAnswer().forEach(Player::incrementScore);
+		notifyListeners();
+	}
+
+	public void setupNextRound() {
+		phase = ANSWERING_QUESTION;
+		currentRound = triviaRoundRollCall.getNextItem();
+		notifyListeners();
 	}
 	
-	public void setupNextRound() {
-		currentRound = triviaRoundRollCall.getNextItem();
-		acceptingAnswers = true;
+	public void closeGame() {
+		phase = FINISHED;
+		currentRound = null;
+		notifyListeners();
 	}
 
 	public void submitAnswer(Player player, Answer answer) {
-		if(acceptingAnswers)
+		if(phase == ANSWERING_QUESTION) {
 			currentRound.submitAnswer(player, answer);
-	}
-	
-	public Question getCurrentQuestion() {
-		return currentRound.getQuestion();
+			notifyListeners();
+		}
 	}
 
-	public List<Answer> getCurrentQuestionAnswers() {
-		return currentRound.getAnswers();
-	}
-
-	public Map<Player, Integer> getPlayerScores() {
-		return scoreKeeper.getScoreMap();
-	}
-	
-	public void removePlayer(Player player) {
-		scoreKeeper.removeUser(player);
-	}
-	
 	private void notifyListeners() {
 		listeners.forEach((listener) -> listener.fireGameUpdate(this));
 	}
 	
+	public boolean isFinished() {
+		return triviaRoundRollCall.isFinished();
+	}
+
+	public String getRoomName() {
+		return room.getName();
+	}
+	
+	public Map<String, Player> getPlayers() {
+		return players;
+	}
+	
+	public void setPlayers(Map<String, Player> players) {
+		this.players = players;
+	}
+	
+	public GamePhase getPhase() {
+		return phase;
+	}
+	
+	public void setPhase(GamePhase phase) {
+		this.phase = phase;
+	}
+	
+	public int getCurrentRoundNumber() {
+		return triviaRoundRollCall.getItemTotal();
+	}
+	
+	public int getRoundCount() {
+		return triviaRoundRollCall.getCurrentItemNumber();
+	}
+	
+	public Question getCurrentQuestion() {
+		return currentRound != null ? currentRound.getQuestion() : null;
+	}
 }

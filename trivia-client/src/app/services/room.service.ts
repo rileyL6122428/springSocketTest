@@ -57,6 +57,7 @@ export class RoomService {
   getGameStompListener(roomName: string): Observable<Game> {
     return this.stompService.subscribe(`/topic/room/${roomName}/game`, this.getStompHeaders())
       .map((message) => {
+        debugger
         let messageBody = JSON.parse(message.body);
         return this.gameFactory.mapPOJO(messageBody);
       });

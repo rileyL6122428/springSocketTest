@@ -11,13 +11,13 @@ import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.factory.ChatFactory;
 import l2k.trivia.server.domain.factory.RoomFactory;
-import l2k.trivia.server.services.RoomMonitor;
+import l2k.trivia.server.services.RoomService;
 
 @Configuration
 @Component
 public class TestDataProvider implements ApplicationListener<ContextRefreshedEvent>{
 	
-	@Autowired private RoomMonitor roomMonitor;
+	@Autowired private RoomService roomMonitor;
 	@Autowired private RoomFactory roomFactory;
 	@Autowired private ChatFactory chatFactory;
 

@@ -16,7 +16,7 @@ public class MatchmakingService {
 	private UserService userService;
 	
 	@Autowired
-	private RoomMonitor roomMonitor;
+	private RoomService roomMonitor;
 	
 	public MatchmakingStats getMatchmakingStats() {
 		MatchmakingStats stats = new MatchmakingStats();

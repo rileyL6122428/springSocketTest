@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import l2k.trivia.game.Answer;
 import l2k.trivia.game.Player;
 import l2k.trivia.game.TriviaGame;
+import l2k.trivia.game.TriviaGameFactory;
 import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.domain.chat.JoinRoomMessage;
@@ -18,9 +20,10 @@ import l2k.trivia.server.domain.chat.LeaveRoomMessage;
 import l2k.trivia.server.listeners.JoinAndLeaveRoomListener;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Room {
+public class Room implements InitializingBean {
 	
 	@Autowired private List<JoinAndLeaveRoomListener> joinAndLeaveListeners;
+	@Autowired private TriviaGameFactory gameFactory;
 	
 	private String name;
 	private Map<String, User> users;
@@ -35,7 +38,7 @@ public class Room {
 	}
 	
 	{
-		setUsers(new HashMap<String, User>());
+		setUsers(new HashMap<String, User>());		
 	}
 	
 	public boolean isFull() {
@@ -55,6 +58,7 @@ public class Room {
 		if(!isFull()) {
 			chat.addMessage(new JoinRoomMessage(user));
 			users.put(user.getName(), user);
+			game.addPlayer(user);
 			joinAndLeaveListeners.forEach((listener) -> listener.fireJoinRoomEvent(this));
 			userAdded = true;
 		}
@@ -115,6 +119,11 @@ public class Room {
 	
 	public void submitTriviaAnswer(Player player, Answer answer) {
 		game.submitAnswer(player, answer);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		game = gameFactory.newTriviaGame(this);
 	}
 	
 }

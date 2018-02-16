@@ -13,7 +13,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
 import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.MatchmakingMessagingTemplate;
-import l2k.trivia.server.services.RoomMonitor;
+import l2k.trivia.server.services.RoomService;
 import l2k.trivia.server.services.UserService;
 
 @Component
@@ -23,7 +23,7 @@ public class SessionMessageHandler {
 	private UserService userService;
 	
 	@Autowired 
-	private RoomMonitor roomMonitor;
+	private RoomService roomService;
 	
 	@Autowired
 	private MatchmakingMessagingTemplate matchmakingTemplate;
@@ -49,11 +49,11 @@ public class SessionMessageHandler {
 		UUID triviaSessionId = sessionMap.remove(stompSessionId);
 		
 		User user = userService.removeUser(triviaSessionId);
-		roomMonitor.removeUser(user);
+		roomService.removeUser(user);
 		
 		MatchmakingStats stats = new MatchmakingStats();
 		stats.setUserTotal(userService.getTotalUsers());
-		stats.setRooms(roomMonitor.getRooms());
+		stats.setRooms(roomService.getRooms());
 		matchmakingTemplate.send(stats);
 	}
 

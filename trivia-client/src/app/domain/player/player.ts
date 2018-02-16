@@ -1,8 +1,7 @@
 export class Player {
 
-  constructor(params: object) {
-    this.name = params['name'];
-  }
-
-  readonly name: string;
+  constructor(
+    readonly name: string,
+    readonly score: number
+  ) { }
 }

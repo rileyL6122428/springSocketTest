@@ -40,13 +40,9 @@ public class UserService {
 	}
 	
 	private User addNewAnonymousUser() {
-		User user = new User();
-		
-		user.setSessionId(UUID.randomUUID());
-		user.setName(nameGenerator.newName());
-		
+		User user = new User(nameGenerator.newName());
+		user.setSessionId(UUID.randomUUID());		
 		sessionToUsers.put(user.getSessionId(), user);
-		
 		return user;
 	}
 	

@@ -11,11 +11,11 @@ public class RollCall<T> {
 		this.items = items;
 	}
 
-	public int getRetrievedItemCount() {
+	public int getCurrentItemNumber() {
 		return itemIdx;
 	}
 
-	public int getTotalItemCount() {
+	public int getItemTotal() {
 		return items.size();
 	}
 
