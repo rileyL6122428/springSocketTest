@@ -25,9 +25,7 @@ export class GameComponent extends SubscribingComponent implements OnInit {
   ngOnInit(): void {
     this.addSubscriptions(
       this.roomService.getGameStompListener(this.roomName)
-        .subscribe((game: Game) => {
-          this.game = game
-        })
+        .subscribe((game: Game) => this.game = game)
     );
   }
 

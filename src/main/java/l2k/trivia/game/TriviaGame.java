@@ -15,9 +15,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import l2k.trivia.scheduling.DelayedEvent;
+import l2k.trivia.scheduling.GameScheduler;
 import l2k.trivia.scheduling.SequenceBuilder;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.listeners.GameListener;
@@ -58,18 +57,20 @@ public class TriviaGame {
 
 	private void start() {
 		phase = READY;
-		SequenceBuilder sequenceBuilder = new SequenceBuilder();
-		
-		sequenceBuilder.addEvent(new DelayedEvent(this::announceStart, THREE_SECONDS));			
-		
-		for(int counter = 1; counter <= triviaRoundRollCall.getItemTotal(); counter++) {
-			sequenceBuilder.addEvent(new DelayedEvent(this::setupNextRound, THREE_SECONDS));
-			sequenceBuilder.addEvent(new DelayedEvent(this::closeCurrentRound, FIVE_SECONDS));			
-		}
-		
-		sequenceBuilder.addEvent(new DelayedEvent(this::closeGame, THREE_SECONDS));
-			
-		sequenceBuilder.build().execute();
+		new GameScheduler().schedule(this).execute();
+		notifyListeners();
+//		SequenceBuilder sequenceBuilder = new SequenceBuilder();
+//		
+//		sequenceBuilder.addEvent(new DelayedEvent(this::announceStart, THREE_SECONDS));			
+//		
+//		for(int counter = 1; counter <= triviaRoundRollCall.getItemTotal(); counter++) {
+//			sequenceBuilder.addEvent(new DelayedEvent(this::setupNextRound, THREE_SECONDS));
+//			sequenceBuilder.addEvent(new DelayedEvent(this::closeCurrentRound, FIVE_SECONDS));			
+//		}
+//		
+//		sequenceBuilder.addEvent(new DelayedEvent(this::closeGame, THREE_SECONDS));
+//			
+//		sequenceBuilder.build().execute();
 	}
 	
 	public void announceStart() {
