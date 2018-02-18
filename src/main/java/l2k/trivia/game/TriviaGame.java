@@ -6,8 +6,6 @@ import static l2k.trivia.game.TriviaGame.GamePhase.CHECKING_ANSWERS;
 import static l2k.trivia.game.TriviaGame.GamePhase.FINISHED;
 import static l2k.trivia.game.TriviaGame.GamePhase.READY;
 import static l2k.trivia.game.TriviaGame.GamePhase.WAITING_FOR_PLAYERS;
-import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.FIVE_SECONDS;
-import static l2k.trivia.scheduling.UnitsOfTime.Milliseconds.THREE_SECONDS;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +13,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import l2k.trivia.scheduling.DelayedEvent;
 import l2k.trivia.scheduling.GameScheduler;
-import l2k.trivia.scheduling.SequenceBuilder;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.listeners.GameListener;
 
