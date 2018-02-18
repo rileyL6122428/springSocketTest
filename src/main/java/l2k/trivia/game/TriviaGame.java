@@ -59,18 +59,6 @@ public class TriviaGame {
 		phase = READY;
 		new GameScheduler().schedule(this).execute();
 		notifyListeners();
-//		SequenceBuilder sequenceBuilder = new SequenceBuilder();
-//		
-//		sequenceBuilder.addEvent(new DelayedEvent(this::announceStart, THREE_SECONDS));			
-//		
-//		for(int counter = 1; counter <= triviaRoundRollCall.getItemTotal(); counter++) {
-//			sequenceBuilder.addEvent(new DelayedEvent(this::setupNextRound, THREE_SECONDS));
-//			sequenceBuilder.addEvent(new DelayedEvent(this::closeCurrentRound, FIVE_SECONDS));			
-//		}
-//		
-//		sequenceBuilder.addEvent(new DelayedEvent(this::closeGame, THREE_SECONDS));
-//			
-//		sequenceBuilder.build().execute();
 	}
 	
 	public void announceStart() {
