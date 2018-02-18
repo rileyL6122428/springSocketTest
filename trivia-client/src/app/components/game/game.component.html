@@ -9,8 +9,8 @@
     <h6>Player Scores</h6>
 
     <ul>
-      <li *ngFor="let player of game.playersToScores.keys()">
-        {{player.name}} -> {{game.playersToScores.get(player)}} pts
+      <li *ngFor="let player of game.players">
+        {{player.name}} -> {{player.score}} pts
       </li>
     </ul>
   </section>
@@ -25,7 +25,7 @@
     </ul>
   </section>
 
-  <section id="question-response" *ngIf="game.phase === 'ASKING_QUESTION'">
+  <section id="question-response" *ngIf="game.phase === 'ANSWERING_QUESTION'">
     <h6>Question: {{game.currentQuestion.text}}</h6>
 
     <ul>

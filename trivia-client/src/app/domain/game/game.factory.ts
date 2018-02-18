@@ -14,14 +14,13 @@ export class GameFactory {
   ) { }
 
   mapPOJO(messagePOJO: Object): Game {
-    debugger
     return new Game(
       messagePOJO['phase'],
       this.playerFactory.fromPOJOMapToList(messagePOJO['players']),
       messagePOJO['currentRoundNumber'],
-      messagePOJO['rountCount'],
-      messagePOJO['currentQuestion'],
-      messagePOJO['currentAnswers']
+      messagePOJO['roundCount'],
+      this.questionFactory.fromPOJO(messagePOJO['currentQuestion']),
+      this.answerFactory.fromPOJOList(messagePOJO['currentAnswers'])
     );
   }
 

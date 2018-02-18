@@ -5,7 +5,7 @@ import { Question } from './question';
 export class QuestionFactory {
 
   fromPOJO(questionPOJO: object): Question {
-    return new Question(questionPOJO['text']);
+    return (questionPOJO) ? new Question(questionPOJO['text']) : null;
   }
 
 }

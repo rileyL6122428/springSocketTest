@@ -7,7 +7,7 @@ export class PlayerFactory {
   fromPOJOMapToList(playerPOJOs: object): Array<Player> {
     let players: Array<Player> = new Array<Player>();
     for(let name in playerPOJOs){
-      players.push(playerPOJOs[name]);
+      players.push(this.fromPOJO(playerPOJOs[name]));
     }
     return players.sort(byName);
   }

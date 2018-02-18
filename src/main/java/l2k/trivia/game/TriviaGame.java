@@ -39,7 +39,7 @@ public class TriviaGame {
 	private Room room;
 	private RollCall<TriviaRound> triviaRoundRollCall;
 	private TriviaRound currentRound;
-	private int minPlayers = 3;
+	private int minPlayers = 1;
 	private int maxPlayers = 3;
 	
 	
@@ -132,14 +132,18 @@ public class TriviaGame {
 	}
 	
 	public int getCurrentRoundNumber() {
-		return triviaRoundRollCall.getItemTotal();
+		return triviaRoundRollCall.getCurrentItemNumber();
 	}
 	
 	public int getRoundCount() {
-		return triviaRoundRollCall.getCurrentItemNumber();
+		return triviaRoundRollCall.getItemTotal();
 	}
 	
 	public Question getCurrentQuestion() {
 		return currentRound != null ? currentRound.getQuestion() : null;
+	}
+	
+	public List<Answer> getCurrentAnswers() {
+		return currentRound != null ? currentRound.getAnswers() : null;
 	}
 }

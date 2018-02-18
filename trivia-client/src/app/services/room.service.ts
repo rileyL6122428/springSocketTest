@@ -57,7 +57,6 @@ export class RoomService {
   getGameStompListener(roomName: string): Observable<Game> {
     return this.stompService.subscribe(`/topic/room/${roomName}/game`, this.getStompHeaders())
       .map((message) => {
-        debugger
         let messageBody = JSON.parse(message.body);
         return this.gameFactory.mapPOJO(messageBody);
       });
@@ -67,7 +66,10 @@ export class RoomService {
     let endpoint = `/app/room/${params.roomName}/game/submit-answer`;
     let message = JSON.stringify(params.answer);
 
-    this.stompService.publish(endpoint, message, this.getStompHeaders());
+    this.stompService.publish(endpoint, message, {
+      SESSION_ID: this.cookieService.get("TRIVIA_SESSION_COOKIE"),
+      roomName: params.roomName
+    });
   }
 
   private getStompHeaders(): StompHeaders {

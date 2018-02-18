@@ -9,13 +9,11 @@ export class AnswerFactory {
   }
 
   fromPOJOList(answerPOJOList: Array<object>): Array<Answer> {
-    let answers: Array<Answer> = new Array<Answer>();
+    if(!answerPOJOList) return null;
 
-    answerPOJOList.forEach((questionPOJO: object) => {
-      answers.push(this.fromPOJO(questionPOJO));
+    return answerPOJOList.map((questionPOJO: object) => {
+      return this.fromPOJO(questionPOJO);
     });
-
-    return answers;
   }
 
 }
