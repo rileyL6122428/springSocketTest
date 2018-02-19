@@ -17,10 +17,11 @@ import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.domain.chat.JoinRoomMessage;
 import l2k.trivia.server.domain.chat.LeaveRoomMessage;
+import l2k.trivia.server.listeners.GameFinishListener;
 import l2k.trivia.server.listeners.JoinAndLeaveRoomListener;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Room implements InitializingBean {
+public class Room implements InitializingBean, GameFinishListener {
 	
 	@Autowired private List<JoinAndLeaveRoomListener> joinAndLeaveListeners;
 	@Autowired private TriviaGameFactory gameFactory;
@@ -124,6 +125,11 @@ public class Room implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		game = gameFactory.newTriviaGame(this);
+	}
+
+	@Override
+	public void respondToFinish() {
+		this.game = gameFactory.newTriviaGame(this);
 	}
 	
 }

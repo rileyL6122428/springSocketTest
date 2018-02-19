@@ -17,4 +17,18 @@ public class SequenceBuilder {
 		return this;
 	}
 	
+	public SequenceBuilder addEvents(DelayedEvent...delayedEvents) {
+		for(DelayedEvent delayedEvent : delayedEvents) {
+			this.delayedEvents.add(delayedEvent);
+		}	
+		return this;
+	}
+	
+	public SequenceBuilder addRecurringEvents(int times, DelayedEvent...delayedEvents) {
+		for(int counter = 0; counter < times; counter++) {
+			addEvents(delayedEvents);
+		}
+		return this;
+	}
+	
 }

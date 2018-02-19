@@ -7,17 +7,18 @@ import static l2k.trivia.game.TriviaGame.GamePhase.FINISHED;
 import static l2k.trivia.game.TriviaGame.GamePhase.READY;
 import static l2k.trivia.game.TriviaGame.GamePhase.WAITING_FOR_PLAYERS;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import l2k.trivia.scheduling.GameScheduler;
 import l2k.trivia.server.domain.Room;
+import l2k.trivia.server.listeners.GameFinishListener;
 import l2k.trivia.server.listeners.GameListener;
 
-public class TriviaGame {
+public class TriviaGame implements InitializingBean {
 	
 	enum GamePhase {
 		WAITING_FOR_PLAYERS,
@@ -29,8 +30,9 @@ public class TriviaGame {
 	}
 	
 	@Autowired private List<GameListener> listeners;	
+	@Autowired private List<GameFinishListener> finishListeners;
 	private GamePhase phase = WAITING_FOR_PLAYERS;
-	private Map<String, Player> players = new HashMap<String, Player>();
+	private Map<String, Player> players;
 	private Room room;
 	private RollCall<TriviaRound> triviaRoundRollCall;
 	private TriviaRound currentRound;
@@ -45,10 +47,13 @@ public class TriviaGame {
 	}
 	
 	public void addPlayer(Player player) {
-		if(phase != WAITING_FOR_PLAYERS) return;
 		if(players.size() < maxPlayers) players.put(player.getName(), player);
-		if(players.size() >= minPlayers) start();
+		if(readyForStart()) start();
 		notifyListeners();
+	}
+	
+	private boolean readyForStart() {
+		return phase == WAITING_FOR_PLAYERS && players.size() >= minPlayers;
 	}
 
 	private void start() {
@@ -62,16 +67,15 @@ public class TriviaGame {
 		notifyListeners();
 	}
 	
+	public void setupNextRound() {
+		phase = ANSWERING_QUESTION;
+		currentRound = triviaRoundRollCall.getNextItem();
+		notifyListeners();
+	}
 
 	public void closeCurrentRound() {
 		phase = CHECKING_ANSWERS;
 		currentRound.getPlayersWithCorrectAnswer().forEach(Player::incrementScore);
-		notifyListeners();
-	}
-
-	public void setupNextRound() {
-		phase = ANSWERING_QUESTION;
-		currentRound = triviaRoundRollCall.getNextItem();
 		notifyListeners();
 	}
 	
@@ -79,6 +83,10 @@ public class TriviaGame {
 		phase = FINISHED;
 		currentRound = null;
 		notifyListeners();
+	}
+	
+	public void emitReadyForCleanUp() {
+		finishListeners.forEach(GameFinishListener::respondToFinish);
 	}
 
 	public void submitAnswer(Player player, Answer answer) {
@@ -104,16 +112,8 @@ public class TriviaGame {
 		return players;
 	}
 	
-	public void setPlayers(Map<String, Player> players) {
-		this.players = players;
-	}
-	
 	public GamePhase getPhase() {
 		return phase;
-	}
-	
-	public void setPhase(GamePhase phase) {
-		this.phase = phase;
 	}
 	
 	public int getCurrentRoundNumber() {
@@ -130,5 +130,10 @@ public class TriviaGame {
 	
 	public List<Answer> getCurrentAnswers() {
 		return currentRound != null ? currentRound.getAnswers() : null;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if(readyForStart()) start();		
 	}
 }

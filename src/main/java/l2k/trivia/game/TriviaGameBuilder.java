@@ -2,6 +2,8 @@ package l2k.trivia.game;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import l2k.trivia.server.domain.Room;
 
@@ -12,7 +14,7 @@ public class TriviaGameBuilder {
 
 	public TriviaGame build() {
 		return new TriviaGame(
-			new HashMap<String, Player>(),
+			usersToPlayers(),
 			new RollCall<TriviaRound>(rounds),
 			room
 		);
@@ -26,6 +28,14 @@ public class TriviaGameBuilder {
 	public TriviaGameBuilder setRoom(Room room) {
 		this.room = room;
 		return this;
+	}
+	
+	private Map<String, Player> usersToPlayers() {
+		Map<String, Player> players = new HashMap<String, Player>();
+		for(String name : room.getUsers().keySet()) {
+			players.put(name, new Player(name));
+		}
+		return players;
 	}
 
 }
