@@ -5,6 +5,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import l2k.trivia.server.domain.Room;
+import l2k.trivia.server.domain.User;
 import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.listeners.ChatListener;
 import l2k.trivia.server.listeners.JoinRoomListener;
@@ -24,7 +25,7 @@ public class ChatDispatcher implements JoinRoomListener, ChatListener {
 	}
 
 	@Override
-	public void fireJoinRoomEvent(Room room) {
+	public void fireJoinRoomEvent(User user, Room room) {
 		dispatchChat(room);
 	}
 

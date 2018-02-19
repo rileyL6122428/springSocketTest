@@ -18,12 +18,14 @@ import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.domain.chat.JoinRoomMessage;
 import l2k.trivia.server.domain.chat.LeaveRoomMessage;
 import l2k.trivia.server.listeners.GameFinishListener;
-import l2k.trivia.server.listeners.JoinAndLeaveRoomListener;
+import l2k.trivia.server.listeners.JoinRoomListener;
+import l2k.trivia.server.listeners.LeaveRoomListener;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Room implements InitializingBean, GameFinishListener {
 	
-	@Autowired private List<JoinAndLeaveRoomListener> joinAndLeaveListeners;
+	@Autowired private List<JoinRoomListener> joinListeners;
+	@Autowired private List<LeaveRoomListener> leaveListeners;
 	@Autowired private TriviaGameFactory gameFactory;
 	
 	private String name;
@@ -60,7 +62,7 @@ public class Room implements InitializingBean, GameFinishListener {
 			chat.addMessage(new JoinRoomMessage(user));
 			users.put(user.getName(), user);
 			game.addPlayer(user);
-			joinAndLeaveListeners.forEach((listener) -> listener.fireJoinRoomEvent(this));
+			joinListeners.forEach((listener) -> listener.fireJoinRoomEvent(user, this));
 			userAdded = true;
 		}
 		return userAdded;
@@ -82,7 +84,7 @@ public class Room implements InitializingBean, GameFinishListener {
 		if(contains(user)) {
 			addMessage(new LeaveRoomMessage(user));
 			users.remove(user.getName());
-			joinAndLeaveListeners.forEach((listener) -> listener.fireLeaveRoomEvent(this));
+			leaveListeners.forEach((listener) -> listener.fireLeaveRoomEvent(this));
 		}
 	}
 

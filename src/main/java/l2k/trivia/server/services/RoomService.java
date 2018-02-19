@@ -4,16 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.collections4.MapUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import l2k.trivia.game.Answer;
 import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
+import l2k.trivia.server.listeners.JoinRoomListener;
 
 @Service
-public class RoomService {
+public class RoomService implements JoinRoomListener {
 	
 	private Map<String, Room> rooms;
 	private Map<User, Room> usersToRooms; //TODO move this field onto user?
@@ -33,13 +32,6 @@ public class RoomService {
 		Room room = rooms.get(roomName);
 		return room.isFull();
 	}
-	
-	public void addUserToRoom(String roomName, User user) {
-		Room roomManager = rooms.get(roomName);
-		roomManager.addUser(user);
-		usersToRooms.put(user, roomManager);
-	}
-	
 	
 	public void addRoom(Room room) {
 		rooms.put(room.getName(), room);
@@ -66,6 +58,15 @@ public class RoomService {
 	public void removeUser(User user) {
 		Room room = usersToRooms.get(user);
 		room.removeUser(user);
+	}
+	
+	public Room getRoom(User user) {
+		return usersToRooms.get(user);
+	}
+
+	@Override
+	public void fireJoinRoomEvent(User user, Room room) {
+		usersToRooms.put(user, room);
 	}
 
 }

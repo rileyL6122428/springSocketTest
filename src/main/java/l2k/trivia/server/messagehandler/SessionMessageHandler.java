@@ -11,6 +11,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import l2k.trivia.server.controllers.wsmessages.MatchmakingStats;
+import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.User;
 import l2k.trivia.server.services.MatchmakingMessagingTemplate;
 import l2k.trivia.server.services.RoomService;
@@ -49,7 +50,8 @@ public class SessionMessageHandler {
 		UUID triviaSessionId = sessionMap.remove(stompSessionId);
 		
 		User user = userService.removeUser(triviaSessionId);
-		roomService.removeUser(user);
+		Room room = roomService.getRoom(user);
+		room.removeUser(user);
 		
 		MatchmakingStats stats = new MatchmakingStats();
 		stats.setUserTotal(userService.getTotalUsers());
