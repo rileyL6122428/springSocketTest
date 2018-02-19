@@ -1,3 +1,28 @@
 #matchmaking {
   padding: 5px 70px 0;
+
+  #unplaced-user-total, #matchmaking-instructions {
+    text-align: center;
+    font-size: 20px;
+  }
+
+  #matchmaking-instructions {
+    margin-top: 15px;
+  }
+
+  .room-button {
+    height: 75px;
+    width: 125px;
+    padding: 5px;
+    
+    border: 2px solid white;
+    border-radius: 15px;
+    
+    color: white;
+    background-color: rgba(0,0,0,0);
+    
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

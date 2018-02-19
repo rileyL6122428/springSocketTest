@@ -42,4 +42,8 @@ export class MatchmakingComponent extends SubscribingComponent implements OnInit
       });
   }
 
+  pluralMatchmakingUsers(): boolean {
+    return this.matchmakingStats.unplacedUserTotal > 1;
+  }
+
 }

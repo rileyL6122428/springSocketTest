@@ -1,13 +1,23 @@
 <section *ngIf="matchmakingStats" id="matchmaking">
   <p id="unplaced-user-total">
-    {{matchmakingStats.unplacedUserTotal}} cheerful users ready to join rooms!
+    <span *ngIf="pluralMatchmakingUsers()">
+      {{matchmakingStats.unplacedUserTotal}} cheerful users ready to join rooms!
+    </span>
+    <span *ngIf="!pluralMatchmakingUsers()">
+      {{matchmakingStats.unplacedUserTotal}} cheerful user ready to join a room!
+    </span>
+  </p>
+
+  <p id="matchmaking-instructions">
+    Choose a room below to chat and play happy trivia.
   </p>
 
   <ul id="rooms">
     <li *ngFor="let room of matchmakingStats.rooms">
-      <h6>{{room.name}}</h6>
-      <p>Capacity: {{room.users.size}}/{{room.maxNumberOfUsers}}</p>
-      <button (click)="joinRoom(room.name)">Join</button>
+      <button (click)="joinRoom(room.name)" class="room-button">
+        <h6>{{room.name}}</h6>
+        <p>Capacity: {{room.users.size}}/{{room.maxNumberOfUsers}}</p>
+      </button>
     </li>
   </ul>
 </section>
