@@ -1,5 +1,7 @@
-<section *ngIf="matchmakingStats">
-  <p id="unplaced-user-total">{{matchmakingStats.unplacedUserTotal}} unplaced users</p>
+<section *ngIf="matchmakingStats" id="matchmaking">
+  <p id="unplaced-user-total">
+    {{matchmakingStats.unplacedUserTotal}} cheerful users ready to join rooms!
+  </p>
 
   <ul id="rooms">
     <li *ngFor="let room of matchmakingStats.rooms">

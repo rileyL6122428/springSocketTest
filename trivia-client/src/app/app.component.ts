@@ -14,7 +14,9 @@ import { SessionService } from './services/session/session.service';
         <img class="site-logo" src="./assets/images/happy-face.png" />
         <span class="header-text">Happy Place Trivia</span>
       </h1>
-      <h3 id="welcome-user">Your happy place name is: {{username}}!</h3>
+      <h3 id="welcome-user">
+        Your happy place name is: <span class="username">{{username}}</span>!
+      </h3>
     </section>
 
     <router-outlet></router-outlet>
