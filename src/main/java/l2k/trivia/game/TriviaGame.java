@@ -75,7 +75,9 @@ public class TriviaGame implements InitializingBean {
 
 	public void closeCurrentRound() {
 		phase = CHECKING_ANSWERS;
-		currentRound.getPlayersWithCorrectAnswer().forEach(Player::incrementScore);
+		currentRound.getPlayersWithCorrectAnswer().forEach((player) -> {
+			players.get(player.getName()).incrementScore();
+		});
 		notifyListeners();
 	}
 	

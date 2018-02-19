@@ -1,6 +1,6 @@
 ## Defects
 	
-	- [ ] Leaving Game on browser close
+	- [x] Leaving Game on browser close
 	- [ ] stats numbers one higher than they should be 
 	
 ## Refactoring

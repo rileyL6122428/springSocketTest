@@ -8,7 +8,7 @@ export class Game {
   constructor(
     readonly phase: Phase,
     readonly players: Array<Player>,
-    readonly completedRoundCount: number,
+    readonly currentRoundNumber: number,
     readonly roundCount: number,
     readonly currentQuestion: Question,
     readonly currentAnswers: Array<Answer>
@@ -16,7 +16,10 @@ export class Game {
 
 
   get completedRoundProportion(): number {
-    return this.completedRoundCount / this.roundCount;
+    if(this.phase === "FINISHED")
+      return 1;
+    else
+      return Math.max((this.currentRoundNumber - 1) / this.roundCount, 0);
   }
 
 }
