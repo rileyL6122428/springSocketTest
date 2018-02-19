@@ -9,8 +9,12 @@ import { SessionService } from './services/session/session.service';
 @Component({
   selector: 'app-root',
   template: `
-    <section>
-      <h3 id="welcome-user">Welcome {{username}}</h3>
+    <section id="app-header">
+      <h1>
+        <img class="site-logo" src="./assets/images/happy-face.png" />
+        <span class="header-text">Happy Place Trivia</span>
+      </h1>
+      <h3 id="welcome-user">Your happy place name is: {{username}}!</h3>
     </section>
 
     <router-outlet></router-outlet>

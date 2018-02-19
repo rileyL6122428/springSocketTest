@@ -1,0 +1,26 @@
+#app-header {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 30px 45px;
+
+  h1 {
+    display: flex;
+  }
+
+  h1 img.site-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  h1 span.header-text {
+    padding-top: 13px;
+    margin-left: 10px;
+    font-size: 26px;
+  }
+
+  #welcome-user {
+    font-size: 20px;
+    padding-top: 15px;
+  }
+}

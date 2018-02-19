@@ -1,18 +1,19 @@
 ## Defects
 	
 	- [x] Leaving Game on browser close
-	- [ ] stats numbers one higher than they should be 
+	- [x] stats numbers one higher than they should be
+	
+## New Features
+	
+	- [ ] add styles
+	- [ ] pull questions from DB at random
+	- [ ] add phase to share new scores
+	- [ ] nail down timings
 	
 ## Refactoring
 
 	- [x] l2k.trivia.server.config
-	- [ ] l2k.trivia.server.controllers
-		- [x] StaticController
-		- [x] SessionController
-		- [x] MatchmakingController
-		- [x] RoomController
-		- [x] ChatController
-		- [x] UserController
-		- [ ] Game Controller
+	- [x] l2k.trivia.server.controllers
+	- [x] l2k.trivia.server.controllers.interceptors.requestpopulators
 		
 	
