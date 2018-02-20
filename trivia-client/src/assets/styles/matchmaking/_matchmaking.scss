@@ -14,15 +14,20 @@
     height: 75px;
     width: 125px;
     padding: 5px;
-    
+
     border: 2px solid white;
     border-radius: 15px;
-    
+
     color: white;
     background-color: rgba(0,0,0,0);
-    
+
+    transition: all .75s linear;
+
     &:hover {
       cursor: pointer;
+      transition: all .55s linear;
+      background-color: white;
+      color: rgb(0, 140, 255);
     }
   }
 }
