@@ -1,0 +1,6 @@
+#room {
+  display: flex;
+  justify-content: space-between;
+
+  @import "chat";
+}

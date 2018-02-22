@@ -1,15 +1,13 @@
 <section id="chat">
-  <h2>Chat</h2>
-
-  <form id="message-publication">
-    <input type="text" name="new-message-body" [(ngModel)]="newMessageBody" />
-    <button (click)="sendMessage()">Submit</button>
-  </form>
-
   <ol *ngIf="chat" id="chat-messages">
     <li *ngFor="let message of chat.messages">
       <p>{{message.body}}</p>
       <p>{{message.senderName}} - {{message.timestamp}}</p>
     </li>
   </ol>
+
+  <form id="message-publication">
+    <input type="text" id="new-message-body" name="new-message-body" [(ngModel)]="newMessageBody" />
+    <button (click)="sendMessage()">Submit</button>
+  </form>
 </section>
