@@ -3,7 +3,6 @@ package l2k.trivia.game;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import l2k.trivia.server.domain.Room;
 

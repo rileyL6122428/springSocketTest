@@ -2,8 +2,10 @@ package l2k.trivia.server.domain.factory;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import l2k.trivia.server.domain.Room;
 import l2k.trivia.server.domain.chat.Chat;
 
 @Configuration
@@ -11,8 +13,9 @@ import l2k.trivia.server.domain.chat.Chat;
 public class ChatFactory {
 
 	@Bean
-	public Chat newChat() {
-		return new Chat();
+	@Scope("prototype")
+	public Chat newChat(Room room) {
+		return new Chat(room);
 	}
 
 }

@@ -17,16 +17,17 @@ import l2k.trivia.server.domain.chat.Chat;
 import l2k.trivia.server.domain.chat.ChatRoomMessage;
 import l2k.trivia.server.domain.chat.JoinRoomMessage;
 import l2k.trivia.server.domain.chat.LeaveRoomMessage;
-import l2k.trivia.server.listeners.GameFinishListener;
+import l2k.trivia.server.domain.factory.ChatFactory;
 import l2k.trivia.server.listeners.JoinRoomListener;
 import l2k.trivia.server.listeners.LeaveRoomListener;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Room implements InitializingBean, GameFinishListener {
+public class Room implements InitializingBean {
 	
 	@Autowired private List<JoinRoomListener> joinListeners;
 	@Autowired private List<LeaveRoomListener> leaveListeners;
 	@Autowired private TriviaGameFactory gameFactory;
+	@Autowired private ChatFactory chatFactory;
 	
 	private String name;
 	private Map<String, User> users;
@@ -108,9 +109,6 @@ public class Room implements InitializingBean, GameFinishListener {
 		return chat;
 	}
 	
-	public void setChat(Chat chat) {
-		this.chat = chat;
-	}
 
 	public Map<String, User> getUsers() {
 		return users;
@@ -127,10 +125,10 @@ public class Room implements InitializingBean, GameFinishListener {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		game = gameFactory.newTriviaGame(this);
+		chat = chatFactory.newChat(this);
 	}
-
-	@Override
-	public void respondToFinish() {
+	
+	public void startNewGame() {
 		this.game = gameFactory.newTriviaGame(this);
 	}
 	

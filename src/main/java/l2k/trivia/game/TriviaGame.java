@@ -10,15 +10,13 @@ import static l2k.trivia.game.TriviaGame.GamePhase.WAITING_FOR_PLAYERS;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import l2k.trivia.scheduling.GameScheduler;
 import l2k.trivia.server.domain.Room;
-import l2k.trivia.server.listeners.GameFinishListener;
 import l2k.trivia.server.listeners.GameListener;
 
-public class TriviaGame implements InitializingBean {
+public class TriviaGame {
 	
 	enum GamePhase {
 		WAITING_FOR_PLAYERS,
@@ -30,7 +28,7 @@ public class TriviaGame implements InitializingBean {
 	}
 	
 	@Autowired private List<GameListener> listeners;	
-	@Autowired private List<GameFinishListener> finishListeners;
+
 	private GamePhase phase = WAITING_FOR_PLAYERS;
 	private Map<String, Player> players;
 	private Room room;
@@ -39,6 +37,7 @@ public class TriviaGame implements InitializingBean {
 	private int minPlayers = 1;
 	private int maxPlayers = 3;
 	
+	public TriviaGame() {}
 	
 	public TriviaGame(Map<String, Player> players, RollCall<TriviaRound> triviaRoundRollCall, Room room) {
 		this.players = players;
@@ -88,7 +87,8 @@ public class TriviaGame implements InitializingBean {
 	}
 	
 	public void emitReadyForCleanUp() {
-		finishListeners.forEach(GameFinishListener::respondToFinish);
+		room.startNewGame();
+//		finishListeners.forEach(GameFinishListener::respondToFinish);
 	}
 
 	public void submitAnswer(Player player, Answer answer) {
@@ -134,8 +134,20 @@ public class TriviaGame implements InitializingBean {
 		return currentRound != null ? currentRound.getAnswers() : null;
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		if(readyForStart()) start();		
 	}
+	
+	void setPlayers(Map<String, Player> players) {
+		this.players = players;
+	}
+
+	void setRoom(Room room) {
+		this.room = room;
+	}
+
+	void setRounds(RollCall<TriviaRound> triviaRoundRollCall) {
+		this.triviaRoundRollCall = triviaRoundRollCall;
+	}
+	
 }

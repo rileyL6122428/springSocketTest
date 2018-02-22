@@ -10,10 +10,20 @@
     margin-top: 15px;
   }
 
+  #rooms {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 35px;
+    width: 499.99px;
+  }
+
   .room-button {
     height: 75px;
     width: 125px;
     padding: 5px;
+    margin-bottom: 15px;
 
     border: 2px solid white;
     border-radius: 15px;
@@ -28,6 +38,15 @@
       transition: all .55s linear;
       background-color: white;
       color: rgb(0, 140, 255);
+    }
+
+    h6 {
+      font-size: 14px;
+    }
+
+    p {
+      margin-top: 5px;
+      font-size: 13px;
     }
   }
 }
