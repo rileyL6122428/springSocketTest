@@ -1,8 +1,7 @@
 <section id="chat">
   <ol *ngIf="chat" id="chat-messages">
     <li *ngFor="let message of chat.messages" class="chat-message">
-      <p class="message-text">{{message.body}}</p>
-      <p class="sender">{{message.senderName}}</p>
+      <chat-message [message]="message"></chat-message>
     </li>
   </ol>
 

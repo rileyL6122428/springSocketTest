@@ -6,6 +6,7 @@ import { MatchmakingComponent } from './matchmaking/matchmaking.component';
 import { RoomComponent } from './room/room.component'
 import { GameComponent } from './game/game.component';
 import { ChatComponent } from './chat/chat.component';
+import { ChatMessageComponent } from './chat-message/chat-message.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ChatComponent } from './chat/chat.component';
     MatchmakingComponent,
     RoomComponent,
     GameComponent,
-    ChatComponent
+    ChatComponent,
+    ChatMessageComponent
   ],
 
   entryComponents: [
