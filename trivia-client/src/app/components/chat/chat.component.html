@@ -7,6 +7,9 @@
 
   <form id="message-publication">
     <input type="text" id="new-message-body" name="new-message-body" [(ngModel)]="newMessageBody" />
-    <button (click)="sendMessage()">Submit</button>
+    <button id="send-message" (click)="sendMessage()">
+      <!-- Submit -->
+      <img src="./assets/images/arrow-up.png" />
+    </button>
   </form>
 </section>
