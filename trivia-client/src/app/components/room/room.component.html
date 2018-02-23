@@ -3,11 +3,18 @@
 </section>
 
 <section id="room" *ngIf="roomName">
-  <section id="room-header">
-    <h1>{{roomName}}</h1>
-    <button (click)="leaveRoom(roomName)">Leave Room</button>
+  <section id="main-panel">
+    <section id="room-header">
+      <h1>{{roomName}}</h1>
+      <button id="leave-room" (click)="leaveRoom(roomName)">
+        Leave Room
+      </button>
+    </section>
+
+    <game [roomName]="roomName"></game>
   </section>
 
-  <game [roomName]="roomName"></game>
-  <chat [roomName]="roomName"></chat>
+  <div id="secondary-panel">
+    <chat [roomName]="roomName"></chat>
+  </div>
 </section>

@@ -2,5 +2,22 @@
   display: flex;
   justify-content: space-between;
 
+  #main-panel {
+    width: 100%;
+
+    #room-header {
+      position: relative;
+
+      h1 {
+        width: fit-content;
+        margin: auto;
+      }
+
+      #leave-room {
+        position: absolute;
+      }
+    }
+  }
+
   @import "chat";
 }
