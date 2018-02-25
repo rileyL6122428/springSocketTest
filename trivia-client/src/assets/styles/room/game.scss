@@ -1,0 +1,21 @@
+@import "../core/cloud-ocean-button";
+
+#game-container {
+  margin-top: 20px;
+  
+  #question-answering {
+    #question, .answer {
+      width: fit-content;
+      margin: auto;
+    }
+    
+    .answer button {
+      width: 450px;
+      margin-top: 15px;
+      min-height: 50px;
+      border-radius: 24px;
+      font-size: 20px;
+      @include cloud-ocean-button();
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@mixin cloud-ocean-button() {
+  color: white;
+  background-color: transparent;
+  transition: all 0.75s linear;
+  &:hover {
+    cursor: pointer;
+    color: #008cff;
+    background-color: white;
+  }
+  
+  &.chosen {
+    color: #008cff;
+    background-color: white;
+  }
+}

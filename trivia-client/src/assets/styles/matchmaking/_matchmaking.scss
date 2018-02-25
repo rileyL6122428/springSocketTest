@@ -20,8 +20,8 @@
   }
 
   .room-button {
-    height: 75px;
-    width: 125px;
+    height: 150px;
+    width: 200px;
     padding: 5px;
     margin-bottom: 15px;
 
@@ -38,10 +38,22 @@
       transition: all .55s linear;
       background-color: white;
       color: rgb(0, 140, 255);
+      svg path {
+        fill: rgb(0, 140, 255);
+      }
     }
 
     h6 {
       font-size: 14px;
+    }
+    
+    svg {
+      width: 150px;
+      height: 150px;
+      path {
+        fill: white;
+        transition: all .55s linear;
+      }
     }
 
     p {

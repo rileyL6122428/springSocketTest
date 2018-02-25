@@ -1,3 +1,5 @@
+@import "../core/cloud-ocean-button";
+
 #room {
   display: flex;
   justify-content: space-between;
@@ -11,25 +13,19 @@
       h1 {
         width: fit-content;
         margin: auto;
+        font-size: 22px;
       }
 
       #leave-room {
         position: absolute;
-        background-color: transparent;
         font-size: 22px;
         border: 2px solid white;
         border-radius: 20px;
         top: 0;
-        color: white;
-        transition: all 0.75s linear;
-        &:hover {
-          color: #008cff;
-          background-color: white;
-          cursor: pointer;
-        }
+        @include cloud-ocean-button();
       }
     }
   }
-
+  @import "game";
   @import "chat";
 }
