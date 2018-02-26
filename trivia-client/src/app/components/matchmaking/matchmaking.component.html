@@ -16,7 +16,7 @@
     <li *ngFor="let room of matchmakingStats.rooms">
       <button (click)="joinRoom(room.name)" class="room-button">
         <h6><pokemon-room-icon [pokemon]="room.mascot"></pokemon-room-icon></h6>
-        <p>{{room.users.size}}/{{room.maxNumberOfUsers}}</p>
+        <!-- <p>{{room.users.size}}/{{room.maxNumberOfUsers}}</p> -->
       </button>
     </li>
   </ul>

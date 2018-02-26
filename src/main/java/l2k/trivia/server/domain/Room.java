@@ -34,7 +34,25 @@ public class Room implements InitializingBean {
 	private int userCapacity;
 	private Chat chat;
 	private TriviaGame game;
+	private Pokemon mascot;
+	private int matchmakingOrder;
 	
+	public int getMatchmakingOrder() {
+		return matchmakingOrder;
+	}
+
+	public void setMatchmakingOrder(int order) {
+		this.matchmakingOrder = order;
+	}
+
+	public Pokemon getMascot() {
+		return mascot;
+	}
+
+	public void setMascot(Pokemon mascot) {
+		this.mascot = mascot;
+	}
+
 	public Room() { }
 	
 	public Room(String roomName) {

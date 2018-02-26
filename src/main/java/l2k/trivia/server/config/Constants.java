@@ -1,7 +1,24 @@
 package l2k.trivia.server.config;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableList;
+
+import java.util.List;
+
 public class Constants {
 	
+	public static final List<String> ROOM_NAMES = unmodifiableList(asList(
+		"Charizard",
+		"Garchomp",
+		"Lugia",
+		"Rayquaza",
+		"Gengar",
+		"Mewtwo",
+		"Lucario",
+		"Blaziken",
+		"Eevee",
+		"Pikachu"
+	));  
 	
 	public static class STOMP {
 		

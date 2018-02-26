@@ -6,6 +6,7 @@ import { User } from '../user/user';
 import { Chat } from '../chat/chat';
 import { RoomMessage } from '../chat-room-message/room-message';
 import { ChatFactory } from '../chat/chat.factory';
+import { Pokemon } from '../pokemon/pokemon';
 
 @Injectable()
 export class RoomFactory {
@@ -14,26 +15,29 @@ export class RoomFactory {
     private userFactory: UserFactory,
     private roomMessageFactory: RoomMessageFactory,
     private chatFactory: ChatFactory
-  ) {
-  }
+  ) { }
 
   fromPOJO(roomPOJO: Object): Room {
-    let users: Map<string, User> = this.userFactory.mapPOJOMap(roomPOJO['users']);
-    // let messages: Array<RoomMessage> = this.roomMessageFactory.mapPOJOList(roomPOJO['messages']);
-    let chat: Chat = this.chatFactory.fromPOJO(roomPOJO['chat']);
-    let name: string = roomPOJO["name"];
-    let maxNumberOfUsers: number = roomPOJO['userCapacity'];
+    const users: Map<string, User> = this.userFactory.mapPOJOMap(roomPOJO['users']);
+    const chat: Chat = this.chatFactory.fromPOJO(roomPOJO['chat']);
+    const name: string = roomPOJO['name'];
+    const maxNumberOfUsers: number = roomPOJO['userCapacity'];
+    const mascot: Pokemon = new Pokemon(roomPOJO['mascot']['name']);
 
-    return new Room({ users, chat, name, maxNumberOfUsers });
+    return new Room({ users, chat, name, maxNumberOfUsers, mascot });
   }
 
-  fromPOJOMapToList(roomPOJOs: Object): Array<Room> {
-    let roomNames: Array<string> = Object.keys(roomPOJOs);
+  fromPOJOMapToList(roomsPOJOMap: Object): Array<Room> {
+    const roomPOJOList: Array<object> = Object.values(roomsPOJOMap);
 
-    return roomNames
-            .sort()
-            .map((roomName:string) => roomPOJOs[roomName])
+    return roomPOJOList
+            .sort(byMatchmakingOrder)
+            // .map((room: object) => roomsPOJOMap[room['name']])
             .map((roomPOJO: Object) => this.fromPOJO(roomPOJO));
   }
 
+}
+
+function byMatchmakingOrder(roomA, roomB): number {
+  return roomA.matchmakingOrder - roomB.matchmakingOrder;
 }
