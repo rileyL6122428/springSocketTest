@@ -1,22 +1,9 @@
 <section *ngIf="matchmakingStats" id="matchmaking">
-  <p id="unplaced-user-total">
-    <span *ngIf="pluralMatchmakingUsers()">
-      {{matchmakingStats.unplacedUserTotal}} cheerful users ready to join rooms!
-    </span>
-    <span *ngIf="!pluralMatchmakingUsers()">
-      {{matchmakingStats.unplacedUserTotal}} cheerful user ready to join a room!
-    </span>
-  </p>
-
-  <p id="matchmaking-instructions">
-    Choose a room below to chat and play happy trivia.
-  </p>
-
   <ul id="rooms">
     <li *ngFor="let room of matchmakingStats.rooms">
       <button (click)="joinRoom(room.name)" class="room-button">
         <h6><pokemon-room-icon [pokemon]="room.mascot"></pokemon-room-icon></h6>
-        <!-- <p>{{room.users.size}}/{{room.maxNumberOfUsers}}</p> -->
+        <p>{{room.users.size}}/{{room.maxNumberOfUsers}}</p>
       </button>
     </li>
   </ul>
