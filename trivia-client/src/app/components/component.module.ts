@@ -7,7 +7,17 @@ import { RoomComponent } from './room/room.component'
 import { GameComponent } from './game/game.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
-import { CharizardComponent } from './charizard/charizard.component';
+import { CharizardComponent } from './pokemon-icons/charizard/charizard.component';
+import { GarchompComponent } from './pokemon-icons/garchomp/garchomp.component';
+import { EeveeComponent } from './pokemon-icons/eevee/eevee.component';
+import { MewtwoComponent } from './pokemon-icons/mewtwo/mewtwo.component';
+import { LugiaComponent } from './pokemon-icons/lugia/lugia.component';
+import { GengarComponent } from './pokemon-icons/gengar/gengar.component';
+import { RayquazaComponent } from './pokemon-icons/rayquaza/rayquaza.component';
+import { BlazikenComponent } from './pokemon-icons/blaziken/blaziken.component';
+import { PikachuComponent } from './pokemon-icons/pikachu/pikachu.component';
+import { LucarioComponent } from './pokemon-icons/lucario/lucario.component';
+import { PokemonRoomIconComponent } from './pokemon-icons/pokemon-room-icon/pokemon-room-icon.component';
 
 @NgModule({
   imports: [
@@ -22,7 +32,17 @@ import { CharizardComponent } from './charizard/charizard.component';
     GameComponent,
     ChatComponent,
     ChatMessageComponent,
-    CharizardComponent
+    CharizardComponent,
+    GarchompComponent,
+    EeveeComponent,
+    MewtwoComponent,
+    LugiaComponent,
+    GengarComponent,
+    RayquazaComponent,
+    BlazikenComponent,
+    PikachuComponent,
+    LucarioComponent,
+    PokemonRoomIconComponent
   ],
 
   entryComponents: [

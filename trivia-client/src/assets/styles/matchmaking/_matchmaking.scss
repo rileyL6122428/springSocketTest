@@ -38,7 +38,7 @@
       transition: all .55s linear;
       background-color: white;
       color: rgb(0, 140, 255);
-      svg path {
+      svg path, svg ellipse {
         fill: rgb(0, 140, 255);
       }
     }
@@ -50,7 +50,7 @@
     svg {
       width: 150px;
       height: 150px;
-      path {
+      path, ellipse {
         fill: white;
         transition: all .55s linear;
       }
