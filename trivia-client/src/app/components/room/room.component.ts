@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Room } from '../../domain/room/room';
 import { RoomService } from '../../services/room.service';
 import { SubscribingComponent } from '../base/subscribing.component';
+import { Pokemon } from '../../domain/pokemon/pokemon';
 
 @Component({
   selector: 'app-room',
@@ -13,6 +14,8 @@ import { SubscribingComponent } from '../base/subscribing.component';
 export class RoomComponent extends SubscribingComponent implements OnInit {
 
   private roomName: string;
+  private room: Room;
+  private mascot: Pokemon;
 
   constructor(
     private router: Router,
@@ -20,21 +23,23 @@ export class RoomComponent extends SubscribingComponent implements OnInit {
     private roomService: RoomService
   ) {
     super();
+    this.mascot = new Pokemon('Charizard');
   }
 
   ngOnInit(): void {
     this.addSubscriptions(
       this.route.params.subscribe((params) => {
-        this.roomName = params["name"];
+        this.roomName = params['name'];
       })
     );
   }
 
   leaveRoom(): void {
-    let leaveRoomSub = this.roomService.leaveRoom(this.roomName).subscribe((successfullyLeftRoom: boolean) => {
+    const leaveRoomSub = this.roomService.leaveRoom(this.roomName).subscribe((successfullyLeftRoom: boolean) => {
       leaveRoomSub.unsubscribe();
-      if(successfullyLeftRoom)
-        this.router.navigateByUrl("/matchmaking");
+      if (successfullyLeftRoom) {
+        this.router.navigateByUrl('/matchmaking');
+      }
     });
   }
 

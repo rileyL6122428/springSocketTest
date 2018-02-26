@@ -9,6 +9,13 @@
       <button id="leave-room" (click)="leaveRoom(roomName)">
         <
       </button>
+      <!-- <button class="room-button">
+        <h6>
+          <pokemon-room-icon [pokemon]="mascot"></pokemon-room-icon>
+        </h6>
+        <p>{{room.users.size}}/{{room.maxNumberOfUsers}}</p>
+        <p>1/3</p>
+      </button> -->
     </section>
 
     <game [roomName]="roomName"></game>

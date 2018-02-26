@@ -23,10 +23,11 @@ export class RoomService {
 
   fetchChat(roomName: string): Observable<Chat> {
     return this.http.get(`/room/${roomName}/chat`).map((response) => {
-      if(response[`status`] === 200)
+      if (response['status'] === 200) {
         return this.chatFactory.fromPOJO(response.json());
-      else
+      } else {
         return null;
+      }
     });
   }
 
