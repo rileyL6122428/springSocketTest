@@ -88,7 +88,6 @@ public class TriviaGame {
 	
 	public void emitReadyForCleanUp() {
 		room.startNewGame();
-//		finishListeners.forEach(GameFinishListener::respondToFinish);
 	}
 
 	public void submitAnswer(Player player, Answer answer) {

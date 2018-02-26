@@ -26,10 +26,10 @@ public class RoomFactory {
 	
 	@Bean
 	@Scope("prototype")
-	public Room newRoomWithMascot(String pokemonName, int matchmakingOrder) {
+	public Room newRoomWithMascot(String pokemonName, int matchmakingOrder, int userCapacity) {
 		Room room = new Room(pokemonName);
 		room.setMascot(new Pokemon(pokemonName));
-		room.setUserCapacity(3);
+		room.setUserCapacity(userCapacity);
 		room.setMatchmakingOrder(matchmakingOrder);
 		return room;
 	}
