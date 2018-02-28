@@ -12,11 +12,73 @@
 
   #rooms {
     display: flex;
+    position: relative;
     justify-content: space-between;
     flex-wrap: wrap;
     margin: auto;
     margin-top: 35px;
     width: 650px;
+    height: 1275px;
+
+    #Charizard {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #Garchomp {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    #Lugia {
+      position: absolute;
+      top: 255px;
+      left: 0;
+    }
+
+    #Rayquaza {
+      position: absolute;
+      top: 255px;
+      right: 0;
+    }
+
+    #Gengar {
+      position: absolute;
+      top: 510px;
+      left: 0;
+    }
+
+    #Mewtwo {
+      position: absolute;
+      top: 510px;
+      right: 0;
+    }
+
+    #Lucario {
+      position: absolute;
+      top: 765px;
+      left: 0;
+    }
+
+    #Blaziken {
+      position: absolute;
+      top: 765px;
+      right: 0;
+    }
+
+    #Eevee {
+      position: absolute;
+      top: 765px + 255px;
+      left: 0;
+    }
+
+    #Pikachu {
+      position: absolute;
+      top: 765px + 255px;
+      right: 0;
+    }
   }
 
   .room-button.activated {
