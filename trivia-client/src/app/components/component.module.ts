@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServicesModule } from '../services/service.module';
 import { MatchmakingComponent } from './matchmaking/matchmaking.component';
-import { RoomComponent } from './room/room.component'
+import { RoomComponent } from './room/room.component';
 import { GameComponent } from './game/game.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
@@ -18,6 +18,8 @@ import { BlazikenComponent } from './pokemon-icons/blaziken/blaziken.component';
 import { PikachuComponent } from './pokemon-icons/pikachu/pikachu.component';
 import { LucarioComponent } from './pokemon-icons/lucario/lucario.component';
 import { PokemonRoomIconComponent } from './pokemon-icons/pokemon-room-icon/pokemon-room-icon.component';
+import { JoinRoomButtonComponent } from './room-button/join-room-button.component';
+import { LeaveRoomButtonComponent } from './room-button/leave-room-button.component';
 
 @NgModule({
   imports: [
@@ -42,7 +44,9 @@ import { PokemonRoomIconComponent } from './pokemon-icons/pokemon-room-icon/poke
     BlazikenComponent,
     PikachuComponent,
     LucarioComponent,
-    PokemonRoomIconComponent
+    PokemonRoomIconComponent,
+    JoinRoomButtonComponent,
+    LeaveRoomButtonComponent
   ],
 
   entryComponents: [

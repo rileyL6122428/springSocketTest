@@ -1,10 +1,11 @@
 <section *ngIf="matchmakingStats" id="matchmaking">
   <ul id="rooms">
     <li *ngFor="let room of matchmakingStats.rooms">
-      <button (click)="joinRoom(room.name)" class="room-button">
+      <!-- <button (click)="joinRoom(room.name)" class="room-button">
         <h6><pokemon-room-icon [pokemon]="room.mascot"></pokemon-room-icon></h6>
         <p>{{room.users.size}}/{{room.maxNumberOfUsers}}</p>
-      </button>
+      </button> -->
+      <join-room-button [room]="room" (click)="joinRoom(room.name)"></join-room-button>
     </li>
   </ul>
 </section>

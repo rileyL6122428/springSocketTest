@@ -33,7 +33,7 @@
 
     transition: all .75s linear;
 
-    &:hover {
+    &:hover, &.activated {
       cursor: pointer;
       transition: all .55s linear;
       background-color: white;

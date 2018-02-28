@@ -1,0 +1,6 @@
+<button (click)="joinRoom(room.name)" [ngClass]="{'room-button': true, activated: activated }">
+  <h6>
+    <pokemon-room-icon [pokemon]="room.mascot"></pokemon-room-icon>
+  </h6>
+  <p>{{room.users.size}}/{{room.maxNumberOfUsers}}</p>
+</button>
