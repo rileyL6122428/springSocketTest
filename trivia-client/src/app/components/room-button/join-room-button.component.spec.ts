@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JoinRoomButtonComponent } from './join-room-button.component';
+import { RoomButtonComponent } from './join-room-button.component';
 
 describe('JoinRoomButtonComponent', () => {
-  let component: JoinRoomButtonComponent;
-  let fixture: ComponentFixture<JoinRoomButtonComponent>;
+  let component: RoomButtonComponent;
+  let fixture: ComponentFixture<RoomButtonComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ JoinRoomButtonComponent ]
+      declarations: [ RoomButtonComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JoinRoomButtonComponent);
+    fixture = TestBed.createComponent(RoomButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

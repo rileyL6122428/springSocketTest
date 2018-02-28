@@ -5,6 +5,7 @@ import { User } from '../../domain/user/user';
 import { UserService } from '../../services/user.service';
 import { MatchmakingService } from '../../services/matchmaking.service';
 import { SubscribingComponent } from '../base/subscribing.component';
+import { Room } from '../../domain/room/room';
 
 @Component({
   selector: 'app-matchmaking',
@@ -14,10 +15,11 @@ import { SubscribingComponent } from '../base/subscribing.component';
 export class MatchmakingComponent extends SubscribingComponent implements OnInit {
 
   private matchmakingStats: MatchmakingStats;
+  private selectedRoom: Room;
 
   constructor(
     private router: Router,
-    private matchmakingService: MatchmakingService
+    private matchmakingService: MatchmakingService,
   ) {
     super();
   }
@@ -34,12 +36,13 @@ export class MatchmakingComponent extends SubscribingComponent implements OnInit
     );
   }
 
-  joinRoom(roomName: string): void {
-    let joinRoomSub = this.matchmakingService.joinRoom(roomName)
-      .subscribe((requestSuccessful: boolean) => {
-        if(requestSuccessful) this.router.navigateByUrl(`/room/${roomName}`);
-          joinRoomSub.unsubscribe();
-      });
+  toggleRoom(room: Room): void {
+    console.log(room.name);
+    this.selectedRoom = (this.selectedRoom) ? undefined : room;
+    // const joinRoomSub = this.matchmakingService.joinRoom(room.name)
+      // .subscribe((requestSuccessful: boolean) => {
+        // if (requestSuccessful) { this.router.navigateByUrl(`/room/${room.name}`); }
+      // });
   }
 
   pluralMatchmakingUsers(): boolean {

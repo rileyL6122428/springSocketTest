@@ -18,8 +18,7 @@ import { BlazikenComponent } from './pokemon-icons/blaziken/blaziken.component';
 import { PikachuComponent } from './pokemon-icons/pikachu/pikachu.component';
 import { LucarioComponent } from './pokemon-icons/lucario/lucario.component';
 import { PokemonRoomIconComponent } from './pokemon-icons/pokemon-room-icon/pokemon-room-icon.component';
-import { JoinRoomButtonComponent } from './room-button/join-room-button.component';
-import { LeaveRoomButtonComponent } from './room-button/leave-room-button.component';
+import { RoomButtonComponent } from './room-button/join-room-button.component';
 
 @NgModule({
   imports: [
@@ -45,8 +44,7 @@ import { LeaveRoomButtonComponent } from './room-button/leave-room-button.compon
     PikachuComponent,
     LucarioComponent,
     PokemonRoomIconComponent,
-    JoinRoomButtonComponent,
-    LeaveRoomButtonComponent
+    RoomButtonComponent
   ],
 
   entryComponents: [

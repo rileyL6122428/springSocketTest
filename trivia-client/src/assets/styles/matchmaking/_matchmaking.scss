@@ -19,6 +19,23 @@
     width: 650px;
   }
 
+  .room-button.activated {
+    background-color: white;
+    color: rgb(0, 140, 255);
+    svg path, svg ellipse {
+      fill: rgb(0, 140, 255);
+    }
+  }
+
+  .room-button.hide {
+    background-color: transparent;
+    color: transparent;
+    svg path, svg ellipse {
+      fill: transparent;
+    }
+    border: 1px solid transparent;
+  }
+    
   .room-button {
     height: 200px;
     width: 250px;
@@ -33,9 +50,8 @@
 
     transition: all .75s linear;
 
-    &:hover, &.activated {
+    &:hover:not(.hide) {
       cursor: pointer;
-      transition: all .55s linear;
       background-color: white;
       color: rgb(0, 140, 255);
       svg path, svg ellipse {

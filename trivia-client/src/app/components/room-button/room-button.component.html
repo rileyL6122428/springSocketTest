@@ -1,4 +1,4 @@
-<button (click)="joinRoom(room.name)" [ngClass]="{'room-button': true, activated: activated }">
+<button (click)="toggleActivation()" [ngClass]="classes">
   <h6>
     <pokemon-room-icon [pokemon]="room.mascot"></pokemon-room-icon>
   </h6>
