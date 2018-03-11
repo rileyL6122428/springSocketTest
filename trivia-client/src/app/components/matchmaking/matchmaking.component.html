@@ -1,7 +1,7 @@
 <section *ngIf="matchmakingStats" id="matchmaking">
-  <ul id="rooms">
+  <ul id="rooms" [class.transitioning]="!!selectedRoom">
     <li *ngFor="let room of matchmakingStats.rooms">
-      <join-room-button [room]="room" [selectedRoom]="selectedRoom" (click)="toggleRoom(room)"></join-room-button>
+      <join-room-button *ngIf="!selectedRoom || selectedRoom === room" [room]="room" [selectedRoom]="selectedRoom" (click)="toggleRoom(room)"></join-room-button>
     </li>
   </ul>
 </section>

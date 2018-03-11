@@ -10,6 +10,10 @@
     margin-top: 15px;
   }
 
+  #rooms.transitioning {
+    height: 590px;
+  }
+
   #rooms {
     display: flex;
     position: relative;
@@ -19,6 +23,22 @@
     margin-top: 35px;
     width: 650px;
     height: 1275px;
+
+    transition: height 3s linear;
+
+    .room-button {
+      transition: top 3s linear, left 3s linear, right 3s linear, color 0.75s linear, background-color 0.75s linear;
+    }
+    
+    #Charizard.activated, #Lugia.activated, #Gengar.activated, #Lucario.activated, #Eevee.activated {
+      left: -245px;
+      top: -30px;
+    }
+
+    #Garchomp.activated, #Rayquaza.activated, #Mewtwo.activated, #Blaziken.activated, #Pikachu.activated {
+      right: 645px;
+      top: -30px;
+    }
 
     #Charizard {
       position: absolute;

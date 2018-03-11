@@ -39,6 +39,7 @@ export class MatchmakingComponent extends SubscribingComponent implements OnInit
   toggleRoom(room: Room): void {
     console.log(room.name);
     this.selectedRoom = (this.selectedRoom) ? undefined : room;
+    
     // const joinRoomSub = this.matchmakingService.joinRoom(room.name)
       // .subscribe((requestSuccessful: boolean) => {
         // if (requestSuccessful) { this.router.navigateByUrl(`/room/${room.name}`); }
