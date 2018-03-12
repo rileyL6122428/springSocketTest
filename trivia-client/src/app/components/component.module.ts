@@ -19,12 +19,15 @@ import { PikachuComponent } from './pokemon-icons/pikachu/pikachu.component';
 import { LucarioComponent } from './pokemon-icons/lucario/lucario.component';
 import { PokemonRoomIconComponent } from './pokemon-icons/pokemon-room-icon/pokemon-room-icon.component';
 import { RoomButtonComponent } from './room-button/join-room-button.component';
+import { TestComponent } from './test/test.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     ServicesModule,
     FormsModule,
-    BrowserModule
+    BrowserModule,
+    RouterModule
   ],
 
   declarations: [
@@ -44,7 +47,8 @@ import { RoomButtonComponent } from './room-button/join-room-button.component';
     PikachuComponent,
     LucarioComponent,
     PokemonRoomIconComponent,
-    RoomButtonComponent
+    RoomButtonComponent,
+    TestComponent
   ],
 
   entryComponents: [
