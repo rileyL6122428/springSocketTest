@@ -1,0 +1,71 @@
+@mixin pokemon-button() {
+    height: 200px;
+    width: 250px;
+
+    padding: 5px;
+    margin-bottom: 55px;
+
+    border: 2px solid white;
+    border-radius: 15px;
+
+    color: white;
+    background-color: rgba(0,0,0,0);
+
+    transition:
+      height 3s linear,
+      width 3s linear,
+      top 3s linear,
+      left 3s linear,
+      background-color 0.75s linear;
+
+    &:hover:not(.hide) {
+      cursor: pointer;
+      background-color: white;
+      color: rgb(0, 140, 255);
+      svg path, svg ellipse {
+        fill: rgb(0, 140, 255);
+      }
+    }
+
+    svg {
+      transition: 
+        height 3s linear,
+        width 3s linear;
+      width: 150px;
+      height: 150px;
+      path, ellipse {
+        fill: white;
+        transition: all .55s linear;
+      }
+    }
+
+    p {
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    &.activated {
+      height: 140px;
+      width: 115px;
+
+      background-color: white;
+      color: rgb(0, 140, 255);
+      svg path, svg ellipse {
+        fill: rgb(0, 140, 255);
+      }
+
+      svg {
+        width: 100px;
+        height: 100px;
+      }
+  }
+
+  &.hide {
+    background-color: transparent;
+    color: transparent;
+    svg path, svg ellipse {
+      fill: transparent;
+    }
+    border: 1px solid transparent;
+  }
+}

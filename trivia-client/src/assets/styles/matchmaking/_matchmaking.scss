@@ -1,5 +1,90 @@
+@import '../core/pokemon-button';
+
+$poke-button-width: 250px;
+$poke-button-offset: 90px;
+
+$first-row-unactivated-top: 15px;
+$second-row-unactivated-top: 255px;
+$third-row-unactivated-top: 510px;
+$fourth-row-unactivated-top: 765px;
+$fifth-row-unactivated-top: 765px + 255px;
+
+$left-col-unactivated-left: calc(50% - #{$poke-button-width} - #{$poke-button-offset});
+$right-col-unactivated-right: calc(50% + #{$poke-button-offset});
+
+$Charizard: (
+  name: Charizard,
+  unactivated-top: $first-row-unactivated-top,
+  unactivated-left: $left-col-unactivated-left
+);
+
+$Garchomp: (
+  name: Garchomp,
+  unactivated-top: $first-row-unactivated-top,
+  unactivated-left: $right-col-unactivated-right
+);
+
+$Lugia: (
+  name: Lugia,
+  unactivated-top: $second-row-unactivated-top,
+  unactivated-left: $left-col-unactivated-left
+  );
+
+$Rayquaza: (
+  name: Rayquaza,
+  unactivated-top: $second-row-unactivated-top,
+  unactivated-left: $right-col-unactivated-right
+);
+
+$Gengar: (
+  name: Gengar,
+  unactivated-top: $third-row-unactivated-top,
+  unactivated-left: $left-col-unactivated-left
+);
+
+$Mewtwo: (
+  name: Mewtwo,
+  unactivated-top: $third-row-unactivated-top,
+  unactivated-left: $right-col-unactivated-right
+);
+
+$Lucario: (
+  name: Lucario,
+  unactivated-top: $fourth-row-unactivated-top,
+  unactivated-left: $left-col-unactivated-left
+);
+
+$Blaziken: (
+  name: Blaziken,
+  unactivated-top: $fourth-row-unactivated-top,
+  unactivated-left: $right-col-unactivated-right
+);
+
+$Eevee: (
+  name: Eevee,
+  unactivated-top: $fifth-row-unactivated-top,
+  unactivated-left: $left-col-unactivated-left
+);
+
+$Pikachu: (
+  name: Pikachu,
+  unactivated-top: $fifth-row-unactivated-top,
+  unactivated-left: $right-col-unactivated-right
+);
+
+$pokemon:
+  $Charizard,
+  $Garchomp,
+  $Lugia,
+  $Rayquaza, 
+  $Gengar, 
+  $Mewtwo, 
+  $Lucario, 
+  $Blaziken,
+  $Eevee,
+  $Pikachu;
+
 #matchmaking {
-  padding: 5px 70px 0;
 
   #unplaced-user-total, #matchmaking-instructions {
     text-align: center;
@@ -15,148 +100,28 @@
   }
 
   #rooms {
-    display: flex;
     position: relative;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin: auto;
-    margin-top: 35px;
-    width: 650px;
     height: 1275px;
 
     transition: height 3s linear;
 
-    .room-button {
-      transition: top 3s linear, left 3s linear, right 3s linear, color 0.75s linear, background-color 0.75s linear;
-    }
-    
-    #Charizard.activated, #Lugia.activated, #Gengar.activated, #Lucario.activated, #Eevee.activated {
-      left: -245px;
-      top: -30px;
-    }
+    @each $pocket-monster in $pokemon {
+      ##{map-get($map: $pocket-monster, $key: name)} {
+        position: absolute;
+        top: map-get($pocket-monster, unactivated-top);
+        left: map-get($pocket-monster, unactivated-left);
+      }
 
-    #Garchomp.activated, #Rayquaza.activated, #Mewtwo.activated, #Blaziken.activated, #Pikachu.activated {
-      right: 645px;
-      top: -30px;
-    }
-
-    #Charizard {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    #Garchomp {
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-
-    #Lugia {
-      position: absolute;
-      top: 255px;
-      left: 0;
-    }
-
-    #Rayquaza {
-      position: absolute;
-      top: 255px;
-      right: 0;
-    }
-
-    #Gengar {
-      position: absolute;
-      top: 510px;
-      left: 0;
-    }
-
-    #Mewtwo {
-      position: absolute;
-      top: 510px;
-      right: 0;
-    }
-
-    #Lucario {
-      position: absolute;
-      top: 765px;
-      left: 0;
-    }
-
-    #Blaziken {
-      position: absolute;
-      top: 765px;
-      right: 0;
-    }
-
-    #Eevee {
-      position: absolute;
-      top: 765px + 255px;
-      left: 0;
-    }
-
-    #Pikachu {
-      position: absolute;
-      top: 765px + 255px;
-      right: 0;
+      ##{map-get($map: $pocket-monster, $key: name)}.activated {
+        top: 15px;
+        left: 15px;
+      }
     }
   }
 
-  .room-button.activated {
-    background-color: white;
-    color: rgb(0, 140, 255);
-    svg path, svg ellipse {
-      fill: rgb(0, 140, 255);
-    }
-  }
-
-  .room-button.hide {
-    background-color: transparent;
-    color: transparent;
-    svg path, svg ellipse {
-      fill: transparent;
-    }
-    border: 1px solid transparent;
-  }
-    
   .room-button {
-    height: 200px;
-    width: 250px;
-    padding: 5px;
-    margin-bottom: 55px;
-
-    border: 2px solid white;
-    border-radius: 15px;
-
-    color: white;
-    background-color: rgba(0,0,0,0);
-
-    transition: all .75s linear;
-
-    &:hover:not(.hide) {
-      cursor: pointer;
-      background-color: white;
-      color: rgb(0, 140, 255);
-      svg path, svg ellipse {
-        fill: rgb(0, 140, 255);
-      }
-    }
-
-    h6 {
-      font-size: 14px;
-    }
-    
-    svg {
-      width: 150px;
-      height: 150px;
-      path, ellipse {
-        fill: white;
-        transition: all .55s linear;
-      }
-    }
-
-    p {
-      margin-top: 5px;
-      font-size: 13px;
-    }
+    @include pokemon-button();
   }
 }
