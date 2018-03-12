@@ -37,7 +37,6 @@ export class MatchmakingComponent extends SubscribingComponent implements OnInit
   }
 
   toggleRoom(room: Room): void {
-    console.log(room.name);
     this.selectedRoom = (this.selectedRoom) ? undefined : room;
 
     // const joinRoomSub = this.matchmakingService.joinRoom(room.name)
@@ -46,8 +45,8 @@ export class MatchmakingComponent extends SubscribingComponent implements OnInit
       // });
   }
 
-  pluralMatchmakingUsers(): boolean {
-    return this.matchmakingStats.unplacedUserTotal > 1;
+  roomDisplayable(room: Room ): boolean {
+    return !this.selectedRoom || this.selectedRoom === room;
   }
 
 }

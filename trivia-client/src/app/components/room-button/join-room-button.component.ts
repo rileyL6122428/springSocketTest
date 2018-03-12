@@ -8,7 +8,6 @@ import { Room } from '../../domain/room/room';
 export class RoomButtonComponent {
 
   @Input() protected room: Room;
-  @Input() protected selectedRoom: Room;
   protected activated: boolean;
 
   constructor() {
@@ -20,17 +19,9 @@ export class RoomButtonComponent {
    }
 
    get classes(): object {
-     console.log(`Showable: ${this.showable}`);
      return {
        'activated': this.activated,
-       'room-button': true,
-       'hide': !this.showable
+       'room-button': true
      };
    }
-
-   get showable(): boolean {
-     console.log(this.selectedRoom);
-     return this.selectedRoom === undefined || this.selectedRoom === this.room;
-   }
-
 }
