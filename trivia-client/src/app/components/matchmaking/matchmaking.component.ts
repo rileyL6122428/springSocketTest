@@ -47,7 +47,6 @@ export class MatchmakingComponent implements OnInit {
   }
 
   private subscribeToMatchmaking(): void {
-    if (this.matchmakingSub) { this.matchmakingSub.unsubscribe(); }
     this.matchmakingSub = this.matchmakingService.stream((roomStore) => {
       this.rooms = roomStore.recordsAsList();
     });
