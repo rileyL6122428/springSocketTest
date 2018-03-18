@@ -1,26 +1,30 @@
 import { OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { RemovableSubscription } from './removable-subscription';
 
 export class SubscribingComponent implements OnDestroy {
 
-  private subscriptions: Array<Subscription>;
+  private _subscriptions: Array<RemovableSubscription>;
 
   constructor() {
-    this.subscriptions = new Array<Subscription>();
+    this._subscriptions = new Array<RemovableSubscription>();
   }
 
-  protected addSubscriptions(...newSubscriptions: Array<Subscription>): void {
-    newSubscriptions.forEach((newSubscription: Subscription) => {
+  set subscriptions(subs: RemovableSubscription) {
+    this._subscriptions.push(subs);
+  }
+
+  protected addSubscriptions(...newSubscriptions: Array<RemovableSubscription>): void {
+    newSubscriptions.forEach((newSubscription: RemovableSubscription) => {
       this.addSubscription(newSubscription);
     });
   }
 
-  protected addSubscription(newSubscription: Subscription): void {
-    this.subscriptions.push(newSubscription);
+  protected addSubscription(newSubscription: RemovableSubscription): void {
+    this._subscriptions.push(newSubscription);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription: Subscription) => {
+    this._subscriptions.forEach((subscription: RemovableSubscription) => {
       subscription.unsubscribe();
     });
   }

@@ -23,8 +23,9 @@ export class RoomFactory {
     const name: string = roomPOJO['name'];
     const maxNumberOfUsers: number = roomPOJO['userCapacity'];
     const mascot: Pokemon = new Pokemon(roomPOJO['mascot']['name']);
+    const id: number = roomPOJO['name'];
 
-    return new Room({ users, chat, name, maxNumberOfUsers, mascot });
+    return new Room({ id, users, chat, name, maxNumberOfUsers, mascot });
   }
 
   fromPOJOMapToList(roomsPOJOMap: Object): Array<Room> {

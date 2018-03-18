@@ -2,8 +2,9 @@ import { RoomMessage } from '../chat-room-message/room-message';
 import { User } from '../user/user';
 import { Chat } from '../chat/chat';
 import { Pokemon } from '../pokemon/pokemon';
+import { Nameable } from '../base/nameable';
 
-export class Room {
+export class Room implements Nameable {
 
   constructor(params) {
     this.name = params['name'];
@@ -14,7 +15,7 @@ export class Room {
   }
   readonly mascot: Pokemon;
   readonly name: string;
-  readonly maxNumberOfUsers: number;
+  public maxNumberOfUsers: number;
   readonly chat: Chat;
   readonly users: Map<string, User>;
 

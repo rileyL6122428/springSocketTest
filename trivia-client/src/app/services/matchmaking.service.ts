@@ -5,25 +5,72 @@ import { Http } from '@angular/http';
 import { MatchmakingStatsFactory } from '../domain/matchmaking/matchmaking-stats.factory';
 import { StompRService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
-import "rxjs/operator/map";
-import { CookieService } from 'angular2-cookie/services/cookies.service'
+import 'rxjs/operator/map';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { RoomStore } from '../stores/room/room.store';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class MatchmakingService {
+
+
 
   constructor(
     private http: Http,
     private matchmakingStatsFactory: MatchmakingStatsFactory,
     private stompService: StompRService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private roomStore: RoomStore
   ) { }
 
-  getMatchmakingStats(): Observable<MatchmakingStats> {
-    return this.http.get('/matchmaking/stats').map((response) => {
-      if(response['status'] === 200)
-        return this.matchmakingStatsFactory.createNewStats(response.json());
-      else
-        return null;
+  stream(onUpdate: (store: RoomStore) => void): { unsubscribe: () => void } {
+    onUpdate(this.roomStore);
+
+    const subs = [
+      this.placeStoreListener(onUpdate),
+      this.fetchMakingStats(),
+      this.listenForMatchmakingStats()
+    ];
+
+    return {
+      unsubscribe() { subs.forEach( (sub) => sub.unsubscribe() ); }
+    };
+  }
+
+  private placeStoreListener(listener: any): Subscription {
+    return this.roomStore.updates.subscribe(() => {
+      listener(this.roomStore);
+    });
+  }
+
+  private fetchMakingStats(): Subscription {
+    return this.http.get('/matchmaking/stats').subscribe((response) => {
+      if (response['status'] === 200) {
+        const stats = this.matchmakingStatsFactory.createNewStats(response.json());
+        this.roomStore.depositList(stats.rooms);
+      }
+    });
+  }
+
+  private listenForMatchmakingStats(): Subscription {
+    const headers = { SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE') };
+
+    return this.stompService.subscribe('/topic/matchmaking', headers)
+      .map((message: Message) => {
+        const statsPayload = JSON.parse(message.body);
+        return this.matchmakingStatsFactory.createNewStats(statsPayload);
+      })
+      .subscribe((stats) => {
+        this.roomStore.depositList(stats.rooms);
+      });
+  }
+
+  getMatchmakingStats(): void {
+    this.http.get('/matchmaking/stats').subscribe((response) => {
+      if (response['status'] === 200) {
+        const stats = this.matchmakingStatsFactory.createNewStats(response.json());
+        this.roomStore.depositList(stats.rooms);
+      }
     });
   }
 
@@ -34,11 +81,11 @@ export class MatchmakingService {
   }
 
   subscribeToMatchmaking(): Observable<MatchmakingStats> {
-    let headers = { SESSION_ID: this.cookieService.get("TRIVIA_SESSION_COOKIE") };
+    const headers = { SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE') };
 
     return this.stompService.subscribe('/topic/matchmaking', headers)
       .map((message: Message) => {
-        let statsPayload = JSON.parse(message.body);
+        const statsPayload = JSON.parse(message.body);
         return this.matchmakingStatsFactory.createNewStats(statsPayload);
       });
   }

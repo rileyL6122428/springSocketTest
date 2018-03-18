@@ -1,52 +1,64 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatchmakingStats } from '../../domain/matchmaking/matchmaking-stats';
-import { User } from '../../domain/user/user';
-import { UserService } from '../../services/user.service';
 import { MatchmakingService } from '../../services/matchmaking.service';
-import { SubscribingComponent } from '../base/subscribing.component';
 import { Room } from '../../domain/room/room';
+import { RoomStore } from '../../stores/room/room.store';
+import { RemovableSubscription } from '../base/removable-subscription';
 
 @Component({
   selector: 'app-matchmaking',
   templateUrl: './matchmaking.component.html',
   styleUrls: ['./matchmaking.component.css']
 })
-export class MatchmakingComponent extends SubscribingComponent implements OnInit {
+export class MatchmakingComponent implements OnInit {
 
-  private matchmakingStats: MatchmakingStats;
+  private rooms: Array<Room>;
   private selectedRoom: Room;
+  private matchmakingSub: RemovableSubscription;
 
   constructor(
     private router: Router,
     private matchmakingService: MatchmakingService,
-  ) {
-    super();
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.addSubscriptions(
-      this.matchmakingService.getMatchmakingStats().subscribe((stats: MatchmakingStats) => {
-        this.matchmakingStats = stats;
-      }),
-
-      this.matchmakingService.subscribeToMatchmaking().subscribe((stats: MatchmakingStats) => {
-        this.matchmakingStats = stats;
-      })
-    );
+    this.subscribeToMatchmaking();
   }
 
   toggleRoom(room: Room): void {
-    this.selectedRoom = (this.selectedRoom) ? undefined : room;
-
-    // const joinRoomSub = this.matchmakingService.joinRoom(room.name)
-      // .subscribe((requestSuccessful: boolean) => {
-        // if (requestSuccessful) { this.router.navigateByUrl(`/room/${room.name}`); }
-      // });
+    if (this.selectedRoom) {
+      this.returnToMatchmaking();
+    } else {
+      this.joinRoom(room);
+    }
   }
 
-  roomDisplayable(room: Room ): boolean {
+  private returnToMatchmaking(): void {
+    this.selectedRoom = undefined;
+    this.router.navigateByUrl(`/matchmaking`);
+    this.subscribeToMatchmaking();
+  }
+
+  private joinRoom(room: Room) {
+    this.selectedRoom = room;
+    this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
+    this.matchmakingSub.unsubscribe();
+  }
+
+  private subscribeToMatchmaking(): void {
+    if (this.matchmakingSub) { this.matchmakingSub.unsubscribe(); }
+    this.matchmakingSub = this.matchmakingService.stream((roomStore) => {
+      this.rooms = roomStore.recordsAsList();
+    });
+  }
+
+  roomDisplayable(room: Room): boolean {
     return !this.selectedRoom || this.selectedRoom === room;
+  }
+
+  trackRoomByName(index: number, room: Room): string {
+    return room.name;
   }
 
 }
