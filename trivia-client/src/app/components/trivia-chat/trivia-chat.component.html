@@ -1,0 +1,22 @@
+<section id='chat'>
+  <section id='chat-top'></section>
+
+  <section id='chat-middle'>
+    <ul id='chat-messages'>
+      <li *ngFor='let message of testChatMessages'>
+        {{ message.body }}
+      </li>
+    </ul>
+
+    <form id='send-message'>
+      <input type='text'>
+      <button class='pokeball-button'>
+        <div class='left-line'></div>
+        <div class='center-button'></div>
+        <div class='right-line'></div>
+      </button>
+    </form>
+  </section>
+
+  <section id='chat-bottom'></section>
+</section>

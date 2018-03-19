@@ -1,5 +1,5 @@
-<section *ngIf="rooms" id="matchmaking">
-  <ul id="rooms" [class.transitioning]="!!selectedRoom">
+<section *ngIf="rooms" id="matchmaking" [class.room-selected]="!!selectedRoom">
+  <ul id="rooms">
     <li *ngFor="let room of rooms; trackBy: trackRoomByName">
       <join-room-button *ngIf="roomDisplayable(room)" 
         [room]="room" 

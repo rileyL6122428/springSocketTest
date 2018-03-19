@@ -95,17 +95,10 @@ $pokemon:
     margin-top: 15px;
   }
 
-  #rooms.transitioning {
-    height: 590px;
-  }
-
   #rooms {
     position: relative;
     justify-content: space-between;
     flex-wrap: wrap;
-    height: 1275px;
-
-    transition: height 3s linear;
 
     @each $pocket-monster in $pokemon {
       ##{map-get($map: $pocket-monster, $key: name)} {
