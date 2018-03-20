@@ -8,14 +8,10 @@ import { Room } from '../../domain/room/room';
 export class RoomButtonComponent {
 
   @Input() protected room: Room;
-  protected activated: boolean;
+  @Input() protected activated: boolean;
 
   constructor() {
     this.activated = false;
-   }
-
-   toggleActivation(): void {
-     this.activated = !this.activated;
    }
 
    get classes(): object {

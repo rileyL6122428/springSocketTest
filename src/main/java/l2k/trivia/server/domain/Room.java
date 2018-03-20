@@ -21,7 +21,7 @@ import l2k.trivia.server.domain.factory.ChatFactory;
 import l2k.trivia.server.listeners.JoinRoomListener;
 import l2k.trivia.server.listeners.LeaveRoomListener;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown=true, value= { "chat" })
 public class Room implements InitializingBean {
 	
 	@Autowired private List<JoinRoomListener> joinListeners;

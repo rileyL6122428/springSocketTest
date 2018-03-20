@@ -9,6 +9,7 @@ import 'rxjs/operator/map';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { RoomStore } from '../stores/room/room.store';
 import { Subscription } from 'rxjs/Subscription';
+import { Room } from '../domain/room/room';
 
 @Injectable()
 export class MatchmakingService {
@@ -65,8 +66,8 @@ export class MatchmakingService {
       });
   }
 
-  joinRoom(roomName: string): Observable<boolean> {
-    return this.http.post(`/room/${roomName}/join`, null).map((response) => {
+  joinRoom(room: Room): Observable<boolean> {
+    return this.http.post(`/room/${room.name}/join`, null).map((response) => {
       return response[`status`] === 200;
     });
   }

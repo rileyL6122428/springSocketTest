@@ -2,8 +2,8 @@
   <section id='chat-top'></section>
 
   <section id='chat-middle'>
-    <ul id='chat-messages'>
-      <li *ngFor='let message of testChatMessages'>
+    <ul id='chat-messages' *ngIf='chat'>
+      <li *ngFor='let message of chat.messages'>
         {{ message.body }}
       </li>
     </ul>

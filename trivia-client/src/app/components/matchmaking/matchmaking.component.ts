@@ -41,9 +41,14 @@ export class MatchmakingComponent implements OnInit {
   }
 
   private joinRoom(room: Room) {
-    this.selectedRoom = room;
-    this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
-    this.matchmakingSub.unsubscribe();
+    this.matchmakingService.joinRoom(room).subscribe((joinedRoom: boolean) => {
+      // debugger
+      if (joinedRoom) {
+        this.selectedRoom = room;
+        this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
+        this.matchmakingSub.unsubscribe();
+      }
+    });
   }
 
   private subscribeToMatchmaking(): void {
@@ -53,7 +58,7 @@ export class MatchmakingComponent implements OnInit {
   }
 
   roomDisplayable(room: Room): boolean {
-    return !this.selectedRoom || this.selectedRoom === room;
+    return !this.selectedRoom || this.selectedRoom.equals(room);
   }
 
   trackRoomByName(index: number, room: Room): string {

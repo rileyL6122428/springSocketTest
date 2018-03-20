@@ -3,6 +3,7 @@
     <li *ngFor="let room of rooms; trackBy: trackRoomByName">
       <join-room-button *ngIf="roomDisplayable(room)" 
         [room]="room" 
+        [activated]="selectedRoom?.equals(room)"
         (click)="toggleRoom(room)">
       </join-room-button>
     </li>

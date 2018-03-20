@@ -9,6 +9,7 @@ import { MatchmakingService } from './matchmaking.service';
 import { RoomService } from './room.service';
 import { StompInitializer } from './stomp/stomp.initializer';
 import { SessionService } from './session/session.service';
+import { ChatService } from './chat/chat.service';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { SessionService } from './session/session.service';
     UserService,
     MatchmakingService,
     RoomService,
-
+    ChatService,
     StompRService,
     StompInitializer,
     CookieService,

@@ -19,13 +19,13 @@ export class RoomFactory {
 
   fromPOJO(roomPOJO: Object): Room {
     const users: Map<string, User> = this.userFactory.mapPOJOMap(roomPOJO['users']);
-    const chat: Chat = this.chatFactory.fromPOJO(roomPOJO['chat']);
+    // const chat: Chat = this.chatFactory.fromPOJO(roomPOJO['chat']);
     const name: string = roomPOJO['name'];
     const maxNumberOfUsers: number = roomPOJO['userCapacity'];
     const mascot: Pokemon = new Pokemon(roomPOJO['mascot']['name']);
     const id: number = roomPOJO['name'];
 
-    return new Room({ id, users, chat, name, maxNumberOfUsers, mascot });
+    return new Room({ id, users, name, maxNumberOfUsers, mascot });
   }
 
   fromPOJOMapToList(roomsPOJOMap: Object): Array<Room> {

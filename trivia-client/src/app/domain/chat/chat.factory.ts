@@ -11,8 +11,9 @@ export class ChatFactory {
   ) { }
 
   fromPOJO(chatPOJO: Object): Chat {
-    let messages: Array<ChatMessage> = this.chatMessageFactory.mapPOJOList(chatPOJO['messages']);
-    return new Chat({ messages });
+    const messages: Array<ChatMessage> = this.chatMessageFactory.mapPOJOList(chatPOJO['messages']);
+    const name = chatPOJO['roomName'];
+    return new Chat({ messages, name });
   }
 
 }

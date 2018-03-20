@@ -9,7 +9,7 @@ export class Room implements Nameable {
   constructor(params) {
     this.name = params['name'];
     this.maxNumberOfUsers = params['maxNumberOfUsers'];
-    this.chat = params['chat'];
+    // this.chat = params['chat'];
     this.users = params['users'];
     this.mascot = params['mascot'];
   }
@@ -18,5 +18,9 @@ export class Room implements Nameable {
   public maxNumberOfUsers: number;
   readonly chat: Chat;
   readonly users: Map<string, User>;
+
+  equals(otherRoom: Room): boolean {
+    return this.name === otherRoom.name;
+  }
 
 }
