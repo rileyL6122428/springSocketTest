@@ -65,29 +65,10 @@ export class MatchmakingService {
       });
   }
 
-  getMatchmakingStats(): void {
-    this.http.get('/matchmaking/stats').subscribe((response) => {
-      if (response['status'] === 200) {
-        const stats = this.matchmakingStatsFactory.createNewStats(response.json());
-        this.roomStore.depositList(stats.rooms);
-      }
-    });
-  }
-
   joinRoom(roomName: string): Observable<boolean> {
     return this.http.post(`/room/${roomName}/join`, null).map((response) => {
       return response[`status`] === 200;
     });
-  }
-
-  subscribeToMatchmaking(): Observable<MatchmakingStats> {
-    const headers = { SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE') };
-
-    return this.stompService.subscribe('/topic/matchmaking', headers)
-      .map((message: Message) => {
-        const statsPayload = JSON.parse(message.body);
-        return this.matchmakingStatsFactory.createNewStats(statsPayload);
-      });
   }
 
 }
