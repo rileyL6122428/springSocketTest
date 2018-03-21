@@ -5,6 +5,8 @@ import { Http } from '@angular/http';
 import { StompRService } from '@stomp/ng2-stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ChatFactory } from '../../domain/chat/chat.factory';
+import { Chat } from '../../domain/chat/chat';
+import { StompHeaders } from '@stomp/ng2-stompjs/node_modules/@stomp/stompjs';
 
 @Injectable()
 export class ChatService {
@@ -23,7 +25,7 @@ export class ChatService {
     const subs = [
       this.placeStoreListener(onUpdate),
       this.fetchChat(roomName),
-      // this.listenForMatchmakingStats()
+      this.listenForChatChanges(roomName)
     ];
 
     return {
@@ -42,6 +44,21 @@ export class ChatService {
       const chat = this.chatFactory.fromPOJO(response.json());
       this.chatStore.deposit(chat);
     });
+  }
+
+  private listenForChatChanges(roomName: string): Subscription {
+    return this.stompService.subscribe(`/topic/room/${roomName}/chat`, this.getStompHeaders())
+      .map((message) => {
+        const messageBody = JSON.parse(message.body);
+        return this.chatFactory.fromPOJO(messageBody);
+      })
+      .subscribe((chat: Chat) => {
+        this.chatStore.deposit(chat);
+      });
+  }
+
+  private getStompHeaders(): StompHeaders {
+    return { SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE') };
   }
 
 }

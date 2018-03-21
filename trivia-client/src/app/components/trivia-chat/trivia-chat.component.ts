@@ -12,18 +12,12 @@ import { Chat } from '../../domain/chat/chat';
 })
 export class TriviaChatComponent implements OnInit {
 
-  private testChatMessages: Array<ChatMessage>;
   private chat: Chat;
 
   constructor(
     private chatService: ChatService,
     private route: ActivatedRoute
-  ) {
-    this.testChatMessages = [
-      new ChatMessage({ body: 'SUP', sender: { name: 'Prof Oak' } }),
-      new ChatMessage({ body: 'SUP TWO', sender: { name: 'Me' } })
-    ];
-  }
+  ) { }
 
   ngOnInit() {
     this.chatService.stream(this.roomName, (chatStore: ChatStore) => {
