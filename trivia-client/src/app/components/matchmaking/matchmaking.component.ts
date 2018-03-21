@@ -39,7 +39,6 @@ export class MatchmakingComponent implements OnInit {
       if (successfullyLeft) {
         this.selectedRoom = undefined;
         this.router.navigateByUrl(`/matchmaking`);
-        this.subscribeToMatchmaking();
       }
     });
   }
@@ -49,7 +48,6 @@ export class MatchmakingComponent implements OnInit {
       if (joinedRoom) {
         this.selectedRoom = room;
         this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
-        this.matchmakingSub.unsubscribe();
       }
     });
   }
