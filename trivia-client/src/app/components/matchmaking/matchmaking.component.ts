@@ -35,14 +35,17 @@ export class MatchmakingComponent implements OnInit {
   }
 
   private returnToMatchmaking(): void {
-    this.selectedRoom = undefined;
-    this.router.navigateByUrl(`/matchmaking`);
-    this.subscribeToMatchmaking();
+    this.matchmakingService.leaveRoom(this.selectedRoom).subscribe((successfullyLeft: boolean) => {
+      if (successfullyLeft) {
+        this.selectedRoom = undefined;
+        this.router.navigateByUrl(`/matchmaking`);
+        this.subscribeToMatchmaking();
+      }
+    });
   }
 
   private joinRoom(room: Room) {
     this.matchmakingService.joinRoom(room).subscribe((joinedRoom: boolean) => {
-      // debugger
       if (joinedRoom) {
         this.selectedRoom = room;
         this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
