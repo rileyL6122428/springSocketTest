@@ -13,16 +13,27 @@ import { Chat } from '../../domain/chat/chat';
 export class TriviaChatComponent implements OnInit {
 
   private chat: Chat;
+  private newMessage: string;
 
   constructor(
     private chatService: ChatService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.newMessage = '';
+   }
 
   ngOnInit() {
     this.chatService.stream(this.roomName, (chatStore: ChatStore) => {
       this.chat = chatStore.getByName(this.roomName);
     });
+  }
+
+  sendMessage(): void {
+    this.chatService.sendMessage({
+      roomName: this.roomName,
+      messageBody: this.newMessage
+    });
+    this.newMessage = '';
   }
 
   get roomName(): string {

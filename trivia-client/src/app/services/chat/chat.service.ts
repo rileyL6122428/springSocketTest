@@ -61,4 +61,14 @@ export class ChatService {
     return { SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE') };
   }
 
+  sendMessage(params: { roomName: string, messageBody: string }): void {
+    const endpoint = `/app/room/${params.roomName}/send-message`;
+    const message = JSON.stringify({ messageBody: params.messageBody });
+
+    this.stompService.publish(endpoint, message, {
+      SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE'),
+      roomName: params.roomName
+    });
+  }
+
 }

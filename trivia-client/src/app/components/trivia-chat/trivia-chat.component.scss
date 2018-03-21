@@ -34,6 +34,7 @@ $chat-corner-radius: 12px;
     height: calc(100% - #{$send-message-height + $send-message-margin-bottom});
     display: flex;
     flex-direction: column-reverse;
+    overflow: scroll;
   }
 
   #send-message {
