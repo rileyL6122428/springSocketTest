@@ -23,10 +23,16 @@ $chat-corner-radius: 12px;
   border-bottom-right-radius: $chat-corner-radius;
 }
 
-#chat-middle {
+#chat.active #chat-middle {
   height: calc(100% - #{2 * $chat-casing-height});
+}
+
+#chat-middle {
+  height: 0;
   border-right: 1px solid white;
   border-left: 1px solid white;
+
+  transition: height 1s 3s linear;
 
   $send-message-height: 30px;
   $send-message-margin-bottom: 5px;

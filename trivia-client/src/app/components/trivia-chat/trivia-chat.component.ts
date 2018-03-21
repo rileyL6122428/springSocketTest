@@ -4,6 +4,7 @@ import { ChatService } from '../../services/chat/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChatStore } from '../../stores/chat/chat.store';
 import { Chat } from '../../domain/chat/chat';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'trivia-chat',
@@ -14,13 +15,15 @@ export class TriviaChatComponent implements OnInit {
 
   private chat: Chat;
   private newMessage: string;
+  private chatActive: boolean;
 
   constructor(
     private chatService: ChatService,
     private route: ActivatedRoute
   ) {
     this.newMessage = '';
-   }
+    setTimeout(() => this.chatActive = true, 1);
+  }
 
   ngOnInit() {
     this.chatService.stream(this.roomName, (chatStore: ChatStore) => {
