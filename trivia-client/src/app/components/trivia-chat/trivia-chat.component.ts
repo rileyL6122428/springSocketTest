@@ -4,12 +4,12 @@ import { ChatService } from '../../services/chat/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChatStore } from '../../stores/chat/chat.store';
 import { Chat } from '../../domain/chat/chat';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { trigger, state, style, animate, transition, query } from '@angular/animations';
 
 @Component({
   selector: 'trivia-chat',
   templateUrl: './trivia-chat.component.html',
-  styleUrls: ['./trivia-chat.component.scss']
+  styleUrls: ['./trivia-chat.component.scss'],
 })
 export class TriviaChatComponent implements OnInit {
 

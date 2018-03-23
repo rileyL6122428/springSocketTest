@@ -5,12 +5,14 @@ import { NgModule } from '@angular/core';
 import { ROUTES_CONFIG } from './routes.config';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { StoreModule } from './stores/store.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     RouterModule.forRoot(ROUTES_CONFIG, { useHash: true }),
     ComponentModule,
-    StoreModule
+    StoreModule,
+    BrowserAnimationsModule
   ],
 
   declarations: [ AppComponent ],

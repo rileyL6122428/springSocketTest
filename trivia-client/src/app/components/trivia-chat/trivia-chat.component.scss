@@ -1,9 +1,11 @@
 #chat {
   position: absolute;
   top: 175px;
-  left: 5px;
+  left: -275px;
   height: 400px;
   width: 275px;
+
+  transition: 1s 3s left linear;
 }
 
 $chat-casing-height: 40px;
@@ -23,8 +25,12 @@ $chat-corner-radius: 12px;
   border-bottom-right-radius: $chat-corner-radius;
 }
 
-#chat.active #chat-middle {
-  height: calc(100% - #{2 * $chat-casing-height});
+#chat.active {
+  left: 5px;
+
+  #chat-middle {
+    height: calc(100% - #{2 * $chat-casing-height});
+  }
 }
 
 #chat-middle {
@@ -32,7 +38,7 @@ $chat-corner-radius: 12px;
   border-right: 1px solid white;
   border-left: 1px solid white;
 
-  transition: height 1s 3s linear;
+  transition: height 1s 4s linear;
 
   $send-message-height: 30px;
   $send-message-margin-bottom: 5px;
