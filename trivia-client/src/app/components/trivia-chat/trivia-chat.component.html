@@ -1,5 +1,45 @@
 <section id='chat' [class.active]='chatActive'>
-  <section id='chat-top'></section>
+  <section id='chat-top'>
+    <svg width="32" height="32" 
+          xmlns="http://www.w3.org/2000/svg" 
+          id="top-left-small-etch" 
+          class="pokedex-etch">
+      <path d="M5 5
+               A 30 30, 0, 0, 0, 30 30" 
+               stroke="#008cff" 
+               stroke-width="2" 
+               fill-opacity="0" 
+               transform="rotate(-90 0 00) translate(-32)"/>
+    </svg>
+
+    <svg width="52" height="52"
+          xmlns="http://www.w3.org/2000/svg" 
+          id="top-left-large-etch" 
+          class="pokedex-etch">
+      <path d="M5 5
+                   A 50 50, 0, 0, 0, 50 50" 
+                   stroke="#008cff" 
+                   stroke-width="2" 
+                   fill-opacity="0" 
+                   transform="rotate(-90 0 00) translate(-52)"/>
+    </svg>
+
+    <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" id="top-right-small-etch" class="pokedex-etch">
+      <path d="M5 5
+               A 30 30, 0, 0, 0, 30 30" 
+               stroke="#008cff" 
+               stroke-width="2" 
+               fill-opacity="0" />
+    </svg>
+
+    <svg width="52" height="52" xmlns="http://www.w3.org/2000/svg" id="top-right-large-etch" class="pokedex-etch">
+      <path d="M5 5
+                   A 50 50, 0, 0, 0, 50 50" 
+                   stroke="#008cff" 
+                   stroke-width="2" 
+                   fill-opacity="0" />
+    </svg>
+  </section>
 
   <section id='chat-middle'>
     <ul id='chat-messages' *ngIf='chat'>
@@ -18,5 +58,55 @@
     </form>
   </section>
 
-  <section id='chat-bottom'></section>
+  <section id='chat-bottom'>
+    <div>
+        <svg 
+          width="32" height="32" 
+          xmlns="http://www.w3.org/2000/svg" 
+          id="bottom-left-small-etch" 
+          class="pokedex-etch">
+          <path 
+            d="M5 5
+            A 30 30, 0, 0, 0, 30 30" 
+            stroke="#008cff" 
+            stroke-width="2" 
+            fill-opacity="0" 
+            transform="rotate(180 0 0) translate(-32 -32)"
+          />
+        </svg>
+        
+        <svg width="52" height="52" xmlns="http://www.w3.org/2000/svg" id="bottom-left-large-etch" class="pokedex-etch">
+          <path 
+            d="M5 5
+            A 50 50, 0, 0, 0, 50 50" 
+            stroke="#008cff" 
+            stroke-width="2" 
+            fill-opacity="0" 
+            transform="rotate(180 0 0) translate(-52 -52)"
+          />
+        </svg>
+        
+        <svg width="32" height="32" 
+        xmlns="http://www.w3.org/2000/svg" 
+        id="bottom-right-small-etch" class="pokedex-etch">
+          <path d="M5 5
+          A 30 30, 0, 0, 0, 30 30" stroke="#008cff" 
+          stroke-width="2" 
+          fill-opacity="0" 
+          transform="rotate(90 0 0) translate(0 -32)"/>
+        </svg>
+      
+        <svg width="52" height="52" xmlns="http://www.w3.org/2000/svg" 
+              id="bottom-right-large-etch" 
+              class="pokedex-etch">
+          <path 
+            d="M5 5
+              A 50 50, 0, 0, 0, 50 50" 
+            stroke="#008cff" 
+            stroke-width="2" 
+            fill-opacity="0" 
+            transform="rotate(90 0 0) translate(0 -52)"/>
+        </svg>
+      </div>
+  </section>
 </section>

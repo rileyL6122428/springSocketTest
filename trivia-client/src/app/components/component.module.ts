@@ -22,6 +22,7 @@ import { RoomButtonComponent } from './room-button/join-room-button.component';
 import { RouterModule } from '@angular/router';
 import { TriviaRoomComponent } from './trivia-room/trivia-room.component';
 import { TriviaChatComponent } from './trivia-chat/trivia-chat.component';
+import { QuarterArcComponent } from './vectors/quarter-arc/quarter-arc.component';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { TriviaChatComponent } from './trivia-chat/trivia-chat.component';
     PokemonRoomIconComponent,
     RoomButtonComponent,
     TriviaRoomComponent,
-    TriviaChatComponent
+    TriviaChatComponent,
+    QuarterArcComponent
   ],
 
   entryComponents: [

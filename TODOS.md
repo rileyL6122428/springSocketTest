@@ -1,9 +1,11 @@
 ## New Features
 	
 	* Chat
-		- [ ] Expandable
-		- [ ] sender name
+		- [ ] Entrance
 		- [ ] top & bottom styling
+		- [ ] sender name
+		- [ ] internal styling
+		- [ ] minimziable
 		- [ ] button animation
 		
 	

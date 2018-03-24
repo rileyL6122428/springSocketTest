@@ -2,13 +2,13 @@
   position: absolute;
   top: 175px;
   left: -275px;
-  height: 400px;
+  height: 420px;
   width: 275px;
 
   transition: 1s 3s left linear;
 }
 
-$chat-casing-height: 40px;
+$chat-casing-height: 60px;
 #chat-top, #chat-bottom {
   height: $chat-casing-height;
   background-color: white;
@@ -18,11 +18,46 @@ $chat-corner-radius: 12px;
 #chat-top {
   border-top-left-radius: $chat-corner-radius;
   border-top-right-radius: $chat-corner-radius;
+
+  .pokedex-etch {
+    position: absolute;
+  }
+
+  #top-left-small-etch, #top-left-large-etch {
+    top: -2px;
+    left: -5px;
+  }
+  #top-right-small-etch {
+    top: -5px;
+    left: 246px;
+  }
+  #top-right-large-etch {
+    top: -5px;
+    left: 225px;
+  }
 }
 
 #chat-bottom {
   border-bottom-left-radius: $chat-corner-radius;
   border-bottom-right-radius: $chat-corner-radius;
+
+  div {
+    height: 100%;
+    position: relative;
+
+    .pokedex-etch {
+      position: absolute;
+    }
+    
+    #bottom-left-small-etch, #bottom-left-large-etch {
+      bottom: -6px;
+      left: -2px;
+    }
+    #bottom-right-small-etch, #bottom-right-large-etch {
+      bottom: -3px;
+      right: -5px;
+    }
+  }
 }
 
 #chat.active {
