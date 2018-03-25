@@ -23,6 +23,16 @@ $chat-corner-radius: 12px;
     position: absolute;
   }
 
+  #top-center-large-etch {
+    top: 9px;
+    left: 84px;
+  }
+  #top-center-small-etch {
+    height: 22px;
+    width: 22px;
+    top: 44px;
+    left: 125px;
+  }
   #top-left-small-etch, #top-left-large-etch {
     top: -2px;
     left: -5px;
@@ -49,6 +59,16 @@ $chat-corner-radius: 12px;
       position: absolute;
     }
     
+
+    #bottom-center-large-etch {
+      left: 84px;
+    }
+    #bottom-center-small-etch {
+      height: 22px;
+      width: 22px;
+      top: -6px;
+      left: 125px;
+    }
     #bottom-left-small-etch, #bottom-left-large-etch {
       bottom: -6px;
       left: -2px;
