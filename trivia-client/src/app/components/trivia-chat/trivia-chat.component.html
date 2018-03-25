@@ -1,63 +1,6 @@
 <section id='chat' [class.active]='chatActive'>
-  <section id='chat-top'>
-    <svg width="32" height="32"
-          xmlns="http://www.w3.org/2000/svg"
-          id="top-left-small-etch"
-          class="pokedex-etch">
-      <path d="M5 5
-               A 30 30, 0, 0, 0, 30 30"
-               stroke="#008cff"
-               stroke-width="2"
-               fill-opacity="0"
-               transform="rotate(-90 0 00) translate(-32)"/>
-    </svg>
-
-    <svg width="52" height="52"
-          xmlns="http://www.w3.org/2000/svg"
-          id="top-left-large-etch"
-          class="pokedex-etch">
-      <path d="M5 5
-                   A 50 50, 0, 0, 0, 50 50"
-                   stroke="#008cff"
-                   stroke-width="2"
-                   fill-opacity="0"
-                   transform="rotate(-90 0 00) translate(-52)"/>
-    </svg>
-
-    <svg width="104" height="52" xmlns="http://www.w3.org/2000/svg" id="top-center-large-etch" class="pokedex-etch">
-      <path
-      d="M2 0
-      A 50 50, 0, 0, 0, 102 0"
-      stroke="#008cff"
-      stroke-width="2"
-      fill-opacity="0"
-      transform="rotate(180 0 0) translate(-104 -52)"/>
-    </svg>
-
-    <svg width="204" height="102" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202 102" id="top-center-small-etch" class="pokedex-etch">
-      <path d="M2 0
-               A 100 100, 0, 0, 0, 202 0
-               L 2 0" stroke="#008cff" stroke-width="2" fill="#008cff" fill-opacity="1" transform="rotate(180 0 0) translate(-202 -102)"
-      />
-    </svg>
-
-    <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" id="top-right-small-etch" class="pokedex-etch">
-      <path d="M5 5
-               A 30 30, 0, 0, 0, 30 30"
-               stroke="#008cff"
-               stroke-width="2"
-               fill-opacity="0" />
-    </svg>
-
-    <svg width="52" height="52" xmlns="http://www.w3.org/2000/svg" id="top-right-large-etch" class="pokedex-etch">
-      <path d="M5 5
-                   A 50 50, 0, 0, 0, 50 50"
-                   stroke="#008cff"
-                   stroke-width="2"
-                   fill-opacity="0" />
-    </svg>
-  </section>
-
+  <chat-dex-top></chat-dex-top>
+  
   <section id='chat-middle'>
     <chat-messages [messages]='chat?.messages'>
     </chat-messages>

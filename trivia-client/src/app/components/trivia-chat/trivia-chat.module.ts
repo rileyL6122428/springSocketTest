@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ChatMessagesComponent } from './chat-messages/chat-messages.component';
 import { ChatDexBottomComponent } from './chat-dex-bottom/chat-dex-bottom.component';
 import { NewMessageComponent } from './new-message/new-message.component';
+import { ChatDexTopComponent } from './chat-dex-top/chat-dex-top.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { NewMessageComponent } from './new-message/new-message.component';
     TriviaChatComponent,
     ChatMessagesComponent,
     ChatDexBottomComponent,
-    NewMessageComponent
+    NewMessageComponent,
+    ChatDexTopComponent
   ]
 })
 export class TriviaChatModule { }
