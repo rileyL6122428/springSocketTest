@@ -62,14 +62,8 @@
     <chat-messages [messages]='chat?.messages'>
     </chat-messages>
 
-    <form id='send-message'>
-      <input type='text' [(ngModel)]='newMessage' name='newMessage' id='newMessage' >
-      <button class='pokeball-button' (click)='sendMessage()'>
-        <div class='left-line'></div>
-        <div class='center-button'></div>
-        <div class='right-line'></div>
-      </button>
-    </form>
+    <new-message-form>
+    </new-message-form>
   </section>
 
   <chat-dex-bottom></chat-dex-bottom>

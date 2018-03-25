@@ -1,0 +1,145 @@
+$chat-casing-height: 60px;
+#chat-top, #chat-bottom {
+  height: $chat-casing-height;
+  background-color: white;
+}
+
+$chat-corner-radius: 12px;
+#chat-top {
+  border-top-left-radius: $chat-corner-radius;
+  border-top-right-radius: $chat-corner-radius;
+
+  .pokedex-etch {
+    position: absolute;
+  }
+
+  #top-center-large-etch {
+    top: 9px;
+    left: 84px;
+  }
+  #top-center-small-etch {
+    height: 22px;
+    width: 22px;
+    top: 44px;
+    left: 125px;
+  }
+  #top-left-small-etch, #top-left-large-etch {
+    top: -2px;
+    left: -5px;
+  }
+  #top-right-small-etch {
+    top: -5px;
+    left: 246px;
+  }
+  #top-right-large-etch {
+    top: -5px;
+    left: 225px;
+  }
+}
+
+#chat-bottom {
+  border-bottom-left-radius: $chat-corner-radius;
+  border-bottom-right-radius: $chat-corner-radius;
+
+  div {
+    height: 100%;
+    position: relative;
+
+    .pokedex-etch {
+      position: absolute;
+    }
+    
+
+    #bottom-center-large-etch {
+      left: 84px;
+    }
+    #bottom-center-small-etch {
+      height: 22px;
+      width: 22px;
+      top: -6px;
+      left: 125px;
+    }
+    #bottom-left-small-etch, #bottom-left-large-etch {
+      bottom: -6px;
+      left: -2px;
+    }
+    #bottom-right-small-etch, #bottom-right-large-etch {
+      bottom: -3px;
+      right: -5px;
+    }
+  }
+}
+
+
+$send-message-height: 30px;
+$send-message-margin-bottom: 5px;
+#chat-messages {
+  height: calc(100% - #{$send-message-height + $send-message-margin-bottom});
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: scroll;
+}
+
+#send-message {
+  display: flex;
+  justify-content: space-evenly;
+  height: $send-message-height;
+  padding: 0 5px;
+
+  input {
+    height: #{$send-message-height - 2px};
+    width: 80%;
+    padding: 0 0 0 3px;
+    border: 1px solid white;
+    border-radius:  5px;
+    background-color: transparent;
+    color: white;
+  }
+
+  .pokeball-button {
+
+    position: relative;
+    height: $send-message-height;
+    width: $send-message-height;
+    padding: 0;
+    border: 1px solid white;
+    background-color: transparent;
+    border-radius: 100%;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .left-line, .right-line, .center-button {
+      position: absolute;
+    }
+
+    .left-line, .right-line {
+      height: 1px;
+      width: 33%;
+      background-color: white;
+    }
+
+    .left-line {
+      left:0;
+    }
+
+    .right-line {
+      right: 0;
+    }
+
+    .center-button {
+      top: 36%;
+      left: 33%;
+      width: 34%;
+      height: 34%;
+      background-color: white;
+      border-radius: 100%;
+
+      &:after {
+        content: '.';
+        visibility: hidden;
+      }
+    }
+  }
+}

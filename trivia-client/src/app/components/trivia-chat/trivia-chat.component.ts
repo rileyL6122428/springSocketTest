@@ -14,14 +14,14 @@ import { trigger, state, style, animate, transition, query } from '@angular/anim
 export class TriviaChatComponent implements OnInit {
 
   private chat: Chat;
-  private newMessage: string;
+  // private newMessage: string;
   private chatActive: boolean;
 
   constructor(
     private chatService: ChatService,
     private route: ActivatedRoute
   ) {
-    this.newMessage = '';
+    // this.newMessage = '';
     setTimeout(() => this.chatActive = true, 1);
   }
 
@@ -31,13 +31,13 @@ export class TriviaChatComponent implements OnInit {
     });
   }
 
-  sendMessage(): void {
-    this.chatService.sendMessage({
-      roomName: this.roomName,
-      messageBody: this.newMessage
-    });
-    this.newMessage = '';
-  }
+  // sendMessage(): void {
+  //   this.chatService.sendMessage({
+  //     roomName: this.roomName,
+  //     messageBody: this.newMessage
+  //   });
+  //   this.newMessage = '';
+  // }
 
   get roomName(): string {
     return this.route.snapshot.params['name'];
