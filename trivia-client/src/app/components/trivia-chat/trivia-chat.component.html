@@ -59,11 +59,8 @@
   </section>
 
   <section id='chat-middle'>
-    <ul id='chat-messages' *ngIf='chat'>
-      <li *ngFor='let message of chat.messages'>
-        {{ message.body }}
-      </li>
-    </ul>
+    <chat-messages [messages]='chat?.messages'>
+    </chat-messages>
 
     <form id='send-message'>
       <input type='text' [(ngModel)]='newMessage' name='newMessage' id='newMessage' >

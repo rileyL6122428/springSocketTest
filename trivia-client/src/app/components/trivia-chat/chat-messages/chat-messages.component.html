@@ -1,0 +1,5 @@
+<ul id='chat-messages' *ngIf="messages">
+  <li *ngFor='let message of messages'>
+    {{ message.body }}
+  </li>
+</ul>

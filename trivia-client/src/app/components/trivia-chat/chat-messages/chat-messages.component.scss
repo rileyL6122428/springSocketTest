@@ -1,0 +1,8 @@
+$send-message-height: 30px;
+$send-message-margin-bottom: 5px;
+#chat-messages {
+  height: calc(100% - #{$send-message-height + $send-message-margin-bottom});
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: scroll;
+}
