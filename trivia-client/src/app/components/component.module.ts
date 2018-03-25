@@ -5,8 +5,6 @@ import { ServicesModule } from '../services/service.module';
 import { MatchmakingComponent } from './matchmaking/matchmaking.component';
 import { RoomComponent } from './room/room.component';
 import { GameComponent } from './game/game.component';
-import { ChatComponent } from './chat/chat.component';
-import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { CharizardComponent } from './pokemon-icons/charizard/charizard.component';
 import { GarchompComponent } from './pokemon-icons/garchomp/garchomp.component';
 import { EeveeComponent } from './pokemon-icons/eevee/eevee.component';
@@ -24,6 +22,7 @@ import { TriviaRoomComponent } from './trivia-room/trivia-room.component';
 import { TriviaChatComponent } from './trivia-chat/trivia-chat.component';
 import { QuarterArcComponent } from './vectors/quarter-arc/quarter-arc.component';
 import { ProfOakComponent } from './prof-oak/prof-oak.component';
+import { TriviaChatModule } from './trivia-chat/trivia-chat.module';
 import { TriviaGameComponent } from './trivia-game/trivia-game.component';
 
 @NgModule({
@@ -31,15 +30,14 @@ import { TriviaGameComponent } from './trivia-game/trivia-game.component';
     ServicesModule,
     FormsModule,
     BrowserModule,
-    RouterModule
+    RouterModule,
+    TriviaChatModule
   ],
 
   declarations: [
     MatchmakingComponent,
     RoomComponent,
     GameComponent,
-    ChatComponent,
-    ChatMessageComponent,
     CharizardComponent,
     GarchompComponent,
     EeveeComponent,
@@ -53,7 +51,6 @@ import { TriviaGameComponent } from './trivia-game/trivia-game.component';
     PokemonRoomIconComponent,
     RoomButtonComponent,
     TriviaRoomComponent,
-    TriviaChatComponent,
     QuarterArcComponent,
     ProfOakComponent,
     TriviaGameComponent
