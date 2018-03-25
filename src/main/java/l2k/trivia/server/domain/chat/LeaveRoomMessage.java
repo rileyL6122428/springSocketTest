@@ -8,7 +8,7 @@ public class LeaveRoomMessage extends ChatRoomMessage {
 	
 	public LeaveRoomMessage(User user) {
 		setSender(new Moderator());
-		setBody(user.getName() + " has left the chat.");
+		setBody(user.getName() + " has left this room.");
 		setTimestamp(new Date());
 	}
 	

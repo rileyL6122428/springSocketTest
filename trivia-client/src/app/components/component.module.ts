@@ -23,6 +23,8 @@ import { RouterModule } from '@angular/router';
 import { TriviaRoomComponent } from './trivia-room/trivia-room.component';
 import { TriviaChatComponent } from './trivia-chat/trivia-chat.component';
 import { QuarterArcComponent } from './vectors/quarter-arc/quarter-arc.component';
+import { ProfOakComponent } from './prof-oak/prof-oak.component';
+import { TriviaGameComponent } from './trivia-game/trivia-game.component';
 
 @NgModule({
   imports: [
@@ -52,7 +54,9 @@ import { QuarterArcComponent } from './vectors/quarter-arc/quarter-arc.component
     RoomButtonComponent,
     TriviaRoomComponent,
     TriviaChatComponent,
-    QuarterArcComponent
+    QuarterArcComponent,
+    ProfOakComponent,
+    TriviaGameComponent
   ],
 
   entryComponents: [

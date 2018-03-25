@@ -1,8 +1,9 @@
 ## New Features
 	
 	* Chat
-		- [ ] Entrance
-		- [ ] top & bottom styling
+		- [x] Entrance animation
+		- [x] top & bottom styling
+		- [ ] change join message to include room name
 		- [ ] sender name
 		- [ ] internal styling
 		- [ ] minimziable

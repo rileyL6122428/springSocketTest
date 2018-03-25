@@ -78,7 +78,7 @@ public class Room implements InitializingBean {
 	public boolean addUser(User user) {
 		boolean userAdded = false;
 		if(!isFull()) {
-			chat.addMessage(new JoinRoomMessage(user));
+			chat.addMessage(new JoinRoomMessage(user, name));
 			users.put(user.getName(), user);
 			game.addPlayer(user);
 			joinListeners.forEach((listener) -> listener.fireJoinRoomEvent(user, this));

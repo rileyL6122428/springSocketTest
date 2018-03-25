@@ -19,8 +19,6 @@ public class TestDataProvider implements ApplicationListener<ContextRefreshedEve
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-//		for(String roomName : ROOM_NAMES) {
-//		};
 		roomService.addRoom(roomFactory.newRoomWithMascot("Charizard", 1, 15));
 		roomService.addRoom(roomFactory.newRoomWithMascot("Garchomp", 2, 15));	
 		roomService.addRoom(roomFactory.newRoomWithMascot("Lugia", 3, 15));
@@ -31,14 +29,6 @@ public class TestDataProvider implements ApplicationListener<ContextRefreshedEve
 		roomService.addRoom(roomFactory.newRoomWithMascot("Blaziken", 8, 15));
 		roomService.addRoom(roomFactory.newRoomWithMascot("Eevee", 9, 15));
 		roomService.addRoom(roomFactory.newRoomWithMascot("Pikachu", 10, 15));
-		
-		
-//		roomService.addRoom(roomFactory.newRoomWithMascot(roomName));			
-//		roomService.addRoom(roomFactory.newRoom());
-//		roomService.addRoom(roomFactory.newRoom());
-//		roomService.addRoom(roomFactory.newRoom());
-//		roomService.addRoom(roomFactory.newRoom());
-//		roomService.addRoom(roomFactory.newRoom());
 	}
 
 }
