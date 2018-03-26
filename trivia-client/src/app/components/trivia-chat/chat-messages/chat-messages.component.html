@@ -1,5 +1,10 @@
 <ul id='chat-messages' *ngIf="messages">
-  <li *ngFor='let message of messages'>
-    {{ message.body }}
+  <li *ngFor='let message of messages' class='chat-message'>
+    <p class='message-body'>
+      {{ message.body }}
+    </p>
+    <p class='message-sender'>
+      {{ message.senderName }}
+    </p>
   </li>
 </ul>
