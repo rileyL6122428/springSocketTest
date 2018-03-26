@@ -15,6 +15,7 @@ $send-message-margin-bottom: 5px;
   border-radius: 3px;
   background-color: white;
   color: #008cff;
+  font-size: 17px;
 }
 
 #chat-messages .chat-message:first-child {
@@ -22,5 +23,7 @@ $send-message-margin-bottom: 5px;
 }
 
 .message-sender {
+  margin-top: 1px;
+  font-size: 12px;
   text-align: right;
 }
