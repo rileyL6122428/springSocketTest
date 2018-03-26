@@ -3,7 +3,8 @@
 	* Chat
 		- [x] Entrance animation
 		- [x] top & bottom styling
-		- [ ] change join message to include room name
+		- [x] change join message to include room name
+		- [ ] profressor oak transition
 		- [ ] sender name
 		- [ ] internal styling
 		- [ ] minimziable
