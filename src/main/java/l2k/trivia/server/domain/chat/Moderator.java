@@ -5,7 +5,7 @@ public class Moderator implements Sender {
 	private String name;
 	
 	{
-		name = "MODERATOR";
+		name = "Professor Oak";
 	}
 
 	@Override
