@@ -3,6 +3,7 @@ package l2k.trivia.server.config;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Constants {
@@ -93,5 +94,61 @@ public class Constants {
 	public static class StaticContent {
 		public static final String TRIVIA_CLIENT = "index.html";
 	}
+	
+	public static final String USER_NAMES_BEAN = "USER_NAMES";
+	
+	public static final List<String> USER_NAMES = unmodifiableList(asList(
+		"Red",
+		"Blue",
+		"Ethan",
+		"Silver",
+		"Kris",
+		"Brock",
+		"Misty",
+		"Erika",
+		"Blaine",
+		"Giovanni",
+		"Koga",
+		"Lt. Surge",
+		"Sabrina",
+		"Janine",
+		"Falkner",
+		"Bugsy",
+		"Whitney",
+		"Morty",
+		"Chuck",
+		"Jasmine",
+		"Pryce",
+		"Clair",
+		"Agatha",
+		"Bruno",
+		"Lance",
+		"Lorelei",
+		"Will",
+		"Karen",
+		"Copycat",
+		"Old man",
+		"Mr. Fuji",
+		"Safari Zone Warden",
+		"Primo",
+		"Celio",
+		"Lostelle",
+		"Magikarp Salesman",
+		"Name Rater",
+		"Felicity",
+		"Professor Birch",
+		"Wally",
+		"May",
+		"DJ Mary",
+		"Dude",
+		"Fossil Maniac",
+		"Bill",
+		"Todd S.",
+		"Joy",
+		"Jenny",
+		"MissingNo"
+	));
+	
+	
 	
 }

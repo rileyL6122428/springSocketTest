@@ -19,6 +19,9 @@ public class UserService {
 	private Map<UUID, User> sessionToUsers;
 	
 	@Autowired
+	private NameRepository nameRepository;
+	
+	@Autowired
 	public UserService(NameGenerator nameGenerator, @Qualifier(value=SESSION_TO_USER_MAP) Map<UUID, User> sessionToUsers) {
 		this.nameGenerator = nameGenerator;
 		this.sessionToUsers = sessionToUsers;

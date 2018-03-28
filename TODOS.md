@@ -6,9 +6,17 @@
 		- [x] change join message to include room name
 		- [x] profressor oak transition
 		- [x] sender name
-		- [ ] input and button focus in chat widget
-		- [ ] moderator name -> professor Oak
-		- [ ] minimziable
-		- [ ] button animation
+		- [x] input and button focus in chat widget
+		- [x] moderator name -> professor Oak
+	
+	* User Name
+		- [ ] create list of user names
+		- [ ] display username in UI
+		- [ ] create game full
+	
+	* Game
+		- [ ] add professor oak chat box
+		- [ ] three answers
+		
 		
 	
