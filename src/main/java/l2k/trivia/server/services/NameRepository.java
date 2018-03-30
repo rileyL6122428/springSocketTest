@@ -5,7 +5,8 @@ import java.util.LinkedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import static l2k.trivia.server.config.Constants.USER_NAMES_BEAN;
+
+import l2k.trivia.server.config.Constants.BeanDefinitions;
 
 @Service
 public class NameRepository {
@@ -13,7 +14,7 @@ public class NameRepository {
 	private boolean takeFromFront;
 	
 	@Autowired
-	@Qualifier(USER_NAMES_BEAN)
+	@Qualifier(BeanDefinitions.USER_NAMES)
 	private LinkedList<String> availableNames;
 	
 	public String getName() {

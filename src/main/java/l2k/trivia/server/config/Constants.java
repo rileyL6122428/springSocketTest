@@ -89,13 +89,12 @@ public class Constants {
 	
 	public static class BeanDefinitions {
 		public static final String SESSION_TO_USER_MAP = "SESSION_TO_USER_MAP";
+		public static final String USER_NAMES = "USER_NAMES";
 	}
 	
 	public static class StaticContent {
 		public static final String TRIVIA_CLIENT = "index.html";
 	}
-	
-	public static final String USER_NAMES_BEAN = "USER_NAMES";
 	
 	public static final List<String> USER_NAMES = unmodifiableList(asList(
 		"Red",

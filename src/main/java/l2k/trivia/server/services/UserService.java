@@ -43,7 +43,7 @@ public class UserService {
 	}
 	
 	private User addNewAnonymousUser() {
-		User user = new User(nameGenerator.newName());
+		User user = new User(nameRepository.getName());
 		user.setSessionId(UUID.randomUUID());		
 		sessionToUsers.put(user.getSessionId(), user);
 		return user;
@@ -63,7 +63,9 @@ public class UserService {
 	}
 	
 	public User removeUser(UUID sessionId) {
-		return sessionToUsers.remove(sessionId);
+		User user = sessionToUsers.remove(sessionId);
+		nameRepository.addName(user.getName());
+		return user;
 	}
 
 	public int getTotalUsers() {
