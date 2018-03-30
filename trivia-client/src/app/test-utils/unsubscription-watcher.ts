@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/subscription';
+import { Subscription } from 'rxjs/Subscription';
 import { stubableSubscription, stubableObservable } from './mocks';
 import "jasmine";
 
