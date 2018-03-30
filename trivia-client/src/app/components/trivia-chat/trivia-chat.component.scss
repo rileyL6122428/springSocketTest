@@ -5,7 +5,7 @@
   height: 420px;
   width: 275px;
 
-  transition: 1s 3s left linear;
+  transition: 1s 4s left linear;
 }
 
 $chat-casing-height: 60px;
@@ -95,8 +95,8 @@ $chat-corner-radius: 12px;
   border-left: 1px solid white;
 
   transition: 
-    height 1s 4s linear,
-    padding 1s 4s linear;
+    height 1s 5s linear,
+    padding 1s 5s linear;
 
   $send-message-height: 30px;
   $send-message-margin-bottom: 5px;

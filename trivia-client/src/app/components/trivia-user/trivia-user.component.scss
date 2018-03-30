@@ -1,0 +1,32 @@
+#trivia-user {
+  height: 140px;
+  width: 115px;
+  border-radius: 15px;
+
+  position: absolute;
+  top: 15px;
+  left: 155px;
+
+  background-color: white;
+  color: #008cff;
+
+
+  h6 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    span {
+      text-align: center;
+    }
+
+    .welcome {
+      margin-top: 15%;
+    }
+
+    .username {
+      margin-top: 14%;
+      font-size: 22px;
+    }
+  }
+}

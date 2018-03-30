@@ -24,6 +24,7 @@ import { QuarterArcComponent } from './vectors/quarter-arc/quarter-arc.component
 import { ProfOakComponent } from './prof-oak/prof-oak.component';
 import { TriviaChatModule } from './trivia-chat/trivia-chat.module';
 import { TriviaGameComponent } from './trivia-game/trivia-game.component';
+import { TriviaUserComponent } from './trivia-user/trivia-user.component';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { TriviaGameComponent } from './trivia-game/trivia-game.component';
     TriviaRoomComponent,
     QuarterArcComponent,
     ProfOakComponent,
-    TriviaGameComponent
+    TriviaGameComponent,
+    TriviaUserComponent
   ],
 
   entryComponents: [

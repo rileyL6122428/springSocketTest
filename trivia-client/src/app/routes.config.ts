@@ -8,5 +8,5 @@ export const ROUTES_CONFIG: Routes = [
     { path: 'room/:name', component: TriviaRoomComponent }
   ]},
   { path: '', redirectTo: 'matchmaking', pathMatch: 'full' },
-  { path: '**', redirectTo: 'matchmaking' },
+  { path: '**', redirectTo: 'matchmaking' }
 ];

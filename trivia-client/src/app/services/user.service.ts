@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/observable';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 import { User } from '../domain/user/user';
 import { UserFactory } from '../domain/user/user.factory';
 
@@ -15,10 +15,11 @@ export class UserService {
 
   getUser(): Observable<User> {
     return this.http.get('/user').map((response) => {
-      if(response['status'] === 200)
+      if (response['status'] === 200) {
         return this.userDomainFactory.mapPOJO(response.json());
-      else
+      } else {
         return null;
+      }
     });
   }
 

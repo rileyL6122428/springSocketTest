@@ -7,7 +7,7 @@ import { fadeIn } from '../../animations/fadeIn';
   styleUrls: ['./trivia-game.component.scss'],
 
   animations: [
-    fadeIn({ delay: 5, duration: 1 })
+    fadeIn({ delay: 6, duration: 1 })
   ]
 })
 export class TriviaGameComponent { }
