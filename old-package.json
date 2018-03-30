@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "./fronetend/src/boostrap.ts",
+  "scripts": {
+    "postinstall": "ng build"
+  },
   "dependencies": {
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
