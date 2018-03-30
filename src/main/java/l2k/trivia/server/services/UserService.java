@@ -15,15 +15,14 @@ import static l2k.trivia.server.config.Constants.BeanDefinitions.SESSION_TO_USER
 @Service
 public class UserService {
 	
-	private NameGenerator nameGenerator;
 	private Map<UUID, User> sessionToUsers;
 	
 	@Autowired
 	private NameRepository nameRepository;
 	
 	@Autowired
-	public UserService(NameGenerator nameGenerator, @Qualifier(value=SESSION_TO_USER_MAP) Map<UUID, User> sessionToUsers) {
-		this.nameGenerator = nameGenerator;
+	public UserService(NameRepository nameRepository, @Qualifier(value=SESSION_TO_USER_MAP) Map<UUID, User> sessionToUsers) {
+		this.nameRepository = nameRepository;
 		this.sessionToUsers = sessionToUsers;
 	}
 	
