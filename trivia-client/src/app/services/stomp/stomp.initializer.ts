@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { StompRService } from '@stomp/ng2-stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { StompConfig } from '@stomp/ng2-stompjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class StompInitializer {
@@ -20,7 +21,8 @@ export class StompInitializer {
     return {
       // url: 'ws://localhost:8090/trivia-sockets/websocket',
       // url: 'ws://192.168.0.7:8090/trivia-sockets/websocket',
-      url: 'wss://poke-trivia.herokuapp.com/trivia-sockets/websocket',
+      // url: 'wss://poke-trivia.herokuapp.com/trivia-sockets/websocket',
+      url: environment.webSockets.ADDRESS,
 
       headers: {
         SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE')

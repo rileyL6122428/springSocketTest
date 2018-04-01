@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  webSockets: {
+    ADDRESS: 'wss://poke-trivia.herokuapp.com/trivia-sockets/websocket'
+  }
 };
