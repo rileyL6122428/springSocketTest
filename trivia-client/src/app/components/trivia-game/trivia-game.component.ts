@@ -10,4 +10,11 @@ import { fadeIn } from '../../animations/fadeIn';
     fadeIn({ delay: 6, duration: 1 })
   ]
 })
-export class TriviaGameComponent { }
+export class TriviaGameComponent {
+
+  private speaking: boolean = false;
+
+  beginSpeechFeed(): void {
+    this.speaking = true;
+  }
+}

@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'speech-bubble',
   templateUrl: './speech-bubble.component.html',
   styleUrls: ['./speech-bubble.component.scss']
 })
-export class SpeechBubbleComponent implements OnInit {
+export class SpeechBubbleComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  @Input() displayable: boolean;
+  @Input() text: string;
 
 }
