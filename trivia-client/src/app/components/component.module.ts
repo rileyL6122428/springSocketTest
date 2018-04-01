@@ -21,12 +21,13 @@ import { RouterModule } from '@angular/router';
 import { TriviaRoomComponent } from './trivia-room/trivia-room.component';
 import { TriviaChatComponent } from './trivia-chat/trivia-chat.component';
 import { QuarterArcComponent } from './vectors/quarter-arc/quarter-arc.component';
-import { ProfOakComponent } from './prof-oak/prof-oak.component';
+import { ProfOakImgComponent } from './trivia-game/prof-oak-img/prof-oak-img.component';
 import { TriviaChatModule } from './trivia-chat/trivia-chat.module';
 import { TriviaGameComponent } from './trivia-game/trivia-game.component';
 import { TriviaUserComponent } from './trivia-user/trivia-user.component';
 import { SpeechBubbleComponent } from './trivia-game/speech-bubble/speech-bubble.component';
 import { TypingAnimationDirective } from 'angular-typing-animation';
+import { ProfOakComponent } from './trivia-game/prof-oak/prof-oak.component';
 
 @NgModule({
   imports: [
@@ -55,11 +56,12 @@ import { TypingAnimationDirective } from 'angular-typing-animation';
     RoomButtonComponent,
     TriviaRoomComponent,
     QuarterArcComponent,
-    ProfOakComponent,
+    ProfOakImgComponent,
     TriviaGameComponent,
     TriviaUserComponent,
     SpeechBubbleComponent,
-    TypingAnimationDirective
+    TypingAnimationDirective,
+    ProfOakComponent
   ],
 
   entryComponents: [
