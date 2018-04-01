@@ -25,6 +25,8 @@ import { ProfOakComponent } from './prof-oak/prof-oak.component';
 import { TriviaChatModule } from './trivia-chat/trivia-chat.module';
 import { TriviaGameComponent } from './trivia-game/trivia-game.component';
 import { TriviaUserComponent } from './trivia-user/trivia-user.component';
+import { SpeechBubbleComponent } from './trivia-game/speech-bubble/speech-bubble.component';
+import { TypingAnimationDirective } from 'angular-typing-animation';
 
 @NgModule({
   imports: [
@@ -55,7 +57,9 @@ import { TriviaUserComponent } from './trivia-user/trivia-user.component';
     QuarterArcComponent,
     ProfOakComponent,
     TriviaGameComponent,
-    TriviaUserComponent
+    TriviaUserComponent,
+    SpeechBubbleComponent,
+    TypingAnimationDirective
   ],
 
   entryComponents: [

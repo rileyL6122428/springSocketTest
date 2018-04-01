@@ -1,0 +1,13 @@
+trivia-game {
+  display: flex;
+
+  #speech-bubble {
+    padding: 10px 35px 0;
+    
+    p {
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-size: 22px;
+    }
+  }
+}
