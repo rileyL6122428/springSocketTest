@@ -14,11 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StoreModule,
     BrowserAnimationsModule
   ],
-
   declarations: [ AppComponent ],
-
   bootstrap: [ AppComponent ],
-
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
   ]
