@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatchmakingStats } from '../../domain/matchmaking/matchmaking-stats';
-import { MatchmakingService } from '../../services/matchmaking.service';
+import { MatchmakingService } from '../../services/matchmaking/matchmaking.service';
 import { Room } from '../../domain/room/room';
 import { RoomStore } from '../../stores/room/room.store';
 import { RemovableSubscription } from '../base/removable-subscription';

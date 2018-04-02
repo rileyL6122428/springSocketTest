@@ -21,7 +21,6 @@ import { ChatMessageFactory } from './chat/chat-message.factory';
     RoomFactory,
     QuestionFactory,
     AnswerFactory,
-
     ChatFactory,
     ChatMessageFactory
   ]
