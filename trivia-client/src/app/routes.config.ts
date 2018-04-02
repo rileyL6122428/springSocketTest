@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { MatchmakingComponent } from './components/matchmaking/matchmaking.component';
-import { RoomComponent } from './components/room/room.component';
 import { TriviaRoomComponent } from './components/trivia-room/trivia-room.component';
 
 export const ROUTES_CONFIG: Routes = [

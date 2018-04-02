@@ -19,9 +19,6 @@ export class StompInitializer {
 
   private getStompConfig(): StompConfig {
     return {
-      // url: 'ws://localhost:8090/trivia-sockets/websocket',
-      // url: 'ws://192.168.0.7:8090/trivia-sockets/websocket',
-      // url: 'wss://poke-trivia.herokuapp.com/trivia-sockets/websocket',
       url: environment.webSockets.ADDRESS,
 
       headers: {

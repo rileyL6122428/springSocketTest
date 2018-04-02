@@ -4,9 +4,3 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 import { environment } from './environment.local';
 export { environment };
-// export const environment = {
-//   production: false,
-//   webSockets: {
-//     ADDRESS: 'ws://localhost:8090/trivia-sockets/websocket'
-//   }
-// };

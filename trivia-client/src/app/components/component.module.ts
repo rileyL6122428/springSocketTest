@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServicesModule } from '../services/service.module';
 import { MatchmakingComponent } from './matchmaking/matchmaking.component';
-import { RoomComponent } from './room/room.component';
-import { GameComponent } from './game/game.component';
+// import { RoomComponent } from './room/room.component';
+// import { GameComponent } from './game/game.component';
 import { CharizardComponent } from './pokemon-icons/charizard/charizard.component';
 import { GarchompComponent } from './pokemon-icons/garchomp/garchomp.component';
 import { EeveeComponent } from './pokemon-icons/eevee/eevee.component';
@@ -40,8 +40,8 @@ import { ProfOakComponent } from './trivia-game/prof-oak/prof-oak.component';
 
   declarations: [
     MatchmakingComponent,
-    RoomComponent,
-    GameComponent,
+    // RoomComponent,
+    // GameComponent,
     CharizardComponent,
     GarchompComponent,
     EeveeComponent,
