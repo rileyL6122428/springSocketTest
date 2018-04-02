@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from './domain/user/user';
-import { UserService } from './services/user.service';
 import { StompInitializer } from './services/stomp/stomp.initializer';
 import { SubscribingComponent } from './components/base/subscribing.component';
 import { SessionService } from './services/session/session.service';
@@ -12,10 +11,7 @@ import { SessionService } from './services/session/session.service';
 })
 export class AppComponent extends SubscribingComponent implements OnInit {
 
-  private user: User;
-
   constructor(
-    private userService: UserService,
     private stompInitializer: StompInitializer,
     private sessionService: SessionService
   ) {
@@ -27,16 +23,9 @@ export class AppComponent extends SubscribingComponent implements OnInit {
       this.sessionService.createSession().subscribe((sessionCreated: boolean) => {
         if (sessionCreated) {
           this.stompInitializer.setupStompService();
-          this.userService.getUser().subscribe((user: User) => {
-            this.user = user;
-          });
         }
       })
     );
-  }
-
-  get username(): string {
-    return this.user ? this.user.name : '...';
   }
 
 }

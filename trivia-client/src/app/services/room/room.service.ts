@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { GameFactory } from '../domain/game/game.factory';
+import { GameFactory } from '../../domain/game/game.factory';
 import { Observable } from 'rxjs/Observable';
-import { Chat } from '../domain/chat/chat';
+import { Chat } from '../../domain/chat/chat';
 import { StompRService } from '@stomp/ng2-stompjs';
 import { StompHeaders } from '@stomp/stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Game } from '../domain/game/game';
-import { Answer } from '../domain/game/answer';
-import { ChatFactory } from '../domain/chat/chat.factory';
-import { RoomStore } from '../stores/room/room.store';
+import { Game } from '../../domain/game/game';
+import { Answer } from '../../domain/game/answer';
+import { ChatFactory } from '../../domain/chat/chat.factory';
+import { RoomStore } from '../../stores/room/room.store';
 
 @Injectable()
 export class RoomService {
