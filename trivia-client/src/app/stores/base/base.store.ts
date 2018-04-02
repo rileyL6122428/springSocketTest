@@ -1,23 +1,24 @@
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { Nameable } from '../../domain/base/nameable';
 
 export class Store<T extends Nameable> {
 
     protected records: Map<string, T>;
-    protected observer: Observer<Store<T>>;
-    protected observable: Observable<Store<T>>;
+    protected dispatcher: Observer<Store<T>>;
+    protected updates: Observable<Store<T>>;
 
     constructor() {
         this.records = new Map<string, T>();
-        this.observable = new Observable<Store<T>>((observer) => {
-            this.observer = observer;
+        this.updates = new Observable<Store<T>>((observer) => {
+            this.dispatcher = observer;
         });
-
     }
 
-    get updates(): Observable<Store<T>> {
-        return this.observable;
+    placeListener(listener: any): Subscription {
+      listener(this);
+      return this.updates.subscribe(() => listener(this));
     }
 
     depositList(records: Array<T>): void {
@@ -35,7 +36,7 @@ export class Store<T extends Nameable> {
     }
 
     private emitUpdate(): void {
-        this.observer.next(this);
+        this.dispatcher.next(this);
     }
 
     recordsAsList(): Array<T> {

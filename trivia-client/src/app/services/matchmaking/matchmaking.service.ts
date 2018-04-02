@@ -37,9 +37,7 @@ export class MatchmakingService {
   }
 
   private placeStoreListener(listener: any): Subscription {
-    return this.roomStore.updates.subscribe(() => {
-      listener(this.roomStore);
-    });
+    return this.roomStore.placeListener(listener);
   }
 
   private fetchMakingStats(): Subscription {

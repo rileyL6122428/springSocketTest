@@ -7,6 +7,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ChatFactory } from '../../domain/chat/chat.factory';
 import { Chat } from '../../domain/chat/chat';
 import { StompHeaders } from '@stomp/ng2-stompjs/node_modules/@stomp/stompjs';
+import { StreamSubscription } from '../steam/stream-subscription';
 
 @Injectable()
 export class ChatService {
@@ -19,24 +20,16 @@ export class ChatService {
     private chatFactory: ChatFactory
   ) { }
 
-  stream(roomName: string, onUpdate: (store: ChatStore) => void): { unsubscribe: () => void } {
-    onUpdate(this.chatStore);
-
-    const subs = [
+  stream(roomName: string, onUpdate: (store: ChatStore) => void): StreamSubscription {
+    return new StreamSubscription([
       this.placeStoreListener(onUpdate),
       this.fetchChat(roomName),
       this.listenForChatChanges(roomName)
-    ];
-
-    return {
-      unsubscribe() { subs.forEach((sub) => sub.unsubscribe()); }
-    };
+    ]);
   }
 
   private placeStoreListener(listener: any): Subscription {
-    return this.chatStore.updates.subscribe(() => {
-      listener(this.chatStore);
-    });
+    return this.chatStore.placeListener(listener);
   }
 
   private fetchChat(roomName: string): Subscription {
