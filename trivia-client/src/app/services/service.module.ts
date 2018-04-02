@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { DomainFactoryModule } from '../domain/factory.module';
 import { StompService, StompConfig, StompRService } from '@stomp/ng2-stompjs';
-import { STOMP_CONFIG } from '../stomp.config';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UserService } from './user/user.service';
 import { MatchmakingService } from './matchmaking/matchmaking.service';
