@@ -1,19 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Pokemon } from '../../../domain/pokemon/pokemon';
+import { Pokemon } from '../../../../domain/pokemon/pokemon';
 
 @Component({
   selector: 'pokemon-room-icon',
   templateUrl: './pokemon-room-icon.component.html',
   styleUrls: ['./pokemon-room-icon.component.css']
 })
-export class PokemonRoomIconComponent implements OnInit {
+export class PokemonRoomIconComponent {
 
   @Input() pokemon: Pokemon;
-
-  constructor() { }
-
-  ngOnInit() {
-
-  }
 
 }
