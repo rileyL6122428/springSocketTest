@@ -34,8 +34,4 @@ export class ChatStream {
     return this.chatWSUtil.listenForChatChanges(roomName);
   }
 
-  sendMessage(params: { roomName: string, messageBody: string }): void {
-    this.chatWSUtil.sendMessage(params);
-  }
-
 }
