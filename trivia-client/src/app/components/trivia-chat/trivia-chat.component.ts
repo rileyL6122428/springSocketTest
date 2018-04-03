@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatMessage } from '../../domain/chat/chat-message';
-import { ChatService } from '../../services/chat/chat.service';
+import { ChatStream } from '../../services/chat/chat.stream';
 import { ActivatedRoute } from '@angular/router';
 import { ChatStore } from '../../stores/chat/chat.store';
 import { Chat } from '../../domain/chat/chat';
@@ -17,7 +17,7 @@ export class TriviaChatComponent implements OnInit {
   private chatActive: boolean;
 
   constructor(
-    private chatService: ChatService,
+    private chatStream: ChatStream,
     private route: ActivatedRoute
   ) { }
 
@@ -27,7 +27,7 @@ export class TriviaChatComponent implements OnInit {
   }
 
   private listenToChatStream(): void {
-    this.chatService.stream(this.roomName, (chatStore: ChatStore) => {
+    this.chatStream.subscribe(this.roomName, (chatStore: ChatStore) => {
       this.chat = chatStore.getByName(this.roomName);
     });
   }

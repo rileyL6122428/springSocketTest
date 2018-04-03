@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatService } from '../../../services/chat/chat.service';
+import { ChatStream } from '../../../services/chat/chat.stream';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ export class NewMessageComponent {
   private newMessage: string;
 
   constructor(
-    private chatService: ChatService,
+    private chatService: ChatStream,
     private route: ActivatedRoute
   ) {
     this.newMessage = '';

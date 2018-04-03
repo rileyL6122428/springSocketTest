@@ -8,7 +8,9 @@ import { MatchmakingService } from './matchmaking/matchmaking.service';
 import { RoomService } from './room/room.service';
 import { StompInitializer } from './stomp/stomp.initializer';
 import { SessionService } from './session/session.service';
-import { ChatService } from './chat/chat.service';
+import { ChatStream } from './chat/chat.stream';
+import { ChatHttpUtil } from './chat/chat.http';
+import { ChatWSUtil } from './chat/chat.ws';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { ChatService } from './chat/chat.service';
     UserService,
     MatchmakingService,
     RoomService,
-    ChatService,
+    ChatStream,
+    ChatHttpUtil,
+    ChatWSUtil,
     StompRService,
     StompInitializer,
     CookieService,
