@@ -33,14 +33,8 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		registration.setInterceptors(
-			getUserPopulator(),
-			getRoomPopulator() 
+			getUserPopulator() 
 		);
-	}
-	
-	@Bean
-	public RoomPopulator getRoomPopulator() {
-		return new RoomPopulator();
 	}
 	
 	@Bean
