@@ -6,6 +6,7 @@ import { StompRService } from '@stomp/ng2-stompjs';
 import { StompHeaders } from '@stomp/ng2-stompjs/node_modules/@stomp/stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Chat } from '../../domain/chat/chat';
+import { SessionService } from '../session/session.service';
 
 @Injectable()
 export class ChatWSUtil {
@@ -14,18 +15,15 @@ export class ChatWSUtil {
     private stompService: StompRService,
     private chatFactory: ChatFactory,
     private chatStore: ChatStore,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private sessionService: SessionService
   ) { }
 
   listenForChatChanges(roomName: string): Subscription {
-    return this.stompService.subscribe(`/topic/room/${roomName}/chat`, this.getStompHeaders())
+    return this.stompService.subscribe(`/topic/room/${roomName}/chat`, { SESSION_ID: this.sessionToken })
       .map((message) => JSON.parse(message.body))
       .map((messageBody) => this.chatFactory.fromPOJO(messageBody))
       .subscribe((chat: Chat) => this.chatStore.deposit(chat));
-  }
-
-  private getStompHeaders(): StompHeaders {
-    return { SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE') };
   }
 
   sendMessage(params: { roomName: string, messageBody: string }): void {
@@ -33,9 +31,13 @@ export class ChatWSUtil {
     const message = JSON.stringify({ messageBody: params.messageBody });
 
     this.stompService.publish(endpoint, message, {
-      SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE'),
+      SESSION_ID: this.sessionService.sessionToken,
       roomName: params.roomName
     });
+  }
+
+  private get sessionToken(): string {
+    return this.sessionService.sessionToken;
   }
 
 }

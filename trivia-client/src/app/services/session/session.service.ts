@@ -12,10 +12,14 @@ export class SessionService {
   ) {}
 
   createSession(): Observable<boolean> {
-    return this.http.post(`/session`, { TIVIA_SESSION_COOKIE: this.cookieService.get("TRIVIA_SESSION_COOKIE") }).map((response) => {
-      console.log(response);
-      return response[`status`] === 200;
-    });
+    return this.http.post(`/session`, { TIVIA_SESSION_COOKIE: this.sessionToken })
+      .map((response) => {
+        return response[`status`] === 200;
+      });
+  }
+
+  get sessionToken(): string {
+    return this.cookieService.get('TRIVIA_SESSION_COOKIE');
   }
 
 }
