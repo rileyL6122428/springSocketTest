@@ -18,7 +18,7 @@ describe('matchmaking-stats', () => {
     it("returns an instance of MatchmakingStats",
       inject([MatchmakingStatsFactory], (statsFactory: MatchmakingStatsFactory) => {
         let payload: object = { rooms: {}, userTotal: 0 };
-        let matchmakingStats: MatchmakingStats = statsFactory.createNewStats(payload);
+        let matchmakingStats: MatchmakingStats = statsFactory.fromPOJO(payload);
         expect(matchmakingStats).toEqual(jasmine.any(MatchmakingStats));
       }
     ));
@@ -30,7 +30,7 @@ describe('matchmaking-stats', () => {
 
         let payload: object = { rooms: {}, userTotal: 0 };
 
-        let matchmakingStats: MatchmakingStats = statsFactory.createNewStats(payload);
+        let matchmakingStats: MatchmakingStats = statsFactory.fromPOJO(payload);
 
         expect(roomFactory.fromPOJOMapToList).toHaveBeenCalledWith(payload['rooms']);
         expect(matchmakingStats.rooms).toBe(mappedRoomsMock);
@@ -51,7 +51,7 @@ describe('matchmaking-stats', () => {
         spyOn(roomFactory, "fromPOJOMapToList").and.returnValue([mockRoomOne, mockRoomTwo]);
 
         let payload: object = { rooms: {}, userTotal: 6 };
-        let matchmakingStats: MatchmakingStats = statsFactory.createNewStats(payload);
+        let matchmakingStats: MatchmakingStats = statsFactory.fromPOJO(payload);
 
         expect(matchmakingStats.unplacedUserTotal).toEqual(1);
       }

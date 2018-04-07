@@ -4,13 +4,15 @@ import { DomainFactoryModule } from '../domain/factory.module';
 import { StompService, StompConfig, StompRService } from '@stomp/ng2-stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UserService } from './user/user.service';
-import { MatchmakingService } from './matchmaking/matchmaking.service';
+import { MatchmakingStream } from './matchmaking/matchmaking.service';
 import { RoomService } from './room/room.service';
 import { StompInitializer } from './stomp/stomp.initializer';
 import { SessionService } from './session/session.service';
 import { ChatStream } from './chat/chat.stream';
 import { ChatHttpUtil } from './chat/chat.http';
 import { ChatWSUtil } from './chat/chat.ws';
+import { MatchmakingHttpUtil } from './matchmaking/matchmaking.http';
+import { MatchmakingWsUtil } from './matchmaking/matchmaking.ws';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { ChatWSUtil } from './chat/chat.ws';
   ],
   providers: [
     UserService,
-    MatchmakingService,
+    MatchmakingStream,
+    MatchmakingHttpUtil,
+    MatchmakingWsUtil,
     RoomService,
     ChatStream,
     ChatHttpUtil,

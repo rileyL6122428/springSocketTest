@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatchmakingStats } from '../../domain/matchmaking/matchmaking-stats';
-import { MatchmakingService } from '../../services/matchmaking/matchmaking.service';
+import { MatchmakingStream } from '../../services/matchmaking/matchmaking.service';
 import { Room } from '../../domain/room/room';
 import { RoomStore } from '../../stores/room/room.store';
 import { RemovableSubscription } from '../base/removable-subscription';
+import { MatchmakingHttpUtil } from '../../services/matchmaking/matchmaking.http';
 
 @Component({
   selector: 'app-matchmaking',
@@ -19,7 +20,8 @@ export class MatchmakingComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private matchmakingService: MatchmakingService,
+    private matchmakingStream: MatchmakingStream,
+    private matchmakingHttp: MatchmakingHttpUtil
   ) { }
 
   ngOnInit(): void {
@@ -35,25 +37,27 @@ export class MatchmakingComponent implements OnInit {
   }
 
   private returnToMatchmaking(): void {
-    this.matchmakingService.leaveRoom(this.selectedRoom).subscribe((successfullyLeft: boolean) => {
-      if (successfullyLeft) {
-        this.selectedRoom = undefined;
-        this.router.navigateByUrl(`/matchmaking`);
-      }
-    });
+    this.matchmakingHttp.leaveRoom(this.selectedRoom)
+      .subscribe((leftRoom: boolean) => {
+        if (leftRoom) {
+          this.selectedRoom = undefined;
+          this.router.navigateByUrl(`/matchmaking`);
+        }
+      });
   }
 
   private joinRoom(room: Room) {
-    this.matchmakingService.joinRoom(room).subscribe((joinedRoom: boolean) => {
-      if (joinedRoom) {
-        this.selectedRoom = room;
-        this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
-      }
-    });
+    this.matchmakingHttp.joinRoom(room)
+      .subscribe((joinedRoom: boolean) => {
+        if (joinedRoom) {
+          this.selectedRoom = room;
+          this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
+        }
+      });
   }
 
   private subscribeToMatchmaking(): void {
-    this.matchmakingSub = this.matchmakingService.stream((roomStore) => {
+    this.matchmakingSub = this.matchmakingStream.subscribe((roomStore) => {
       this.rooms = roomStore.recordsAsList();
     });
   }

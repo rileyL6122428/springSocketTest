@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ChatStore } from '../../stores/chat/chat.store';
 import { Subscription } from 'rxjs/Subscription';
-import { StreamSubscription } from '../steam/stream-subscription';
+import { StreamSubscription } from '../stream/stream-subscription';
 import { ChatHttpUtil } from './chat.http';
 import { ChatWSUtil } from './chat.ws';
 

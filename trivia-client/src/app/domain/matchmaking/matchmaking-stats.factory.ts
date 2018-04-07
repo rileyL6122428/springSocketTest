@@ -10,7 +10,7 @@ export class MatchmakingStatsFactory {
     private roomFactory: RoomFactory
   ) { }
 
-  createNewStats(matchmakingPayload: Object): MatchmakingStats {
+  fromPOJO(matchmakingPayload: Object): MatchmakingStats {
     let rooms: Array<Room> = this.roomFactory.fromPOJOMapToList(matchmakingPayload["rooms"]);
     let unplacedUserTotal = this.totalUsersInMatchmaking(rooms, matchmakingPayload["userTotal"]);
 

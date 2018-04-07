@@ -1,77 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { MatchmakingStats } from '../../domain/matchmaking/matchmaking-stats';
-import { Http } from '@angular/http';
-import { MatchmakingStatsFactory } from '../../domain/matchmaking/matchmaking-stats.factory';
-import { StompRService } from '@stomp/ng2-stompjs';
-import { Message } from '@stomp/stompjs';
-import 'rxjs/operator/map';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { RoomStore } from '../../stores/room/room.store';
 import { Subscription } from 'rxjs/Subscription';
-import { Room } from '../../domain/room/room';
+import { StreamSubscription } from '../stream/stream-subscription';
+import { MatchmakingHttpUtil } from './matchmaking.http';
+import { MatchmakingWsUtil } from './matchmaking.ws';
 
 @Injectable()
-export class MatchmakingService {
+export class MatchmakingStream {
 
   constructor(
-    private http: Http,
-    private matchmakingStatsFactory: MatchmakingStatsFactory,
-    private stompService: StompRService,
-    private cookieService: CookieService,
-    private roomStore: RoomStore
+    private roomStore: RoomStore,
+    private matchmakingHttp: MatchmakingHttpUtil,
+    private matchmakingWs: MatchmakingWsUtil
   ) { }
 
-  stream(onUpdate: (store: RoomStore) => void): { unsubscribe: () => void } {
-    onUpdate(this.roomStore);
-
-    const subs = [
+  subscribe(onUpdate: (store: RoomStore) => void): StreamSubscription {
+    return new StreamSubscription([
       this.placeStoreListener(onUpdate),
-      this.fetchMakingStats(),
-      this.listenForMatchmakingStats()
-    ];
-
-    return {
-      unsubscribe() { subs.forEach( (sub) => sub.unsubscribe() ); }
-    };
+      this.fetchMatchmakingStats(),
+      this.listenToMatchmaking()
+    ]);
   }
 
   private placeStoreListener(listener: any): Subscription {
     return this.roomStore.placeListener(listener);
   }
 
-  private fetchMakingStats(): Subscription {
-    return this.http.get('/matchmaking/stats').subscribe((response) => {
-      if (response['status'] === 200) {
-        const stats = this.matchmakingStatsFactory.createNewStats(response.json());
-        this.roomStore.depositList(stats.rooms);
-      }
-    });
+  private fetchMatchmakingStats(): Subscription {
+    return this.matchmakingHttp.fetchMatchmakingStats();
   }
 
-  private listenForMatchmakingStats(): Subscription {
-    const headers = { SESSION_ID: this.cookieService.get('TRIVIA_SESSION_COOKIE') };
-
-    return this.stompService.subscribe('/topic/matchmaking', headers)
-      .map((message: Message) => {
-        const statsPayload = JSON.parse(message.body);
-        return this.matchmakingStatsFactory.createNewStats(statsPayload);
-      })
-      .subscribe((stats) => {
-        this.roomStore.depositList(stats.rooms);
-      });
-  }
-
-  joinRoom(room: Room): Observable<boolean> {
-    return this.http.post(`/room/${room.name}/join`, null).map((response) => {
-      return response[`status`] === 200;
-    });
-  }
-
-  leaveRoom(room: Room): Observable<boolean> {
-    return this.http.post(`/room/${room.name}/leave`, {}).map((response) => {
-      return response[`status`] === 200;
-    });
+  private listenToMatchmaking(): Subscription {
+    return this.matchmakingWs.listenToMatchmaking();
   }
 
 }

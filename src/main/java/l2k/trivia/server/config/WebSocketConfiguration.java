@@ -7,10 +7,8 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
-import l2k.trivia.server.wschannelinterceptor.RoomPopulator;
+import l2k.trivia.server.config.Constants.STOMP;
 import l2k.trivia.server.wschannelinterceptor.UserPopulator;
-
-import static l2k.trivia.server.config.Constants.*;
 
 @Configuration
 public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {

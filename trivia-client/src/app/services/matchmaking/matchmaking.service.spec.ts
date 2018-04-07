@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule, XHRBackend, ResponseOptions, Connection, Response } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { MatchmakingService } from './matchmaking.service';
+import { MatchmakingStream } from './matchmaking.service';
 import { User } from '../domain/user/user';
 import { DomainFactoryModule } from '../domain/factory.module';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
@@ -20,7 +20,7 @@ describe('MatchmakingService', () => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, DomainFactoryModule ],
       providers: [
-        MatchmakingService,
+        MatchmakingStream,
         { provide: XHRBackend, useClass: MockBackend },
         { provide: StompConfig, useValue: STOMP_CONFIG },
         { provide: StompService, useClass: StubableStompService },
@@ -31,7 +31,7 @@ describe('MatchmakingService', () => {
 
   describe('#getMatchmakingStats', () => {
     it("makes a GET request to '/matchmaking/stats'",
-      inject([MatchmakingService, XHRBackend], (matchmakingService: MatchmakingService, mockBackend: MockBackend) => {
+      inject([MatchmakingStream, XHRBackend], (matchmakingService: MatchmakingStream, mockBackend: MockBackend) => {
         let getMatchmakingStatsConnection: any = undefined;
         mockBackend.connections.subscribe((connection) => {
           getMatchmakingStatsConnection = connection;
@@ -45,7 +45,7 @@ describe('MatchmakingService', () => {
     ));
 
     it("returns an observable that delegates to matchmakingStatsFactory to map successful requests",
-      inject([MatchmakingService, MatchmakingStatsFactory, XHRBackend], (matchmakingService: MatchmakingService, matchmakingStatsFactory: MatchmakingStatsFactory, mockBackend: MockBackend) => {
+      inject([MatchmakingStream, MatchmakingStatsFactory, XHRBackend], (matchmakingService: MatchmakingStream, matchmakingStatsFactory: MatchmakingStatsFactory, mockBackend: MockBackend) => {
         mockBackend.connections.subscribe((connection) => {
           connection.mockRespond(new Response(new ResponseOptions({
             status: 200,
@@ -64,7 +64,7 @@ describe('MatchmakingService', () => {
     ));
 
     it("returns an observable that passes null upon an unsucessful request",
-      inject([MatchmakingService, XHRBackend], (matchmakingService: MatchmakingService, mockBackend: MockBackend) => {
+      inject([MatchmakingStream, XHRBackend], (matchmakingService: MatchmakingStream, mockBackend: MockBackend) => {
         mockBackend.connections.subscribe((connection) => {
           connection.mockRespond(new Response(new ResponseOptions({
             status: 400,
@@ -80,7 +80,7 @@ describe('MatchmakingService', () => {
   });
 
   describe("#subscribeToMatchmaking", () => {
-    it("delegates to StompService#subscribe, passing along the appropriate path and headers", inject([MatchmakingService, StompService], (matchmakingService, stompService) => {
+    it("delegates to StompService#subscribe, passing along the appropriate path and headers", inject([MatchmakingStream, StompService], (matchmakingService, stompService) => {
       document.cookie = "TRIVIA_SESSION_COOKIE=EXAMPLE_SESSION_COOKIE_VALUE";
       spyOn(stompService, "subscribe").and.returnValue(stubableObservable());
       matchmakingService.subscribeToMatchmaking();
@@ -88,7 +88,7 @@ describe('MatchmakingService', () => {
     }));
 
     it("maps the returned message by passing it to the matchmaking stats factory",
-      inject([MatchmakingService, StompService, MatchmakingStatsFactory], (matchmakingService, stompService, statsFactory) => {
+      inject([MatchmakingStream, StompService, MatchmakingStatsFactory], (matchmakingService, stompService, statsFactory) => {
         let messageBody = JSON.stringify({mockStatsPayload:'mockStatsPayload'});
         spyOn(stompService, "subscribe").and.returnValue(Observable.create(
           (observer: Observer<any>) => observer.next({ body: messageBody })
