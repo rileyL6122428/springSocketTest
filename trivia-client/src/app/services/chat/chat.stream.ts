@@ -3,7 +3,7 @@ import { ChatStore } from '../../stores/chat/chat.store';
 import { Subscription } from 'rxjs/Subscription';
 import { StreamSubscription } from '../stream/stream-subscription';
 import { ChatHttpUtil } from './chat.http';
-import { ChatWSUtil } from './chat.ws';
+import { ChatWsUtil } from './chat.ws';
 
 @Injectable()
 export class ChatStream {
@@ -11,7 +11,7 @@ export class ChatStream {
   constructor(
     private chatStore: ChatStore,
     private chatHttpUtil: ChatHttpUtil,
-    private chatWSUtil: ChatWSUtil
+    private chatWSUtil: ChatWsUtil
   ) { }
 
   subscribe(roomName: string, onUpdate: (store: ChatStore) => void): StreamSubscription {

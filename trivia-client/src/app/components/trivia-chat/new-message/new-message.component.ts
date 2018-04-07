@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatWSUtil } from '../../../services/chat/chat.ws';
+import { ChatWsUtil } from '../../../services/chat/chat.ws';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ export class NewMessageComponent {
   private newMessage: string;
 
   constructor(
-    private chatWSUtil: ChatWSUtil,
+    private chatWSUtil: ChatWsUtil,
     private route: ActivatedRoute
   ) {
     this.newMessage = '';

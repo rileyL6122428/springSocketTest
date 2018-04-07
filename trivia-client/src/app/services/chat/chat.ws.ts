@@ -8,7 +8,7 @@ import { Chat } from '../../domain/chat/chat';
 import { SessionService } from '../session/session.service';
 
 @Injectable()
-export class ChatWSUtil {
+export class ChatWsUtil {
 
   constructor(
     private stompService: StompRService,

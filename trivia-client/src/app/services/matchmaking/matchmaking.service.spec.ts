@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule, XHRBackend, ResponseOptions, Connection, Response } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { MatchmakingStream } from './matchmaking.service';
+import { MatchmakingStream } from './matchmaking.stream';
 import { User } from '../domain/user/user';
 import { DomainFactoryModule } from '../domain/factory.module';
 import { MatchmakingStats } from '../domain/matchmaking/matchmaking-stats';
