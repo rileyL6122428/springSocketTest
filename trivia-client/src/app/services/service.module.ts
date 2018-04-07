@@ -4,7 +4,6 @@ import { DomainFactoryModule } from '../domain/factory.module';
 import { StompService, StompConfig, StompRService } from '@stomp/ng2-stompjs';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UserService } from './user/user.service';
-import { RoomService } from './room/room.service';
 import { StompInitializer } from './stomp/stomp.initializer';
 import { SessionService } from './session/session.service';
 import { ChatServiceModule } from './chat/chat.module';
@@ -19,7 +18,6 @@ import { MatchmakingServiceModule } from './matchmaking/matchmaking.module';
   ],
   providers: [
     UserService,
-    RoomService,
     StompRService,
     StompInitializer,
     CookieService,
