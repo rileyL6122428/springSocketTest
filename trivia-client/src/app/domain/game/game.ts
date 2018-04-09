@@ -16,10 +16,11 @@ export class Game {
 
 
   get completedRoundProportion(): number {
-    if(this.phase === "FINISHED")
+    if (this.phase === 'FINISHED') {
       return 1;
-    else
+    } else {
       return Math.max((this.currentRoundNumber - 1) / this.roundCount, 0);
+    }
   }
 
 }
