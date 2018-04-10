@@ -43,6 +43,10 @@ export class TriviaGameComponent {
       Math.min(this.gameStates.length - 1, this.mockGameStateIndex + 1);
   }
 
+  get game(): Game {
+    return this.gameStates[this.mockGameStateIndex];
+  }
+
   beginSpeechFeed(): void {
     this.speaking = true;
   }

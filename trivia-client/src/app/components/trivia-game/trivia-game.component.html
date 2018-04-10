@@ -1,5 +1,10 @@
 <prof-oak
   [@fadeIn] 
   (@fadeIn.done)="beginSpeechFeed()"
-  [canSpeak]="speaking">
+  [canSpeak]="speaking"
+  [game]="game">
 </prof-oak>
+
+<button id="increment-mock" (click)="incrementMockGameState()">
+  increment mock
+</button>

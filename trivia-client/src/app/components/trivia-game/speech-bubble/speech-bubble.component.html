@@ -1,7 +1,8 @@
 <section id='speech-bubble'>
-  <p>
-    <span typingAnimation [typeSpeed]="55" [condition]="displayable">
+  <p *ngIf="!textCleared">
+    <span typingAnimation [typeSpeed]="40" [condition]="displayable">
       {{text}}
     </span>
   </p>
 </section>
+{{textCleared}}
