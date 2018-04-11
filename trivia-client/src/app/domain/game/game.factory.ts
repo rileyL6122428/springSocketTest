@@ -20,7 +20,8 @@ export class GameFactory {
       messagePOJO['currentRoundNumber'],
       messagePOJO['roundCount'],
       this.questionFactory.fromPOJO(messagePOJO['currentQuestion']),
-      this.answerFactory.fromPOJOList(messagePOJO['currentAnswers'])
+      // this.answerFactory.fromPOJOList(messagePOJO['currentAnswers'])
+      []
     );
   }
 

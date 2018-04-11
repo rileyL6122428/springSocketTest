@@ -14,6 +14,7 @@ export class ProfessorOak {
     switch (this._game.phase) {
       case ('WAITING_FOR_PLAYERS'): return this.waitingNarration;
       case ('READY'): return this.readyToStartNarration;
+      case ('ANSWERING_QUESTION'): return this.questionNarration;
       default: return 'error occurred';
     }
   }
@@ -30,6 +31,12 @@ export class ProfessorOak {
         Trainers have arrived! Let's start!
         A round of dreams and adventures with Pokémon begins!
       `;
+  }
+
+  private get questionNarration(): string {
+    return `
+      Here is my first question: ${this._game.currentQuestion.text}
+    `;
   }
 
   set game(game: Game) {

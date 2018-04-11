@@ -15,6 +15,7 @@ import { SpeechBubbleComponent } from './trivia-game/speech-bubble/speech-bubble
 import { TypingAnimationDirective } from 'angular-typing-animation';
 import { ProfOakComponent } from './trivia-game/prof-oak/prof-oak.component';
 import { RoomButtonModule } from './room-button/room-button.module';
+import { BulbasaurComponent } from './trivia-game/pokemon/bulbasaur/bulbasuar.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { RoomButtonModule } from './room-button/room-button.module';
     TriviaUserComponent,
     SpeechBubbleComponent,
     TypingAnimationDirective,
-    ProfOakComponent
+    ProfOakComponent,
+    BulbasaurComponent
   ],
 
   entryComponents: [

@@ -2,6 +2,7 @@ import { Player } from '../player/player';
 import { Question } from './question';
 import { Answer } from './answer';
 import { Phase } from './phase';
+import { Pokemon } from '../pokemon/pokemon';
 
 export class Game {
 
@@ -11,7 +12,8 @@ export class Game {
     readonly currentRoundNumber: number,
     readonly roundCount: number,
     readonly currentQuestion: Question,
-    readonly currentAnswers: Array<Answer>
+    // readonly currentAnswers: Array<Answer>
+    readonly pokemon: Array<Pokemon>
   ) {  }
 
 

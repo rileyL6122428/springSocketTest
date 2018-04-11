@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { fadeIn } from '../../animations/fadeIn';
 import { Game } from '../../domain/game/game';
 import { Player } from '../../domain/player/player';
+import { Question } from '../../domain/game/question';
+import { Answer } from '../../domain/game/answer';
+import { Pokemon } from '../../domain/pokemon/pokemon';
 
 @Component({
   selector: 'trivia-game',
@@ -33,6 +36,14 @@ export class TriviaGameComponent {
       null,
       null,
       null
+    ),
+    new Game(
+      'ANSWERING_QUESTION',
+      [new Player('Red', 0), new Player('Blue', 0)],
+      1,
+      6,
+      new Question('Which Pokemon takes the first entry in the official pokedex?'),
+      [new Pokemon('Bulbasaur'), new Pokemon('Bulbasaur'), new Pokemon('Bulbasaur')]
     )
   ];
 
