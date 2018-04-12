@@ -9,6 +9,7 @@
   increment mock
 </button>
 
-<section id="answers">
-  <bulbasaur></bulbasaur>
-</section>
+<pokemon-selection 
+  *ngIf="game" 
+  [pokemon]="game.pokemon">
+</pokemon-selection>
