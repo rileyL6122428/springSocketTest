@@ -1,0 +1,53 @@
+.pokeball {
+  width: 55px;
+  height: 55px;
+  position: relative;
+  margin: auto;
+  margin-top: 10px;
+  border: 1px solid white;
+  border-radius: 100%;
+  // display: flex;
+
+  .line {
+    height: 1px;
+    width: 5px;
+    position: absolute;
+    top: 27.2px;
+    width: 28px;
+    background: white;
+  }
+
+  .right {
+    right: 0;
+  }
+
+  button {
+    height: 15px;
+    width: 15px;
+    display: block;
+    margin: auto;
+    margin-top: 20.2px;
+
+    border: 1px solid white;
+    border-radius: 100%;
+  }
+
+  &.selected {
+    .top.line {
+      top: 15.2px;
+    }
+
+    .top.left.line {
+      left: 2px;
+    }
+
+    .top.right.line {
+      right: 2px;
+    }
+
+    button {
+      margin-top: 10.2px;
+      height: 10px;
+    }
+  }
+}

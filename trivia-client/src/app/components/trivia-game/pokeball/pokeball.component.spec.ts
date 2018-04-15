@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuarterArcComponent } from './quarter-arc.component';
+import { PokeballComponent } from './pokeball.component';
 
-describe('QuarterArcComponent', () => {
-  let component: QuarterArcComponent;
-  let fixture: ComponentFixture<QuarterArcComponent>;
+describe('PokeballComponent', () => {
+  let component: PokeballComponent;
+  let fixture: ComponentFixture<PokeballComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuarterArcComponent ]
+      declarations: [ PokeballComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuarterArcComponent);
+    fixture = TestBed.createComponent(PokeballComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
