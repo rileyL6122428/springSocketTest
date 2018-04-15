@@ -18,6 +18,8 @@ import { RoomButtonModule } from './room-button/room-button.module';
 import { BulbasaurComponent } from './trivia-game/pokemon/bulbasaur/bulbasuar.component';
 import { PokemonComponent } from './trivia-game/pokemon/pokemon.component';
 import { PokemonSelectionComponent } from './trivia-game/pokemon-selection/pokemon-selection.component';
+import { CharmanderComponent } from './trivia-game/pokemon/charmander/charmander.component';
+import { SquirtleComponent } from './trivia-game/pokemon/squirtle/squirtle.component';
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import { PokemonSelectionComponent } from './trivia-game/pokemon-selection/pokem
     ProfOakComponent,
     BulbasaurComponent,
     PokemonComponent,
-    PokemonSelectionComponent
+    PokemonSelectionComponent,
+    CharmanderComponent,
+    SquirtleComponent
   ],
 
   entryComponents: [

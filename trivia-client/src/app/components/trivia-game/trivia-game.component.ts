@@ -42,8 +42,8 @@ export class TriviaGameComponent {
       [new Player('Red', 0), new Player('Blue', 0)],
       1,
       6,
-      new Question('Which Pokemon takes the first entry in the official pokedex?'),
-      [new Pokemon('Bulbasaur'), new Pokemon('Bulbasaur'), new Pokemon('Bulbasaur')]
+      new Question('Which Pokemon is the first entry in the official pokedex?'),
+      [new Pokemon('Charmander'), new Pokemon('Squirtle'), new Pokemon('Bulbasaur')]
     )
   ];
 
