@@ -24,7 +24,7 @@ export class PokeballTwoComponent {
   private buttonYRadiusDelta: number;
 
   constructor() {
-    this.baseline = 400;
+    this.baseline = 120;
     this.topOpeningHeight = this.baseline;
     this.bottomOpeningHeight = this.baseline;
     this.buttonHeight = this.baseline;
@@ -41,12 +41,48 @@ export class PokeballTwoComponent {
     this.isOpen = !this.isOpen;
   }
 
+  get outerCircleTopD(): string {
+    return `
+        M
+          10 ${this.baseline}
+        C
+          10 ${this.baseline - 150}
+          210 ${this.baseline - 150}
+          210 ${this.baseline}
+      `;
+  }
+
+  get outerCircleBottomD(): string {
+    return `
+      M
+        10 ${this.baseline}
+      C
+        10 ${this.baseline + 150}
+        210 ${this.baseline + 150}
+        210 ${this.baseline}
+    `;
+  }
+
   get innerCircleTopD(): string {
-    return `M 10 400 C 10 ${this.topOpeningHeight} 210 ${this.topOpeningHeight} 210 400`;
+    return `
+      M
+        10 ${this.baseline}
+      C
+        10 ${this.topOpeningHeight}
+        210 ${this.topOpeningHeight}
+        210 ${this.baseline}
+    `;
   }
 
   get innerCircleBottomD(): string {
-    return `M 10 400 C 10 ${this.bottomOpeningHeight} 210 ${this.bottomOpeningHeight} 210 400`;
+    return `
+      M
+        10 ${this.baseline}
+      C
+        10 ${this.bottomOpeningHeight}
+        210 ${this.bottomOpeningHeight}
+        210 ${this.baseline}
+    `;
   }
 
   get buttonRadiusY(): string {
@@ -59,7 +95,7 @@ export class PokeballTwoComponent {
 
   private animateOpen(): void {
     const openIntervalId = setInterval(() => {
-      if (this.bottomOpeningHeight > 300) {
+      if (this.bottomOpeningHeight > this.baseline - 100) {
         this.open();
       } else {
         clearInterval(openIntervalId);
@@ -69,7 +105,7 @@ export class PokeballTwoComponent {
 
   private animateClose(): void {
     const closeIntervalId = setInterval(() => {
-      if (this.topOpeningHeight !== this.baseline) {
+      if (this.bottomOpeningHeight !== this.baseline) {
         this.close();
       } else {
         clearInterval(closeIntervalId);

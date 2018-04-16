@@ -1,14 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="svg4711" width="800" height="600" (click)="animate()">
-  <g id="layer1" fill="none" stroke-width="21.26">
-    <!-- OUTER CIRCLE -->
-    <path id="outer-circle-top" d="M 10 400 C 10 250 210 250 210 400" stroke="white" stroke-width="2" fill="none" />
-    <path id="outer-circle-bottom" d="M 10 400 C 10 550 210 550 210 400" stroke="white" stroke-width="2" fill="none" />
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewbox="0 0 220 240" xml:space="preserve" width="220" height="240" (click)="animate()">
+  <!-- OUTER CIRCLE -->
+  <path id="outer-circle-top" [attr.d]="outerCircleTopD" stroke="white" stroke-width="5" fill="none" />
+  <path id="outer-circle-bottom" [attr.d]="outerCircleBottomD" stroke="white" stroke-width="5" fill="none" />
 
-    <!-- INNER-CIRCLE -->
-    <path id="inner-circle-top" [attr.d]="innerCircleTopD" stroke="white" stroke-width="2" fill="none" />
-    <path id="inner-circle-bottom" [attr.d]="innerCircleBottomD" stroke="white" stroke-width="2" fill="none" />
+  <!-- INNER-CIRCLE -->
+  <path id="inner-circle-top" [attr.d]="innerCircleTopD" stroke="white" stroke-width="5" fill="none" />
+  <path id="inner-circle-bottom" [attr.d]="innerCircleBottomD" stroke="white" stroke-width="5" fill="none" />
 
-    <!-- BUTTON -->
-    <ellipse id="button" cx="112.5" [attr.cy]="buttonY" rx="25" [attr.ry]="buttonRadiusY" stroke="white" fill="#008cff" stroke-width="2" />
-  </g>
+  <!-- BUTTON -->
+  <ellipse id="button" cx="112.5" [attr.cy]="buttonY" rx="25" [attr.ry]="buttonRadiusY" stroke="white" fill="#008cff" stroke-width="5" />
 </svg>
