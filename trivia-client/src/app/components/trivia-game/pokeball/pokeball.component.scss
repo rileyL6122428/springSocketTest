@@ -9,12 +9,13 @@
   // display: flex;
 
   .line {
-    height: 1px;
-    width: 5px;
+    height: 55px;
+    width: 55px;
     position: absolute;
-    top: 27.2px;
-    width: 28px;
-    background: white;
+    top: 0;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 100%;
   }
 
   .right {

@@ -20,6 +20,7 @@ import { PokemonSelectionComponent } from './trivia-game/pokemon-selection/pokem
 import { CharmanderComponent } from './trivia-game/pokemon/charmander/charmander.component';
 import { SquirtleComponent } from './trivia-game/pokemon/squirtle/squirtle.component';
 import { PokeballComponent } from './trivia-game/pokeball/pokeball.component';
+import { PokeballTwoComponent } from './trivia-game/pokeball-two/pokeball-two.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { PokeballComponent } from './trivia-game/pokeball/pokeball.component';
     PokemonSelectionComponent,
     CharmanderComponent,
     SquirtleComponent,
-    PokeballComponent
+    PokeballComponent,
+    PokeballTwoComponent
   ],
 
   entryComponents: [
