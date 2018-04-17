@@ -9,7 +9,8 @@ export class PokeballTwoComponent {
 
   private isOpen: boolean;
 
-  private baseline: number;
+  private baselineX: number;
+  private baselineY: number;
 
   private topOpeningHeight: number;
   private topOpeningHeightDelta: number;
@@ -23,17 +24,33 @@ export class PokeballTwoComponent {
   private buttonYRadius: number;
   private buttonYRadiusDelta: number;
 
+  private radiusX: number;
+  private radiusY: number;
+
+  private height: number;
+  private width: number;
+
+  private _strokeWidth: number;
+
   constructor() {
-    this.baseline = 120;
-    this.topOpeningHeight = this.baseline;
-    this.bottomOpeningHeight = this.baseline;
-    this.buttonHeight = this.baseline;
+    this.baselineX = 110;
+    this.baselineY = 120;
+    this.topOpeningHeight = this.baselineY;
+    this.bottomOpeningHeight = this.baselineY;
+    this.buttonHeight = this.baselineY;
     this.buttonYRadius = 25;
 
     this.topOpeningHeightDelta = .8;
     this.bottomOpeningHeightDelta = 1.15;
     this.buttonHeightDelta = .82;
     this.buttonYRadiusDelta = .09;
+
+    this._strokeWidth = 5;
+    this.radiusX = 100;
+    this.radiusY = 150;
+
+    this.width = 220;
+    this.height = 240;
   }
 
   animate(): void {
@@ -44,44 +61,44 @@ export class PokeballTwoComponent {
   get outerCircleTopD(): string {
     return `
         M
-          10 ${this.baseline}
+          ${this.baselineX - this.radiusX} ${this.baselineY}
         C
-          10 ${this.baseline - 150}
-          210 ${this.baseline - 150}
-          210 ${this.baseline}
+          ${this.baselineX - this.radiusX} ${this.baselineY - this.radiusY}
+          ${this.baselineX + this.radiusX} ${this.baselineY - this.radiusY}
+          ${this.baselineX + this.radiusX} ${this.baselineY}
       `;
   }
 
   get outerCircleBottomD(): string {
     return `
       M
-        10 ${this.baseline}
+        ${this.baselineX - this.radiusX} ${this.baselineY}
       C
-        10 ${this.baseline + 150}
-        210 ${this.baseline + 150}
-        210 ${this.baseline}
+        ${this.baselineX - this.radiusX} ${this.baselineY + this.radiusY}
+        ${this.baselineX + this.radiusX} ${this.baselineY + this.radiusY}
+        ${this.baselineX + this.radiusX} ${this.baselineY}
     `;
   }
 
   get innerCircleTopD(): string {
     return `
       M
-        10 ${this.baseline}
+        ${this.baselineX - this.radiusX} ${this.baselineY}
       C
-        10 ${this.topOpeningHeight}
-        210 ${this.topOpeningHeight}
-        210 ${this.baseline}
+        ${this.baselineX - this.radiusX} ${this.topOpeningHeight}
+        ${this.baselineX + this.radiusX} ${this.topOpeningHeight}
+        ${this.baselineX + this.radiusX} ${this.baselineY}
     `;
   }
 
   get innerCircleBottomD(): string {
     return `
       M
-        10 ${this.baseline}
+        ${this.baselineX - this.radiusX} ${this.baselineY}
       C
-        10 ${this.bottomOpeningHeight}
-        210 ${this.bottomOpeningHeight}
-        210 ${this.baseline}
+        ${this.baselineX - this.radiusX} ${this.bottomOpeningHeight}
+        ${this.baselineX + this.radiusX} ${this.bottomOpeningHeight}
+        ${this.baselineX + this.radiusX} ${this.baselineY}
     `;
   }
 
@@ -93,9 +110,13 @@ export class PokeballTwoComponent {
     return `${this.buttonHeight}`;
   }
 
+  get strokeWidth(): string {
+    return `${this._strokeWidth}`;
+  }
+
   private animateOpen(): void {
     const openIntervalId = setInterval(() => {
-      if (this.bottomOpeningHeight > this.baseline - 100) {
+      if (this.bottomOpeningHeight > this.baselineY - 100) {
         this.open();
       } else {
         clearInterval(openIntervalId);
@@ -105,7 +126,7 @@ export class PokeballTwoComponent {
 
   private animateClose(): void {
     const closeIntervalId = setInterval(() => {
-      if (this.bottomOpeningHeight !== this.baseline) {
+      if (this.bottomOpeningHeight !== this.baselineY) {
         this.close();
       } else {
         clearInterval(closeIntervalId);
