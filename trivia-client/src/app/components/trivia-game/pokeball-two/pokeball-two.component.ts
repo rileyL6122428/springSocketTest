@@ -33,24 +33,24 @@ export class PokeballTwoComponent {
   private _strokeWidth: number;
 
   constructor() {
-    this.baselineX = 110;
-    this.baselineY = 120;
+    this.baselineX = 55;
+    this.baselineY = 60;
     this.topOpeningHeight = this.baselineY;
     this.bottomOpeningHeight = this.baselineY;
     this.buttonHeight = this.baselineY;
-    this.buttonYRadius = 25;
+    this.buttonYRadius = 12.5;
 
-    this.topOpeningHeightDelta = .8;
-    this.bottomOpeningHeightDelta = 1.15;
-    this.buttonHeightDelta = .82;
-    this.buttonYRadiusDelta = .09;
+    this.topOpeningHeightDelta = .4;
+    this.bottomOpeningHeightDelta = .575;
+    this.buttonHeightDelta = .41;
+    this.buttonYRadiusDelta = .045;
 
     this._strokeWidth = 5;
-    this.radiusX = 100;
-    this.radiusY = 150;
+    this.radiusX = 50;
+    this.radiusY = 75;
 
-    this.width = 220;
-    this.height = 240;
+    this.width = 110;
+    this.height = 120;
   }
 
   animate(): void {
@@ -116,7 +116,7 @@ export class PokeballTwoComponent {
 
   private animateOpen(): void {
     const openIntervalId = setInterval(() => {
-      if (this.bottomOpeningHeight > this.baselineY - 100) {
+      if (this.bottomOpeningHeight > this.baselineY - 50) {
         this.open();
       } else {
         clearInterval(openIntervalId);
