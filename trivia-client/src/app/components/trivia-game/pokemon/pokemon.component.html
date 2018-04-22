@@ -1,5 +1,14 @@
 <section [ngSwitch]="pokemon.name">
-  <bulbasaur *ngSwitchCase="'Bulbasaur'"></bulbasaur>
-  <charmander *ngSwitchCase="'Charmander'"></charmander>
-  <squirtle *ngSwitchCase="'Squirtle'"></squirtle>
+  <bulbasaur 
+    *ngSwitchCase="'Bulbasaur'" 
+    [animatingSelection]="animatingSelection">
+  </bulbasaur>
+  <charmander 
+    *ngSwitchCase="'Charmander'" 
+    [animatingSelection]="animatingSelection">
+  </charmander>
+  <squirtle 
+    *ngSwitchCase="'Squirtle'" 
+    [animatingSelection]="animatingSelection">
+  </squirtle>
 </section>

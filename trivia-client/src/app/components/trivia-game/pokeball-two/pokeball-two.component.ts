@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'pokeball-two',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pokeball-two.component.scss']
 })
 export class PokeballTwoComponent {
+
+  @Output() selection: EventEmitter<void> = new EventEmitter<void>();
 
   private isOpen: boolean;
 
@@ -58,15 +60,35 @@ export class PokeballTwoComponent {
     this.isOpen = !this.isOpen;
   }
 
-  get outerCircleTopD(): string {
+  get circleTopD(): string {
     return `
-        M
+      M
           ${this.baselineX - this.radiusX} ${this.baselineY}
         C
           ${this.baselineX - this.radiusX} ${this.baselineY - this.radiusY}
           ${this.baselineX + this.radiusX} ${this.baselineY - this.radiusY}
           ${this.baselineX + this.radiusX} ${this.baselineY}
-      `;
+
+        C
+          ${this.baselineX + this.radiusX} ${this.bottomOpeningHeight}
+          ${this.baselineX - this.radiusX} ${this.bottomOpeningHeight}
+          ${this.baselineX - this.radiusX} ${this.baselineY}
+          `;
+  }
+
+  get circleBottomD(): string {
+    return `
+      M
+        5 60
+      C
+        ${this.baselineX - this.radiusX} ${this.baselineY + this.radiusY}
+        ${this.baselineX + this.radiusX} ${this.baselineY + this.radiusY}
+        ${this.baselineX + this.radiusX} ${this.baselineY}
+      C
+        ${this.baselineX + this.radiusX} ${this.topOpeningHeight}
+        ${this.baselineX - this.radiusX} ${this.topOpeningHeight}
+        ${this.baselineX - this.radiusX} ${this.baselineY}
+    `;
   }
 
   get outerCircleBottomD(): string {
@@ -79,6 +101,18 @@ export class PokeballTwoComponent {
         ${this.baselineX + this.radiusX} ${this.baselineY}
     `;
   }
+
+  get outerCircleTopD(): string {
+    return `
+        M
+          ${this.baselineX - this.radiusX} ${this.baselineY}
+        C
+          ${this.baselineX - this.radiusX} ${this.baselineY - this.radiusY}
+          ${this.baselineX + this.radiusX} ${this.baselineY - this.radiusY}
+          ${this.baselineX + this.radiusX} ${this.baselineY}
+      `;
+  }
+
 
   get innerCircleTopD(): string {
     return `

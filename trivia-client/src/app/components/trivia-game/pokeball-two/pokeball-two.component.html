@@ -1,20 +1,33 @@
 <svg 
-  xmlns="http://www.w3.org/2000/svg" 
   xml:space="preserve" 
   xmlns:xlink="http://www.w3.org/1999/xlink" 
   version="1.1" 
+  xmlns="http://www.w3.org/2000/svg"
   [attr.width]="width" 
   [attr.height]="height" 
-  (click)="animate()">
+  (click)="animate();selection.emit(null);">
+  
+  <path id="circle-top" 
+    fill="#008cff" 
+    stroke="white" 
+    [attr.d]="circleTopD" 
+    [attr.stroke-width]="strokeWidth">
+  </path>
+  
+  <path id="circle-bottom" 
+    fill="#008cff" 
+    stroke="white" 
+    [attr.d]="circleBottomD" 
+    [attr.stroke-width]="strokeWidth">
+  </path>
 
-  <!-- OUTER CIRCLE -->
-  <path id="outer-circle-top" [attr.d]="outerCircleTopD" stroke="white" [attr.stroke-width]="strokeWidth" fill="none" />
-  <path id="outer-circle-bottom" [attr.d]="outerCircleBottomD" stroke="white" [attr.stroke-width]="strokeWidth" fill="none" />
-
-  <!-- INNER-CIRCLE -->
-  <path id="inner-circle-top" [attr.d]="innerCircleTopD" stroke="white" [attr.stroke-width]="strokeWidth" fill="none" />
-  <path id="inner-circle-bottom" [attr.d]="innerCircleBottomD" stroke="white" [attr.stroke-width]="strokeWidth" fill="none" />
-
-  <!-- BUTTON -->
-  <ellipse id="button" cx="56.25" [attr.cy]="buttonY" rx="12.5" [attr.ry]="buttonRadiusY" stroke="white" fill="#008cff" [attr.stroke-width]="strokeWidth" />
+  <ellipse id="button" 
+    cx="56.25" 
+    [attr.cy]="buttonY" 
+    rx="12.5" 
+    [attr.ry]="buttonRadiusY" 
+    stroke="white" 
+    fill="#008cff" 
+    [attr.stroke-width]="strokeWidth" />
 </svg>
+

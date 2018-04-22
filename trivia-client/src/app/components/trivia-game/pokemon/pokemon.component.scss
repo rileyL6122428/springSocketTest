@@ -4,6 +4,8 @@ svg {
   border-radius: 10px;
   padding: 5px;
   background-color: white;
+  position: absolute;
+  z-index: 20;
 
   g {
     fill: #008cff;

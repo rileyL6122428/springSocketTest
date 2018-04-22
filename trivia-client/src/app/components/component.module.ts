@@ -21,6 +21,7 @@ import { CharmanderComponent } from './trivia-game/pokemon/charmander/charmander
 import { SquirtleComponent } from './trivia-game/pokemon/squirtle/squirtle.component';
 import { PokeballComponent } from './trivia-game/pokeball/pokeball.component';
 import { PokeballTwoComponent } from './trivia-game/pokeball-two/pokeball-two.component';
+import { PokemonAnswerComponent } from './trivia-game/pokemon-answer/pokemon-answer.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { PokeballTwoComponent } from './trivia-game/pokeball-two/pokeball-two.co
     CharmanderComponent,
     SquirtleComponent,
     PokeballComponent,
-    PokeballTwoComponent
+    PokeballTwoComponent,
+    PokemonAnswerComponent
   ],
 
   entryComponents: [

@@ -9,5 +9,6 @@ import { Pokemon } from '../../../domain/pokemon/pokemon';
 export class PokemonComponent {
 
   @Input() private pokemon: Pokemon;
+  @Input() animatingSelection: boolean;
 
 }
