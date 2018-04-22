@@ -5,6 +5,7 @@ import { Player } from '../../domain/player/player';
 import { Question } from '../../domain/game/question';
 import { Answer } from '../../domain/game/answer';
 import { Pokemon } from '../../domain/pokemon/pokemon';
+import { User } from '../../domain/user/user';
 
 @Component({
   selector: 'trivia-game',
@@ -18,12 +19,15 @@ import { Pokemon } from '../../domain/pokemon/pokemon';
 export class TriviaGameComponent {
 
   // FOR MOCK DESIGN ONLY
+  private user: User = new User('Red');
+
   private mockGameStateIndex: number = 0;
 
   private gameStates: Array<Game> = [
     new Game(
       'WAITING_FOR_PLAYERS',
       [new Player('Red', 0)],
+      null,
       null,
       null,
       null,
@@ -35,6 +39,7 @@ export class TriviaGameComponent {
       null,
       null,
       null,
+      null,
       null
     ),
     new Game(
@@ -43,7 +48,17 @@ export class TriviaGameComponent {
       1,
       6,
       new Question('Which Pokemon is the first entry in the official pokedex?'),
-      [new Pokemon('Charmander'), new Pokemon('Squirtle'), new Pokemon('Bulbasaur')]
+      [new Pokemon('Charmander'), new Pokemon('Squirtle'), new Pokemon('Bulbasaur')],
+      null
+    ),
+    new Game(
+      'CHECKING_ANSWERS',
+      [new Player('Red', 0), new Player('Blue', 0)],
+      1,
+      6,
+      new Question('Which Pokemon is the first entry in the official pokedex?'),
+      [new Pokemon('Charmander'), new Pokemon('Squirtle'), new Pokemon('Bulbasaur')],
+      [new Player('Red', 1)]
     )
   ];
 

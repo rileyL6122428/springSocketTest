@@ -21,7 +21,8 @@ export class GameFactory {
       messagePOJO['roundCount'],
       this.questionFactory.fromPOJO(messagePOJO['currentQuestion']),
       // this.answerFactory.fromPOJOList(messagePOJO['currentAnswers'])
-      []
+      [],
+      null
     );
   }
 

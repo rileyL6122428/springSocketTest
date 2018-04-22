@@ -1,7 +1,7 @@
-<ul *ngIf="pokemon">
-  <li *ngFor="let pocketMonster of pokemon">
-    <pokemon [pokemon]="pocketMonster"></pokemon>
+<ul *ngIf="game.pokemon">
+  <li *ngFor="let pokemon of game.pokemon">
+    <!-- <pokemon [pokemon]="pocketMonster"></pokemon> -->
+    <pokemon [pokemon]="pokemon"></pokemon>
     <pokeball-two></pokeball-two>
-    <!-- <pokeball></pokeball> -->
   </li>
 </ul>
