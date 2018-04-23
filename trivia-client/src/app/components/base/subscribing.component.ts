@@ -1,5 +1,6 @@
 import { OnDestroy } from '@angular/core';
-import { RemovableSubscription } from './removable-subscription';
+
+interface RemovableSubscription { unsubscribe(); }
 
 export class SubscribingComponent implements OnDestroy {
 
@@ -9,18 +10,12 @@ export class SubscribingComponent implements OnDestroy {
     this._subscriptions = new Array<RemovableSubscription>();
   }
 
-  set subscriptions(subs: RemovableSubscription) {
-    this._subscriptions.push(subs);
-  }
-
-  protected addSubscriptions(...newSubscriptions: Array<RemovableSubscription>): void {
-    newSubscriptions.forEach((newSubscription: RemovableSubscription) => {
-      this.addSubscription(newSubscription);
-    });
-  }
-
-  protected addSubscription(newSubscription: RemovableSubscription): void {
-    this._subscriptions.push(newSubscription);
+  protected set subscriptions(subscriptions: RemovableSubscription | Array<RemovableSubscription>) {
+    if ( subscriptions instanceof Array) {
+      this._subscriptions = subscriptions;
+    } else {
+      this._subscriptions.push(subscriptions);
+    }
   }
 
   ngOnDestroy(): void {
@@ -28,5 +23,4 @@ export class SubscribingComponent implements OnDestroy {
       subscription.unsubscribe();
     });
   }
-
 }

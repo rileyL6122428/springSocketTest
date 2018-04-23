@@ -1,45 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatchmakingStats } from '../../domain/matchmaking/matchmaking-stats';
 import { MatchmakingStream } from '../../services/matchmaking/matchmaking.stream';
 import { Room } from '../../domain/room/room';
 import { RoomStore } from '../../stores/room/room.store';
-import { RemovableSubscription } from '../base/removable-subscription';
 import { MatchmakingHttpUtil } from '../../services/matchmaking/matchmaking.http';
+import { SubscribingComponent } from '../base/subscribing.component';
 
 @Component({
   selector: 'app-matchmaking',
   templateUrl: './matchmaking.component.html',
   styleUrls: ['./matchmaking.component.css']
 })
-export class MatchmakingComponent implements OnInit {
+export class MatchmakingComponent extends SubscribingComponent implements OnInit {
 
   private rooms: Array<Room>;
   private selectedRoom: Room;
-  private matchmakingSub: RemovableSubscription;
 
   constructor(
     private router: Router,
     private matchmakingStream: MatchmakingStream,
     private matchmakingHttp: MatchmakingHttpUtil
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscribeToMatchmaking();
+    this.subscriptions = this.matchmakingStream.subscribe(
+      (roomStore) => this.rooms = roomStore.recordsAsList()
+    );
   }
 
   toggleRoom(room: Room): void {
-    if (this.selectedRoom) {
-      this.returnToMatchmaking();
-    } else {
-      this.joinRoom(room);
-    }
+    this.selectedRoom ? this.returnToMatchmaking() : this.joinRoom(room);
   }
 
   private returnToMatchmaking(): void {
     this.matchmakingHttp.leaveRoom(this.selectedRoom)
-      .subscribe((leftRoom: boolean) => {
-        if (leftRoom) {
+      .subscribe((hasLeftRoom: boolean) => {
+        if (hasLeftRoom) {
           this.selectedRoom = undefined;
           this.router.navigateByUrl(`/matchmaking`);
         }
@@ -54,12 +52,6 @@ export class MatchmakingComponent implements OnInit {
           this.router.navigateByUrl(`/matchmaking/room/${room.name}`);
         }
       });
-  }
-
-  private subscribeToMatchmaking(): void {
-    this.matchmakingSub = this.matchmakingStream.subscribe((roomStore) => {
-      this.rooms = roomStore.recordsAsList();
-    });
   }
 
   roomDisplayable(room: Room): boolean {
