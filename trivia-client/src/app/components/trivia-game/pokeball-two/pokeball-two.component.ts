@@ -156,6 +156,8 @@ export class PokeballTwoComponent {
         clearInterval(openIntervalId);
       }
     }, 5);
+
+    setTimeout(() => this.animateClose(), 1200);
   }
 
   private animateClose(): void {
