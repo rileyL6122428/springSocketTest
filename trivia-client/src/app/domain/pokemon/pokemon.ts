@@ -1,3 +1,7 @@
 export class Pokemon {
-  constructor(private name: string) { }
+  constructor(readonly name: string) { }
+
+  equals(otherPokemon: Pokemon): boolean {
+    return this.name === otherPokemon.name;
+  }
 }

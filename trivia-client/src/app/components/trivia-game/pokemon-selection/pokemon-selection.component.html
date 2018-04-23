@@ -1,5 +1,9 @@
 <ul *ngIf="game.pokemon">
-  <li *ngFor="let pokemon of game.pokemon">
-    <pokemon-answer [pokemon]="pokemon"></pokemon-answer>
+  <li *ngFor="let pokemon of game.pokemon" [@fadeOut]="wasRejected(pokemon)">
+    <pokemon-answer
+      [pokemon]="pokemon" 
+      (selection)="handleSelect($event);">
+    </pokemon-answer>
+    {{wasRejected(pokemon)}}
   </li>
 </ul>
