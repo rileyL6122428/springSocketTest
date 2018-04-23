@@ -3,29 +3,29 @@
   xmlns:xlink="http://www.w3.org/1999/xlink" 
   version="1.1" 
   xmlns="http://www.w3.org/2000/svg"
-  [attr.width]="width" 
-  [attr.height]="height" 
+  [attr.width]="canvasWidth" 
+  [attr.height]="canvasHeight" 
   (click)="animate();selection.emit(null);">
   
   <path id="circle-top" 
     fill="#008cff" 
     stroke="white" 
-    [attr.d]="circleTopD" 
+    [attr.d]="pokeballTopPathCoordinates" 
     [attr.stroke-width]="strokeWidth">
   </path>
   
   <path id="circle-bottom" 
     fill="#008cff" 
     stroke="white" 
-    [attr.d]="circleBottomD" 
+    [attr.d]="pokeballBottomPathCoordinates" 
     [attr.stroke-width]="strokeWidth">
   </path>
 
   <ellipse id="button" 
     cx="56.25" 
-    [attr.cy]="buttonY" 
     rx="12.5" 
-    [attr.ry]="buttonRadiusY" 
+    [attr.cy]="pokeballButtonY" 
+    [attr.ry]="pokeballButtonRadiusY" 
     stroke="white" 
     fill="#008cff" 
     [attr.stroke-width]="strokeWidth" />
